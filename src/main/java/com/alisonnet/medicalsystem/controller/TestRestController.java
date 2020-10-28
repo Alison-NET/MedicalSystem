@@ -10,14 +10,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 @Slf4j
 public class TestRestController {
-
-    @Autowired
-    HibTestRepo testRepo;
-
-    @GetMapping()
-    public void checkIRISDB(){
-        log.info("Checking IRIS DB");
-
-        testRepo.updateInsert(new Book(1,"Mertyy"));
-    }
+//
+//    @Autowired
+//    HibTestRepo testRepo;
+//
+//    @GetMapping("/new")
+//    public void checkIRISDB(){
+//        log.info("Checking IRIS DB");
+//
+//        testRepo.updateInsert(new Book(1,"Mertyy"));
+//    }
+//
+//    @GetMapping("/test")
+//    public String test(){
+//
+//        return testRepo.entityManager.toString();
+//    }
 }

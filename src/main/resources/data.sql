@@ -1,3 +1,4 @@
-insert into roles (id, name) values (1, 'ADMIN')
-insert into roles (id, name) values (2, 'HR')
-insert into roles (id, name) values (3, 'EMPLOYEE')
+
+insert into roles (name) values ('ADMIN');
+insert into roles (name) values ('HR');
+insert into roles (name) values ('EMPLOYEE');

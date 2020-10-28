@@ -11,14 +11,18 @@ import javax.transaction.Transactional;
 public class HibTestRepo  {
 
 
-    @PersistenceContext
-    EntityManager entityManager;
-
-    public Book findById(int id){
-        return entityManager.find(Book.class, id);
-    }
-
-    public void updateInsert(Book book){
-        entityManager.merge(book);
-    }
+//    @PersistenceContext
+//    EntityManager entityManager;
+//
+//    public EntityManager getEntityManager() {
+//        return entityManager;
+//    }
+//
+//    public Book findById(int id){
+//        return entityManager.find(Book.class, id);
+//    }
+//
+//    public void updateInsert(Book book){
+//        entityManager.merge(book);
+//    }
 }
