@@ -3,15 +3,13 @@ package com.alisonnet.medicalsystem.employeeportal.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @Data
 @EqualsAndHashCode(
         exclude = {"department"})
+@Table(name = "job_positions")
 public class JobPosition {
 
     @Id

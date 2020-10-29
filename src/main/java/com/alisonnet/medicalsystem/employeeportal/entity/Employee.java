@@ -22,8 +22,10 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotBlank(message = Constants.NOT_EMPTY)
     private String firstName;
 
+    @NotBlank(message = Constants.NOT_EMPTY)
     private String middleName;
 
     @NotBlank(message = Constants.NOT_EMPTY)
@@ -38,8 +40,12 @@ public class Employee {
     @Pattern(regexp="(^$|[0-9]{10})")
     private String mobilePhone;
 
+    @Email
+    @NotBlank(message = Constants.NOT_EMPTY)
     private String personalEmail;
 
+    @Email
+    @NotBlank(message = Constants.NOT_EMPTY)
     private String workEmail;
 
     @ManyToOne
