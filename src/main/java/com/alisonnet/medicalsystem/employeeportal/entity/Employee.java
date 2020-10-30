@@ -13,8 +13,8 @@ import java.util.List;
 
 @Data
 @Entity
-@EqualsAndHashCode(
-        exclude = {"department"})
+//@EqualsAndHashCode(
+//        exclude = {"department", "workShift", "role"})
 @Table(name = "employees")
 public class Employee {
 
@@ -55,7 +55,10 @@ public class Employee {
 
     private Double salary;
 
-    private String workingHours;
+    private Double commission;
+
+    @ManyToOne
+    private WorkShift workShift;
 
     @OneToMany(mappedBy = "employee")
     private List<Contract> contract;
@@ -65,10 +68,16 @@ public class Employee {
 
     private String jobDescription;
 
-    private Boolean completedTraining;
+    private boolean completedTraining;
 
-    private Boolean addedToPayroll;
+    private boolean addedToPayroll;
 
     private String w4;
+
+    @OneToMany(mappedBy = "employee")
+    private List<Document> documents;
+
+    @ManyToOne
+    private Role role;
 
 }

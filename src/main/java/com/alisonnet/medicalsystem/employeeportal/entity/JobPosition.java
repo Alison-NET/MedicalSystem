@@ -7,8 +7,8 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@EqualsAndHashCode(
-        exclude = {"department"})
+//@EqualsAndHashCode(
+//        exclude = {"department"})
 @Table(name = "job_positions")
 public class JobPosition {
 

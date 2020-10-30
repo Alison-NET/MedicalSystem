@@ -8,8 +8,8 @@ import java.util.Date;
 
 @Entity
 @Data
-@EqualsAndHashCode(
-        exclude = {"employee"})
+//@EqualsAndHashCode(
+//        exclude = {"employee"})
 @Table(name = "contracts")
 public class Contract {
 
@@ -17,7 +17,7 @@ public class Contract {
     @GeneratedValue
     private int id;
     private String contractLink;
-    private Boolean signed;
+    private boolean signed;
     private Date starting;
     private Date expiring;
 
