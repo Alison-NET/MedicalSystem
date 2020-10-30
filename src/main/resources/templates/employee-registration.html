@@ -3,6 +3,22 @@
 <head th:replace="fragments/general.html :: head"></head>
 <body>
 
+<form action="" th:action="@{/employee-portal/new-employee}" th:object="${employee}" method="post">
+
+    <ul>
+        <li th:each="err : ${#fields.errors('*')}" th:text="${err}" />
+    </ul>
+
+    <input type="text" th:field="*{firstName}"><br>
+    <input type="text" th:field="*{middleName}"><br>
+    <input type="text" th:field="*{lastName}"><br>
+    <input type="date" th:field="*{dateOfBirth}"><br>
+    <input type="tel" th:field="*{homePhone}"><br>
+    <input type="tel" th:field="*{mobilePhone}"><br>
+    <input type="email" th:field="*{personalEmail}"><br>
+    <input type="email" th:field="*{workEmail}"><br>
+    <input type="submit" th:value="Submit">
+</form>
 
 
 <footer th:replace="fragments/general.html :: footer"></footer>

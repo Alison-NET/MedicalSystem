@@ -3,6 +3,7 @@ package com.alisonnet.medicalsystem.employeeportal.entity;
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -31,13 +32,14 @@ public class Employee {
     @NotBlank(message = Constants.NOT_EMPTY)
     private String lastName;
 
-    @Temporal(TemporalType.DATE)
+//    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
 
-    @Pattern(regexp="(^$|[0-9]{10})")
+//    @Pattern(regexp="(^$|[0-9]{10})")
     private String homePhone;
 
-    @Pattern(regexp="(^$|[0-9]{10})")
+//    @Pattern(regexp="(^$|[0-9]{10})")
     private String mobilePhone;
 
     @Email
