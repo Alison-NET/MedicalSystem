@@ -8,15 +8,25 @@
     <ul>
         <li th:each="err : ${#fields.errors('*')}" th:text="${err}" />
     </ul>
+    <h1>Employee Registration</h1>
 
-    <input type="text" th:field="*{firstName}"><br>
-    <input type="text" th:field="*{middleName}"><br>
-    <input type="text" th:field="*{lastName}"><br>
+    <input type="text" th:field="*{firstName}" placeholder="First Name"><br>
+    <input type="text" th:field="*{middleName}" placeholder="Middle Name"><br>
+    <input type="text" th:field="*{lastName}" placeholder="Last Name"><br>
     <input type="date" th:field="*{dateOfBirth}"><br>
-    <input type="tel" th:field="*{homePhone}"><br>
-    <input type="tel" th:field="*{mobilePhone}"><br>
-    <input type="email" th:field="*{personalEmail}"><br>
-    <input type="email" th:field="*{workEmail}"><br>
+    <input type="text" th:field="*{socialSecurity}" placeholder="Social Security Number"><br>
+    <input type="tel" th:field="*{homePhone}" placeholder="Home Phone"><br>
+    <input type="tel" th:field="*{mobilePhone}" placeholder="Mobile Phone"><br>
+    <input type="email" th:field="*{personalEmail}" placeholder="Personal Email"><br>
+    <input type="email" th:field="*{workEmail}" placeholder="Work Email"><br>
+
+
+    <select th:field="*{department}">
+        <option th:each="dep : ${departments}" th:value="${dep.name}" th:text="${dep.name}"></option>
+    </select><br>
+
+
+
     <input type="submit" th:value="Submit">
 </form>
 

@@ -2,22 +2,23 @@ package com.alisonnet.medicalsystem.employeeportal.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Data
-//@EqualsAndHashCode(
-//        exclude = {"employee"})
+//@EqualsAndHashCode(exclude = {"employee"})
+//@ToString(exclude = {"employee"})
 @Table(name = "contracts")
 public class Contract {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String contractLink;
-    private boolean signed;
+    private Boolean signed;
     private Date starting;
     private Date expiring;
 

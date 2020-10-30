@@ -3,6 +3,7 @@ package com.alisonnet.medicalsystem.employeeportal.entity;
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -14,8 +15,8 @@ import java.util.List;
 
 @Data
 @Entity
-//@EqualsAndHashCode(
-//        exclude = {"department", "workShift", "role"})
+@EqualsAndHashCode(exclude = {"contract", "subordinates", "documents"})
+@ToString(exclude = {"contract", "subordinates", "documents"})
 @Table(name = "employees")
 public class Employee {
 
@@ -23,16 +24,12 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotBlank(message = Constants.NOT_EMPTY)
     private String firstName;
 
-    @NotBlank(message = Constants.NOT_EMPTY)
     private String middleName;
 
-    @NotBlank(message = Constants.NOT_EMPTY)
     private String lastName;
 
-//    @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
 
@@ -42,12 +39,8 @@ public class Employee {
 //    @Pattern(regexp="(^$|[0-9]{10})")
     private String mobilePhone;
 
-    @Email
-    @NotBlank(message = Constants.NOT_EMPTY)
     private String personalEmail;
 
-    @Email
-    @NotBlank(message = Constants.NOT_EMPTY)
     private String workEmail;
 
     @ManyToOne
@@ -70,9 +63,9 @@ public class Employee {
 
     private String jobDescription;
 
-    private boolean completedTraining;
+    private Boolean completedTraining;
 
-    private boolean addedToPayroll;
+    private Boolean addedToPayroll;
 
     private String w4;
 

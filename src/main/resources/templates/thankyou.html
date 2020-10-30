@@ -2,9 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/general.html :: head"></head>
 <body>
-    <h1>Hi, it`s home page</h1>
 
-    <footer th:replace="fragments/general.html :: footer"></footer>
+    <p th:text="${message}"></p>
+
+<footer th:replace="fragments/general.html :: footer"></footer>
 </body>
 </html>
-
