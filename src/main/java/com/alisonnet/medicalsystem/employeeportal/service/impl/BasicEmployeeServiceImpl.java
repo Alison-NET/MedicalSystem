@@ -1,7 +1,8 @@
 package com.alisonnet.medicalsystem.employeeportal.service.impl;
 
 import com.alisonnet.medicalsystem.employeeportal.entity.BasicEmployee;
-import com.alisonnet.medicalsystem.employeeportal.repository.UnapprovedEmployeeRepo;
+import com.alisonnet.medicalsystem.employeeportal.exception.exceptions.UserAlreadyRegisteredException;
+import com.alisonnet.medicalsystem.employeeportal.repository.BasicEmployeeRepo;
 import com.alisonnet.medicalsystem.employeeportal.service.BasicEmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,10 +12,19 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class BasicEmployeeServiceImpl implements BasicEmployeeService {
 
-    UnapprovedEmployeeRepo unapprovedEmployeeRepo;
+    BasicEmployeeRepo basicEmployeeRepo;
 
     @Override
-    public BasicEmployee save(BasicEmployee employee) {
-        return unapprovedEmployeeRepo.save(employee);
+    public BasicEmployee registerNewBasicEmployee(BasicEmployee basicEmployee) {
+
+        if(personalEmailExists(basicEmployee.getPersonalEmail())){
+            throw new UserAlreadyRegisteredException("Employee with such an email " + basicEmployee.getPersonalEmail() + " already exists ");
+        }
+        return basicEmployeeRepo.save(basicEmployee);
+    }
+
+    @Override
+    public boolean personalEmailExists(String personalEmail) {
+        return basicEmployeeRepo.findFirstByPersonalEmail(personalEmail) != null;
     }
 }

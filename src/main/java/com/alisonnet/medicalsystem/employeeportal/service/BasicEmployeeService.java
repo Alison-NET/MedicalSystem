@@ -5,5 +5,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface BasicEmployeeService {
-    BasicEmployee save(BasicEmployee employee);
+
+    BasicEmployee registerNewBasicEmployee(BasicEmployee basicEmployee);
+
+    boolean personalEmailExists(String personalEmail);
 }

@@ -2,24 +2,42 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/general.html :: head"></head>
 <body>
-
+<h1>Employee Registration</h1>
+<hr>
 <form action="" th:action="@{/employee-portal/new-employee}" th:object="${basicEmployee}" method="post">
 
-    <ul>
-        <li th:each="err : ${#fields.errors('*')}" th:text="${err}" />
-    </ul>
-    <h1>Employee Registration</h1>
+<!--    <ul>-->
+<!--        <li th:each="err : ${#fields.errors('*')}" th:text="${err}" />-->
+<!--    </ul>-->
+
 
     <input type="text" th:field="*{firstName}" placeholder="First Name"><br>
-    <input type="text" th:field="*{middleName}" placeholder="Middle Name"><br>
-    <input type="text" th:field="*{lastName}" placeholder="Last Name"><br>
-    <input type="date" th:field="*{dateOfBirth}"><br>
-    <input type="text" th:field="*{socialSecurity}" placeholder="Social Security Number"><br>
-    <input type="tel" th:field="*{homePhone}" placeholder="Home Phone"><br>
-    <input type="tel" th:field="*{mobilePhone}" placeholder="Mobile Phone"><br>
-    <input type="email" th:field="*{personalEmail}" placeholder="Personal Email"><br>
-    <input type="email" th:field="*{workEmail}" placeholder="Work Email"><br>
+    <p th:each="error : ${#fields.errors('firstName')}" th:text="${error}">Validation error</p>
 
+    <input type="text" th:field="*{middleName}" placeholder="Middle Name"><br>
+    <p th:each="error : ${#fields.errors('middleName')}" th:text="${error}">Validation error</p>
+
+
+    <input type="text" th:field="*{lastName}" placeholder="Last Name"><br>
+    <p th:each="error : ${#fields.errors('lastName')}" th:text="${error}">Validation error</p>
+
+    <input type="date" th:field="*{dateOfBirth}"><br>
+    <p th:each="error : ${#fields.errors('dateOfBirth')}" th:text="${error}">Validation error</p>
+
+    <input type="text" th:field="*{socialSecurity}" placeholder="Social Security Number"><br>
+    <p th:each="error : ${#fields.errors('socialSecurity')}" th:text="${error}">Validation error</p>
+
+    <input type="tel" th:field="*{homePhone}" placeholder="Home Phone"><br>
+    <p th:each="error : ${#fields.errors('homePhone')}" th:text="${error}">Validation error</p>
+
+    <input type="tel" th:field="*{mobilePhone}" placeholder="Mobile Phone"><br>
+    <p th:each="error : ${#fields.errors('mobilePhone')}" th:text="${error}">Validation error</p>
+
+    <input type="email" th:field="*{personalEmail}" placeholder="Personal Email"><br>
+    <p th:each="error : ${#fields.errors('personalEmail')}" th:text="${error}">Validation error</p>
+
+<!--    <input type="email" th:field="*{workEmail}" placeholder="Work Email"><br>-->
+<!--    <p th:each="error : ${#fields.errors('workEmail')}" th:text="${error}">Validation error</p>-->
 
     <select th:field="*{department}">
         <option th:each="dep : ${departments}" th:value="${dep.name}" th:text="${dep.name}"></option>

@@ -8,10 +8,14 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.naming.Binding;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping(Constants.URL_EMPLOYEE_PORTAL + "/new-employee")
@@ -31,8 +35,13 @@ public class EmployeeRegistrationController {
     }
 
     @PostMapping
-    public String handleRegisterRequest(@ModelAttribute BasicEmployee basicEmployee, Model model){
-        basicEmployeeService.save(basicEmployee);
+    public String handleRegisterRequest(@ModelAttribute @Valid BasicEmployee basicEmployee, BindingResult bindingResult, Model model){
+
+        if(bindingResult.hasErrors()){
+            model.addAttribute("departments", departmentService.findAll());
+            return "employee-registration";
+        }
+        basicEmployeeService.registerNewBasicEmployee(basicEmployee);
         model.addAttribute("message", Constants.THANKS_FOR_REGISTER);
         return "action-result";
     }

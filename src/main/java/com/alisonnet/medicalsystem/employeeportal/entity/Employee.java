@@ -1,10 +1,12 @@
 package com.alisonnet.medicalsystem.employeeportal.entity;
 
+import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Data
@@ -20,6 +22,9 @@ public class Employee {
 
     @OneToOne
     BasicEmployee basicInfo;
+
+    @NotBlank(message = Constants.NOT_EMPTY)
+    private String workEmail;
 
     private Double salary;
 
