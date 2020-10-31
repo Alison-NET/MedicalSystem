@@ -3,7 +3,7 @@
 <head th:replace="fragments/general.html :: head"></head>
 <body>
 
-<form action="" th:action="@{/employee-portal/new-employee}" th:object="${employee}" method="post">
+<form action="" th:action="@{/employee-portal/new-employee}" th:object="${basicEmployee}" method="post">
 
     <ul>
         <li th:each="err : ${#fields.errors('*')}" th:text="${err}" />

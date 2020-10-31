@@ -22,5 +22,5 @@ public class Department {
     private List<JobPosition> jobPositions;
 
     @OneToMany(mappedBy = "department")
-    private List<Employee> employees;
+    private List<BasicEmployee> employees;
 }
