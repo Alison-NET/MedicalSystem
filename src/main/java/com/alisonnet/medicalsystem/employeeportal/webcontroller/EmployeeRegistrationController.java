@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.naming.Binding;
 import javax.validation.Valid;
 
 @Controller
@@ -36,13 +35,12 @@ public class EmployeeRegistrationController {
 
     @PostMapping
     public String handleRegisterRequest(@ModelAttribute @Valid BasicEmployee basicEmployee, BindingResult bindingResult, Model model){
-
         if(bindingResult.hasErrors()){
             model.addAttribute("departments", departmentService.findAll());
             return "employee-registration";
         }
         basicEmployeeService.registerNewBasicEmployee(basicEmployee);
-        model.addAttribute("message", Constants.THANKS_FOR_REGISTER);
+        model.addAttribute("message", Constants.BASIC_EMPLOYEE_THANK_FOR_REG);
         return "action-result";
     }
 

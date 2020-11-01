@@ -10,7 +10,6 @@
 <!--        <li th:each="err : ${#fields.errors('*')}" th:text="${err}" />-->
 <!--    </ul>-->
 
-
     <input type="text" th:field="*{firstName}" placeholder="First Name"><br>
     <p th:each="error : ${#fields.errors('firstName')}" th:text="${error}">Validation error</p>
 
@@ -36,6 +35,7 @@
     <input type="email" th:field="*{personalEmail}" placeholder="Personal Email"><br>
     <p th:each="error : ${#fields.errors('personalEmail')}" th:text="${error}">Validation error</p>
 
+    
 <!--    <input type="email" th:field="*{workEmail}" placeholder="Work Email"><br>-->
 <!--    <p th:each="error : ${#fields.errors('workEmail')}" th:text="${error}">Validation error</p>-->
 

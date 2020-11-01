@@ -50,7 +50,7 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     private List<Document> documents;
 
-    @ManyToOne
-    private Role role;
+    @OneToOne
+    private Credentials credentials;
 
 }

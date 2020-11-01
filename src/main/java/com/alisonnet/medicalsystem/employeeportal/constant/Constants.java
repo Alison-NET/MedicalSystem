@@ -5,5 +5,5 @@ public final class Constants {
 
     public final static String NOT_EMPTY = "Can't be empty";
 
-    public final static String THANKS_FOR_REGISTER = "Thank you for registration";
+    public final static String BASIC_EMPLOYEE_THANK_FOR_REG = "Thank you for registration. You will receive the message after approval";
 }

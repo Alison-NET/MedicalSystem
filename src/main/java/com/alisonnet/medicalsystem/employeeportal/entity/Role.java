@@ -19,6 +19,6 @@ public class Role {
 
     private String name;
 
-    @OneToMany(mappedBy = "role")
-    private List<Employee> employees;
+    @ManyToMany
+    private List<Credentials> credentials;
 }
