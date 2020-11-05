@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/general.html :: head"></head>
+<body>
+
+
+<div>
+    <form th:object="${employee}">
+        <input type="text" th:field="*{basicInfo.firstName}">
+        <input type="text" th:field="*{basicInfo.middleName}">
+        <input type="text" th:field="*{basicInfo.lastName}">
+        <input type="text" th:field="*{basicInfo.dateOfBirth}">
+        <input type="text" th:field="*{basicInfo.homePhone}">
+        <input type="text" th:field="*{basicInfo.mobilePhone}">
+        <input type="text" th:field="*{basicInfo.personalEmail}">
+        <input type="text" th:field="*{basicInfo.department}">
+        <input type="text" th:field="*{basicInfo.socialSecurity}">
+        <hr>
+        <input type="text" th:field="*{workEmail}">
+
+    </form>
+
+</div>
+
+<footer th:replace="fragments/general.html :: footer"></footer>
+</body>
+</html>

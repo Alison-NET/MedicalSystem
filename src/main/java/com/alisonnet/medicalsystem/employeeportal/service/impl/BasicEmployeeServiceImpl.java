@@ -7,12 +7,30 @@ import com.alisonnet.medicalsystem.employeeportal.service.BasicEmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 
 @Service
 @AllArgsConstructor
 public class BasicEmployeeServiceImpl implements BasicEmployeeService {
 
     BasicEmployeeRepo basicEmployeeRepo;
+
+    @Override
+    public List<BasicEmployee> findAll() {
+        return basicEmployeeRepo.findAll();
+    }
+
+    @Override
+    public Optional<BasicEmployee> findById(int id) {
+        return basicEmployeeRepo.findById(id);
+    }
+
+    @Override
+    public void deleteById(int id) {
+        basicEmployeeRepo.deleteById(id);
+    }
 
     @Override
     public BasicEmployee registerNewBasicEmployee(BasicEmployee basicEmployee) {
