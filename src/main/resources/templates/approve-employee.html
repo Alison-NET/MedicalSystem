@@ -5,18 +5,53 @@
 
 
 <div>
-    <form th:object="${employee}">
-        <input type="text" th:field="*{basicInfo.firstName}">
-        <input type="text" th:field="*{basicInfo.middleName}">
-        <input type="text" th:field="*{basicInfo.lastName}">
-        <input type="text" th:field="*{basicInfo.dateOfBirth}">
-        <input type="text" th:field="*{basicInfo.homePhone}">
-        <input type="text" th:field="*{basicInfo.mobilePhone}">
-        <input type="text" th:field="*{basicInfo.personalEmail}">
-        <input type="text" th:field="*{basicInfo.department}">
-        <input type="text" th:field="*{basicInfo.socialSecurity}">
+    <form th:action="@{/employee-portal/hr/}" th:object="${employee}" method="post">
+
+        <label>First Name</label>
+        <input type="text" th:field="*{basicInfo.firstName}"><br>
+
+        <label>Middle Name</label>
+        <input type="text" th:field="*{basicInfo.middleName}"><br>
+
+        <label>Last Name</label>
+        <input type="text" th:field="*{basicInfo.lastName}"><br>
+
+        <label>Date Of Birth</label>
+        <input type="text" th:field="*{basicInfo.dateOfBirth}"><br>
+
+        <label>Home Phone</label>
+        <input type="text" th:field="*{basicInfo.homePhone}"><br>
+
+        <label>Mobile Phone</label>
+        <input type="text" th:field="*{basicInfo.mobilePhone}"><br>
+
+        <label>Personal Email</label>
+        <input type="text" th:field="*{basicInfo.personalEmail}"><br>
+
+        <label>Department</label>
+        <input type="text" th:field="*{basicInfo.department}"><br>
+
+        <label>Social Security</label>
+        <input type="text" th:field="*{basicInfo.socialSecurity}"><br>
+
         <hr>
+
+        <label>Work Email</label>
         <input type="text" th:field="*{workEmail}">
+
+        <label>Salary</label>
+        <input type="text" th:field="*{salary}">
+
+        <label>Commission</label>
+        <input type="text" th:field="*{commission}">
+
+        <label>Work Email</label>
+        <input type="text" th:field="*{workEmail}">
+
+        <label>Work Shift</label>
+        <input type="text" th:field="*{workShift.beginning}">
+        <input type="text" th:field="*{workShift.ending}">
+
 
     </form>
 

@@ -2,15 +2,15 @@ package com.alisonnet.medicalsystem.employeeportal.webcontroller;
 
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.entity.BasicEmployee;
+import com.alisonnet.medicalsystem.employeeportal.entity.Credentials;
 import com.alisonnet.medicalsystem.employeeportal.entity.Employee;
+import com.alisonnet.medicalsystem.employeeportal.entity.WorkShift;
 import com.alisonnet.medicalsystem.employeeportal.service.BasicEmployeeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -38,7 +38,16 @@ public class HRController {
         }
 
         Employee newEmployee = new Employee();
+
         newEmployee.setBasicInfo(maybeBasicEmployee.get());
+
+        WorkShift workShift = new WorkShift();
+        newEmployee.setWorkShift(workShift);
+
+        Credentials credentials = new Credentials();
+        newEmployee.setCredentials(credentials);
+
+
 
         model.addAttribute("employee", newEmployee);
 
@@ -46,10 +55,15 @@ public class HRController {
 
     }
 
+    @PostMapping("/approve-employee/{id}")
+    public String handleApprovedEmployee(@ModelAttribute Employee employee){
+        return "redirect:/employee-portal/hr/approve-employee";
+    }
+
+
     @GetMapping("/reject/{id}")
     public String deleteBasicEmployee(@PathVariable int id){
         basicEmployeeService.deleteById(id);
         return "redirect:/employee-portal/hr/approve-employee";
     }
-
 }
