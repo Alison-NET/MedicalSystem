@@ -5,7 +5,7 @@
 
 
 <div>
-    <form th:action="@{/employee-portal/hr/}" th:object="${employee}" method="post">
+    <form th:action="@{/employee-portal/hr/approve-employee/save}" th:object="${employee}" method="post">
 
         <label>First Name</label>
         <input type="text" th:field="*{basicInfo.firstName}"><br>
@@ -36,22 +36,37 @@
 
         <hr>
 
-        <label>Work Email</label>
-        <input type="text" th:field="*{workEmail}">
-
         <label>Salary</label>
-        <input type="text" th:field="*{salary}">
+        <input type="text" th:field="*{salary}"><br>
 
         <label>Commission</label>
-        <input type="text" th:field="*{commission}">
+        <input type="text" th:field="*{commission}"><br>
+
+        <label>Job Description</label>
+        <input type="text" th:field="*{jobDescription}"><br>
+
+        <h4>Work Shift</h4>
+
+        <label>Beginning</label>
+        <input type="text" th:field="*{workShift.beginning}">
+
+        <label>Ending</label>
+        <input type="text" th:field="*{workShift.ending}"><br>
+
+        <h4>Credentials</h4>
 
         <label>Work Email</label>
-        <input type="text" th:field="*{workEmail}">
+        <input type="text" th:field="*{credentials.email}">
 
-        <label>Work Shift</label>
-        <input type="text" th:field="*{workShift.beginning}">
-        <input type="text" th:field="*{workShift.ending}">
+        <label>Password</label>
+        <input type="text" th:field="*{credentials.password}"><br>
 
+<!--        <label>Role</label>-->
+<!--        <select th:field="*{credentials.roles}">-->
+<!--            <option th:each="role : ${roles}" th:value="${role.name}" th:text="${role.name}"></option>-->
+<!--        </select><br>-->
+
+        <input type="submit">
 
     </form>
 

@@ -23,9 +23,6 @@ public class Employee {
     @OneToOne
     BasicEmployee basicInfo;
 
-    @NotBlank(message = Constants.NOT_EMPTY)
-    private String workEmail;
-
     private Double salary;
 
     private Double commission;

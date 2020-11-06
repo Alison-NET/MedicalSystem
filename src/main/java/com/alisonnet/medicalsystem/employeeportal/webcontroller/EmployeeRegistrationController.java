@@ -2,6 +2,7 @@ package com.alisonnet.medicalsystem.employeeportal.webcontroller;
 
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.entity.BasicEmployee;
+import com.alisonnet.medicalsystem.employeeportal.entity.Department;
 import com.alisonnet.medicalsystem.employeeportal.service.DepartmentService;
 import com.alisonnet.medicalsystem.employeeportal.service.BasicEmployeeService;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping(Constants.URL_EMPLOYEE_PORTAL + "/new-employee")
@@ -26,7 +28,9 @@ public class EmployeeRegistrationController {
     @GetMapping
     public String getRegistrationPage(Model model){
         model.addAttribute("basicEmployee", new BasicEmployee());
-        model.addAttribute("departments", departmentService.findAll());
+        List<Department> departmentList = departmentService.findAll();
+        log.info(departmentList.toString());
+        model.addAttribute("departments", departmentList);
         return "employee-registration";
     }
 
