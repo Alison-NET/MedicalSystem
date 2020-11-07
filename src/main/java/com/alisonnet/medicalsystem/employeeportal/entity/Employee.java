@@ -20,14 +20,14 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
     BasicEmployee basicInfo;
 
     private Double salary;
 
     private Double commission;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private WorkShift workShift;
 
     @OneToMany(mappedBy = "employee")
@@ -44,10 +44,10 @@ public class Employee {
 
     private String w4;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
     private List<Document> documents;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Credentials credentials;
 
 }

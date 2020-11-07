@@ -45,20 +45,15 @@ public class HRController {
         return "approve-requests";
     }
 
-    @PostMapping("/approve-employee/save")
-    public String handleApprovedEmployee(@ModelAttribute Employee employee){
-        employeeService.save(employee);
-        return "redirect:/employee-portal/hr/approve-employee";
-    }
-
     @GetMapping("/approve-employee/{id}")
     public String getApprovePage(@PathVariable int id, Model model){
 
         Optional<BasicEmployee> maybeBasicEmployee = basicEmployeeService.findById(id);
-        log.info(maybeBasicEmployee.get().toString());
-        if(maybeBasicEmployee.isEmpty()){
+
+        if(maybeBasicEmployee.isEmpty())
             return "redirect:/employee-portal/hr/approve-employee";
-        }
+
+        log.info(maybeBasicEmployee.toString());
 
         Employee newEmployee = new Employee();
 
@@ -78,6 +73,14 @@ public class HRController {
 
     }
 
+    @PostMapping("/approve-employee/save")
+    public String handleApprovedEmployee(@ModelAttribute Employee employee){
+
+        log.info(employee.toString());
+
+        employeeService.save(employee);
+        return "redirect:/employee-portal/hr/approve-employee";
+    }
 
     @GetMapping("/reject/{id}")
     public String deleteBasicEmployee(@PathVariable int id){

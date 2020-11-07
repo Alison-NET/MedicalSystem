@@ -27,7 +27,7 @@ public class WorkShift {
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime ending;
 
-    @OneToMany(mappedBy = "workShift")
+    @OneToMany(mappedBy = "workShift", fetch = FetchType.LAZY)
     private List<Employee> employee;
 
 }
