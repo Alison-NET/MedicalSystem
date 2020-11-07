@@ -9,7 +9,11 @@ import java.util.List;
 @Entity
 @Table(name = "credentials")
 public class Credentials {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     private String email;
     private String password;
 

@@ -55,8 +55,6 @@ public class HRController {
         if(maybeBasicEmployee.isEmpty())
             return "redirect:/employee-portal/hr/approve-employee";
 
-        log.info(maybeBasicEmployee.toString());
-
         Employee newEmployee = new Employee();
 
         newEmployee.setBasicInfo(maybeBasicEmployee.get());
@@ -79,8 +77,7 @@ public class HRController {
     @PostMapping("/approve-employee/save")
     public String handleApprovedEmployee(@ModelAttribute Employee employee){
 
-        log.info(employee.toString());
-        basicEmployeeService.deleteById(employee.getBasicInfo().getId()); // ?????? CascadeType. ?
+        basicEmployeeService.save(employee.getBasicInfo());
         employeeService.save(employee);
         return "redirect:/employee-portal/hr/approve-employee";
     }

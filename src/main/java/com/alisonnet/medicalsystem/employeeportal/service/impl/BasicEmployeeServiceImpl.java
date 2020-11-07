@@ -28,6 +28,11 @@ public class BasicEmployeeServiceImpl implements BasicEmployeeService {
     }
 
     @Override
+    public BasicEmployee save(BasicEmployee basicEmployee) {
+        return basicEmployeeRepo.save(basicEmployee);
+    }
+
+    @Override
     public void deleteById(int id) {
         basicEmployeeRepo.deleteById(id);
     }

@@ -26,7 +26,9 @@ public class MyUserDetailsService implements UserDetailsService {
 
         Optional<Credentials> optCredentials = credentialsRepo.findById(email);
 
-        optCredentials.orElseThrow(()-> new UsernameNotFoundException("No user found with username: "+ email));
+        Credentials credentials =
+                optCredentials
+                        .orElseThrow(() -> new UsernameNotFoundException("No user found with username: " + email));
 
         boolean enabled = true;
         boolean accountNonExpired = true;
@@ -34,13 +36,13 @@ public class MyUserDetailsService implements UserDetailsService {
         boolean accountNonLocked = true;
 
         return new org.springframework.security.core.userdetails.User(
-                optCredentials.get().getEmail(),
-                optCredentials.get().getPassword().toLowerCase(),
+                credentials.getEmail(),
+                credentials.getPassword().toLowerCase(),
                 enabled,
                 accountNonExpired,
                 credentialsNonExpired,
                 accountNonLocked,
-                getAuthorities(optCredentials.get().getRoles())
+                getAuthorities(credentials.getRoles())
         );
     }
 
