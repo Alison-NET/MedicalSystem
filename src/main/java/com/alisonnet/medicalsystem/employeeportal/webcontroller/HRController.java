@@ -3,6 +3,7 @@ package com.alisonnet.medicalsystem.employeeportal.webcontroller;
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.entity.*;
 import com.alisonnet.medicalsystem.employeeportal.service.BasicEmployeeService;
+import com.alisonnet.medicalsystem.employeeportal.service.DepartmentService;
 import com.alisonnet.medicalsystem.employeeportal.service.EmployeeService;
 import com.alisonnet.medicalsystem.employeeportal.service.RoleService;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ public class HRController {
 
     EmployeeService employeeService;
     BasicEmployeeService basicEmployeeService;
+    DepartmentService departmentService;
     RoleService roleService;
 
     @GetMapping("/approve-employee")
@@ -69,6 +71,7 @@ public class HRController {
 
         model.addAttribute("employee", newEmployee);
         model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("departments", departmentService.findAll());
         return "approve-employee";
 
     }
@@ -77,7 +80,7 @@ public class HRController {
     public String handleApprovedEmployee(@ModelAttribute Employee employee){
 
         log.info(employee.toString());
-
+        basicEmployeeService.deleteById(employee.getBasicInfo().getId()); // ?????? CascadeType. ?
         employeeService.save(employee);
         return "redirect:/employee-portal/hr/approve-employee";
     }

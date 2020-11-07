@@ -31,7 +31,9 @@
         <input type="text" th:field="*{basicInfo.personalEmail}"><br>
 
         <label>Department</label>
-        <input type="text" th:field="*{basicInfo.department}"><br>
+        <select th:field="*{basicInfo.department}">
+            <option th:each="dep : ${departments}" th:value="${dep.name}" th:text="${dep.name}"></option>
+        </select><br>
 
         <label>Social Security</label>
         <input type="text" th:field="*{basicInfo.socialSecurity}"><br>
@@ -65,7 +67,7 @@
 
         <label>Role</label>
         <select th:field="*{credentials.roles}" multiple="multiple">
-            <option th:each="role : ${roles}" th:value="${role.name}" th:text="${role.name}"></option>
+            <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
         </select><br>
 
         <input type="submit" th:value="Submit">
