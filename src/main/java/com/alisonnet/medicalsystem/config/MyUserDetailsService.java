@@ -24,7 +24,7 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        Optional<Credentials> optCredentials = credentialsRepo.findById(email);
+        Optional<Credentials> optCredentials = credentialsRepo.findByEmail(email);
 
         Credentials credentials =
                 optCredentials

@@ -28,8 +28,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/", "/employee-portal/new-employee").permitAll()
                 .antMatchers("/employee-portal/admin/**").hasAnyAuthority("ADMIN")
-                .antMatchers("/employee-portal/hr/approve-employee/**").permitAll()//hasAnyAuthority("HR", "ADMIN")
+                .antMatchers("/employee-portal/hr/approve-employee/**").hasAnyAuthority("HR", "ADMIN")
+                .and().logout().logoutSuccessUrl("/login")
                 .and().formLogin();
+
     }
 
     @Bean

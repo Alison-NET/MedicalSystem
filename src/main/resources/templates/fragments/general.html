@@ -1,10 +1,29 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head th:fragment="head">
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
+
 <body>
+
+<div class="header" th:fragment="header">
+    <a href="#default" class="logo">Medical System</a>
+    <div class="header-right">
+        <a class="active" href="/index">Home</a>
+        <a href="#contact">Contact</a>
+        <div sec:authorize="hasAnyAuthority('HR','ADMIN')"><a href="/employee-portal/hr/approve-employee">Employees To Approve</a></div>
+        <div sec:authorize="hasAnyAuthority('HR','ADMIN')"><a href="/employee-portal/employee">Employees</a></div>
+        <div sec:authorize="hasAuthority('ADMIN')"><a href="/employee-portal/admin">Admin Control</a></div>
+        <div sec:authorize="hasAuthority('EMPLOYEE')"><a href="/employee-portal/admin">Profile</a></div>
+
+        <div sec:authorize="isAnonymous()"><a href="/login">Log in</a></div>
+        <div sec:authorize="isAuthenticated()"><a href="/logout">Log out</a></div>
+    </div>
+</div>
+
 
 <footer th:fragment="footer">
 

@@ -9,8 +9,8 @@ import java.util.Date;
 
 @Entity
 @Data
-//@EqualsAndHashCode(exclude = {"employee"})
-//@ToString(exclude = {"employee"})
+@EqualsAndHashCode(exclude = {"employee"})
+@ToString(exclude = {"employee"})
 @Table(name = "contracts")
 public class Contract {
 
