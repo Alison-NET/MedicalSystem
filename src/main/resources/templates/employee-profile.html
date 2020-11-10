@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/general.html :: head"></head>
+<body>
+<header th:replace="fragments/general.html::header"></header>
+
+<div class="bootstrap-wrapper">
+    <div class="container">
+        <h1>Employee Profile</h1>
+
+        <div class="profile-item">
+            <p class="name">Name</p>
+            <p class="descr" th:text="${employee.basicInfo.firstName + ' ' + employee.basicInfo.middleName + ' ' + employee.basicInfo.lastName}"></p>
+        </div>
+
+        <div class="profile-item">
+            <p class="name">Date of birth</p>
+            <p class="descr" th:text="${{employee.basicInfo.dateOfBirth}}"></p>
+        </div>
+
+        <div class="profile-item">
+            <p class="name">Social Security</p>
+            <p class="descr" th:text="${employee.basicInfo.socialSecurity}"></p>
+        </div>
+
+        <div class="profile-item">
+            <p class="name">Home Phone</p>
+            <p class="descr" th:text="${employee.basicInfo.homePhone}"></p>
+        </div>
+
+        <div class="profile-item">
+            <p class="name">Mobile Phone</p>
+            <p class="descr" th:text="${employee.basicInfo.mobilePhone}"></p>
+        </div>
+
+        <div class="profile-item">
+            <p class="name">Personal Email</p>
+            <p class="descr" th:text="${employee.basicInfo.personalEmail}"></p>
+        </div>
+
+        <div class="profile-item">
+            <p class="name">Salary</p>
+            <p class="descr" th:text="${employee.salary}"></p>
+        </div>
+
+        <div class="profile-item">
+            <p class="name">Commission</p>
+            <p class="descr" th:text="${employee.commission}"></p>
+        </div>
+
+        <div class="profile-item">
+            <p class="name">Department</p>
+            <p class="descr" th:text="${employee.basicInfo.department.name}"></p>
+        </div>
+
+        <div class="profile-item">
+            <p class="name">Work Shift</p>
+            <p class="descr" th:text="${employee.workShift}"></p>
+        </div>
+
+
+        <div class="profile-item">
+            <p class="name">Job Description</p>
+            <p class="descr" th:text="${employee.jobDescription}"></p>
+        </div>
+
+        <div th:if="${employee.completedTraining != null}" class="profile-item">
+            <p class="name">Completed Training</p>
+            <p class="descr" th:text="${employee.completedTraining}? 'Yes' : 'No'"></p>
+        </div>
+
+        <div th:if="${employee.addedToPayroll != null}" class="profile-item">
+            <p class="name">Added to payroll</p>
+            <p class="descr" th:text="${employee.addedToPayroll}? 'Yes' : 'No'"></p>
+        </div>
+
+        <div class="profile-item" th:if="${not #lists.isEmpty(employee.subordinates)}">
+            <p class="name">Subordinates</p>
+            <div th:each="sub : ${employee.subordinates}">
+                <a th:href="@{/employee-portal/employee/${sub.id}}">
+                    <p class="descr" th:text="${sub.basicInfo.firstName + ' ' + sub.basicInfo.lastName}"></p>
+                </a>
+            </div>
+        </div>
+
+        <div class="profile-item" th:if="${not #lists.isEmpty(employee.contracts)}">
+            <p class="name">Contracts</p>
+            <div th:each="contract : ${employee.contracts}">
+<!--                    <p class="descr" th:text="${contract.starting}"></p>-->
+            </div>
+        </div>
+
+        <div class="profile-item" th:if="${not #lists.isEmpty(employee.documents)}">
+            <p class="name">Documents</p>
+            <div th:each="document : ${employee.documents}">
+                <p class="descr" th:text="${document.id}"></p>
+            </div>
+        </div>
+
+        <div class="profile-item">
+            <p class="name">Credentials</p>
+            <p class="descr" th:text="${employee.credentials.email}"></p>
+            <p class="descr" th:text="${employee.credentials.password}"></p>
+        </div>
+
+    </div>
+</div>
+
+<footer th:replace="fragments/general.html :: footer"></footer>
+</body>
+</html>
+

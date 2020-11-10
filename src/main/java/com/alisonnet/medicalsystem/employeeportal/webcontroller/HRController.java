@@ -67,6 +67,15 @@ public class HRController {
         credentials.setRoles(roles);
         newEmployee.setCredentials(credentials);
 
+        List<Document> documents = new ArrayList<>();
+        newEmployee.setDocuments(documents);
+
+        List<Employee> subordinates = new ArrayList<>();
+        newEmployee.setSubordinates(subordinates);
+
+        List<Contract> contracts = new ArrayList<>();
+        newEmployee.setContracts(contracts);
+
         model.addAttribute("employee", newEmployee);
         model.addAttribute("roles", roleService.findAll());
         model.addAttribute("departments", departmentService.findAll());
@@ -76,7 +85,6 @@ public class HRController {
 
     @PostMapping("/approve-employee/save")
     public String handleApprovedEmployee(@ModelAttribute Employee employee){
-
         basicEmployeeService.save(employee.getBasicInfo());
         employeeService.save(employee);
         return "redirect:/employee-portal/hr/approve-employee";

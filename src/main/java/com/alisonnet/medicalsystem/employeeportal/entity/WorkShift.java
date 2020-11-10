@@ -21,10 +21,10 @@ public class WorkShift {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @DateTimeFormat(pattern = Constants.WORK_TIME_FORMAT)
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime beginning;
 
-    @DateTimeFormat(pattern = Constants.WORK_TIME_FORMAT)
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime ending;
 
     @OneToMany(mappedBy = "workShift", fetch = FetchType.LAZY)

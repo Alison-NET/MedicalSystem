@@ -1,5 +1,6 @@
 package com.alisonnet.medicalsystem.employeeportal.service.impl;
 
+import com.alisonnet.medicalsystem.employeeportal.entity.Credentials;
 import com.alisonnet.medicalsystem.employeeportal.entity.Employee;
 import com.alisonnet.medicalsystem.employeeportal.repository.EmployeeRepo;
 import com.alisonnet.medicalsystem.employeeportal.service.EmployeeService;
@@ -28,5 +29,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Optional<Employee> findById(int id) {
         return employeeRepo.findById(id);
+    }
+
+    @Override
+    public Optional<Employee> findFirstByCredentials(Credentials credentials) {
+        return employeeRepo.findFirstByCredentials(credentials);
     }
 }

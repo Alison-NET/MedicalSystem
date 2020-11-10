@@ -31,7 +31,7 @@ public class Employee {
     private WorkShift workShift;
 
     @OneToMany(mappedBy = "employee")
-    private List<Contract> contract;
+    private List<Contract> contracts;
 
     @OneToMany
     private List<Employee> subordinates;
@@ -47,5 +47,4 @@ public class Employee {
 
     @OneToOne(cascade = CascadeType.ALL)
     private Credentials credentials;
-
 }

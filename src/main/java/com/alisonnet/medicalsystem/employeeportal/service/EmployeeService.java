@@ -1,5 +1,6 @@
 package com.alisonnet.medicalsystem.employeeportal.service;
 
+import com.alisonnet.medicalsystem.employeeportal.entity.Credentials;
 import com.alisonnet.medicalsystem.employeeportal.entity.Employee;
 import org.springframework.stereotype.Service;
 
@@ -12,4 +13,5 @@ public interface EmployeeService {
     Employee save(Employee employee);
     List<Employee> findAll();
     Optional<Employee> findById(int id);
+    Optional<Employee> findFirstByCredentials(Credentials credentials);
 }

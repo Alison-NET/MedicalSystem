@@ -54,6 +54,16 @@
                     <label>Job Description</label>
                     <textarea th:field="*{jobDescription}"></textarea>
 
+                    <label class="checkbox-container">Added To Payroll
+                        <input th:field="*{addedToPayroll}" type="checkbox" checked="checked">
+                        <span class="checkmark"></span>
+                    </label>
+
+                    <label class="checkbox-container">Completed Training
+                        <input th:field="*{completedTraining}" type="checkbox" checked="checked">
+                        <span class="checkmark"></span>
+                    </label>
+
                     <h4>Work Shift</h4>
 
                     <label>Beginning</label>
