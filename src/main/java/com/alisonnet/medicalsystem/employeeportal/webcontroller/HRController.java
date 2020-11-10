@@ -82,7 +82,7 @@ public class HRController {
         return "redirect:/employee-portal/hr/approve-employee";
     }
 
-    @GetMapping("/reject/{id}")
+    @GetMapping("/approve-employee/reject/{id}")
     public String deleteBasicEmployee(@PathVariable int id){
         basicEmployeeService.deleteById(id);
         return "redirect:/employee-portal/hr/approve-employee";

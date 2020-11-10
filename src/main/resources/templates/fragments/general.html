@@ -5,29 +5,82 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/dmhendricks/bootstrap-grid-css@4.1.3/dist/css/bootstrap-grid.min.css" />
 </head>
 
 <body>
 
-<div class="header" th:fragment="header">
-    <a href="#default" class="logo">Medical System</a>
-    <div class="header-right">
-        <a class="active" href="/index">Home</a>
-        <a href="#contact">Contact</a>
-        <div sec:authorize="hasAnyAuthority('HR','ADMIN')"><a href="/employee-portal/hr/approve-employee">Employees To Approve</a></div>
-        <div sec:authorize="hasAnyAuthority('HR','ADMIN')"><a href="/employee-portal/employee">Employees</a></div>
-        <div sec:authorize="hasAuthority('ADMIN')"><a href="/employee-portal/admin">Admin Control</a></div>
-        <div sec:authorize="hasAuthority('EMPLOYEE')"><a href="/employee-portal/admin">Profile</a></div>
+<header class="header" th:fragment="header">
 
-        <div sec:authorize="isAnonymous()"><a href="/login">Log in</a></div>
-        <div sec:authorize="isAuthenticated()"><a href="/logout">Log out</a></div>
+    <div class="top-info-wrapper bootstrap-wrapper">
+        <div class="container">
+            <div class="top-info row">
+                <a class="top-info-item isDisabled" href="/login">
+                    <div>
+                        <h4 class="item-text">Patient portal</h4>
+                    </div>
+                </a>
+
+                <a class="top-info-item" href="/login">
+                    <div>
+                        <h4 class="item-text">Employee portal</h4>
+                    </div>
+                </a>
+
+                <a class="top-info-item isDisabled" href="/login">
+                    <div>
+                        <h4 class="item-text">Provider portal</h4>
+                    </div>
+                </a>
+            </div>
+        </div>
     </div>
-</div>
+
+    <div class="top-nav-wrapper bootstrap-wrapper">
+        <div class="container">
+            <nav class="top-nav row">
+                <div class="top-nav-branding col-sm-3">
+                    <a href="/index">
+                        <p class="brand-title">Medical System</p>
+                    </a>
+                </div>
+                <div class="top-nav-links col-sm-9">
+                    <div class="nav-link">
+                        <a href="/index">Home</a>
+                    </div>
+                    <div sec:authorize="hasAnyAuthority('HR','ADMIN')" class="nav-link">
+                        <a href="/employee-portal/hr/approve-employee">Employees To Approve</a>
+                    </div>
+                    <div sec:authorize="hasAnyAuthority('HR','ADMIN')" class="nav-link">
+                        <a href="/employee-portal/employee">Employees</a></div>
+                    <div sec:authorize="hasAuthority('ADMIN')" class="nav-link">
+                        <a href="/employee-portal/admin">Admin Control</a>
+                    </div>
+                    <div sec:authorize="hasAuthority('EMPLOYEE')" class="nav-link">
+                        <a href="/employee-portal/admin">Profile</a>
+                    </div>
+                    <div sec:authorize="isAnonymous()" class="nav-link">
+                        <a href="/employee-portal/new-employee">Registration</a>
+                    </div>
+                    <div sec:authorize="isAnonymous()" class="nav-link">
+                        <a href="/login">Log in</a>
+                    </div>
+                    <div sec:authorize="isAuthenticated()" class="nav-link">
+                        <a href="/logout">Log out</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+
+
+</header>
 
 
 <footer th:fragment="footer">
 
-    <h1>Footer</h1>
+<!--    <h1>Footer</h1>-->
 
 </footer>
 

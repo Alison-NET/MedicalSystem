@@ -4,42 +4,44 @@
 <body>
     <header th:replace="fragments/general.html::header"></header>
 
-    <div>
-        <h2>Employees</h2>
+    <div class="bootstrap-wrapper">
+        <div class="container">
+            <h2>Employees</h2>
 
-        <table>
-            <tr>
-                <th>Employee Name</th>
-                <th>Last Name</th>
-                <th>Home Phone</th>
-                <th>Mobile Phone</th>
-                <th>Personal Email</th>
-                <th>Social Security</th>
-                <th>Department</th>
-                <th>Salary</th>
-                <th>Commission</th>
-                <th>Work Shift</th>
-                <th>Completed Training</th>
-                <th>Added To Payroll</th>
-                <th>More info</th>
+            <table>
+                <tr>
+                    <th>Employee Name</th>
+                    <th>Last Name</th>
+                    <th>Home Phone</th>
+                    <th>Mobile Phone</th>
+                    <th>Personal Email</th>
+                    <th>Social Security</th>
+                    <th>Department</th>
+                    <th>Salary</th>
+                    <th>Commission</th>
+                    <th>Work Shift</th>
+                    <th>Completed Training</th>
+                    <th>Added To Payroll</th>
+                    <th>More info</th>
 
-            </tr>
-            <tr th:each="employee: ${employees}">
-                <td th:text="${employee.basicInfo.firstName}">Employee Name</td>
-                <td th:text="${employee.basicInfo.lastName}">Last Name</td>
-                <td th:text="${employee.basicInfo.homePhone}">Home Phone</td>
-                <td th:text="${employee.basicInfo.mobilePhone}">Mobile Phone</td>
-                <td th:text="${employee.basicInfo.personalEmail}">Personal Email</td>
-                <td th:text="${employee.basicInfo.socialSecurity}">Social Security</td>
-                <td th:text="${employee.basicInfo.department.name}">Department</td>
-                <td th:text="${employee.salary}">Salary</td>
-                <td th:text="${employee.commission}">Commissions</td>
-                <td th:text="${employee.workShift}">Work Shift</td>
-                <td th:text="${employee.completedTraining}">true/false</td>
-                <td th:text="${employee.addedToPayroll}">true/false</td>
-                <td><a th:href="@{'/employee-portal/employee/' + ${employee.id}}">Profile</a></td>
-            </tr>
-        </table>
+                </tr>
+                <tr th:each="employee: ${employees}">
+                    <td th:text="${employee.basicInfo.firstName}">Employee Name</td>
+                    <td th:text="${employee.basicInfo.lastName}">Last Name</td>
+                    <td th:text="${employee.basicInfo.homePhone}">Home Phone</td>
+                    <td th:text="${employee.basicInfo.mobilePhone}">Mobile Phone</td>
+                    <td th:text="${employee.basicInfo.personalEmail}">Personal Email</td>
+                    <td th:text="${employee.basicInfo.socialSecurity}">Social Security</td>
+                    <td th:text="${employee.basicInfo.department.name}">Department</td>
+                    <td th:text="${employee.salary}">Salary</td>
+                    <td th:text="${employee.commission}">Commissions</td>
+                    <td th:text="${employee.workShift}">Work Shift</td>
+                    <td th:text="${employee.completedTraining}">true/false</td>
+                    <td th:text="${employee.addedToPayroll}">true/false</td>
+                    <td><a th:href="@{'/employee-portal/employee/' + ${employee.id}}">Profile</a></td>
+                </tr>
+            </table>
+        </div>
     </div>
 
 <footer th:replace="fragments/general.html :: footer"></footer>

@@ -42,8 +42,6 @@ public class Employee {
 
     private Boolean addedToPayroll;
 
-    private String w4;
-
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
     private List<Document> documents;
 
