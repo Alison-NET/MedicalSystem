@@ -7,8 +7,8 @@ import java.util.List;
 
 @Data
 @Entity
-@EqualsAndHashCode(exclude = {"employees"})
-@ToString(exclude = {"employees"})
+@EqualsAndHashCode(exclude = {"credentials"})
+@ToString(exclude = {"credentials"})
 @Table(name = "roles")
 public class Role {
     @Id

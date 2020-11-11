@@ -29,6 +29,6 @@ public class Contract {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date expiring;
 
-    @ManyToOne
+    @ManyToOne//(cascade = CascadeType.MERGE)
     private Employee employee;
 }

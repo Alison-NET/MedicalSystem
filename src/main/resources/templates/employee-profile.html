@@ -77,7 +77,7 @@
         <div class="profile-item" th:if="${not #lists.isEmpty(employee.subordinates)}">
             <p class="name">Subordinates</p>
             <div th:each="sub : ${employee.subordinates}">
-                <a th:href="@{/employee-portal/employee/${sub.id}}">
+                <a th:href="@{/employee-portal/employee/__${sub.id}__}">
                     <p class="descr" th:text="${sub.basicInfo.firstName + ' ' + sub.basicInfo.lastName}"></p>
                 </a>
             </div>
@@ -85,9 +85,14 @@
 
         <div class="profile-item" th:if="${not #lists.isEmpty(employee.contracts)}">
             <p class="name">Contracts</p>
-            <div th:each="contract : ${employee.contracts}">
-<!--                    <p class="descr" th:text="${contract.starting}"></p>-->
-            </div>
+            <ul th:each="contract : ${employee.contracts}">
+                <li>
+                    <p class="name">Link</p>
+                    <p class="descr" th:text="${contract.contractLink}"></p>
+                    <p class="name">Signed</p>
+                    <p class="descr" th:text="${contract.signed}? 'Signed' : 'Not signed'"></p>
+                </li>
+            </ul>
         </div>
 
         <div class="profile-item" th:if="${not #lists.isEmpty(employee.documents)}">
@@ -102,6 +107,10 @@
             <p class="descr" th:text="${employee.credentials.email}"></p>
             <p class="descr" th:text="${employee.credentials.password}"></p>
         </div>
+
+        <hr>
+        <h2>EDIT</h2>
+        <a sec:authorize="hasAnyAuthority('HR', 'ADMIN')" th:href="@{/employee-portal/employee/__${employee.id}__/new-contract}">Add Contract</a>
 
     </div>
 </div>
