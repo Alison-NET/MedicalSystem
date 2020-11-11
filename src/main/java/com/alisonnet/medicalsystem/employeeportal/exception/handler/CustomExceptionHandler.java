@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.io.FileNotFoundException;
+
 @ControllerAdvice
 @Slf4j
 public class CustomExceptionHandler {
@@ -17,5 +19,6 @@ public class CustomExceptionHandler {
 
         return "action-result";
     }
+
 
 }

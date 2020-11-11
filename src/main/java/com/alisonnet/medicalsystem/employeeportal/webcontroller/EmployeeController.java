@@ -1,11 +1,11 @@
 package com.alisonnet.medicalsystem.employeeportal.webcontroller;
 
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
-import com.alisonnet.medicalsystem.employeeportal.entity.Contract;
-import com.alisonnet.medicalsystem.employeeportal.entity.Credentials;
-import com.alisonnet.medicalsystem.employeeportal.entity.Employee;
+import com.alisonnet.medicalsystem.employeeportal.entity.*;
 import com.alisonnet.medicalsystem.employeeportal.repository.CredentialsRepo;
 import com.alisonnet.medicalsystem.employeeportal.service.ContractService;
+import com.alisonnet.medicalsystem.employeeportal.service.DocumentService;
+import com.alisonnet.medicalsystem.employeeportal.service.DocumentTypeService;
 import com.alisonnet.medicalsystem.employeeportal.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +28,8 @@ public class EmployeeController {
     EmployeeService employeeService;
     CredentialsRepo credentialsRepo;
     ContractService contractService;
-
+    DocumentTypeService documentTypeService;
+    DocumentService documentService;
 
     @GetMapping()
     public String getAllEmployees(Model model){
@@ -104,4 +106,40 @@ public class EmployeeController {
 
         return "redirect:/employee-portal/employee/" + employee.getId();
     }
+
+    @GetMapping("/{id}/documents")
+    public String getDocumentsPage(@PathVariable int id, Model model){
+
+        Optional<Employee> maybeEmployee = employeeService.findById(id);
+
+        if(maybeEmployee.isEmpty()){
+            return "redirect:/employee-portal/employee";
+        }
+
+        model.addAttribute("employee", maybeEmployee.get());
+        model.addAttribute("documentsType", new DocumentType());
+        model.addAttribute("documentTypes", documentTypeService.findAll());
+        return "employee-documents";
+    }
+
+
+    @PostMapping("/{id}/documents")
+    public String uploadDocumentsRequest(@PathVariable int id,
+                                         @ModelAttribute DocumentType documentType,
+                                         @RequestParam("files") MultipartFile[] files){
+        Optional<Employee> maybeEmployee = employeeService.findById(id);
+        if(maybeEmployee.isEmpty()){
+            return "redirect:/employee-portal/employee";
+        }
+
+        Employee employee = maybeEmployee.get();
+        for(MultipartFile file: files){
+            documentService.saveFile(file, documentType, employee);
+        }
+
+        return "redirect:/employee-portal/employee/" + employee.getId() + "/documents";
+    }
+
+
+
 }

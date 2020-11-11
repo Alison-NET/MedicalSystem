@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/general.html :: head"></head>
+<body>
+<header th:replace="fragments/general.html::header"></header>
+
+<div class="bootstrap-wrapper">
+    <div class="container">
+        <h1>Employee Documents</h1>
+
+        <div th:each="docType : ${documentTypes}">
+            <p th:text="${docType.name}">Document Type</p>
+            <ul th:each="doc : ${docType.documents}">
+                <li>
+                    <p th:text="${doc.docName}"></p><a th:href="@{'/employee-portal/document/download/' + ${doc.id}}">Download</a>
+                </li>
+            </ul>
+
+            <form th:action="@{'/employee-portal/employee/' + ${employee.id} + '/documents'}" enctype="multipart/form-data" method="post">
+                <input type="text" th:field="${documentsType}" th:value="${docType}" hidden>
+                <input type="file" name="files" multiple required>
+                <input class="btn form-submit-btn" type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="fragments/general.html :: footer"></footer>
+</body>
+</html>
+

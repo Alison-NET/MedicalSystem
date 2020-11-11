@@ -28,9 +28,7 @@ public class EmployeeRegistrationController {
     @GetMapping
     public String getRegistrationPage(Model model){
         model.addAttribute("basicEmployee", new BasicEmployee());
-        List<Department> departmentList = departmentService.findAll();
-        log.info(departmentList.toString());
-        model.addAttribute("departments", departmentList);
+        model.addAttribute("departments", departmentService.findAll());
         return "employee-registration";
     }
 

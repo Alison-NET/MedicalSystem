@@ -111,6 +111,7 @@
         <hr>
         <h2>EDIT</h2>
         <a sec:authorize="hasAnyAuthority('HR', 'ADMIN')" th:href="@{/employee-portal/employee/__${employee.id}__/new-contract}">Add Contract</a>
+        <a th:href="@{/employee-portal/employee/__${employee.id}__/documents}">Update Documents</a>
 
     </div>
 </div>
