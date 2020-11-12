@@ -31,10 +31,16 @@ public class EmployeeController {
     DocumentTypeService documentTypeService;
     DocumentService documentService;
 
-    @GetMapping()
-    public String getAllEmployees(Model model){
-        model.addAttribute("employees", employeeService.findAll());
-        return "employees";
+
+
+
+    @GetMapping("/to-profile")
+    public String getProfile(){
+        Optional<Employee> maybeEmployee = employeeService.getActiveEmployee();
+        if(maybeEmployee.isEmpty()){
+            return "redirect:/index";
+        }
+        return "redirect:/employee-portal/employee/" + maybeEmployee.get().getId();
     }
 
     @GetMapping("/{id}")
@@ -43,103 +49,11 @@ public class EmployeeController {
         Optional<Employee> maybeEmployee = employeeService.findById(id);
 
         if(maybeEmployee.isEmpty()){
-            return "redirect:/employee-portal/employee";
+            return "redirect:/index";
         }
         log.info(maybeEmployee.get().toString());
         model.addAttribute("employee", maybeEmployee.get());
         return "employee-profile";
     }
-
-    @GetMapping("/to-profile")
-    public String getEmployeeProfile(){
-        Optional<Employee> maybeEmployee =
-                Optional.ofNullable(getActiveEmployee(SecurityContextHolder.getContext().getAuthentication()));
-        if(maybeEmployee.isEmpty()){
-            return "redirect:/index";
-        }
-        return "redirect:/employee-portal/employee/" + maybeEmployee.get().getId();
-    }
-
-    public Employee getActiveEmployee(Authentication authentication){
-        Optional<Authentication> maybeAuthentication = Optional.ofNullable(authentication);
-        if(maybeAuthentication.isEmpty()){
-            return null;
-        }
-        Optional<Credentials> maybeCredentials =
-                credentialsRepo.findByEmail(maybeAuthentication.get().getName());
-        if(maybeCredentials.isEmpty()){
-            return null;
-        }
-        Optional<Employee> maybeEmployee =
-                employeeService.findFirstByCredentials(maybeCredentials.get());
-
-        return maybeEmployee.orElse(null);
-    }
-
-    @GetMapping("/{id}/new-contract")
-    public String createNewContract(@PathVariable int id, Model model){
-
-        Optional<Employee> maybeEmployee = employeeService.findById(id);
-
-        if(maybeEmployee.isEmpty()){
-            return "redirect:/employee-portal/employee";
-        }
-
-        model.addAttribute("employee", maybeEmployee.get());
-        model.addAttribute("contract", new Contract());
-        return "contract-create";
-    }
-
-
-    @PostMapping("/{id}/new-contract")
-    public String handleContractCreationRequest(@PathVariable int id,
-                                                @ModelAttribute Contract contract){
-
-        Optional<Employee> maybeEmployee = employeeService.findById(id);
-
-        if(maybeEmployee.isEmpty()){
-            return "redirect:/employee-portal/employee";
-        }
-        Employee employee = maybeEmployee.get();
-        contract.setEmployee(employee);
-        contractService.save(contract);
-
-        return "redirect:/employee-portal/employee/" + employee.getId();
-    }
-
-    @GetMapping("/{id}/documents")
-    public String getDocumentsPage(@PathVariable int id, Model model){
-
-        Optional<Employee> maybeEmployee = employeeService.findById(id);
-
-        if(maybeEmployee.isEmpty()){
-            return "redirect:/employee-portal/employee";
-        }
-
-        model.addAttribute("employee", maybeEmployee.get());
-        model.addAttribute("documentsType", new DocumentType());
-        model.addAttribute("documentTypes", documentTypeService.findAll());
-        return "employee-documents";
-    }
-
-
-    @PostMapping("/{id}/documents")
-    public String uploadDocumentsRequest(@PathVariable int id,
-                                         @ModelAttribute DocumentType documentType,
-                                         @RequestParam("files") MultipartFile[] files){
-        Optional<Employee> maybeEmployee = employeeService.findById(id);
-        if(maybeEmployee.isEmpty()){
-            return "redirect:/employee-portal/employee";
-        }
-
-        Employee employee = maybeEmployee.get();
-        for(MultipartFile file: files){
-            documentService.saveFile(file, documentType, employee);
-        }
-
-        return "redirect:/employee-portal/employee/" + employee.getId() + "/documents";
-    }
-
-
 
 }

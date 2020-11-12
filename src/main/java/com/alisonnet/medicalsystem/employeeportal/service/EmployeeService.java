@@ -14,4 +14,5 @@ public interface EmployeeService {
     List<Employee> findAll();
     Optional<Employee> findById(int id);
     Optional<Employee> findFirstByCredentials(Credentials credentials);
+    Optional<Employee> getActiveEmployee();
 }

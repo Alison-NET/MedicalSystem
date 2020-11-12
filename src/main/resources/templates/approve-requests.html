@@ -30,8 +30,8 @@
                     <td th:text="${employee.personalEmail}">Personal Email</td>
                     <td th:text="${employee.socialSecurity}">Social Security</td>
                     <td th:text="${employee.department.name}">Department</td>
-                    <td><a th:href="@{'/employee-portal/hr/approve-employee/' + ${employee.id}}">Approve</a></td>
-                    <td><a th:href="@{'/employee-portal/hr/approve-employee/reject/' + ${employee.id}}">Reject</a></td>
+                    <td><a th:href="@{'/employee-portal/hr/approve-employee/hr/' + ${employee.id}}">Approve</a></td>
+                    <td><a th:href="@{'/employee-portal/hr/approve-employee/reject/hr/' + ${employee.id}}">Reject</a></td>
                 </tr>
             </table>
         </div>

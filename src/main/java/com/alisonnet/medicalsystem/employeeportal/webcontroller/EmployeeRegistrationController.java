@@ -33,7 +33,9 @@ public class EmployeeRegistrationController {
     }
 
     @PostMapping
-    public String handleRegisterRequest(@ModelAttribute @Valid BasicEmployee basicEmployee, BindingResult bindingResult, Model model){
+    public String handleRegisterRequest(@ModelAttribute @Valid BasicEmployee basicEmployee,
+                                        BindingResult bindingResult,
+                                        Model model){
         if(bindingResult.hasErrors()){
             model.addAttribute("departments", departmentService.findAll());
             return "employee-registration";
@@ -42,7 +44,5 @@ public class EmployeeRegistrationController {
         model.addAttribute("message", Constants.BASIC_EMPLOYEE_THANK_FOR_REG);
         return "action-result";
     }
-
-
 
 }
