@@ -15,7 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(Constants.URL_EMPLOYEE_PORTAL + "/hr/employee")
@@ -37,28 +39,13 @@ public class HREmployeeManagementController {
     @GetMapping("/{id}")
     public String getEmployeeProfileById(@PathVariable int id, Model model){
 
-        Optional<Employee> maybeEmployee = employeeService.findById(id);
 
-        if(maybeEmployee.isEmpty()){
-            return "redirect:/employee-portal/hr/employee";
-        }
-        log.info(maybeEmployee.get().toString());
-        model.addAttribute("employee", maybeEmployee.get());
-        return "employee-profile";
+        // EMPLOYEE PROFILE FOR HR
+
+
+        return "redirect:/employee-portal/employee/" + id;
     }
 
-    @GetMapping("/{id}/edit")
-    public String editEmployee(@PathVariable int id, Model model){
-
-        Optional<Employee> maybeEmployee = employeeService.findById(id);
-
-        if(maybeEmployee.isEmpty()){
-            return "redirect:/employee-portal/hr/employee";
-        }
-
-        model.addAttribute("employee", maybeEmployee.get());
-        return "hr-employee-profile-edit";
-    }
 
     @GetMapping("/{id}/new-contract")
     public String createNewContract(@PathVariable int id, Model model){

@@ -8,20 +8,13 @@
     <div class="container">
         <h1>Employee Documents</h1>
 
-        <div th:each="docType : ${documentTypes}">
-            <p th:text="${docType.name}">Document Type</p>
-            <ul th:each="doc : ${docType.documents}">
-                <li>
-                    <p th:text="${doc.docName}"></p><a th:href="@{'/employee-portal/document/download/' + ${doc.id}}">Download</a>
-                </li>
-            </ul>
-
-            <form th:action="@{'/employee-portal/employee/' + ${employee.id} + '/documents'}" enctype="multipart/form-data" method="post">
-                <input type="text" name="documentsType" th:field="${documentsType}" th:value="${docType}" hidden>
-                <input type="file" name="files" multiple required>
-                <input class="btn form-submit-btn" type="submit" value="Submit">
-            </form>
-        </div>
+        <form th:action="@{'/employee-portal/employee/' + ${employee.id} + '/documents'}"  th:object="${dto}" enctype="multipart/form-data" method="post">
+            <select th:field="*{documentType}">
+                <option th:each="docType : ${documentTypes}" th:value="${docType.id}" th:text="${docType.name}"></option>
+            </select>
+            <input type="file" th:field="*{files}" name="files" multiple required><br>
+            <input class="btn form-submit-btn" type="submit" value="Submit">
+        </form>
     </div>
 </div>
 

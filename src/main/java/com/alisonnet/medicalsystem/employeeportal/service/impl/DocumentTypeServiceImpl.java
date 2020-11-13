@@ -1,12 +1,14 @@
 package com.alisonnet.medicalsystem.employeeportal.service.impl;
 
 import com.alisonnet.medicalsystem.employeeportal.entity.DocumentType;
+import com.alisonnet.medicalsystem.employeeportal.entity.Employee;
 import com.alisonnet.medicalsystem.employeeportal.repository.DocumentTypeRepo;
 import com.alisonnet.medicalsystem.employeeportal.service.DocumentTypeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -19,5 +21,17 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
         return documentTypeRepo.findAll();
     }
 
+    @Override
+    public List<DocumentType> getAllTypesBasedOnEmployee(Employee employee) {
+        List<DocumentType> allDocumentTypes = findAll();
 
+        allDocumentTypes = allDocumentTypes.stream().filter(type ->{
+            type.setDocuments(type.getDocuments().stream()
+                    .filter(document -> document.getEmployee() == employee)
+                    .collect(Collectors.toList()));
+            return true;
+        }).collect(Collectors.toList());
+
+        return allDocumentTypes;
+    }
 }
