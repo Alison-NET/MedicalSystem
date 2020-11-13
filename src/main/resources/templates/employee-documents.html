@@ -17,7 +17,7 @@
             </ul>
 
             <form th:action="@{'/employee-portal/employee/' + ${employee.id} + '/documents'}" enctype="multipart/form-data" method="post">
-                <input type="text" th:field="${documentsType}" th:value="${docType}" hidden>
+                <input type="text" name="documentsType" th:field="${documentsType}" th:value="${docType}" hidden>
                 <input type="file" name="files" multiple required>
                 <input class="btn form-submit-btn" type="submit" value="Submit">
             </form>

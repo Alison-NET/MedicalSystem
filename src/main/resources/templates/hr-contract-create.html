@@ -9,7 +9,7 @@
     <div class="container">
         <h2>Create Contract</h2>
         <h3 th:text="for + ' ' + ${employee.basicInfo.firstName} + ' ' +  ${employee.basicInfo.lastName}"></h3>
-        <form th:action="@{/employee-portal/employee/__${employee.id}__/new-contract}" th:object="${contract}" method="post">
+        <form th:action="@{/employee-portal/employee/hr/__${employee.id}__/new-contract}" th:object="${contract}" method="post">
 
 <!--            <input type="text" th:field="*{employee}" th:value="${employee}" hidden>-->
 

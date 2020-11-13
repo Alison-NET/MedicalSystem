@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,5 +43,10 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public Optional<Document> findById(int id) {
         return documentRepo.findById(id);
+    }
+
+    @Override
+    public Optional<List<Document>> findByEmployeeAndDocType(Employee employee, DocumentType documentType) {
+        return documentRepo.findDocumentsByEmployeeAndDocumentType(employee, documentType);
     }
 }

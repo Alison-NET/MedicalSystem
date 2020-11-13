@@ -42,7 +42,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Optional<Employee> getActiveEmployee() {
 
-        Optional<Authentication> maybeAuthentication = Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication());
+        Optional<Authentication> maybeAuthentication =
+                Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication());
         if(maybeAuthentication.isEmpty()){
             return null;
         }

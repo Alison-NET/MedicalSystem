@@ -31,7 +31,7 @@ public class HREmployeeManagementController {
     @GetMapping()
     public String getAllEmployees(Model model){
         model.addAttribute("employees", employeeService.findAll());
-        return "employees";
+        return "hr-employees";
     }
 
     @GetMapping("/{id}")
@@ -47,6 +47,19 @@ public class HREmployeeManagementController {
         return "employee-profile";
     }
 
+    @GetMapping("/{id}/edit")
+    public String editEmployee(@PathVariable int id, Model model){
+
+        Optional<Employee> maybeEmployee = employeeService.findById(id);
+
+        if(maybeEmployee.isEmpty()){
+            return "redirect:/employee-portal/hr/employee";
+        }
+
+        model.addAttribute("employee", maybeEmployee.get());
+        return "hr-employee-profile-edit";
+    }
+
     @GetMapping("/{id}/new-contract")
     public String createNewContract(@PathVariable int id, Model model){
 
@@ -58,7 +71,7 @@ public class HREmployeeManagementController {
 
         model.addAttribute("employee", maybeEmployee.get());
         model.addAttribute("contract", new Contract());
-        return "contract-create";
+        return "hr-contract-create";
     }
 
 
@@ -78,35 +91,4 @@ public class HREmployeeManagementController {
         return "redirect:/employee-portal/hr/employee/" + employee.getId();
     }
 
-    @GetMapping("/{id}/documents")
-    public String getDocumentsPage(@PathVariable int id, Model model){
-
-        Optional<Employee> maybeEmployee = employeeService.findById(id);
-
-        if(maybeEmployee.isEmpty()){
-            return "redirect:/employee-portal/hr/employee";
-        }
-
-        model.addAttribute("employee", maybeEmployee.get());
-        model.addAttribute("documentsType", new DocumentType());
-        model.addAttribute("documentTypes", documentTypeService.findAll());
-        return "employee-documents";
-    }
-
-    @PostMapping("/{id}/documents")
-    public String uploadDocumentsRequest(@PathVariable int id,
-                                         @ModelAttribute DocumentType documentType,
-                                         @RequestParam("files") MultipartFile[] files){
-        Optional<Employee> maybeEmployee = employeeService.findById(id);
-        if(maybeEmployee.isEmpty()){
-            return "redirect:/employee-portal/hr/employee";
-        }
-
-        Employee employee = maybeEmployee.get();
-        for(MultipartFile file: files){
-            documentService.saveFile(file, documentType, employee);
-        }
-
-        return "redirect:/employee-portal/hr/employee/" + employee.getId() + "/documents";
-    }
 }

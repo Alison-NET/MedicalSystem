@@ -6,7 +6,9 @@
 
 <div class="bootstrap-wrapper">
     <div class="container">
-        <h1>Employee Profile</h1>
+        <h1>Employee Profile Edit</h1>
+
+
 
         <div class="profile-item">
             <p class="name">Name</p>
@@ -110,7 +112,7 @@
 
         <hr>
         <h2>EDIT</h2>
-        <a sec:authorize="hasAnyAuthority('HR', 'ADMIN')" th:href="@{/employee-portal/employee/hr/__${employee.id}__/new-contract}">Add Contract</a>
+        <a sec:authorize="hasAnyAuthority('HR', 'ADMIN')" th:href="@{/employee-portal/employee/__${employee.id}__/new-contract}">Add Contract</a>
         <a th:href="@{/employee-portal/employee/__${employee.id}__/documents}">Update Documents</a>
 
     </div>

@@ -18,4 +18,6 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
     public List<DocumentType> findAll() {
         return documentTypeRepo.findAll();
     }
+
+
 }

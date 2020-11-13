@@ -44,7 +44,7 @@ public class HRApproveEmployeeController {
                         ).collect(Collectors.toList());
 
         model.addAttribute("employeesToApprove", nonApprovedEmployees);
-        return "approve-requests";
+        return "hr-approve-requests";
     }
 
     @GetMapping("/{id}")
@@ -78,7 +78,7 @@ public class HRApproveEmployeeController {
         model.addAttribute("employee", newEmployee);
         model.addAttribute("roles", roleService.findAll());
         model.addAttribute("departments", departmentService.findAll());
-        return "approve-employee";
+        return "hr-approve-employee";
     }
 
     @PostMapping("/save")
