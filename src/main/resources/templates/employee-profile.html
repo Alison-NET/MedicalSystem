@@ -16,109 +16,171 @@
                 </a>
             </div>
         </div>
-        <div class="profile-item">
-            <p class="name">Name</p>
-            <p class="descr" th:text="${employee.basicInfo.firstName + ' ' + employee.basicInfo.middleName + ' ' + employee.basicInfo.lastName}"></p>
-        </div>
 
-        <div th:if="${employee.basicInfo.dateOfBirth != null}" class="profile-item">
-            <p class="name">Date of birth</p>
-            <p class="descr" th:text="${{employee.basicInfo.dateOfBirth}}"></p>
-        </div>
-
-        <div th:if="${employee.basicInfo.socialSecurity != null}" class="profile-item">
-            <p class="name">Social Security</p>
-            <p class="descr" th:text="${employee.basicInfo.socialSecurity}"></p>
-        </div>
-
-        <div th:if="${employee.basicInfo.homePhone != null}" class="profile-item">
-            <p class="name">Home Phone</p>
-            <p class="descr" th:text="${employee.basicInfo.homePhone}"></p>
-        </div>
-
-        <div th:if="${employee.commission != null}" class="profile-item">
-            <p class="name">Mobile Phone</p>
-            <p class="descr" th:text="${employee.basicInfo.mobilePhone}"></p>
-        </div>
-
-        <div th:if="${employee.basicInfo.personalEmail != null}" class="profile-item">
-            <p class="name">Personal Email</p>
-            <p class="descr" th:text="${employee.basicInfo.personalEmail}"></p>
-        </div>
-
-        <div th:if="${employee.salary != null}" class="profile-item">
-            <p class="name">Salary</p>
-            <p class="descr" th:text="${employee.salary}"></p>
-        </div>
-
-        <div th:if="${employee.commission != null}" class="profile-item">
-            <p class="name">Commission</p>
-            <p class="descr" th:text="${employee.commission}"></p>
-        </div>
-
-        <div th:if="${employee.basicInfo.department != null}" class="profile-item">
-            <p class="name">Department</p>
-            <p class="descr" th:text="${employee.basicInfo.department.name}"></p>
-        </div>
-
-        <div th:if="${employee.workShift != null}" class="profile-item">
-            <p class="name">Work Shift</p>
-            <p class="descr" th:text="${employee.workShift}"></p>
-        </div>
-
-
-        <div th:if="${#strings.isEmpty(employee.jobDescription)}" class="profile-item">
-            <p class="name">Job Description</p>
-            <p class="descr" th:text="${employee.jobDescription}"></p>
-        </div>
-
-        <div th:if="${employee.completedTraining != null}" class="profile-item">
-            <p class="name">Completed Training</p>
-            <p class="descr" th:text="${employee.completedTraining}? 'Yes' : 'No'"></p>
-        </div>
-
-        <div th:if="${employee.addedToPayroll != null}" class="profile-item">
-            <p class="name">Added to payroll</p>
-            <p class="descr" th:text="${employee.addedToPayroll}? 'Yes' : 'No'"></p>
-        </div>
-
-        <div class="profile-item" th:if="${not #lists.isEmpty(employee.subordinates)}">
-            <p class="name">Subordinates</p>
-            <div th:each="sub : ${employee.subordinates}">
-                <a th:href="@{/employee-portal/employee/__${sub.id}__}">
-                    <p class="descr" th:text="${sub.basicInfo.firstName + ' ' + sub.basicInfo.lastName}"></p>
-                </a>
+        <div class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Name</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${employee.basicInfo.firstName + ' ' + employee.basicInfo.middleName + ' ' + employee.basicInfo.lastName}"></p>
             </div>
         </div>
 
-        <div class="profile-item" th:if="${not #lists.isEmpty(employee.contracts)}">
-            <p class="name">Contracts</p>
-            <ul th:each="contract : ${employee.contracts}">
-                <li>
-                    <p class="name">Link</p>
-                    <p class="descr" th:text="${contract.contractLink}"></p>
-                    <p class="name">Signed</p>
-                    <p class="descr" th:text="${contract.signed}? 'Signed' : 'Not signed'"></p>
-                </li>
-            </ul>
+        <div th:if="${employee.basicInfo.dateOfBirth != null}" class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Date of birth</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${{employee.basicInfo.dateOfBirth}}"></p>
+            </div>
         </div>
 
-        <div class="profile-item" th:if="${not #lists.isEmpty(documentTypes)}">
-            <p class="name">Documents</p>
-            <ul th:if="${not #lists.isEmpty(documentType.documents)}" th:each="documentType : ${documentTypes}">
-                <li>
-                    <p class="name" th:text="${documentType.name}"></p>
-                    <ul th:each="document : ${documentType.documents}">
-                        <a th:href="@{'/employee-portal/document/download/' + ${document.id}}"><li th:text="${document.docName}"></li></a>
-                    </ul>
-                </li>
-            </ul>
+        <div th:if="${employee.basicInfo.socialSecurity != null}" class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Social Security</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${employee.basicInfo.socialSecurity}"></p>
+            </div>
         </div>
 
-        <div th:if="${employee.credentials != null}" class="profile-item">
-            <p class="name">Credentials</p>
-            <p class="descr" th:text="${employee.credentials.email}"></p>
-            <p class="descr" th:text="${employee.credentials.password}"></p>
+        <div th:if="${employee.basicInfo.homePhone != null}" class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Home Phone</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${employee.basicInfo.homePhone}"></p>
+            </div>
+        </div>
+
+         <div th:if="${employee.basicInfo.mobilePhone != null}" class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Mobile Phone</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${employee.basicInfo.mobilePhone}"></p>
+            </div>
+        </div>
+
+         <div th:if="${employee.basicInfo.personalEmail != null}" class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Personal Email</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${employee.basicInfo.personalEmail}"></p>
+            </div>
+        </div>
+
+         <div th:if="${employee.salary != null}" class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Salary</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${employee.salary}"></p>
+            </div>
+        </div>
+
+         <div th:if="${employee.commission != null}" class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Commission</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${employee.commission}"></p>
+            </div>
+        </div>
+
+         <div th:if="${employee.basicInfo.department != null}" class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Department</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${employee.basicInfo.department.name}"></p>
+            </div>
+        </div>
+
+         <div th:if="${employee.workShift != null}" class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Work Shift</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${employee.workShift}"></p>
+            </div>
+        </div>
+
+         <div th:if="${#strings.isEmpty(employee.jobDescription)}" class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Job Description</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${employee.jobDescription}"></p>
+            </div>
+        </div>
+
+
+        <div th:if="${employee.completedTraining != null}" class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Completed Training</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${employee.completedTraining}? 'Yes' : 'No'"></p>
+            </div>
+        </div>
+
+        <div th:if="${employee.addedToPayroll != null}" class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Added to payroll</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${employee.addedToPayroll}? 'Yes' : 'No'"></p>
+            </div>
+        </div>
+
+        <div th:if="${not #lists.isEmpty(employee.subordinates)}" class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Subordinates</p>
+            </div>
+            <div class="col-md-8">
+                <div th:each="sub : ${employee.subordinates}">
+                    <a th:href="@{/employee-portal/employee/__${sub.id}__}">
+                        <p class="descr" th:text="${sub.basicInfo.firstName + ' ' + sub.basicInfo.lastName}"></p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${not #lists.isEmpty(employee.contracts)}" class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Contracts</p>
+            </div>
+            <div class="col-md-8">
+                <ul th:each="contract : ${employee.contracts}">
+                    <li>
+                        <p class="name">Link</p>
+                        <p class="descr" th:text="${contract.contractLink}"></p>
+                        <p class="name">Signed</p>
+                        <p class="descr" th:text="${contract.signed}? 'Signed' : 'Not signed'"></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div th:if="${not #lists.isEmpty(employee.documents)}" class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Documents</p>
+            </div>
+            <div class="col-md-8">
+                <ul th:if="${not #lists.isEmpty(documentType.documents)}" th:each="documentType : ${documentTypes}">
+                    <li>
+                        <p th:text="${documentType.name}" class="descr document-type"></p>
+                        <ul th:each="document : ${documentType.documents}">
+                            <a th:href="@{'/employee-portal/document/download/' + ${document.id}}">
+                                <li th:text="${document.docName}" class="document-name"></li>
+                            </a>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
 
         <hr>

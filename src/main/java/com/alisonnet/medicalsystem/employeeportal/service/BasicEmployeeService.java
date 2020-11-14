@@ -13,6 +13,8 @@ public interface BasicEmployeeService {
 
     List<BasicEmployee> findAll();
 
+    List<BasicEmployee> getUnapprovedEmployees();
+
     Optional<BasicEmployee> findById(int id);
 
     BasicEmployee save(BasicEmployee basicEmployee);

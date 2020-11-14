@@ -1,14 +1,17 @@
 package com.alisonnet.medicalsystem.employeeportal.service.impl;
 
 import com.alisonnet.medicalsystem.employeeportal.entity.BasicEmployee;
+import com.alisonnet.medicalsystem.employeeportal.entity.Employee;
 import com.alisonnet.medicalsystem.employeeportal.exception.exceptions.BasicEmployeeAlreadyRegisteredException;
 import com.alisonnet.medicalsystem.employeeportal.repository.BasicEmployeeRepo;
+import com.alisonnet.medicalsystem.employeeportal.repository.EmployeeRepo;
 import com.alisonnet.medicalsystem.employeeportal.service.BasicEmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -16,10 +19,29 @@ import java.util.Optional;
 public class BasicEmployeeServiceImpl implements BasicEmployeeService {
 
     BasicEmployeeRepo basicEmployeeRepo;
+    EmployeeRepo employeeRepo;
 
     @Override
     public List<BasicEmployee> findAll() {
         return basicEmployeeRepo.findAll();
+    }
+
+    @Override
+    public List<BasicEmployee> getUnapprovedEmployees() {
+        // basic employees info & employees to approve
+        List<BasicEmployee> basicEmployees = basicEmployeeRepo.findAll();
+
+        //all approved employees
+        List<Employee> employees = employeeRepo.findAll();
+
+        // receive non approved employees
+        List<BasicEmployee> unapprovedEmployees =
+                basicEmployees.stream()
+                        .filter(basicEmployee -> employees.stream()
+                                .noneMatch(employee -> employee.getBasicInfo().equals(basicEmployee))
+                        ).collect(Collectors.toList());
+
+        return unapprovedEmployees;
     }
 
     @Override

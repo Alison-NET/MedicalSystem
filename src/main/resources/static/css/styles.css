@@ -89,11 +89,12 @@ th, td {
 /*PAGE TITLE*/
 
 .page-info{
-    margin-top: 80px;
+    margin-top: 50px;
+    margin-bottom: 20px;
 }
 
 .page-info .name{
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 600;
 }
 
@@ -113,6 +114,46 @@ th, td {
 
 /*PAGE TITLE*/
 
+
+
+
+
+
+/* EMPLOYEE PROFILE */
+
+.profile-item .name, .profile-item .descr{
+    display: inline-block;
+    margin-top: 0;
+}
+
+.profile-item .name, .profile-edit-item .name{
+    font-weight: 500;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.profile-item .descr, .profile-edit-item .descr{
+    font-weight: 500;
+}
+
+.profile-item .descr{
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.profile-item ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-item .document-name{
+    margin-left: 8px;
+}
+
+/* EMPLOYEE PROFILE */
+
+
 /* EMPLOYEE PROFILE EDIT */
 
 
@@ -131,26 +172,11 @@ th, td {
 /* EMPLOYEE PROFILE EDIT */
 
 
-/* EMPLOYEE PROFILE */
 
 
-.profile-item .name, .profile-item .descr{
-    display: inline-block;
-    margin-top: 0;
-
-}
-
-.profile-item .name{
-    font-weight: 600;
-}
-
-.profile-item .descr{
-    font-weight: 500;
-    margin-left: 32px;
-}
 
 
-/* EMPLOYEE PROFILE */
+
 
 /* CHECKBOX */
 
