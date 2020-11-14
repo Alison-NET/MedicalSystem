@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<div th:fragment="document-upload-form" class="bootstrap-wrapper">
+    <div class="container">
+        <form th:action="@{'/employee-portal/employee/' + ${employee.id} + '/upload-documents'}"  th:object="${dto}" enctype="multipart/form-data" method="post">
+            <select th:field="*{documentType}">
+                <option th:each="docType : ${documentTypes}" th:value="${docType.id}" th:text="${docType.name}"></option>
+            </select>
+            <input type="file" th:field="*{files}" name="files" multiple required><br>
+            <input class="btn form-submit-btn" type="submit" value="Submit">
+        </form>
+    </div>
+</div>
+
+
+</body>
+</html>

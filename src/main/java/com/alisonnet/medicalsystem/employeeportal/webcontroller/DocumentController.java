@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.io.FileNotFoundException;
-import java.util.Optional;
 
 @Controller
 @RequestMapping(Constants.URL_EMPLOYEE_PORTAL + "/document")
@@ -35,6 +33,4 @@ public class DocumentController {
                 .body(new ByteArrayResource(document.getData()));
 
     }
-
-
 }

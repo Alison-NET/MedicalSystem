@@ -6,8 +6,16 @@
 
 <div class="bootstrap-wrapper">
     <div class="container">
-        <h1>Employee Profile</h1>
-
+        <div class="page-info row">
+            <div class="col-md-4">
+                <span class="name">Employee Profile</span>
+            </div>
+            <div class="col-md-8">
+                <a sec:authorize="hasAnyAuthority('HR', 'ADMIN')" class="extra-btn" th:href="@{'/employee-portal/hr/employee/' + ${employee.id}}">
+                    <span class="text">Edit</span>
+                </a>
+            </div>
+        </div>
         <div class="profile-item">
             <p class="name">Name</p>
             <p class="descr" th:text="${employee.basicInfo.firstName + ' ' + employee.basicInfo.middleName + ' ' + employee.basicInfo.lastName}"></p>
@@ -114,9 +122,12 @@
         </div>
 
         <hr>
-        <h2>EDIT</h2>
-        <a sec:authorize="hasAnyAuthority('HR', 'ADMIN')" th:href="@{/employee-portal/hr/employee/__${employee.id}__/new-contract}">Add Contract</a>
-        <a th:href="@{/employee-portal/employee/__${employee.id}__/documents}">Update Documents</a>
+        <a sec:authorize="hasAnyAuthority('HR', 'ADMIN')" th:href="@{'/employee-portal/hr/employee/' + ${employee.id} + '/new-contract'}">Add Contract</a>
+
+        <div sec:authorize="hasAuthority('EMPLOYEE')">
+            <h2>Update documents</h2>
+            <div th:replace="fragments/document-upload-form.html :: document-upload-form"></div>
+        </div>
 
     </div>
 </div>

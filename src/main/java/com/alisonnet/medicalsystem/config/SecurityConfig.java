@@ -26,10 +26,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/", "/employee-portal/new-employee").permitAll()
+                .antMatchers("/", "/employee-portal/new-employee","/employee-portal/employee/**").permitAll()
                 .antMatchers("/employee-portal/admin/**").hasAnyAuthority("ADMIN")
                 .antMatchers("/employee-portal/hr/**").hasAnyAuthority("HR", "ADMIN")
-                .antMatchers("/employee-portal/employee/**").hasAnyAuthority("EMPLOYEE", "HR", "ADMIN")
+//                .antMatchers("/employee-portal/employee/**").hasAnyAuthority("EMPLOYEE", "HR", "ADMIN")
                 .and().logout().logoutSuccessUrl("/login")
                 .and().formLogin();
 

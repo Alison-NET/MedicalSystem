@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/general.html :: head"></head>
+<body>
+<header th:replace="fragments/general.html::header"></header>
+
+<div class="bootstrap-wrapper">
+    <div class="container">
+
+        <div class="page-info row">
+            <div class="col-md-4">
+                <span class="name">Edit Employee</span>
+            </div>
+            <div class="col-md-8">
+                <a class="extra-btn" th:href="@{'/employee-portal/employee/' + ${employee.id}}">
+                    <span class="text">Profile</span>
+                </a>
+            </div>
+        </div>
+        <form class="profile-edit-form" th:action="@{'/employee-portal/hr/employee/save'}" th:object="${employee}" method="post">
+
+            <input type="text" th:field="*{basicInfo.id}" th:value="*{basicInfo.id}" hidden>
+            <input type="text" th:field="*{id}" th:value="*{id}" hidden>
+
+            <input type="text" th:field="*{documents}" th:value="*{documents}" hidden>
+            <input type="text" th:field="*{contracts}" th:value="*{contracts}" hidden>
+            <input type="text" th:field="*{subordinates}" th:value="*{subordinates}" hidden>
+
+            <div class="profile-edit-item row">
+                <div class="col-md-4">
+                    <p class="name">First name</p>
+                </div>
+                <div class="col-md-8">
+                    <div class="input-wrapper">
+                        <input type="text" th:field="*{basicInfo.firstName}" th:value="*{basicInfo.firstName}">
+                    </div>
+                </div>
+            </div>
+            <div class="profile-edit-item row">
+                <div class="col-md-4">
+                    <p class="name">Middle name</p>
+                </div>
+                <div class="col-md-8">
+                    <div class="input-wrapper">
+                        <input type="text" th:field="*{basicInfo.middleName}" th:value="*{basicInfo.middleName}">
+                    </div>
+                </div>
+            </div>
+            <div class="profile-edit-item row">
+                <div class="col-md-4">
+                    <p class="name">Last name</p>
+                </div>
+                <div class="col-md-8">
+                    <div class="input-wrapper">
+                        <input type="text" th:field="*{basicInfo.lastName}" th:value="*{basicInfo.lastName}">
+                    </div>
+                </div>
+            </div>
+            <div class="profile-edit-item row">
+                <div class="col-md-4">
+                    <p class="name">Date of birth</p>
+                </div>
+                <div class="col-md-8">
+                    <div class="input-wrapper">
+                        <input type="date" th:field="*{basicInfo.dateOfBirth}" th:value="*{basicInfo.dateOfBirth}">
+                    </div>
+                </div>
+            </div>
+            <div class="profile-edit-item row">
+                <div class="col-md-4">
+                    <p class="name">Home phone</p>
+                </div>
+                <div class="col-md-8">
+                    <div class="input-wrapper">
+                        <input type="tel" th:field="*{basicInfo.homePhone}" th:value="*{basicInfo.homePhone}">
+                    </div>
+                </div>
+            </div>
+            <div class="profile-edit-item row">
+                <div class="col-md-4">
+                    <p class="name">Mobile phone</p>
+                </div>
+                <div class="col-md-8">
+                    <div class="input-wrapper">
+                        <input type="tel" th:field="*{basicInfo.mobilePhone}" th:value="*{basicInfo.mobilePhone}">
+                    </div>
+                </div>
+            </div>
+            <div class="profile-edit-item row">
+                <div class="col-md-4">
+                    <p class="name">Personal email</p>
+                </div>
+                <div class="col-md-8">
+                    <div class="input-wrapper">
+                        <input type="email" th:field="*{basicInfo.personalEmail}" th:value="*{basicInfo.personalEmail}">
+                    </div>
+                </div>
+            </div>
+            <div class="profile-edit-item row">
+                <div class="col-md-4">
+                    <p class="name">Department</p>
+                </div>
+                <div class="col-md-8">
+                    <select th:field="*{basicInfo.department}">
+                        <option th:each="dep : ${departments}" th:value="${dep.name}" th:text="${dep.name}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="profile-edit-item row">
+                <div class="col-md-4">
+                    <p class="name">Social security</p>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" th:field="*{basicInfo.socialSecurity}" th:value="*{basicInfo.socialSecurity}">
+                </div>
+            </div>
+            <div class="profile-edit-item row">
+                <div class="col-md-4">
+                    <p class="name">Salary</p>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" th:field="*{salary}" th:value="*{salary}">
+                </div>
+            </div>
+            <div class="profile-edit-item row">
+                <div class="col-md-4">
+                    <p class="name">Commission</p>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" th:field="*{commission}" th:value="*{commission}">
+                </div>
+            </div>
+            <div class="profile-edit-item row">
+                <div class="col-md-4">
+                    <p class="name">Job description</p>
+                </div>
+                <div class="col-md-8">
+                    <textarea th:field="*{jobDescription}" th:value="*{jobDescription}"></textarea>
+                </div>
+            </div>
+            <div class="profile-edit-item row">
+                <div class="col-md-4">
+                    <p class="name">Added to payroll</p>
+                </div>
+                <div class="col-md-8">
+                    <label class="checkbox-container">
+                        <input th:field="*{addedToPayroll}" type="checkbox" checked="checked">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="profile-edit-item row">
+                <div class="col-md-4">
+                    <p class="name">Completed training</p>
+                </div>
+                <div class="col-md-8">
+                    <label class="checkbox-container">
+                        <input th:field="*{completedTraining}" type="checkbox" checked="checked">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="profile-edit-item row">
+                <div class="col-md-4">
+                    <p class="name">Work shift</p>
+                </div>
+                <div class="col-md-8">
+                    <input type="time" th:field="*{workShift.beginning}"> - <input type="time" th:field="*{workShift.ending}">
+                </div>
+            </div>
+            <div class="profile-edit-item row">
+                <div class="col-md-4">
+                    <p class="name">Credentials</p>
+                </div>
+                <div class="col-md-8">
+                    <span>Email </span><input type="email" th:field="*{credentials.email}"><span>Password </span><input type="text" th:field="*{credentials.password}">
+                </div>
+            </div>
+            <div class="profile-edit-item row">
+                <div class="col-md-4">
+                    <p class="name">Role(s)</p>
+                </div>
+                <div class="col-md-8">
+                    <select th:field="*{credentials.roles}" multiple="multiple">
+                        <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <input class="btn form-submit-btn" type="submit" th:value="Submit">
+        </form>
+
+    </div>
+</div>
+
+<footer th:replace="fragments/general.html :: footer"></footer>
+</body>
+</html>
+

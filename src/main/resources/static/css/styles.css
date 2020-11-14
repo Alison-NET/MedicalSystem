@@ -20,15 +20,14 @@ th, td {
 }
 
 .btn.form-submit-btn{
-
-    background-color: #0068e8;
-    border-radius: 10px;
+    background-color: #377fd8;
+    border-radius: 6px;
     color: #fff;
     padding: 10px 25px;
     border: none;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 500;
-    letter-spacing: .04em;
+    letter-spacing: .035em;
 }
 /* HEADER */
 
@@ -69,7 +68,7 @@ th, td {
 .top-nav-links .nav-link{
     text-transform: uppercase;
     font-size: 16px;
-    font-weight: 500    ;
+    font-weight: 500;
     margin-left: 18px;
 }
 
@@ -87,17 +86,66 @@ th, td {
 
 /* HEADER */
 
+/*PAGE TITLE*/
+
+.page-info{
+    margin-top: 80px;
+}
+
+.page-info .name{
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.extra-btn{
+    /*border-radius: 2px;*/
+    /*padding: 5px 10px;*/
+    text-decoration: none;
+    background-color: #377fd8;
+}
+
+.extra-btn .text{
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+
+/*PAGE TITLE*/
+
+/* EMPLOYEE PROFILE EDIT */
+
+
+.profile-edit-form {
+    /*background-color: #cccccc;*/
+}
+.profile-edit-item .input-wrapper{
+    height: 100%;
+    display: flex;
+}
+
+.profile-edit-item input{
+    align-self: center;
+}
+
+/* EMPLOYEE PROFILE EDIT */
+
 
 /* EMPLOYEE PROFILE */
 
+
+.profile-item .name, .profile-item .descr{
+    display: inline-block;
+    margin-top: 0;
+
+}
+
 .profile-item .name{
     font-weight: 600;
-    margin-bottom: 0;
 }
 
 .profile-item .descr{
     font-weight: 500;
-    margin-top: 0;
     margin-left: 32px;
 }
 
@@ -146,7 +194,7 @@ th, td {
 
 /* When the checkbox is checked, add a blue background */
 .checkbox-container input:checked ~ .checkmark {
-    background-color: #2196F3;
+    background-color: #377fd8;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */

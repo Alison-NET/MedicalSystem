@@ -4,19 +4,7 @@
 <body>
 <header th:replace="fragments/general.html::header"></header>
 
-<div class="bootstrap-wrapper">
-    <div class="container">
-        <h1>Employee Documents</h1>
-
-        <form th:action="@{'/employee-portal/employee/' + ${employee.id} + '/documents'}"  th:object="${dto}" enctype="multipart/form-data" method="post">
-            <select th:field="*{documentType}">
-                <option th:each="docType : ${documentTypes}" th:value="${docType.id}" th:text="${docType.name}"></option>
-            </select>
-            <input type="file" th:field="*{files}" name="files" multiple required><br>
-            <input class="btn form-submit-btn" type="submit" value="Submit">
-        </form>
-    </div>
-</div>
+<div th:replace="fragments/document-upload-form.html :: document-upload-form"></div>
 
 <footer th:replace="fragments/general.html :: footer"></footer>
 </body>
