@@ -124,7 +124,7 @@ th, td {
     display: flex;
 }
 
-.profile-edit-item input{
+.profile-edit-item .form-in-item{
     align-self: center;
 }
 
