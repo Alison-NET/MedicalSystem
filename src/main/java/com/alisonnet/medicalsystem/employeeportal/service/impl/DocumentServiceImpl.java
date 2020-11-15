@@ -46,6 +46,11 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    public void deleteById(int id) {
+        documentRepo.deleteById(id);
+    }
+
+    @Override
     public Optional<List<Document>> findByEmployeeAndDocType(Employee employee, DocumentType documentType) {
         return documentRepo.findDocumentsByEmployeeAndDocumentType(employee, documentType);
     }

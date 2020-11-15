@@ -7,28 +7,7 @@
 
 <div class="bootstrap-wrapper">
     <div class="container">
-        <h2>Create Contract</h2>
-        <h3 th:text="for + ' ' + ${employee.basicInfo.firstName} + ' ' +  ${employee.basicInfo.lastName}"></h3>
-        <form th:action="@{/employee-portal/hr/employee/__${employee.id}__/new-contract}" th:object="${contract}" method="post">
 
-<!--            <input type="text" th:field="*{employee}" th:value="${employee}" hidden>-->
-
-            <h4>Link</h4>
-            <input type="text" th:field="*{contractLink}"><br>
-
-            <label class="checkbox-container">Signed
-                <input th:field="*{signed}" type="checkbox" checked="checked">
-                <span class="checkmark"></span>
-            </label>
-
-            <h4>Terms</h4>
-            <label>Starting</label>
-            <input type="date" th:field="*{starting}"><br>
-            <label>Expiring</label>
-            <input type="date" th:field="*{expiring}"><br>
-
-            <input class="btn form-submit-btn" type="submit" value="Submit">
-        </form>
 
     </div>
 </div>

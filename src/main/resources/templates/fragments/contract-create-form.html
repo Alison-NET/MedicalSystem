@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+
+<form class="profile-edit-form contract-create-form" th:fragment="contract-create-form"  th:action="@{/employee-portal/hr/employee/__${employee.id}__/new-contract}" th:object="${contract}" method="post">
+
+    <div class="profile-edit-item row">
+        <div class="col-md-4">
+            <p class="name">Link</p>
+        </div>
+        <div class="col-md-8">
+            <div class="input-wrapper">
+                <input class="form-in-item" type="text" th:field="*{contractLink}"><br>
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-edit-item row">
+        <div class="col-md-4">
+            <p class="name">Signed</p>
+        </div>
+        <div class="col-md-8">
+            <div class="input-wrapper">
+                <label class="checkbox-container form-in-item">
+                    <input th:field="*{signed}" type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-edit-item row">
+        <div class="col-md-4">
+            <p class="name">Terms</p>
+        </div>
+        <div class="col-md-8">
+            <div class="input-wrapper">
+                <div class="form-in-item" >
+                    <label>Starting</label>
+                    <input type="date" th:field="*{starting}">
+                    <label>Expiring</label>
+                    <input type="date" th:field="*{expiring}"><br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input class="btn form-submit-btn" type="submit" value="Ann new contract">
+</form>
+
+</body>
+</html>

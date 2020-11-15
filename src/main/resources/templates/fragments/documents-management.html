@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="documents-management" class="bootstrap-wrapper">
+    <div class="container">
+
+
+        <div th:if="${not #lists.isEmpty(employee.documents)}">
+            <div th:if="${not #lists.isEmpty(documentType.documents)}" th:each="documentType : ${documentTypes}" class="profile-edit-item">
+<!--                <div class="col-md-12">-->
+                    <p class="name" th:text="${documentType.name}"></p>
+<!--                </div>-->
+                <div th:each="document : ${documentType.documents}" class="profile-edit-item row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <a th:href="@{'/employee-portal/document/' + ${document.id} + '/download'}">
+                                <span th:text="${document.docName}"></span>
+                            </a>
+                            <a th:href="@{'/employee-portal/document/' + ${document.id} + '/delete'}">
+                                <span>Delete</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+</html>

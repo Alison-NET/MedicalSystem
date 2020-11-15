@@ -210,6 +210,25 @@
             <input class="btn form-submit-btn" type="submit" th:value="Submit">
         </form>
 
+        <div th:if="${#bools.isTrue(isApproved)}">
+
+            <hr>
+            <div>
+                <h2>Manage contracts</h2>
+                <div th:replace="fragments/contract-create-form :: contract-create-form"></div>
+            </div>
+            <hr>
+            <div>
+                <h2>Manage documents</h2>
+                <div th:replace="fragments/document-upload-form.html :: document-upload-form"></div>
+            </div>
+            <div>
+                <h2>Manage subordinates</h2>
+                <div th:replace="fragments/document-upload-form.html :: document-upload-form"></div>
+            </div>
+
+        </div>
+
     </div>
 </div>
 

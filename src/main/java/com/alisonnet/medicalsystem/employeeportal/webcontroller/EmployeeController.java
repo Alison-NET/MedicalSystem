@@ -46,10 +46,10 @@ public class EmployeeController {
             return "redirect:/index";
         }
 
-        List<DocumentType> documentTypes = documentTypeService.getAllTypesBasedOnEmployee(maybeEmployee.get());
+        Employee employee = maybeEmployee.get();
 
-        model.addAttribute("employee", maybeEmployee.get());
-        model.addAttribute("documentTypes", documentTypes);
+        model.addAttribute("employee", employee);
+        model.addAttribute("documentTypes", documentTypeService.getAllTypesBasedOnEmployee(employee));
         model.addAttribute("dto", new DocTypeAndFilesDTO(new DocumentType(), new MultipartFile[10]));
         return "employee-profile";
     }

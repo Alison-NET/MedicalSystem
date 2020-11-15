@@ -11,9 +11,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 
 @Controller
@@ -24,13 +28,29 @@ public class DocumentController {
 
     DocumentService documentService;
 
-    @GetMapping("/download/{docId}")
-    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable int docId){
-        Document document = documentService.findById(docId).get();
+    @GetMapping("/{id}/download")
+    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable int id){
+
+        Optional<Document> maybeDocument = documentService.findById(id);
+        if(maybeDocument.isEmpty())                                             // Add exception
+            return null;
+
+        Document document = maybeDocument.get();
+
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(document.getDocExtension()))
                 .header(HttpHeaders.CONTENT_DISPOSITION,"attachment:filename=\""+document.getDocName()+"\"")
                 .body(new ByteArrayResource(document.getData()));
 
     }
+
+    @GetMapping("/{id}/delete")
+    public String handleDeletingDocument(@PathVariable int id, HttpServletRequest request){
+
+        documentService.deleteById(id);
+        return Optional.ofNullable(request.getHeader("Referer"))
+                .map(requestUrl -> "redirect:" + requestUrl)
+                .orElse("/");
+    }
+
 }

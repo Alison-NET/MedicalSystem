@@ -153,11 +153,9 @@
                 <p class="name">Contracts</p>
             </div>
             <div class="col-md-8">
-                <ul th:each="contract : ${employee.contracts}">
+                <ul class="ul-no-dot" th:each="contract : ${employee.contracts}">
                     <li>
-                        <p class="name">Link</p>
-                        <p class="descr" th:text="${contract.contractLink}"></p>
-                        <p class="name">Signed</p>
+                        <a th:href="${contract.contractLink}" class="contract-link">Link</a>
                         <p class="descr" th:text="${contract.signed}? 'Signed' : 'Not signed'"></p>
                     </li>
                 </ul>
@@ -165,16 +163,16 @@
         </div>
 
 
-        <div th:if="${not #lists.isEmpty(employee.documents)}" class="profile-item row">
+        <div sec:authorize="hasAnyAuthority('HR', 'ADMIN')" th:if="${not #lists.isEmpty(employee.documents)}" class="profile-item row">
             <div class="col-md-4">
                 <p class="name">Documents</p>
             </div>
             <div class="col-md-8">
-                <ul th:if="${not #lists.isEmpty(documentType.documents)}" th:each="documentType : ${documentTypes}">
+                <ul class="ul-no-dot" th:if="${not #lists.isEmpty(documentType.documents)}" th:each="documentType : ${documentTypes}">
                     <li>
                         <p th:text="${documentType.name}" class="descr document-type"></p>
-                        <ul th:each="document : ${documentType.documents}">
-                            <a th:href="@{'/employee-portal/document/download/' + ${document.id}}">
+                        <ul class="ul-no-dot" th:each="document : ${documentType.documents}">
+                            <a th:href="@{'/employee-portal/document/' + ${document.id}+'/download'}">
                                 <li th:text="${document.docName}" class="document-name"></li>
                             </a>
                         </ul>
@@ -183,10 +181,8 @@
             </div>
         </div>
 
-        <hr>
-        <a sec:authorize="hasAnyAuthority('HR', 'ADMIN')" th:href="@{'/employee-portal/hr/employee/' + ${employee.id} + '/new-contract'}">Add Contract</a>
-
         <div sec:authorize="hasAuthority('EMPLOYEE')">
+            <hr>
             <h2>Update documents</h2>
             <div th:replace="fragments/document-upload-form.html :: document-upload-form"></div>
         </div>

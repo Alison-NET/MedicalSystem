@@ -1,6 +1,7 @@
 package com.alisonnet.medicalsystem.employeeportal.webcontroller;
 
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
+import com.alisonnet.medicalsystem.employeeportal.dto.document.DocTypeAndFilesDTO;
 import com.alisonnet.medicalsystem.employeeportal.entity.*;
 import com.alisonnet.medicalsystem.employeeportal.service.*;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,8 @@ public class HRController {
     DepartmentService departmentService;
     RoleService roleService;
     ContractService contractService;
+    DocumentTypeService documentTypeService;
+
 
     @GetMapping("/approve-employee")
     public String getEmployeesToApprovePage(Model model){
@@ -106,22 +110,19 @@ public class HRController {
         model.addAttribute("employee", maybeEmployee.get());
         model.addAttribute("departments", departmentService.findAll());
         model.addAttribute("roles", roleService.findAll());
-        return "hr-approve-edit-employee";
-    }
+        model.addAttribute("isApproved", true);
 
-
-
-    @GetMapping("/employee/{id}/new-contract")
-    public String createNewContract(@PathVariable int id, Model model){
-
-        Optional<Employee> maybeEmployee = employeeService.findById(id);
-        if(maybeEmployee.isEmpty()){
-            return "redirect:/employee-portal/hr/employee";
-        }
-
-        model.addAttribute("employee", maybeEmployee.get());
+        //        Contracts update
         model.addAttribute("contract", new Contract());
-        return "hr-contract-create";
+
+        //        Documents update
+        model.addAttribute("documentTypes", documentTypeService.getAllTypesBasedOnEmployee(maybeEmployee.get()));
+        model.addAttribute("dto", new DocTypeAndFilesDTO(new DocumentType(), new MultipartFile[10]));
+
+        //        Subordinate
+
+
+        return "hr-approve-edit-employee";
     }
 
 

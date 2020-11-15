@@ -141,25 +141,26 @@ th, td {
     margin-bottom: 12px;
 }
 
-.profile-item ul{
+.ul-no-dot{
     list-style-type: none;
     margin: 0;
     padding: 0;
+}
+
+.profile-item .contract-link{
+    text-decoration: none;
 }
 
 .profile-item .document-name{
     margin-left: 8px;
 }
 
+
 /* EMPLOYEE PROFILE */
 
 
 /* EMPLOYEE PROFILE EDIT */
 
-
-.profile-edit-form {
-    /*background-color: #cccccc;*/
-}
 .profile-edit-item .input-wrapper{
     height: 100%;
     display: flex;
@@ -167,6 +168,11 @@ th, td {
 
 .profile-edit-item .form-in-item{
     align-self: center;
+}
+
+.profile-edit-form .form-submit-btn{
+    margin:0px auto;
+    display:block;
 }
 
 /* EMPLOYEE PROFILE EDIT */
@@ -239,8 +245,8 @@ th, td {
 .checkbox-container .checkmark:after {
     left: 9px;
     top: 5px;
-    width: 5px;
-    height: 10px;
+    width: 7px;
+    height: 12px;
     border: solid white;
     border-width: 0 3px 3px 0;
     -webkit-transform: rotate(45deg);
@@ -249,3 +255,12 @@ th, td {
 }
 
 /* CHECKBOX */
+
+
+/*FOOTER*/
+
+footer{
+    margin-top: 100px;
+}
+
+/*FOOTER*/
