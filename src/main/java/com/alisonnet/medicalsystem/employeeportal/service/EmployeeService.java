@@ -12,8 +12,9 @@ public interface EmployeeService {
 
     Employee save(Employee employee);
     List<Employee> findAll();
-    List<Employee> getEmployeesToSupervise(int exceptEmployeeId);
     Optional<Employee> findById(int id);
     Optional<Employee> findFirstByCredentials(Credentials credentials);
     Optional<Employee> getActiveEmployee();
+    List<Employee> getEmployeesToSupervise(int forEmployeeId);
+    Optional<Employee> getSupervisor(Employee employee);
 }

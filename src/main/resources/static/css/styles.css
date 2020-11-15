@@ -21,13 +21,13 @@ th, td {
 
 .btn.form-submit-btn{
     background-color: #377fd8;
-    border-radius: 6px;
+    border-radius: 4px;
     color: #fff;
     padding: 10px 25px;
     border: none;
     font-size: 16px;
     font-weight: 500;
-    letter-spacing: .035em;
+    letter-spacing: .03em;
 }
 /* HEADER */
 
@@ -171,8 +171,8 @@ th, td {
 }
 
 .profile-edit-form .form-submit-btn{
-    margin:0px auto;
-    display:block;
+    margin: 30px auto;
+    display: block;
 }
 
 /* EMPLOYEE PROFILE EDIT */

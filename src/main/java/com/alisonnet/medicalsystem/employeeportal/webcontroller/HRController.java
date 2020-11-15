@@ -170,4 +170,30 @@ public class HRController {
     }
 
 
+    @GetMapping("/employee/{id}/remove-subordinate/{subordinateId}")
+    public String removeSubordinate(@PathVariable int id, @PathVariable int subordinateId){
+
+        Optional<Employee> maybeEmployee = employeeService.findById(id);
+        if(maybeEmployee.isEmpty()){
+            return "redirect:/employee-portal/hr/employee";
+        }
+
+        Optional<Employee> maybeSubordinate = employeeService.findById(subordinateId);
+        if(maybeSubordinate.isEmpty()){
+            return "redirect:/employee-portal/hr/employee";                 // Add exception
+        }
+
+        Employee employee = maybeEmployee.get();
+        List<Employee> subordinates = employee.getSubordinates();
+
+        subordinates.remove(maybeSubordinate.get());
+
+        employee.setSubordinates(subordinates);
+
+        employeeService.save(employee);
+
+        return "redirect:/employee-portal/hr/employee/" + id;
+    }
+
+
 }

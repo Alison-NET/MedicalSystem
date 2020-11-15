@@ -222,15 +222,32 @@
                 <h2>Manage documents</h2>
                 <div th:replace="fragments/document-upload-form.html :: document-upload-form"></div>
             </div>
+            <hr>
             <div>
                 <h2>Manage subordinates</h2>
 <!--                <div th:replace="fragments/subordinate-add.html "></div>-->
+
+                <div th:if="${not #lists.isEmpty(employee.subordinates)}">
+                    <p>Subordinates</p>
+                    <div th:each="sub : ${employee.subordinates}" class="profile-edit-item row">
+                        <div class="col-md-4">
+                            <a th:href="@{'/employee-portal/hr/employee/' + ${sub.id}}">
+                                <p th:text="${sub.basicInfo.firstName} +' '+${sub.basicInfo.lastName}" class="name"></p>
+                            </a>
+                        </div>
+                        <div class="col-md-8">
+                            <a th:href="@{'/employee-portal/hr/employee/' + ${employee.id}+'/remove-subordinate/'+${sub.id}}">
+                                Remove
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
                 <form class="profile-edit-form" th:action="@{/employee-portal/hr/employee/__${employee.id}__/new-subordinate}" th:object="${subordinateIdDTO}" method="post">
 
                     <div class="profile-edit-item row">
                         <div class="col-md-4">
-                            <p class="name">Subordinate</p>
+                            <p class="name">New subordinate</p>
                         </div>
                         <div class="col-md-8">
                             <div class="input-wrapper">
@@ -241,7 +258,7 @@
                         </div>
                     </div>
 
-                    <input class="btn form-submit-btn" type="submit" th:value="Submit">
+                    <input class="btn form-submit-btn" type="submit" value="Add new subordinate">
 
                 </form>
 

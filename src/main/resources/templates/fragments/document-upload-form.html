@@ -6,11 +6,21 @@
 
     <div th:replace="fragments/documents-management.html :: documents-management"></div>
 
-    <select th:field="*{documentType}">
-        <option th:each="docType : ${documentTypes}" th:value="${docType.id}" th:text="${docType.name}"></option>
-    </select>
-    <input type="file" th:field="*{files}" name="files" multiple required><br>
-    <input class="btn form-submit-btn" type="submit" value="Add new file">
+    <div class="profile-edit-item row">
+        <div class="col-md-4">
+            <p class="name">New document</p>
+        </div>
+        <div class="col-md-8">
+            <div class="input-wrapper">
+                <select class="form-in-item" th:field="*{documentType}">
+                    <option th:each="docType : ${documentTypes}" th:value="${docType.id}" th:text="${docType.name}"></option>
+                </select>
+                <input class="form-in-item" type="file" th:field="*{files}" name="files" multiple required><br>
+            </div>
+        </div>
+    </div>
+
+    <input class="btn form-submit-btn" type="submit" value="Add new document">
 </form>
 
 

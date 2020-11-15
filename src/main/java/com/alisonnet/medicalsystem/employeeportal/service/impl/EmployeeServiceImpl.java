@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -27,11 +28,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<Employee> findAll() {
         return employeeRepo.findAll();
-    }
-
-    @Override
-    public List<Employee> getEmployeesToSupervise(int exceptEmployeeId) {
-        return employeeRepo.findEmployeesByIdNot(exceptEmployeeId);
     }
 
     @Override
@@ -62,4 +58,24 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return maybeEmployee;
     }
+
+
+    @Override
+    public List<Employee> getEmployeesToSupervise(int forEmployeeId) {
+        Employee thisEmployee = findById(forEmployeeId).get();
+        List<Employee> subordinates = employeeRepo.findEmployeesByIdNot(forEmployeeId);
+
+        return subordinates.stream()
+                .filter(subordinate -> findAll().stream().noneMatch(employee -> employee.getSubordinates().contains(subordinate)))
+                .filter(subordinate -> !thisEmployee.getSubordinates().contains(subordinate))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Employee> getSupervisor(Employee subordinate){
+        return findAll().stream()
+                .filter(employee -> employee.getSubordinates().contains(subordinate))
+                .findFirst();                                                           //one employee can have many subords
+    }
+
 }
