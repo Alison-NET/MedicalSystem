@@ -2,6 +2,7 @@ package com.alisonnet.medicalsystem.employeeportal.webcontroller;
 
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.dto.document.DocTypeAndFilesDTO;
+import com.alisonnet.medicalsystem.employeeportal.dto.employee.SubordinateIdDTO;
 import com.alisonnet.medicalsystem.employeeportal.entity.*;
 import com.alisonnet.medicalsystem.employeeportal.service.*;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -112,15 +112,16 @@ public class HRController {
         model.addAttribute("roles", roleService.findAll());
         model.addAttribute("isApproved", true);
 
-        //        Contracts update
+        //        Contracts management
         model.addAttribute("contract", new Contract());
 
-        //        Documents update
+        //        Documents management
         model.addAttribute("documentTypes", documentTypeService.getAllTypesBasedOnEmployee(maybeEmployee.get()));
         model.addAttribute("dto", new DocTypeAndFilesDTO(new DocumentType(), new MultipartFile[10]));
 
-        //        Subordinate
-
+        //        Subordinate management
+        model.addAttribute("subordinateIdDTO", new SubordinateIdDTO());
+        model.addAttribute("employeesToSupervise", employeeService.getEmployeesToSupervise(id));
 
         return "hr-approve-edit-employee";
     }
@@ -138,6 +139,32 @@ public class HRController {
         Employee employee = maybeEmployee.get();
         contract.setEmployee(employee);
         contractService.save(contract);
+
+        return "redirect:/employee-portal/hr/employee/" + id;
+    }
+
+    @PostMapping("/employee/{id}/new-subordinate")
+    public String handleSubordinateAddingRequest(@PathVariable int id,
+                                                @ModelAttribute SubordinateIdDTO subordinateIdDTO){
+
+        Optional<Employee> maybeEmployee = employeeService.findById(id);
+        if(maybeEmployee.isEmpty()){
+            return "redirect:/employee-portal/hr/employee";
+        }
+
+        Optional<Employee> maybeSubordinate = employeeService.findById(subordinateIdDTO.getSubordinateId());
+        if(maybeSubordinate.isEmpty()){
+            return "redirect:/employee-portal/hr/employee";                 // Add exception
+        }
+
+        Employee employee = maybeEmployee.get();
+        List<Employee> subordinates = employee.getSubordinates();
+
+        subordinates.add(maybeSubordinate.get());
+
+        employee.setSubordinates(subordinates);
+
+        employeeService.save(employee);
 
         return "redirect:/employee-portal/hr/employee/" + id;
     }

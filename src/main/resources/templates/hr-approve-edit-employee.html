@@ -224,7 +224,27 @@
             </div>
             <div>
                 <h2>Manage subordinates</h2>
-                <div th:replace="fragments/document-upload-form.html :: document-upload-form"></div>
+<!--                <div th:replace="fragments/subordinate-add.html "></div>-->
+
+                <form class="profile-edit-form" th:action="@{/employee-portal/hr/employee/__${employee.id}__/new-subordinate}" th:object="${subordinateIdDTO}" method="post">
+
+                    <div class="profile-edit-item row">
+                        <div class="col-md-4">
+                            <p class="name">Subordinate</p>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="input-wrapper">
+                                <select class="form-in-item" th:field="*{subordinateId}">
+                                    <option th:each="empl : ${employeesToSupervise}" th:value="${empl.id}" th:text="${empl.basicInfo.lastName}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input class="btn form-submit-btn" type="submit" th:value="Submit">
+
+                </form>
+
             </div>
 
         </div>

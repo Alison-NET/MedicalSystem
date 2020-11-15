@@ -30,6 +30,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public List<Employee> getEmployeesToSupervise(int exceptEmployeeId) {
+        return employeeRepo.findEmployeesByIdNot(exceptEmployeeId);
+    }
+
+    @Override
     public Optional<Employee> findById(int id) {
         return employeeRepo.findById(id);
     }
