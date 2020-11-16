@@ -4,6 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-public class SubordinateIdDTO {
-    private int subordinateId;
+public class EmployeeIdDTO {
+    private int id;
 }

@@ -11,8 +11,8 @@ import java.util.List;
 
 @Data
 @Entity
-@EqualsAndHashCode(exclude = {"contract", "subordinates", "documents"})
-@ToString(exclude = {"contract", "subordinates", "documents"})
+@EqualsAndHashCode(exclude = { "subordinates", "documents"})
+@ToString(exclude = { "subordinates", "documents"})
 @Table(name = "employees")
 public class Employee {
 
@@ -22,6 +22,9 @@ public class Employee {
 
     @OneToOne(cascade = CascadeType.MERGE)
     BasicEmployee basicInfo;
+
+    @ManyToOne
+    private JobPosition jobPosition;
 
     private Double salary;
 
@@ -33,7 +36,10 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     private List<Contract> contracts;
 
-    @OneToMany
+    @ManyToOne
+    private Employee supervisor;
+
+    @OneToMany(mappedBy = "supervisor")
     private List<Employee> subordinates;
 
     private String jobDescription;

@@ -20,5 +20,4 @@ public interface DocumentService {
 
     void deleteById(int id);
 
-    Optional<List<Document>> findByEmployeeAndDocType(Employee employee, DocumentType documentType);
 }

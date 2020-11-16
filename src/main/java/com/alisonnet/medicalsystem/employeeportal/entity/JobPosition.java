@@ -2,13 +2,15 @@ package com.alisonnet.medicalsystem.employeeportal.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
-//@EqualsAndHashCode(
-//        exclude = {"department"})
+@EqualsAndHashCode(exclude = {"employee"})
+@ToString(exclude = {"employee"})
 @Table(name = "job_positions")
 public class JobPosition {
 
@@ -16,6 +18,9 @@ public class JobPosition {
     @GeneratedValue
     private String name;
 
+    @OneToMany(mappedBy = "jobPosition")
+    private List<Employee> employee;
+
     @ManyToOne
-    Department department;
+    private Department department;
 }

@@ -89,12 +89,22 @@
             </div>
         </div>
 
-         <div th:if="${employee.basicInfo.department != null}" class="profile-item row">
+        <div th:if="${employee.jobPosition.department != null}" class="profile-item row">
             <div class="col-md-4">
                 <p class="name">Department</p>
             </div>
             <div class="col-md-8">
-                <p class="descr" th:text="${employee.basicInfo.department.name}"></p>
+                <p class="descr" th:text="${employee.jobPosition.department.name}"></p>
+            </div>
+        </div>
+
+
+         <div th:if="${employee.jobPosition != null}" class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Job Position</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${employee.jobPosition.name}"></p>
             </div>
         </div>
 
@@ -107,7 +117,7 @@
             </div>
         </div>
 
-         <div th:if="${#strings.isEmpty(employee.jobDescription)}" class="profile-item row">
+         <div th:if="${not #strings.isEmpty(employee.jobDescription)}" class="profile-item row">
             <div class="col-md-4">
                 <p class="name">Job Description</p>
             </div>
@@ -132,6 +142,17 @@
             </div>
             <div class="col-md-8">
                 <p class="descr" th:text="${employee.addedToPayroll}? 'Yes' : 'No'"></p>
+            </div>
+        </div>
+
+        <div th:if="${employee.supervisor != null}" class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Supervisor</p>
+            </div>
+            <div class="col-md-8">
+                <a th:href="@{/employee-portal/employee/__${employee.supervisor.id}__}">
+                    <p class="descr" th:text="${employee.supervisor.basicInfo.firstName} + ' ' + ${employee.supervisor.basicInfo.lastName}"></p>
+                </a>
             </div>
         </div>
 

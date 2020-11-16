@@ -98,12 +98,15 @@
             </div>
             <div class="profile-edit-item row">
                 <div class="col-md-4">
-                    <p class="name">Department</p>
+                    <p class="name">Department/Job Position</p>
                 </div>
                 <div class="col-md-8">
                     <div class="input-wrapper">
-                        <select class="form-in-item" th:field="*{basicInfo.department}">
-                            <option th:each="dep : ${departments}" th:value="${dep.name}" th:text="${dep.name}"></option>
+                        <select class="form-in-item" th:field="*{jobPosition}">
+                            <optgroup th:label="${dep.name}" th:each="dep : ${departments}">
+                                <option th:each="jobPosition : ${dep.jobPositions}"
+                                        th:value="${jobPosition.name}" th:text="${jobPosition.name}"></option>
+                            </optgroup>
                         </select>
                     </div>
                 </div>
@@ -222,47 +225,47 @@
                 <h2>Manage documents</h2>
                 <div th:replace="fragments/document-upload-form.html :: document-upload-form"></div>
             </div>
-            <hr>
-            <div>
-                <h2>Manage subordinates</h2>
 <!--                <div th:replace="fragments/subordinate-add.html "></div>-->
 
-                <div th:if="${not #lists.isEmpty(employee.subordinates)}">
-                    <p>Subordinates</p>
-                    <div th:each="sub : ${employee.subordinates}" class="profile-edit-item row">
-                        <div class="col-md-4">
-                            <a th:href="@{'/employee-portal/hr/employee/' + ${sub.id}}">
-                                <p th:text="${sub.basicInfo.firstName} +' '+${sub.basicInfo.lastName}" class="name"></p>
-                            </a>
-                        </div>
-                        <div class="col-md-8">
-                            <a th:href="@{'/employee-portal/hr/employee/' + ${employee.id}+'/remove-subordinate/'+${sub.id}}">
-                                Remove
-                            </a>
+            <div th:if="${not #lists.isEmpty(employee.subordinates)}">
+                <hr>
+                <p>Subordinates</p>
+                <div th:each="sub : ${employee.subordinates}" class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <a th:href="@{'/employee-portal/hr/employee/' + ${sub.id}}">
+                            <p th:text="${sub.basicInfo.firstName} +' '+${sub.basicInfo.lastName}" class="name"></p>
+                        </a>
+                    </div>
+                    <div class="col-md-8">
+                        <a th:href="@{'/employee-portal/hr/employee/' + ${employee.id}+'/remove-subordinate/'+${sub.id}}">
+                            Remove
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <form th:if="${#bools.isFalse(isDepartmentChief) && not #lists.isEmpty(supervisors)}" class="profile-edit-form"
+                  th:action="@{/employee-portal/hr/employee/__${employee.id}__/add-supervisor}" th:object="${supervisorId}" method="post">
+                <hr>
+
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Add supervisor</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <select class="form-in-item" th:field="*{id}">
+                                <option th:each="supervisor : ${supervisors}" th:value="${supervisor.id}"
+                                        th:text="${supervisor.basicInfo.lastName}"></option>
+                            </select>
                         </div>
                     </div>
                 </div>
 
-                <form class="profile-edit-form" th:action="@{/employee-portal/hr/employee/__${employee.id}__/new-subordinate}" th:object="${subordinateIdDTO}" method="post">
+                <input class="btn form-submit-btn" type="submit" value="Update supervisor">
 
-                    <div class="profile-edit-item row">
-                        <div class="col-md-4">
-                            <p class="name">New subordinate</p>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="input-wrapper">
-                                <select class="form-in-item" th:field="*{subordinateId}">
-                                    <option th:each="empl : ${employeesToSupervise}" th:value="${empl.id}" th:text="${empl.basicInfo.lastName}"></option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+            </form>
 
-                    <input class="btn form-submit-btn" type="submit" value="Add new subordinate">
-
-                </form>
-
-            </div>
 
         </div>
 

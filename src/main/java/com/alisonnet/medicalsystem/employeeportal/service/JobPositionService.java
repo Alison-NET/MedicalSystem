@@ -1,11 +1,11 @@
 package com.alisonnet.medicalsystem.employeeportal.service;
 
-import com.alisonnet.medicalsystem.employeeportal.entity.Role;
+import com.alisonnet.medicalsystem.employeeportal.entity.JobPosition;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public interface RoleService {
-    List<Role> findAll();
+public interface JobPositionService {
+    List<JobPosition> findAll();
 }

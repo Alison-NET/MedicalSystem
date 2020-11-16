@@ -2,7 +2,7 @@ package com.alisonnet.medicalsystem.employeeportal.webcontroller;
 
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.dto.document.DocTypeAndFilesDTO;
-import com.alisonnet.medicalsystem.employeeportal.dto.employee.SubordinateIdDTO;
+import com.alisonnet.medicalsystem.employeeportal.dto.employee.EmployeeIdDTO;
 import com.alisonnet.medicalsystem.employeeportal.entity.*;
 import com.alisonnet.medicalsystem.employeeportal.service.*;
 import lombok.AllArgsConstructor;
@@ -25,6 +25,7 @@ public class HRController {
     EmployeeService employeeService;
     BasicEmployeeService basicEmployeeService;
     DepartmentService departmentService;
+    JobPositionService jobPositionService;
     RoleService roleService;
     ContractService contractService;
     DocumentTypeService documentTypeService;
@@ -68,6 +69,8 @@ public class HRController {
 
         model.addAttribute("employee", newEmployee);
         model.addAttribute("roles", roleService.findAll());
+//        model.addAttribute("jobPositions", jobPositionService.findAll());
+
         model.addAttribute("departments", departmentService.findAll());
         return "hr-approve-edit-employee";
     }
@@ -108,6 +111,7 @@ public class HRController {
         }
 
         model.addAttribute("employee", maybeEmployee.get());
+//        model.addAttribute("jobPositions", jobPositionService.findAll());
         model.addAttribute("departments", departmentService.findAll());
         model.addAttribute("roles", roleService.findAll());
         model.addAttribute("isApproved", true);
@@ -119,9 +123,10 @@ public class HRController {
         model.addAttribute("documentTypes", documentTypeService.getAllTypesBasedOnEmployee(maybeEmployee.get()));
         model.addAttribute("dto", new DocTypeAndFilesDTO(new DocumentType(), new MultipartFile[10]));
 
-        //        Subordinate management
-        model.addAttribute("subordinateIdDTO", new SubordinateIdDTO());
-        model.addAttribute("employeesToSupervise", employeeService.getEmployeesToSupervise(id));
+        //        Supervisor adding
+        model.addAttribute("supervisorId", new EmployeeIdDTO());
+        model.addAttribute("supervisors", employeeService.gePossibleSupervisors(id));
+        model.addAttribute("isDepartmentChief", employeeService.isDepartmentChief(id));
 
         return "hr-approve-edit-employee";
     }
@@ -143,28 +148,29 @@ public class HRController {
         return "redirect:/employee-portal/hr/employee/" + id;
     }
 
-    @PostMapping("/employee/{id}/new-subordinate")
+    @PostMapping("/employee/{id}/add-supervisor")
     public String handleSubordinateAddingRequest(@PathVariable int id,
-                                                @ModelAttribute SubordinateIdDTO subordinateIdDTO){
+                                                @ModelAttribute EmployeeIdDTO supervisorId){
 
         Optional<Employee> maybeEmployee = employeeService.findById(id);
         if(maybeEmployee.isEmpty()){
             return "redirect:/employee-portal/hr/employee";
         }
 
-        Optional<Employee> maybeSubordinate = employeeService.findById(subordinateIdDTO.getSubordinateId());
-        if(maybeSubordinate.isEmpty()){
+        Optional<Employee> maybeSupervisor = employeeService.findById(supervisorId.getId());
+        if(maybeSupervisor.isEmpty()){
             return "redirect:/employee-portal/hr/employee";                 // Add exception
         }
 
-        Employee employee = maybeEmployee.get();
-        List<Employee> subordinates = employee.getSubordinates();
+        maybeEmployee.get().setSupervisor(maybeSupervisor.get());
 
-        subordinates.add(maybeSubordinate.get());
 
-        employee.setSubordinates(subordinates);
+        employeeService.save(maybeEmployee.get());
 
-        employeeService.save(employee);
+        log.info("Subordinate ID: " + id);
+        log.info("Supervisor ID: " + supervisorId.getId());
+        log.info("Supervisor got:" + maybeEmployee.get().getSupervisor().toString());
+        log.info("Supervisor's Subordinates: " + maybeEmployee.get().getSupervisor().getSubordinates().toString());
 
         return "redirect:/employee-portal/hr/employee/" + id;
     }
@@ -183,12 +189,16 @@ public class HRController {
             return "redirect:/employee-portal/hr/employee";                 // Add exception
         }
 
+
         Employee employee = maybeEmployee.get();
-        List<Employee> subordinates = employee.getSubordinates();
 
-        subordinates.remove(maybeSubordinate.get());
+        employee.setSupervisor(null);
 
-        employee.setSubordinates(subordinates);
+//        List<Employee> subordinates = employee.getSubordinates();
+//
+//        subordinates.remove(maybeSubordinate.get());
+//
+//        employee.setSubordinates(subordinates);
 
         employeeService.save(employee);
 

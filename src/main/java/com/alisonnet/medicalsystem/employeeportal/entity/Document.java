@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Data
 @Table(name = "documents")
-//@ToString(exclude = {"documentType"})
+@ToString(exclude = {"employee"})
 public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

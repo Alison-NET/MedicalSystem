@@ -9,9 +9,9 @@ import java.util.List;
 
 @Entity
 @Data
+@EqualsAndHashCode(exclude = {"jobPositions"})
+@ToString(exclude = {"jobPositions"})
 @Table(name = "departments")
-@EqualsAndHashCode(exclude = {"employees", "jobPositions"})
-@ToString(exclude = {"employees", "jobPositions"})
 public class Department {
 
     @Id
@@ -21,6 +21,4 @@ public class Department {
     @OneToMany(mappedBy = "department")
     private List<JobPosition> jobPositions;
 
-    @OneToMany(mappedBy = "department")
-    private List<BasicEmployee> employees;
 }

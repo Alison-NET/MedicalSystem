@@ -61,21 +61,25 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Override
-    public List<Employee> getEmployeesToSupervise(int forEmployeeId) {
+    public List<Employee> gePossibleSupervisors(int forEmployeeId) {
         Employee thisEmployee = findById(forEmployeeId).get();
-        List<Employee> subordinates = employeeRepo.findEmployeesByIdNot(forEmployeeId);
+        List<Employee> employees = employeeRepo.findEmployeesByIdNot(forEmployeeId);
 
-        return subordinates.stream()
-                .filter(subordinate -> findAll().stream().noneMatch(employee -> employee.getSubordinates().contains(subordinate)))
-                .filter(subordinate -> !thisEmployee.getSubordinates().contains(subordinate))
+        return employees.stream().
+                filter(employee -> employee.getJobPosition().getDepartment()
+                        .equals(thisEmployee.getJobPosition().getDepartment()))
                 .collect(Collectors.toList());
+
+//        return employees.stream()
+//                .filter(subordinate -> findAll().stream().noneMatch(employee -> employee.getSubordinates().contains(subordinate)))
+////                .filter(subordinate -> !thisEmployee.getSubordinates().contains(subordinate))
+//                .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Employee> getSupervisor(Employee subordinate){
-        return findAll().stream()
-                .filter(employee -> employee.getSubordinates().contains(subordinate))
-                .findFirst();                                                           //one employee can have many subords
+    public boolean isDepartmentChief(int id) {
+        return findById(id).get().getJobPosition()
+                .getName().toLowerCase().contains("Department Chief".toLowerCase());
     }
 
 }

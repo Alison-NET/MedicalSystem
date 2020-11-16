@@ -15,6 +15,7 @@ public interface EmployeeService {
     Optional<Employee> findById(int id);
     Optional<Employee> findFirstByCredentials(Credentials credentials);
     Optional<Employee> getActiveEmployee();
-    List<Employee> getEmployeesToSupervise(int forEmployeeId);
-    Optional<Employee> getSupervisor(Employee employee);
+    List<Employee> gePossibleSupervisors(int forEmployeeId);
+    boolean isDepartmentChief(int id);
+
 }

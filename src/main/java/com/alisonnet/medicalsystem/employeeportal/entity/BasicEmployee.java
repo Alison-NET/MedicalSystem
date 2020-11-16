@@ -39,8 +39,8 @@ public class BasicEmployee {
 
     private String personalEmail;
 
-    @ManyToOne
-    private Department department;
+//    @ManyToOne
+//    private Department department;
 
     private String socialSecurity;
 }
