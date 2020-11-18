@@ -43,7 +43,7 @@
                     <td th:text="${employee.workShift}">Work Shift</td>
                     <td th:text="${employee.completedTraining}? 'Yes' : 'No'">true/false</td>
                     <td th:text="${employee.addedToPayroll}? 'Yes' : 'No'">true/false</td>
-                    <td><a th:href="@{'/employee-portal/hr/employee/' + ${employee.id}}">Profile</a></td>
+                    <td><a th:href="@{'/employee-portal/hr/employee/' + ${employee.id}}">Manage data</a></td>
                 </tr>
             </table>
         </div>

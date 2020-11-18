@@ -19,6 +19,6 @@ public class DocumentType {
 
     private String name;
 
-    @OneToMany(mappedBy = "documentType")
+    @OneToMany(mappedBy = "documentType", fetch = FetchType.LAZY)
     private List<Document> documents;
 }

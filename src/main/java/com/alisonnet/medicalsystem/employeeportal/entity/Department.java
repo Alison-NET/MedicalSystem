@@ -18,7 +18,7 @@ public class Department {
     @GeneratedValue
     private String name;
 
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
     private List<JobPosition> jobPositions;
 
 }

@@ -63,7 +63,8 @@ public class BasicEmployeeServiceImpl implements BasicEmployeeService {
     public BasicEmployee registerNewBasicEmployee(BasicEmployee basicEmployee) {
 
         if(personalEmailExists(basicEmployee.getPersonalEmail())){
-            throw new BasicEmployeeAlreadyRegisteredException("Employee with such an email " + basicEmployee.getPersonalEmail() + " already exists ");
+            throw new BasicEmployeeAlreadyRegisteredException
+                    ("Employee with such an email " + basicEmployee.getPersonalEmail() + " already exists ");
         }
         return basicEmployeeRepo.save(basicEmployee);
     }

@@ -23,6 +23,12 @@ public class Employee {
     @OneToOne(cascade = CascadeType.MERGE)
     BasicEmployee basicInfo;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Employee supervisor;
+
+    @OneToMany(mappedBy = "supervisor")
+    private List<Employee> subordinates;
+
     @ManyToOne
     private JobPosition jobPosition;
 
@@ -35,12 +41,6 @@ public class Employee {
 
     @OneToMany(mappedBy = "employee")
     private List<Contract> contracts;
-
-    @ManyToOne
-    private Employee supervisor;
-
-    @OneToMany(mappedBy = "supervisor")
-    private List<Employee> subordinates;
 
     private String jobDescription;
 
