@@ -36,11 +36,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Optional<Employee> findFirstByCredentials(Credentials credentials) {
-        return employeeRepo.findFirstByCredentials(credentials);
-    }
-
-    @Override
     public Optional<Employee> getActiveEmployee() {
 
         Optional<Authentication> maybeAuthentication =

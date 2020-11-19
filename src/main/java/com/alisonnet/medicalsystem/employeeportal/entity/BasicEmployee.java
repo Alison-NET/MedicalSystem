@@ -2,6 +2,8 @@ package com.alisonnet.medicalsystem.employeeportal.entity;
 
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -11,6 +13,8 @@ import java.util.Date;
 
 @Entity
 @Data
+@EqualsAndHashCode(exclude = { "fullInfo"})
+@ToString(exclude = { "fullInfo"})
 @Table(name = "basic_employees")
 public class BasicEmployee {
 
@@ -40,4 +44,7 @@ public class BasicEmployee {
     private String personalEmail;
 
     private String socialSecurity;
+
+    @OneToOne(mappedBy = "basicInfo")
+    private Employee fullInfo;
 }

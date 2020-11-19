@@ -13,7 +13,6 @@ public interface EmployeeService {
     Employee save(Employee employee);
     List<Employee> findAll();
     Optional<Employee> findById(int id);
-    Optional<Employee> findFirstByCredentials(Credentials credentials);
     Optional<Employee> getActiveEmployee();
     List<Employee> gePossibleSupervisors(int forEmployeeId);
     boolean isDepartmentChief(int id);

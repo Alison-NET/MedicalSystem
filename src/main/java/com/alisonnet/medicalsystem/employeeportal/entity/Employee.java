@@ -20,7 +20,7 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne//(cascade = CascadeType.MERGE)
     BasicEmployee basicInfo;
 
     @ManyToOne(fetch = FetchType.LAZY)

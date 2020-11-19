@@ -19,7 +19,7 @@ public class Contract {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String contractLink;
+    private String link;
 
     private Boolean signed;
 

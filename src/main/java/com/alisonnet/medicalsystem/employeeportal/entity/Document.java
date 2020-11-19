@@ -14,8 +14,8 @@ public class Document {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String docName;
-    private String docExtension;
+    private String name;
+    private String extension;
 
     @ManyToOne
     private DocumentType documentType;

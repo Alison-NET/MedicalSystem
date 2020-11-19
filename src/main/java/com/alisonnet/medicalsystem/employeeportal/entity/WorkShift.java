@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"employee"})
+@EqualsAndHashCode(exclude = {"employees"})
 @Table(name = "work_shifts")
 public class WorkShift {
 
@@ -28,7 +28,7 @@ public class WorkShift {
     private LocalTime ending;
 
     @OneToMany(mappedBy = "workShift", fetch = FetchType.LAZY)
-    private List<Employee> employee;
+    private List<Employee> employees;
 
     @Override
     public String toString() {

@@ -25,7 +25,6 @@ public class HRController {
     EmployeeService employeeService;
     BasicEmployeeService basicEmployeeService;
     DepartmentService departmentService;
-    JobPositionService jobPositionService;
     RoleService roleService;
     ContractService contractService;
     DocumentTypeService documentTypeService;
@@ -90,7 +89,7 @@ public class HRController {
 
     @PostMapping("/employee/save")
     public String handleSaveEmployeeChanges(@ModelAttribute Employee employee){
-        basicEmployeeService.save(employee.getBasicInfo());
+//        basicEmployeeService.save(employee.getBasicInfo());
         employeeService.save(employee);
         return "redirect:/employee-portal/hr/employee";
     }

@@ -13,6 +13,4 @@ import java.util.Optional;
 @Repository
 public interface DocumentRepo extends JpaRepository<Document, Integer> {
 
-    Optional<List<Document>> findDocumentsByEmployeeAndDocumentType(Employee employee, DocumentType documentType);
-
 }

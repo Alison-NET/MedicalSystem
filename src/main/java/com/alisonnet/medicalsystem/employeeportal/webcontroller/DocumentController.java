@@ -38,8 +38,8 @@ public class DocumentController {
         Document document = maybeDocument.get();
 
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(document.getDocExtension()))
-                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment:filename=\""+document.getDocName()+"\"")
+                .contentType(MediaType.parseMediaType(document.getExtension()))
+                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment:filename=\""+document.getName()+"\"")
                 .body(new ByteArrayResource(document.getData()));
 
     }

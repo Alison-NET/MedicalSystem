@@ -23,8 +23,8 @@ public class DocumentServiceImpl implements DocumentService {
         String docName = file.getOriginalFilename();
         try{
             Document document = new Document();
-            document.setDocName(docName);
-            document.setDocExtension(file.getContentType());
+            document.setName(docName);
+            document.setExtension(file.getContentType());
             document.setData(file.getBytes());
             document.setDocumentType(documentType);
             document.setEmployee(owner);

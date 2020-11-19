@@ -176,7 +176,7 @@
             <div class="col-md-8">
                 <ul class="ul-no-dot" th:each="contract : ${employee.contracts}">
                     <li>
-                        <a th:href="${contract.contractLink}" class="contract-link">Link</a>
+                        <a th:href="${contract.link}" class="contract-link">Link</a>
                         <p class="descr" th:text="${contract.signed}? 'Signed' : 'Not signed'"></p>
                     </li>
                 </ul>
@@ -194,7 +194,7 @@
                         <p th:text="${documentType.name}" class="descr document-type"></p>
                         <ul class="ul-no-dot" th:each="document : ${documentType.documents}">
                             <a th:href="@{'/employee-portal/document/' + ${document.id}+'/download'}">
-                                <li th:text="${document.docName}" class="document-name"></li>
+                                <li th:text="${document.name}" class="document-name"></li>
                             </a>
                         </ul>
                     </li>
