@@ -21,4 +21,6 @@ public class Department {
     @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
     private List<JobPosition> jobPositions;
 
+
+
 }

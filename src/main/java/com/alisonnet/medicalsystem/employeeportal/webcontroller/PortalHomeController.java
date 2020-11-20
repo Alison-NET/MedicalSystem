@@ -25,12 +25,7 @@ public class PortalHomeController {
     public String getHomePage(Model model){
 
         //HR
-        model.addAttribute("departmentsWithoutChief", departmentService.findAll().stream()
-                .filter(department -> department.getJobPositions().stream()
-                            .anyMatch(jobPosition -> jobPosition.getEmployees().stream()
-                                    .noneMatch(Employee::isDepartmentChief))
-                            ).collect(Collectors.toList()));
-
+        model.addAttribute("departmentsWithoutChief", departmentService.getDepartmentsWithoutChiefs());
 
         return "employee-portal-home";
     }

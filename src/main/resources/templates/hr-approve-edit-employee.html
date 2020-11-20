@@ -229,7 +229,7 @@
 
             <div th:if="${not #bools.isTrue(employee.isDepartmentChief()) && not #lists.isEmpty(supervisors)}">
                 <hr>
-
+                <h2>Manage supervisor</h2>
                 <div th:if="${employee.supervisor != null}" class="profile-edit-item row">
                     <div class="col-md-4">
                         <p class="name">Supervisor </p>
