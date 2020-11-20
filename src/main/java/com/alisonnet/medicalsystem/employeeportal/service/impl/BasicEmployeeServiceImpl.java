@@ -28,20 +28,9 @@ public class BasicEmployeeServiceImpl implements BasicEmployeeService {
 
     @Override
     public List<BasicEmployee> getUnapprovedEmployees() {
-        // basic employees info & employees to approve
         List<BasicEmployee> basicEmployees = basicEmployeeRepo.findAll();
-
-        //all approved employees
-        List<Employee> employees = employeeRepo.findAll();
-
-        // receive non approved employees
-        List<BasicEmployee> unapprovedEmployees =
-                basicEmployees.stream()
-                        .filter(basicEmployee -> employees.stream()
-                                .noneMatch(employee -> employee.getBasicInfo().equals(basicEmployee))
-                        ).collect(Collectors.toList());
-
-        return unapprovedEmployees;
+        return basicEmployees.stream()
+                .filter(basicEmployee -> basicEmployee.getFullInfo()==null).collect(Collectors.toList());
     }
 
     @Override

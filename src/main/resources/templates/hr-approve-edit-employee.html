@@ -24,6 +24,7 @@
 
             <input type="text" th:field="*{documents}" th:value="*{documents}" hidden>
             <input type="text" th:field="*{contracts}" th:value="*{contracts}" hidden>
+            <input type="text" th:field="*{supervisor}" th:value="*{supervisor}" hidden>
             <input type="text" th:field="*{subordinates}" th:value="*{subordinates}" hidden>
 
             <div class="profile-edit-item row">
@@ -226,7 +227,7 @@
                 <div th:replace="fragments/document-upload-form.html :: document-upload-form"></div>
             </div>
 
-            <div th:if="${not #bools.isTrue(isDepartmentChief) && not #lists.isEmpty(supervisors)}">
+            <div th:if="${not #bools.isTrue(employee.isDepartmentChief()) && not #lists.isEmpty(supervisors)}">
                 <hr>
 
                 <div th:if="${employee.supervisor != null}" class="profile-edit-item row">

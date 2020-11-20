@@ -65,16 +65,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                         .equals(thisEmployee.getJobPosition().getDepartment()))
                 .collect(Collectors.toList());
 
-//        return employees.stream()
-//                .filter(subordinate -> findAll().stream().noneMatch(employee -> employee.getSubordinates().contains(subordinate)))
-////                .filter(subordinate -> !thisEmployee.getSubordinates().contains(subordinate))
-//                .collect(Collectors.toList());
-    }
-
-    @Override
-    public boolean isDepartmentChief(int id) {
-        return findById(id).get().getJobPosition()
-                .getName().toLowerCase().contains("Department Chief".toLowerCase());
     }
 
 }

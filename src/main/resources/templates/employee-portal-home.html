@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/general.html :: head"></head>
+<body>
+<header th:replace="fragments/general.html::header"></header>
+
+<div class="bootstrap-wrapper">
+    <div class="container">
+        <div sec:authorize="hasAnyAuthority('HR', 'ADMIN')">
+
+            <h3>Attention!</h3>
+
+            <div th:if="${not #lists.isEmpty(departmentsWithoutChief)}">
+                <p th:each="dep: ${departmentsWithoutChief}" th:text="${dep.name} + ' department has no department chief! Handle this to avoid tree looping!'"></p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<footer th:replace="fragments/general.html :: footer"></footer>
+</body>
+</html>
+

@@ -17,10 +17,10 @@ import java.util.List;
 public class Employee {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne//(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
     BasicEmployee basicInfo;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -53,4 +53,20 @@ public class Employee {
 
     @OneToOne(cascade = CascadeType.ALL)
     private Credentials credentials;
+
+    public void removeFromDepartmentRelations() {
+        if(supervisor!=null && subordinates!=null) {
+
+            supervisor.getSubordinates().remove(this);
+
+            subordinates.forEach(subordinate -> {
+                subordinate.setSupervisor(supervisor);
+            });
+            System.out.println("kek");
+        }
+    }
+
+    public boolean isDepartmentChief(){
+        return jobPosition.getName().toLowerCase().contains("Department Chief".toLowerCase());
+    }
 }

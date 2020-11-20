@@ -45,6 +45,6 @@ public class BasicEmployee {
 
     private String socialSecurity;
 
-    @OneToOne(mappedBy = "basicInfo")
+    @OneToOne(mappedBy = "basicInfo", cascade = CascadeType.ALL)
     private Employee fullInfo;
 }

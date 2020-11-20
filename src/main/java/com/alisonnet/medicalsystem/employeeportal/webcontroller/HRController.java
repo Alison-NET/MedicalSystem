@@ -88,9 +88,21 @@ public class HRController {
 
 
     @PostMapping("/employee/save")
-    public String handleSaveEmployeeChanges(@ModelAttribute Employee employee){
-//        basicEmployeeService.save(employee.getBasicInfo());
-        employeeService.save(employee);
+    public String handleSavingEmployee(@ModelAttribute Employee employee){
+        Optional<Employee> beforeSavingEmployee = employeeService.findById(employee.getId());
+        if(beforeSavingEmployee.isPresent()){
+
+            if(!beforeSavingEmployee.get().getJobPosition().getDepartment()
+                    .equals(employee.getJobPosition().getDepartment())){
+
+                employee.removeFromDepartmentRelations();
+            }
+
+        }
+
+        log.info("Employee to save: " + employee);
+        employee.getBasicInfo().setFullInfo(employee);
+        basicEmployeeService.save(employee.getBasicInfo());
         return "redirect:/employee-portal/hr/employee";
     }
 
@@ -124,7 +136,6 @@ public class HRController {
         //        Supervisor adding
         model.addAttribute("supervisorId", new EmployeeIdDTO());
         model.addAttribute("supervisors", employeeService.gePossibleSupervisors(id));
-        model.addAttribute("isDepartmentChief", employeeService.isDepartmentChief(id));
 
         return "hr-approve-edit-employee";
     }

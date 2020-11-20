@@ -4,7 +4,11 @@
 <body>
     <header th:replace="fragments/general.html::header"></header>
 
-    <p th:text="${message}"></p>
+    <div class="bootstrap-wrapper">
+        <div class="container">
+            <p th:text="${message}"></p>
+        </div>
+    </div>
 
     <footer th:replace="fragments/general.html :: footer"></footer>
 </body>
