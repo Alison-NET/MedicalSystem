@@ -22,27 +22,32 @@ public class BasicEmployee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotBlank(message = Constants.NOT_EMPTY)
+    @NotBlank(message = Constants.VALID_MSG_NOT_EMPTY)
     private String firstName;
 
-    @NotBlank(message = Constants.NOT_EMPTY)
+    @NotBlank(message = Constants.VALID_MSG_NOT_EMPTY)
     private String middleName;
 
-    @NotBlank(message = Constants.NOT_EMPTY)
+    @NotBlank(message = Constants.VALID_MSG_NOT_EMPTY)
     private String lastName;
 
+    @NotBlank(message = Constants.VALID_MSG_NOT_EMPTY)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
 
-    @Pattern(regexp="(^$|[0-9]{10})")
+    @NotBlank(message = Constants.VALID_MSG_NOT_EMPTY)
+    @Pattern(regexp="(^$|[0-9]{10})", message = Constants.VALID_MSG_PATTERN)
     private String homePhone;
 
-    @NotBlank(message = Constants.NOT_EMPTY)
-    @Pattern(regexp="(^$|[0-9]{10})")
+    @NotBlank(message = Constants.VALID_MSG_NOT_EMPTY)
+    @Pattern(regexp="(^$|[0-9]{10})", message = Constants.VALID_MSG_PATTERN)
     private String mobilePhone;
 
+    @NotBlank(message = Constants.VALID_MSG_NOT_EMPTY)
     private String personalEmail;
 
+    // Add regex pattern
+    @NotBlank(message = Constants.VALID_MSG_NOT_EMPTY)
     private String socialSecurity;
 
     @OneToOne(mappedBy = "basicInfo", cascade = CascadeType.ALL)

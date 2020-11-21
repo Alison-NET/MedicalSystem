@@ -21,12 +21,10 @@ import javax.validation.Valid;
 public class EmployeeRegistrationController {
 
     BasicEmployeeService basicEmployeeService;
-//    JobPositionService jobPositionService;
 
     @GetMapping
     public String getRegistrationPage(Model model){
         model.addAttribute("basicEmployee", new BasicEmployee());
-//        model.addAttribute("jobPositions", jobPositionService.findAll());
         return "employee-registration";
     }
 
@@ -35,7 +33,6 @@ public class EmployeeRegistrationController {
                                         BindingResult bindingResult,
                                         Model model){
         if(bindingResult.hasErrors()){
-//            model.addAttribute("departments", jobPositionService.findAll());
             return "employee-registration";
         }
         basicEmployeeService.registerNewBasicEmployee(basicEmployee);

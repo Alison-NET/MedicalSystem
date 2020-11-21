@@ -21,6 +21,7 @@
 
             <input type="text" th:field="*{basicInfo.id}" th:value="*{basicInfo.id}" hidden>
             <input type="text" th:field="*{id}" th:value="*{id}" hidden>
+            <input type="text" th:field="*{credentials.id}" th:value="*{credentials.id}" hidden>
 
             <input type="text" th:field="*{documents}" th:value="*{documents}" hidden>
             <input type="text" th:field="*{contracts}" th:value="*{contracts}" hidden>
@@ -34,6 +35,7 @@
                 <div class="col-md-8">
                     <div class="input-wrapper">
                         <input class="form-in-item" type="text" th:field="*{basicInfo.firstName}" th:value="*{basicInfo.firstName}">
+                        <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.firstName')}" th:text="${error}">Validation error</p>
                     </div>
                 </div>
             </div>
@@ -44,6 +46,7 @@
                 <div class="col-md-8">
                     <div class="input-wrapper">
                         <input class="form-in-item" type="text" th:field="*{basicInfo.middleName}" th:value="*{basicInfo.middleName}">
+                        <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.middleName')}" th:text="${error}">Validation error</p>
                     </div>
                 </div>
             </div>
@@ -54,6 +57,7 @@
                 <div class="col-md-8">
                     <div class="input-wrapper">
                         <input class="form-in-item" type="text" th:field="*{basicInfo.lastName}" th:value="*{basicInfo.lastName}">
+                        <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.lastName')}" th:text="${error}">Validation error</p>
                     </div>
                 </div>
             </div>
@@ -64,6 +68,7 @@
                 <div class="col-md-8">
                     <div class="input-wrapper">
                         <input class="form-in-item" type="date" th:field="*{basicInfo.dateOfBirth}" th:value="*{basicInfo.dateOfBirth}">
+                        <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.dateOfBirth')}" th:text="${error}">Validation error</p>
                     </div>
                 </div>
             </div>
@@ -74,6 +79,7 @@
                 <div class="col-md-8">
                     <div class="input-wrapper">
                         <input class="form-in-item" type="tel" th:field="*{basicInfo.homePhone}" th:value="*{basicInfo.homePhone}">
+                        <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.homePhone')}" th:text="${error}">Validation error</p>
                     </div>
                 </div>
             </div>
@@ -84,6 +90,7 @@
                 <div class="col-md-8">
                     <div class="input-wrapper">
                         <input class="form-in-item" type="tel" th:field="*{basicInfo.mobilePhone}" th:value="*{basicInfo.mobilePhone}">
+                        <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.mobilePhone')}" th:text="${error}">Validation error</p>
                     </div>
                 </div>
             </div>
@@ -94,6 +101,7 @@
                 <div class="col-md-8">
                     <div class="input-wrapper">
                         <input class="form-in-item" type="email" th:field="*{basicInfo.personalEmail}" th:value="*{basicInfo.personalEmail}">
+                        <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.personalEmail')}" th:text="${error}">Validation error</p>
                     </div>
                 </div>
             </div>
@@ -119,6 +127,7 @@
                 <div class="col-md-8">
                     <div class="input-wrapper">
                         <input class="form-in-item" type="text" th:field="*{basicInfo.socialSecurity}" th:value="*{basicInfo.socialSecurity}">
+                        <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.socialSecurity')}" th:text="${error}">Validation error</p>
                     </div>
                 </div>
             </div>
@@ -185,6 +194,8 @@
                 <div class="col-md-8">
                     <div class="input-wrapper">
                         <div class="form-in-item"><input  type="time" th:field="*{workShift.beginning}"> - <input type="time" th:field="*{workShift.ending}"></div>
+                        <p class="form-item-error" th:each="error : ${#fields.errors('workShift.beginning')}" th:text="${error}">Validation error</p>
+                        <p class="form-item-error" th:each="error : ${#fields.errors('workShift.ending')}" th:text="${error}">Validation error</p>
                     </div>
                 </div>
             </div>
@@ -196,6 +207,8 @@
                     <div class="input-wrapper">
                         <div class="form-in-item">
                             <span>Email </span><input type="email" th:field="*{credentials.email}"><span>Password </span><input type="text" th:field="*{credentials.password}">
+                            <p class="form-item-error" th:each="error : ${#fields.errors('credentials.email')}" th:text="${error}">Validation error</p>
+                            <p class="form-item-error" th:each="error : ${#fields.errors('credentials.password')}" th:text="${error}">Validation error</p>
                         </div>
                     </div>
                 </div>

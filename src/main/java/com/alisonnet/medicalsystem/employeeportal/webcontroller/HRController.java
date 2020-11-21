@@ -9,9 +9,12 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -88,7 +91,17 @@ public class HRController {
 
 
     @PostMapping("/employee/save")
-    public String handleSavingEmployee(@ModelAttribute Employee employee){
+    public String handleSavingEmployee(@Valid @ModelAttribute Employee employee,
+                                       BindingResult bindingResult,
+                                       HttpServletRequest request,
+                                       Model model){
+
+        log.info(bindingResult.toString());                                 // ??????????????????????
+        if(bindingResult.hasErrors()){
+            return Optional.ofNullable(request.getHeader("Referer"))
+                    .map(requestUrl -> "redirect:" + requestUrl)
+                    .orElse("/");
+        }
 
         employeeService.updateRelationsIfNeeded(employee);
 

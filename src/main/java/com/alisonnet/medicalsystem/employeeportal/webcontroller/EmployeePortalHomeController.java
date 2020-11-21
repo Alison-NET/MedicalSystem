@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @RequestMapping(Constants.URL_EMPLOYEE_PORTAL)
 @Slf4j
-public class PortalHomeController {
+public class EmployeePortalHomeController {
 
     DepartmentService departmentService;
 
