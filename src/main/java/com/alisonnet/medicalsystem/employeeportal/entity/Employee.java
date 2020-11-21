@@ -4,6 +4,7 @@ import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -14,6 +15,7 @@ import java.util.List;
 @EqualsAndHashCode(exclude = { "subordinates", "documents"})
 @ToString(exclude = { "subordinates", "documents"})
 @Table(name = "employees")
+@Slf4j
 public class Employee {
 
     @Id
@@ -55,14 +57,19 @@ public class Employee {
     private Credentials credentials;
 
     public void removeFromDepartmentRelations() {
-        if(supervisor!=null && subordinates!=null) {
-
-            supervisor.getSubordinates().remove(this);
-
+        if(isDepartmentChief()){
+            subordinates.forEach(subordinate -> {
+                subordinate.setSupervisor(null);
+            });
+            return;
+        }
+        if(subordinates!=null) {
             subordinates.forEach(subordinate -> {
                 subordinate.setSupervisor(supervisor);
             });
-            System.out.println("kek");
+        }
+        if(supervisor!=null){
+            supervisor = null;
         }
     }
 

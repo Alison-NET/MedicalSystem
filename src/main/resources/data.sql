@@ -31,3 +31,7 @@ insert into document_types (name) values ('Professional Certificate')
 insert into document_types (name) values ('Drivers Licence')
 insert into document_types (name) values ('SSN Card')
 insert into document_types (name) values ('Birth Certificate')
+
+
+-- WHEN TREE LOOP
+--  UPDATE employees SET supervisor_basic_info_id = 1 WHERE basic_info_id = 2

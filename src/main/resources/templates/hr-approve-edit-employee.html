@@ -252,7 +252,7 @@
                             <div class="input-wrapper">
                                 <select class="form-in-item" th:field="*{id}">
                                     <option th:each="supervisor : ${supervisors}" th:value="${supervisor.id}"
-                                            th:text="${supervisor.basicInfo.lastName}"></option>
+                                            th:text="${supervisor.basicInfo.firstName} + ' ' + ${supervisor.basicInfo.lastName}"></option>
                                 </select>
                             </div>
                         </div>

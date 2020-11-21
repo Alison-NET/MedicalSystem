@@ -89,18 +89,9 @@ public class HRController {
 
     @PostMapping("/employee/save")
     public String handleSavingEmployee(@ModelAttribute Employee employee){
-        Optional<Employee> beforeSavingEmployee = employeeService.findById(employee.getId());
-        if(beforeSavingEmployee.isPresent()){
 
-            if(!beforeSavingEmployee.get().getJobPosition().getDepartment()
-                    .equals(employee.getJobPosition().getDepartment())){
+        employeeService.updateRelationsIfNeeded(employee);
 
-                employee.removeFromDepartmentRelations();
-            }
-
-        }
-
-        log.info("Employee to save: " + employee);
         employee.getBasicInfo().setFullInfo(employee);
         basicEmployeeService.save(employee.getBasicInfo());
         return "redirect:/employee-portal/hr/employee";
@@ -135,7 +126,7 @@ public class HRController {
 
         //        Supervisor adding
         model.addAttribute("supervisorId", new EmployeeIdDTO());
-        model.addAttribute("supervisors", employeeService.gePossibleSupervisors(id));
+        model.addAttribute("supervisors", employeeService.getPossibleSupervisors(id));
 
         return "hr-approve-edit-employee";
     }
@@ -173,13 +164,7 @@ public class HRController {
 
         maybeEmployee.get().setSupervisor(maybeSupervisor.get());
 
-
         employeeService.save(maybeEmployee.get());
-
-        log.info("Subordinate ID: " + id);
-        log.info("Supervisor ID: " + supervisorId.getId());
-        log.info("Supervisor got:" + maybeEmployee.get().getSupervisor().toString());
-        log.info("Supervisor's Subordinates: " + maybeEmployee.get().getSupervisor().getSubordinates().toString());
 
         return "redirect:/employee-portal/hr/employee/" + id;
     }

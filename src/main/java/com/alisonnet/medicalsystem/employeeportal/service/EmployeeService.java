@@ -14,6 +14,7 @@ public interface EmployeeService {
     List<Employee> findAll();
     Optional<Employee> findById(int id);
     Optional<Employee> getActiveEmployee();
-    List<Employee> gePossibleSupervisors(int forEmployeeId);
+    List<Employee> getPossibleSupervisors(int forEmployeeId);
+    void updateRelationsIfNeeded(Employee employee);
 
 }

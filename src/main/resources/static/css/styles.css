@@ -180,8 +180,13 @@ th, td {
 
 
 
+/*ATTENTION BLOCK*/
 
+.attention-block{
+    color: #c9112b;
+}
 
+/*ATTENTION BLOCK*/
 
 
 /* CHECKBOX */

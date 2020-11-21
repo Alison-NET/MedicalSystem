@@ -56,7 +56,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Override
-    public List<Employee> gePossibleSupervisors(int forEmployeeId) {
+    public List<Employee> getPossibleSupervisors(int forEmployeeId) {
         Employee thisEmployee = findById(forEmployeeId).get();
         List<Employee> employees = employeeRepo.findEmployeesByIdNot(forEmployeeId);
 
@@ -67,4 +67,24 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     }
 
+    @Override
+    public void updateRelationsIfNeeded(Employee employee) {
+
+        if(employee.isDepartmentChief())
+            employee.setSupervisor(null);
+
+        Optional<Employee> beforeSavingEmployee = findById(employee.getId());
+        if(beforeSavingEmployee.isPresent()){
+
+            //IF DEPARTMENT CHANGED
+            if(!beforeSavingEmployee.get().getJobPosition().getDepartment()
+                    .equals(employee.getJobPosition().getDepartment())){
+
+                beforeSavingEmployee.get().removeFromDepartmentRelations();
+                employee.setSupervisor(beforeSavingEmployee.get().getSupervisor());
+                employee.setSubordinates(beforeSavingEmployee.get().getSubordinates());
+            }
+
+        }
+    }
 }

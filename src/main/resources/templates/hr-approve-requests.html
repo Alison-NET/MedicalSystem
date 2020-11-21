@@ -7,37 +7,48 @@
 
     <div class="bootstrap-wrapper">
         <div class="container">
-            <div class="page-info row">
-                <div class="col-md-12">
-                    <span class="name">Requests for approval</span>
+
+            <div th:if="${#lists.isEmpty(employeesToApprove)}">
+                <div class="page-info row">
+                    <div class="col-md-12">
+                        <span class="name">There are no requests for approval.</span>
+                    </div>
                 </div>
             </div>
-            <table>
-                <tr>
-                    <th>Employee Name</th>
-                    <th>Middle Name</th>
-                    <th>Last Name</th>
-                    <th>Date Of Birth</th>
-                    <th>Home Phone</th>
-                    <th>Mobile Phone</th>
-                    <th>Personal Email</th>
-                    <th>Social Security</th>
-                    <th>Department</th>
-                </tr>
-                <tr th:each="employee: ${employeesToApprove}">
-                    <td th:text="${employee.firstName}">Employee Name</td>
-                    <td th:text="${employee.middleName}">Middle Name</td>
-                    <td th:text="${employee.lastName}">Last Name</td>
-                    <td th:text="${{employee.dateOfBirth}}">Date Of Birth</td>
-                    <td th:text="${employee.homePhone}">Home Phone</td>
-                    <td th:text="${employee.mobilePhone}">Mobile Phone</td>
-                    <td th:text="${employee.personalEmail}">Personal Email</td>
-                    <td th:text="${employee.socialSecurity}">Social Security</td>
-<!--                    <td th:text="${employee.department.name}">Department</td>-->
-                    <td><a th:href="@{'/employee-portal/hr/approve-employee/' + ${employee.id}}">Approve</a></td>
-                    <td><a th:href="@{'/employee-portal/hr/approve-employee/reject/' + ${employee.id}}">Reject</a></td>
-                </tr>
-            </table>
+
+            <div th:unless="${#lists.isEmpty(employeesToApprove)}">
+                <div class="page-info row">
+                    <div class="col-md-12">
+                        <span class="name">Requests for approval</span>
+                    </div>
+                </div>
+                <table>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Middle Name</th>
+                        <th>Last Name</th>
+                        <th>Date Of Birth</th>
+                        <th>Home Phone</th>
+                        <th>Mobile Phone</th>
+                        <th>Personal Email</th>
+                        <th>Social Security</th>
+                        <th>Department</th>
+                    </tr>
+                    <tr th:each="employee: ${employeesToApprove}">
+                        <td th:text="${employee.firstName}">Employee Name</td>
+                        <td th:text="${employee.middleName}">Middle Name</td>
+                        <td th:text="${employee.lastName}">Last Name</td>
+                        <td th:text="${{employee.dateOfBirth}}">Date Of Birth</td>
+                        <td th:text="${employee.homePhone}">Home Phone</td>
+                        <td th:text="${employee.mobilePhone}">Mobile Phone</td>
+                        <td th:text="${employee.personalEmail}">Personal Email</td>
+                        <td th:text="${employee.socialSecurity}">Social Security</td>
+    <!--                    <td th:text="${employee.department.name}">Department</td>-->
+                        <td><a th:href="@{'/employee-portal/hr/approve-employee/' + ${employee.id}}">Approve</a></td>
+                        <td><a th:href="@{'/employee-portal/hr/approve-employee/reject/' + ${employee.id}}">Reject</a></td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
     <footer th:replace="fragments/general.html :: footer"></footer>

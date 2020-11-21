@@ -8,13 +8,18 @@
     <div class="container">
         <div sec:authorize="hasAnyAuthority('HR', 'ADMIN')">
 
-            <h3>Attention!</h3>
+            <div class="attention-block">
 
-            <div th:if="${not #lists.isEmpty(departmentsWithoutChief)}">
-                <p th:each="dep: ${departmentsWithoutChief}" th:text="${dep.name} + ' department has no department chief! Handle this to avoid tree looping!'"></p>
+                <div class="attention-block-section" th:if="${not #lists.isEmpty(departmentsWithoutChief)}">
+                    <h3>Attention!</h3>
+                    <p th:each="dep: ${departmentsWithoutChief}" th:text="${dep.name} + ' department has no department chief! Handle this to avoid tree looping!'"></p>
+                </div>
+
             </div>
 
         </div>
+
+        <p>Hello, <span sec:authentication="principal.authorities"></span></p>
     </div>
 </div>
 
