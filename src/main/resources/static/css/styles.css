@@ -115,8 +115,14 @@ th, td {
 /*PAGE TITLE*/
 
 
+/*REGISTER FORM*/
 
+.register-form .form-submit-btn{
 
+    margin-top: 30px;
+}
+
+/*REGISTER FORM*/
 
 
 /* EMPLOYEE PROFILE */

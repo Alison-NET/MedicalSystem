@@ -7,34 +7,111 @@
 
     <div class="bootstrap-wrapper">
         <div class="container">
-            <h1>Employee Registration</h1>
-            <hr>
-            <form action="" th:action="@{/employee-portal/new-employee}" th:object="${basicEmployee}" method="post">
 
-                <input type="text" th:field="*{firstName}" placeholder="First Name"><br>
-                <p th:each="error : ${#fields.errors('firstName')}" th:text="${error}">Validation error</p>
+            <div class="page-info row">
+                <div class="col-md-12">
+                    <span class="name">Employee Registration</span>
+                </div>
+            </div>
 
-                <input type="text" th:field="*{middleName}" placeholder="Middle Name"><br>
-                <p th:each="error : ${#fields.errors('middleName')}" th:text="${error}">Validation error</p>
+            <form class="register-form" action="" th:action="@{/employee-portal/new-employee}" th:object="${basicEmployee}" method="post">
+
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">First name</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{firstName}">
+                            <p th:each="error : ${#fields.errors('firstName')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Middle name</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{middleName}">
+                            <p th:each="error : ${#fields.errors('middleName')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
 
 
-                <input type="text" th:field="*{lastName}" placeholder="Last Name"><br>
-                <p th:each="error : ${#fields.errors('lastName')}" th:text="${error}">Validation error</p>
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Last name</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{lastName}">
+                            <p th:each="error : ${#fields.errors('lastName')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
 
-                <input type="date" th:field="*{dateOfBirth}"><br>
-                <p th:each="error : ${#fields.errors('dateOfBirth')}" th:text="${error}">Validation error</p>
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Date of birth</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="date" th:field="*{dateOfBirth}">
+                            <p th:each="error : ${#fields.errors('dateOfBirth')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
 
-                <input type="text" th:field="*{socialSecurity}" placeholder="Social Security Number"><br>
-                <p th:each="error : ${#fields.errors('socialSecurity')}" th:text="${error}">Validation error</p>
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Social security number</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{socialSecurity}">
+                            <p th:each="error : ${#fields.errors('socialSecurity')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
 
-                <input type="tel" th:field="*{homePhone}" placeholder="Home Phone"><br>
-                <p th:each="error : ${#fields.errors('homePhone')}" th:text="${error}">Validation error</p>
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Home phone</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{homePhone}">
+                            <p th:each="error : ${#fields.errors('homePhone')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
 
-                <input type="tel" th:field="*{mobilePhone}" placeholder="Mobile Phone"><br>
-                <p th:each="error : ${#fields.errors('mobilePhone')}" th:text="${error}">Validation error</p>
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Mobile phone</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{mobilePhone}">
+                            <p th:each="error : ${#fields.errors('mobilePhone')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
 
-                <input type="email" th:field="*{personalEmail}" placeholder="Personal Email"><br>
-                <p th:each="error : ${#fields.errors('personalEmail')}" th:text="${error}">Validation error</p>
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Personal phone</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{personalEmail}">
+                            <p th:each="error : ${#fields.errors('personalEmail')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
 
                 <input class="btn form-submit-btn" type="submit" th:value="Submit">
             </form>

@@ -158,6 +158,7 @@ public class HRController {
         contract.setEmployee(employee);
         contractService.save(contract);
 
+
         return "redirect:/employee-portal/hr/employee/" + id;
     }
 

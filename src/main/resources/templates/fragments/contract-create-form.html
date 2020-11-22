@@ -9,19 +9,14 @@
         <div class="col-md-4">
             <p class="name">Link</p>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-4">
             <div class="input-wrapper">
-                <input class="form-in-item" type="text" th:field="*{link}"><br>
+                <input class="form-in-item" type="text" th:field="*{link}">
             </div>
         </div>
-    </div>
-
-    <div class="profile-edit-item row">
         <div class="col-md-4">
-            <p class="name">Signed</p>
-        </div>
-        <div class="col-md-8">
             <div class="input-wrapper">
+                <p class="name">Signed</p>
                 <label class="checkbox-container form-in-item">
                     <input th:field="*{signed}" type="checkbox" checked="checked">
                     <span class="checkmark"></span>
@@ -29,6 +24,7 @@
             </div>
         </div>
     </div>
+
 
     <div class="profile-edit-item row">
         <div class="col-md-4">

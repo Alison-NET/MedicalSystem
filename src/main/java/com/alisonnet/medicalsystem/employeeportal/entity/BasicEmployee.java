@@ -31,7 +31,6 @@ public class BasicEmployee {
     @NotBlank(message = Constants.VALID_MSG_NOT_EMPTY)
     private String lastName;
 
-    @NotBlank(message = Constants.VALID_MSG_NOT_EMPTY)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
 

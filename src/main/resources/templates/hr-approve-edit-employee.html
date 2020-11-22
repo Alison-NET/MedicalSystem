@@ -9,7 +9,8 @@
 
         <div class="page-info row">
             <div class="col-md-4">
-                <span class="name">Edit Employee</span>
+                <span th:if="${#bools.isTrue(isApproved)}" class="name">Edit Employee</span>
+                <span th:unless="${#bools.isTrue(isApproved)}" class="name">Approve Employee</span>
             </div>
             <div class="col-md-8">
                 <a class="extra-btn" th:href="@{'/employee-portal/employee/' + ${employee.id}}">
