@@ -2,9 +2,11 @@ package com.alisonnet.medicalsystem.employeeportal.webcontroller;
 
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.entity.BasicEmployee;
+import com.alisonnet.medicalsystem.employeeportal.repository.TitleRepo;
 import com.alisonnet.medicalsystem.employeeportal.service.DepartmentService;
 import com.alisonnet.medicalsystem.employeeportal.service.BasicEmployeeService;
 import com.alisonnet.medicalsystem.employeeportal.service.JobPositionService;
+import com.alisonnet.medicalsystem.employeeportal.service.TitleService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -21,10 +23,12 @@ import javax.validation.Valid;
 public class EmployeeRegistrationController {
 
     BasicEmployeeService basicEmployeeService;
+    TitleService titleService;
 
     @GetMapping
     public String getRegistrationPage(Model model){
         model.addAttribute("basicEmployee", new BasicEmployee());
+        model.addAttribute("titles", titleService.findAll());
         return "employee-registration";
     }
 
@@ -33,6 +37,7 @@ public class EmployeeRegistrationController {
                                         BindingResult bindingResult,
                                         Model model){
         if(bindingResult.hasErrors()){
+            model.addAttribute("titles", titleService.findAll());
             return "employee-registration";
         }
         basicEmployeeService.registerNewBasicEmployee(basicEmployee);

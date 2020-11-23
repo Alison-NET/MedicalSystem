@@ -22,6 +22,9 @@ public class BasicEmployee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @ManyToOne
+    private Title title;
+
     @NotBlank(message = Constants.VALID_MSG_NOT_EMPTY)
     private String firstName;
 
@@ -33,6 +36,16 @@ public class BasicEmployee {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
+
+    private String addressFirst;
+
+    private String addressSecond;
+
+    private String city;
+
+    private String state;
+
+    private String ZIP;
 
     @NotBlank(message = Constants.VALID_MSG_NOT_EMPTY)
     @Pattern(regexp="(^$|[0-9]{10})", message = Constants.VALID_MSG_PATTERN)

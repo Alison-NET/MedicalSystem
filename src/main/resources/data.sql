@@ -9,20 +9,39 @@ insert into credentials_roles (credentials_id, roles_id) values (1, 1)
 insert into credentials_roles (credentials_id, roles_id) values (2, 2)
 
 
+insert into titles (name) values ('Mr')
+insert into titles (name) values ('Ms')
+insert into titles (name) values ('Phd')
+insert into titles (name) values ('MD')
 
 
-insert into departments (name) values ('Oncology')
-insert into departments (name) values ('Nursing')
+
+insert into departments (name) values ('Sales')
+insert into job_positions (name, department_name) values ('Sales manager','Sales')
+insert into job_positions (name, department_name) values ('Sales representative','Sales')
 
 
-insert into job_positions (name, department_name) values ('Oncology Department Chief','Oncology')
-insert into job_positions (name, department_name) values ('Oncology Job Position 2 ','Oncology')
-insert into job_positions (name, department_name) values ('Oncology Job Position 3 ','Oncology')
+insert into departments (name) values ('Administration')
+insert into job_positions (name, department_name) values ('Laboratory director','Administration')
 
-insert into job_positions (name, department_name) values ('Nursing Department Chief','Nursing')
-insert into job_positions (name, department_name) values ('Nursing Job Position 2 ','Nursing')
-insert into job_positions (name, department_name) values ('Nursing Job Position 3 ','Nursing')
 
+insert into departments (name) values ('Consultant')
+insert into job_positions (name, department_name) values ('Consultant','Consultant')
+
+
+insert into departments (name) values ('CoreLab')
+insert into job_positions (name, department_name) values ('Lab Admin','CoreLab')
+insert into job_positions (name, department_name) values ('Analyst','CoreLab')
+insert into job_positions (name, department_name) values ('Accessioner','CoreLab')
+insert into job_positions (name, department_name) values ('Lab Aid','CoreLab')
+insert into job_positions (name, department_name) values ('Technician','CoreLab')
+insert into job_positions (name, department_name) values ('Technologist','CoreLab')
+
+
+insert into departments (name) values ('Molecular')
+insert into job_positions (name, department_name) values ('Director','Molecular')
+insert into job_positions (name, department_name) values ('Technician','Molecular')
+insert into job_positions (name, department_name) values ('Technologist','Molecular')
 
 
 

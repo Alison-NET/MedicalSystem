@@ -4,6 +4,7 @@ import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.dto.document.DocTypeAndFilesDTO;
 import com.alisonnet.medicalsystem.employeeportal.dto.employee.EmployeeIdDTO;
 import com.alisonnet.medicalsystem.employeeportal.entity.*;
+import com.alisonnet.medicalsystem.employeeportal.repository.TitleRepo;
 import com.alisonnet.medicalsystem.employeeportal.service.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ public class HRController {
 
     EmployeeService employeeService;
     BasicEmployeeService basicEmployeeService;
+    TitleService titleService;
     DepartmentService departmentService;
     RoleService roleService;
     ContractService contractService;
@@ -71,8 +73,7 @@ public class HRController {
 
         model.addAttribute("employee", newEmployee);
         model.addAttribute("roles", roleService.findAll());
-//        model.addAttribute("jobPositions", jobPositionService.findAll());
-
+        model.addAttribute("titles", titleService.findAll());
         model.addAttribute("departments", departmentService.findAll());
         return "hr-approve-edit-employee";
     }
@@ -127,6 +128,7 @@ public class HRController {
 
         model.addAttribute("employee", maybeEmployee.get());
         model.addAttribute("departments", departmentService.findAll());
+        model.addAttribute("titles", titleService.findAll());
         model.addAttribute("roles", roleService.findAll());
         model.addAttribute("isApproved", true);
 

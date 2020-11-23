@@ -18,6 +18,21 @@
 
                 <div class="profile-edit-item row">
                     <div class="col-md-4">
+                        <p class="name">Title</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <select class="form-in-item" th:field="*{title}">
+                                <option th:each="tit : ${titles}"
+                                        th:value="${tit.id}"
+                                        th:text="${tit.name}"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
                         <p class="name">First name</p>
                     </div>
                     <div class="col-md-8">
@@ -103,12 +118,72 @@
 
                 <div class="profile-edit-item row">
                     <div class="col-md-4">
-                        <p class="name">Personal phone</p>
+                        <p class="name">Personal email</p>
                     </div>
                     <div class="col-md-8">
                         <div class="input-wrapper">
                             <input class="form-in-item" type="text" th:field="*{personalEmail}">
                             <p th:each="error : ${#fields.errors('personalEmail')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Address 1</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{addressFirst}">
+                            <p th:each="error : ${#fields.errors('addressFirst')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Address 2</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{addressSecond}">
+                            <p th:each="error : ${#fields.errors('addressSecond')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">City</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{city}">
+                            <p th:each="error : ${#fields.errors('city')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">State</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{state}">
+                            <p th:each="error : ${#fields.errors('state')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">ZIP</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{ZIP}">
+                            <p th:each="error : ${#fields.errors('ZIP')}" th:text="${error}">Validation error</p>
                         </div>
                     </div>
                 </div>
