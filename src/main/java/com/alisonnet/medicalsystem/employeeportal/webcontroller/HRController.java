@@ -33,6 +33,7 @@ public class HRController {
     RoleService roleService;
     ContractService contractService;
     DocumentTypeService documentTypeService;
+    DocumentService documentService;
 
 
     @GetMapping("/approve-employee")
@@ -185,6 +186,38 @@ public class HRController {
         return "redirect:/employee-portal/hr/employee/" + id;
     }
 
+    @GetMapping("/employee/{id}/document/{docId}/lock")
+    public String handleLockingDocument(@PathVariable int id, @PathVariable int docId){
 
+        if(employeeService.findById(id).isEmpty())
+            return "redirect:/employee-portal/hr/employee";
+
+        Optional<Document> maybeDocument = documentService.findById(docId);
+        if(maybeDocument.isEmpty())                                             // Add exception
+            return "redirect:/employee-portal/hr/employee/" + id;
+
+        Document document = maybeDocument.get();
+        document.setIsLocked(true);
+        documentService.save(document);
+
+        return "redirect:/employee-portal/hr/employee/" + id;
+    }
+
+    @GetMapping("/employee/{id}/document/{docId}/unlock")
+    public String handleUnlockingDocument(@PathVariable int id, @PathVariable int docId){
+
+        if(employeeService.findById(id).isEmpty())
+            return "redirect:/employee-portal/hr/employee";
+
+        Optional<Document> maybeDocument = documentService.findById(docId);
+        if(maybeDocument.isEmpty())                                             // Add exception
+            return "redirect:/employee-portal/hr/employee/" + id;
+
+        Document document = maybeDocument.get();
+        document.setIsLocked(false);
+        documentService.save(document);
+
+        return "redirect:/employee-portal/hr/employee/" + id;
+    }
 
 }

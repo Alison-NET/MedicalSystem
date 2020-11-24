@@ -39,7 +39,7 @@ public class DocumentController {
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(document.getExtension()))
-                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment:filename=\""+document.getName()+"\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"" + document.getName() + "\"")
                 .body(new ByteArrayResource(document.getData()));
 
     }
@@ -52,5 +52,7 @@ public class DocumentController {
                 .map(requestUrl -> "redirect:" + requestUrl)
                 .orElse("/");
     }
+
+
 
 }

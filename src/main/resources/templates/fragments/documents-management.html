@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 
 <div th:fragment="documents-management" class="bootstrap-wrapper">
@@ -20,8 +20,29 @@
                     <div class="col-md-8">
                         <div class="input-wrapper">
 
-                            <a th:href="@{'/employee-portal/document/' + ${document.id} + '/delete'}">
-                                <span>Remove</span>
+                            <a sec:authorize="hasAuthority('EMPLOYEE')" th:if="${#bools.isFalse(document.isLocked)}"
+                               th:href="@{'/employee-portal/document/' + ${document.id} + '/delete'}">
+                                <span>Remove &nbsp;</span>
+                            </a>
+
+                            <span sec:authorize="hasAuthority('EMPLOYEE')" th:if="${#bools.isTrue(document.isLocked)}"
+                                  th:href="@{'/employee-portal/document/' + ${document.id} + '/delete'}">
+                                <span>Locked</span>
+                            </span>
+
+                            <a sec:authorize="hasAnyAuthority('HR','ADMIN')"
+                               th:href="@{'/employee-portal/document/' + ${document.id} + '/delete'}">
+                                <span>Remove &nbsp;</span>
+                            </a>
+
+                            <a sec:authorize="hasAnyAuthority('HR','ADMIN')" th:if="${#bools.isFalse(document.isLocked)}"
+                               th:href="@{'/employee-portal/hr/employee/' + ${employee.id} + '/document/' + ${document.id} + '/lock'}">
+                                <span>Lock</span>
+                            </a>
+
+                            <a sec:authorize="hasAnyAuthority('HR','ADMIN')" th:if="${#bools.isTrue(document.isLocked)}"
+                               th:href="@{'/employee-portal/hr/employee/' + ${employee.id} + '/document/' + ${document.id} + '/unlock'}">
+                                <span>Unlock</span>
                             </a>
                         </div>
                     </div>

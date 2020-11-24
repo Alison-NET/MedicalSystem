@@ -17,11 +17,13 @@ public class Document {
     private String name;
     private String extension;
 
+    @Lob
+    private byte[] data;
+
     @ManyToOne
     private DocumentType documentType;
 
-    @Lob
-    private byte[] data;
+    private Boolean isLocked;
 
     @ManyToOne
     private Employee employee;
