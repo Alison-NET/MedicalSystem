@@ -23,4 +23,7 @@ public class JobPosition {
 
     @ManyToOne
     private Department department;
+
+    @OneToMany(mappedBy = "jobPosition")
+    private List<IntendedDocument> intendedDocuments;
 }

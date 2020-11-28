@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/general.html :: head"></head>
+<body>
+
+<header th:replace="fragments/general.html::header"></header>
+
+<div class="bootstrap-wrapper">
+    <div class="container">
+
+        <div class="page-info row">
+            <div class="col-md-12">
+                <span class="name" th:text="${jobPosition.department.name} + ' / ' + ${jobPosition.name}"></span>
+            </div>
+        </div>
+
+        <table>
+            <tr>
+                <th>Document Name</th>
+                <th></th>
+                <th></th>
+
+            </tr>
+            <tr th:each="document: ${jobPosition.intendedDocuments}">
+                <td th:text="${document.name}">Document Name</td>
+                <td><a th:href="@{'/employee-portal/document/' + ${document.id} + '/download'}">Download</a></td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+
+<footer th:replace="fragments/general.html :: footer"></footer>
+</body>
+</html>
+

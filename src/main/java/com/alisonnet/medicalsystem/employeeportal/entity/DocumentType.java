@@ -9,8 +9,8 @@ import java.util.List;
 
 @Entity
 @Data
-@EqualsAndHashCode(exclude = {"documents"})
-@ToString(exclude = {"documents"})
+@EqualsAndHashCode(exclude = {"empDocuments"})
+@ToString(exclude = {"empDocuments"})
 @Table(name = "document_types")
 public class DocumentType {
     @Id
@@ -20,5 +20,5 @@ public class DocumentType {
     private String name;
 
     @OneToMany(mappedBy = "documentType", fetch = FetchType.LAZY)
-    private List<Document> documents;
+    private List<EmpDocument> empDocuments;
 }

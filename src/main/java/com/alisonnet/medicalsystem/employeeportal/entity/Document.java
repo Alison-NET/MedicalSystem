@@ -8,8 +8,9 @@ import javax.persistence.*;
 @Entity
 @Data
 @Table(name = "documents")
-@ToString(exclude = {"employee"})
-public class Document {
+//@ToString(exclude = {"employee"})
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -20,11 +21,4 @@ public class Document {
     @Lob
     private byte[] data;
 
-    @ManyToOne
-    private DocumentType documentType;
-
-    private Boolean isLocked;
-
-    @ManyToOne
-    private Employee employee;
 }

@@ -1,6 +1,6 @@
-insert into roles (name) values ('ADMIN')
-insert into roles (name) values ('HR')
-insert into roles (name) values ('EMPLOYEE')
+-- insert into roles (name) values ('ADMIN')
+-- insert into roles (name) values ('HR')
+-- insert into roles (name) values ('EMPLOYEE')
 
 insert into credentials (email, password) values ('admin@admin.com','admin')
 insert into credentials (email, password) values ('hr@hr.com','hr')

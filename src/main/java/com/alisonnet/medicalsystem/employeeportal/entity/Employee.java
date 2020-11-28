@@ -51,7 +51,7 @@ public class Employee {
     private Boolean addedToPayroll;
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
-    private List<Document> documents;
+    private List<EmpDocument> empDocuments;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Credentials credentials;

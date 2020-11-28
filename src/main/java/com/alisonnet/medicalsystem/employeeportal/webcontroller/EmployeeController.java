@@ -3,7 +3,7 @@ package com.alisonnet.medicalsystem.employeeportal.webcontroller;
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.dto.document.DocTypeAndFilesDTO;
 import com.alisonnet.medicalsystem.employeeportal.entity.*;
-import com.alisonnet.medicalsystem.employeeportal.service.DocumentService;
+import com.alisonnet.medicalsystem.employeeportal.service.EmpDocumentService;
 import com.alisonnet.medicalsystem.employeeportal.service.DocumentTypeService;
 import com.alisonnet.medicalsystem.employeeportal.service.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -24,27 +23,36 @@ public class EmployeeController {
 
     EmployeeService employeeService;
     DocumentTypeService documentTypeService;
-    DocumentService documentService;
+    EmpDocumentService empDocumentService;
 
     @GetMapping("/profile")
     public String getProfile(Model model){
 
         Optional<Employee> maybeEmployee = employeeService.getActiveEmployee();
-        if(maybeEmployee.isEmpty()){
+        if(maybeEmployee.isEmpty())
             return "redirect:/index";
-        }
 
         model.addAttribute("employee", maybeEmployee.get());
         return "redirect:/employee-portal/employee/" + maybeEmployee.get().getId();
+    }
+
+    @GetMapping("/documents-for-job-position")
+    public String getDocumentsForJobPosition(Model model){
+
+        Optional<Employee> maybeEmployee = employeeService.getActiveEmployee();
+        if(maybeEmployee.isEmpty())
+            return "redirect:/index";
+
+        model.addAttribute("jobPosition", maybeEmployee.get().getJobPosition());
+        return "employee-documents-job-position";
     }
 
     @GetMapping("/{id}")
     public String getProfilePageById(@PathVariable int id, Model model){
 
         Optional<Employee> maybeEmployee = employeeService.findById(id);
-        if(maybeEmployee.isEmpty()){
+        if(maybeEmployee.isEmpty())
             return "redirect:/index";
-        }
 
         Employee employee = maybeEmployee.get();
 
@@ -59,14 +67,14 @@ public class EmployeeController {
                                          @ModelAttribute("dto") DocTypeAndFilesDTO dto){
 
         Optional<Employee> maybeEmployee = employeeService.findById(id);
-        if(maybeEmployee.isEmpty()){
+        if(maybeEmployee.isEmpty())
             return "redirect:/employee-portal/hr/employee";
-        }
+
         Employee employee = maybeEmployee.get();
 
-        for(MultipartFile file: dto.getFiles()){
-            documentService.saveFile(file, dto.getDocumentType(), employee);
-        }
+        for(MultipartFile file: dto.getFiles())
+            empDocumentService.save(file, dto.getDocumentType(), employee);
+
         return "redirect:/employee-portal/employee/" + employee.getId();
     }
 

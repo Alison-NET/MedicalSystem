@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/general.html :: head"></head>
+<body>
+
+<header th:replace="fragments/general.html::header"></header>
+
+<div class="bootstrap-wrapper">
+    <div class="container">
+
+        <div th:if="${#lists.isEmpty(jobPositions)}">
+            <div class="page-info row">
+                <div class="col-md-12">
+                    <span class="name">There are no job positions.</span>
+                </div>
+            </div>
+        </div>
+        <div th:unless="${#lists.isEmpty(jobPositions)}">
+            <div th:unless="${#lists.isEmpty(jobPosition.intendedDocuments)}" th:each="jobPosition: ${jobPositions}">
+                <div class="page-info row">
+                    <div class="col-md-12">
+                        <span class="name" th:text="${jobPosition.department.name} + ' / ' + ${jobPosition.name}"></span>
+                    </div>
+                </div>
+
+                <table>
+                    <tr>
+                        <th>Document Name</th>
+                        <th></th>
+                        <th></th>
+
+                    </tr>
+                    <tr th:each="document: ${jobPosition.intendedDocuments}">
+                        <td th:text="${document.name}">Document Name</td>
+                        <td><a th:href="@{'/employee-portal/document/' + ${document.id} + '/download'}">Download</a></td>
+                        <td><a th:href="@{'/employee-portal/document/' + ${document.id} + '/delete'}">Delete</a></td>
+                    </tr>
+                </table>
+            </div>
+            <hr>
+            <form th:action="@{'/employee-portal/hr/document/for-job-position/save'}" th:object="${jobPosAndFilesDTO}" enctype="multipart/form-data" method="post">
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Intend new document</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <select class="form-in-item" th:field="*{jobPosition}">
+                                <option th:each="jobPos : ${jobPositions}" th:value="${jobPos.name}" th:text="${jobPos.name}"></option>
+                            </select>
+                            <input class="form-in-item" type="file" th:field="*{files}" name="files" multiple required><br>
+                        </div>
+                    </div>
+                </div>
+                <input class="btn form-submit-btn" type="submit" value="Add new document">
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+<footer th:replace="fragments/general.html :: footer"></footer>
+</body>
+</html>
+

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Service
 public interface DocumentTypeService {
-    List<DocumentType> findAll();
 
+    List<DocumentType> findAll();
     List<DocumentType> getAllTypesBasedOnEmployee(Employee employee);
 }

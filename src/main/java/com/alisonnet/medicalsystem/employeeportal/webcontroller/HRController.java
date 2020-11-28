@@ -2,9 +2,9 @@ package com.alisonnet.medicalsystem.employeeportal.webcontroller;
 
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.dto.document.DocTypeAndFilesDTO;
+import com.alisonnet.medicalsystem.employeeportal.dto.document.JobPosAndFilesDTO;
 import com.alisonnet.medicalsystem.employeeportal.dto.employee.EmployeeIdDTO;
 import com.alisonnet.medicalsystem.employeeportal.entity.*;
-import com.alisonnet.medicalsystem.employeeportal.repository.TitleRepo;
 import com.alisonnet.medicalsystem.employeeportal.service.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,10 +30,13 @@ public class HRController {
     BasicEmployeeService basicEmployeeService;
     TitleService titleService;
     DepartmentService departmentService;
+    JobPositionService jobPositionService;
     RoleService roleService;
     ContractService contractService;
+
     DocumentTypeService documentTypeService;
-    DocumentService documentService;
+    EmpDocumentService empDocumentService;
+    IntendedDocumentService intendedDocumentService;
 
 
     @GetMapping("/approve-employee")
@@ -62,8 +65,8 @@ public class HRController {
         credentials.setRoles(roles);
         newEmployee.setCredentials(credentials);
 
-        List<Document> documents = new ArrayList<>();
-        newEmployee.setDocuments(documents);
+        List<EmpDocument> documents = new ArrayList<>();
+        newEmployee.setEmpDocuments(documents);
 
         List<Employee> subordinates = new ArrayList<>();
         newEmployee.setSubordinates(subordinates);
@@ -98,8 +101,8 @@ public class HRController {
                                        HttpServletRequest request,
                                        Model model){
 
-        log.info(bindingResult.toString());                                 // ??????????????????????
         if(bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> log.info(objectError.toString()));
             return Optional.ofNullable(request.getHeader("Referer"))
                     .map(requestUrl -> "redirect:" + requestUrl)
                     .orElse("/");
@@ -187,37 +190,55 @@ public class HRController {
     }
 
     @GetMapping("/employee/{id}/document/{docId}/lock")
-    public String handleLockingDocument(@PathVariable int id, @PathVariable int docId){
+    public String lockEmpDocument(@PathVariable int id, @PathVariable int docId){
 
         if(employeeService.findById(id).isEmpty())
             return "redirect:/employee-portal/hr/employee";
 
-        Optional<Document> maybeDocument = documentService.findById(docId);
+        Optional<EmpDocument> maybeDocument = empDocumentService.findById(docId);
         if(maybeDocument.isEmpty())                                             // Add exception
             return "redirect:/employee-portal/hr/employee/" + id;
 
-        Document document = maybeDocument.get();
+        EmpDocument document = maybeDocument.get();
         document.setIsLocked(true);
-        documentService.save(document);
+        empDocumentService.save(document);
 
         return "redirect:/employee-portal/hr/employee/" + id;
     }
 
     @GetMapping("/employee/{id}/document/{docId}/unlock")
-    public String handleUnlockingDocument(@PathVariable int id, @PathVariable int docId){
+    public String unlockEmpDocument(@PathVariable int id, @PathVariable int docId){
 
         if(employeeService.findById(id).isEmpty())
             return "redirect:/employee-portal/hr/employee";
 
-        Optional<Document> maybeDocument = documentService.findById(docId);
+        Optional<EmpDocument> maybeDocument = empDocumentService.findById(docId);
         if(maybeDocument.isEmpty())                                             // Add exception
             return "redirect:/employee-portal/hr/employee/" + id;
 
-        Document document = maybeDocument.get();
+        EmpDocument document = maybeDocument.get();
         document.setIsLocked(false);
-        documentService.save(document);
+        empDocumentService.save(document);
 
         return "redirect:/employee-portal/hr/employee/" + id;
+    }
+
+    @GetMapping("/document/for-job-position")
+    public String getManageDocumentsPerJobPositionPage(Model model){
+
+
+        model.addAttribute("jobPositions", jobPositionService.findAll());
+        model.addAttribute("jobPosAndFilesDTO", new JobPosAndFilesDTO(new JobPosition(), new MultipartFile[10]));
+        return "hr-documents-job-position";
+    }
+
+    @PostMapping("/document/for-job-position/save")
+    public String handleAddingIntendedDocument(@ModelAttribute("jobPosAndFilesDTO") JobPosAndFilesDTO dto){
+
+        for(MultipartFile file: dto.getFiles())
+            intendedDocumentService.save(dto.getJobPosition(), file);
+
+        return "redirect:/employee-portal/hr/document/for-job-position";
     }
 
 }

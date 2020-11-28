@@ -9,8 +9,6 @@ import java.util.List;
 public interface DepartmentService {
 
     List<Department> findAll();
-
     boolean hasDepartmentChief(Department department);
-
     List<Department> getDepartmentsWithoutChiefs();
 }

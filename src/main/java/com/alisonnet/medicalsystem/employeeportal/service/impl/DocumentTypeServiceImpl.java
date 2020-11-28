@@ -26,7 +26,7 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
         List<DocumentType> allDocumentTypes = findAll();
 
         return allDocumentTypes.stream().filter(type ->{
-            type.setDocuments(type.getDocuments().stream()
+            type.setEmpDocuments(type.getEmpDocuments().stream()
                     .filter(document -> document.getEmployee() == employee)
                     .collect(Collectors.toList()));
             return true;

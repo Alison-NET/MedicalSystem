@@ -10,16 +10,10 @@ import java.util.Optional;
 public interface BasicEmployeeService {
 
     BasicEmployee registerNewBasicEmployee(BasicEmployee basicEmployee);
-
     List<BasicEmployee> findAll();
-
     List<BasicEmployee> getUnapprovedEmployees();
-
     Optional<BasicEmployee> findById(int id);
-
     BasicEmployee save(BasicEmployee basicEmployee);
-
     void deleteById(int id);
-
     boolean personalEmailExists(String personalEmail);
 }

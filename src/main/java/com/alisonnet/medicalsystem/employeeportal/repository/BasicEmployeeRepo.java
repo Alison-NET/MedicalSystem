@@ -7,7 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BasicEmployeeRepo extends JpaRepository<BasicEmployee, Integer> {
-
     BasicEmployee findFirstByPersonalEmail(String personalEmail);
-
 }

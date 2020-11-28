@@ -189,10 +189,10 @@
                 <p class="name">Documents</p>
             </div>
             <div class="col-md-8">
-                <ul class="ul-no-dot" th:if="${not #lists.isEmpty(documentType.documents)}" th:each="documentType : ${documentTypes}">
+                <ul class="ul-no-dot" th:if="${not #lists.isEmpty(documentType.empDocuments)}" th:each="documentType : ${documentTypes}">
                     <li>
                         <p th:text="${documentType.name}" class="descr document-type"></p>
-                        <ul class="ul-no-dot" th:each="document : ${documentType.documents}">
+                        <ul class="ul-no-dot" th:each="document : ${documentType.empDocuments}">
                             <a th:href="@{'/employee-portal/document/' + ${document.id}+'/download'}">
                                 <li th:text="${document.name}" class="document-name"></li>
                             </a>
@@ -205,7 +205,7 @@
         <div sec:authorize="hasAuthority('EMPLOYEE')">
             <hr>
             <h2> Employee documents</h2>
-            <div th:replace="fragments/document-upload-form.html :: document-upload-form"></div>
+            <div th:replace="fragments/emp-document-upload-form.html :: document-upload-form"></div>
         </div>
 
     </div>
