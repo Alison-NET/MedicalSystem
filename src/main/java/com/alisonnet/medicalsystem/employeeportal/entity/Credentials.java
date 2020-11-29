@@ -2,6 +2,8 @@ package com.alisonnet.medicalsystem.employeeportal.entity;
 
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -11,6 +13,8 @@ import java.util.List;
 
 @Data
 @Entity
+@EqualsAndHashCode(exclude = "employee")
+@ToString(exclude = "employee")
 @Table(name = "credentials")
 public class Credentials {
 

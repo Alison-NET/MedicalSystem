@@ -9,8 +9,8 @@ import java.util.List;
 
 @Entity
 @Data
-@EqualsAndHashCode(exclude = {"jobPositions"})
-@ToString(exclude = {"jobPositions"})
+@EqualsAndHashCode(exclude = {"jobPositions","chiefJobPosition"})
+@ToString(exclude = {"jobPositions","chiefJobPosition"})
 @Table(name = "departments")
 public class Department {
 

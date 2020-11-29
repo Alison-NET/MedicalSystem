@@ -11,6 +11,7 @@ values (1, 'Admin', 'Admin', 'Admin', '2000-05-05 00:00:00', '-', '-', '-', '-',
 
 insert into departments (name) values ('System Admin')
 insert into job_positions (name, department_name) values ('Admin','System Admin')
+update departments set chief_job_position_id=1 where name='System Admin'
 
 insert into work_shifts (beginning, ending) values ('08:00:00', '16:00:00')
 
@@ -21,36 +22,42 @@ values (1, 1 , 0, 0, 1, 1)
 
 --
 
-insert into departments (name, chief_job_position_id) values ('Human Resources', 1)
+insert into departments (name) values ('Human Resources')
 insert into job_positions (name, department_name) values ('Human Resource Manager','Human Resources')
+update departments set chief_job_position_id=2 where name='Human Resources'
 
 
-insert into departments (name, chief_job_position_id) values ('Sales', 1)
+insert into departments (name) values ('Sales')
 insert into job_positions (name, department_name) values ('Sales Manager','Sales')
 insert into job_positions (name, department_name) values ('Sales Representative','Sales')
+update departments set chief_job_position_id=3 where name='Sales'
 
 
-insert into departments (name, chief_job_position_id) values ('Administration', 1)
+insert into departments (name) values ('Administration')
 insert into job_positions (name, department_name) values ('Laboratory Director','Administration')
+update departments set chief_job_position_id=5 where name='Administration'
 
 
-insert into departments (name, chief_job_position_id) values ('Consultant', 1)
+insert into departments (name) values ('Consultant')
 insert into job_positions (name, department_name) values ('Consultant','Consultant')
+update departments set chief_job_position_id=6 where name='Consultant'
 
 
-insert into departments (name, chief_job_position_id) values ('CoreLab', 1)
+insert into departments (name) values ('CoreLab')
 insert into job_positions (name, department_name) values ('Lab Admin','CoreLab')
 insert into job_positions (name, department_name) values ('Analyst','CoreLab')
 insert into job_positions (name, department_name) values ('Accessioner','CoreLab')
 insert into job_positions (name, department_name) values ('Lab Aid','CoreLab')
 insert into job_positions (name, department_name) values ('Technician','CoreLab')
 insert into job_positions (name, department_name) values ('Technologist','CoreLab')
+update departments set chief_job_position_id=7 where name='CoreLab'
 
 
-insert into departments (name) values ('Molecular', 1)
+insert into departments (name) values ('Molecular')
 insert into job_positions (name, department_name) values ('Director','Molecular')
 insert into job_positions (name, department_name) values ('Technician','Molecular')
 insert into job_positions (name, department_name) values ('Technologist','Molecular')
+update departments set chief_job_position_id=13 where name='Molecular'
 
 
 insert into document_types (name) values ('Education')
