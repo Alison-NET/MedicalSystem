@@ -11,6 +11,7 @@ import javax.persistence.*;
 //@ToString(exclude = {"employee"})
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Document {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -20,5 +21,4 @@ public abstract class Document {
 
     @Lob
     private byte[] data;
-
 }

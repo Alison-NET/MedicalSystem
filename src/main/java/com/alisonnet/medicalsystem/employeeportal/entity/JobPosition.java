@@ -15,7 +15,9 @@ import java.util.List;
 public class JobPosition {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     private String name;
 
     @OneToMany(mappedBy = "jobPosition", fetch = FetchType.LAZY)
@@ -26,4 +28,8 @@ public class JobPosition {
 
     @OneToMany(mappedBy = "jobPosition")
     private List<IntendedDocument> intendedDocuments;
+
+    public String toAuthority(){
+        return department.toAuthority() + "_" + name.replaceAll("\\s+","_").toUpperCase() + "_POS";
+    }
 }

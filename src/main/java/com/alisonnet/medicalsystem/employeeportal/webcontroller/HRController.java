@@ -61,8 +61,8 @@ public class HRController {
         newEmployee.setWorkShift(workShift);
 
         Credentials credentials = new Credentials();
-        List<Role> roles = new ArrayList<>();
-        credentials.setRoles(roles);
+//        List<Role> roles = new ArrayList<>();
+//        credentials.setRoles(roles);
         newEmployee.setCredentials(credentials);
 
         List<EmpDocument> documents = new ArrayList<>();
@@ -126,9 +126,8 @@ public class HRController {
     public String getEmployeeEditProfilePageById(@PathVariable int id, Model model){
 
         Optional<Employee> maybeEmployee = employeeService.findById(id);
-        if(maybeEmployee.isEmpty()){
+        if(maybeEmployee.isEmpty())
             return "redirect:/employee-portal/hr/employee";
-        }
 
         model.addAttribute("employee", maybeEmployee.get());
         model.addAttribute("departments", departmentService.findAll());
@@ -156,9 +155,8 @@ public class HRController {
                                                 @ModelAttribute Contract contract){
 
         Optional<Employee> maybeEmployee = employeeService.findById(id);
-        if(maybeEmployee.isEmpty()){
+        if(maybeEmployee.isEmpty())
             return "redirect:/employee-portal/hr/employee";
-        }
 
         Employee employee = maybeEmployee.get();
         contract.setEmployee(employee);
@@ -173,14 +171,12 @@ public class HRController {
                                                 @ModelAttribute EmployeeIdDTO supervisorId){
 
         Optional<Employee> maybeEmployee = employeeService.findById(id);
-        if(maybeEmployee.isEmpty()){
+        if(maybeEmployee.isEmpty())
             return "redirect:/employee-portal/hr/employee";
-        }
 
         Optional<Employee> maybeSupervisor = employeeService.findById(supervisorId.getId());
-        if(maybeSupervisor.isEmpty()){
+        if(maybeSupervisor.isEmpty())
             return "redirect:/employee-portal/hr/employee";                 // Add exception
-        }
 
         maybeEmployee.get().setSupervisor(maybeSupervisor.get());
 

@@ -11,7 +11,7 @@
                 <span class="name">Employee Profile</span>
             </div>
             <div class="col-md-8">
-                <a sec:authorize="hasAnyAuthority('HR', 'ADMIN')" class="extra-btn" th:href="@{'/employee-portal/hr/employee/' + ${employee.id}}">
+                <a sec:authorize="hasAnyAuthority('HUMAN_RESOURCES_DEP', 'SYSTEM_ADMIN_DEP')" class="extra-btn" th:href="@{'/employee-portal/hr/employee/' + ${employee.id}}">
                     <span class="text">Edit</span>
                 </a>
             </div>
@@ -117,15 +117,6 @@
             </div>
         </div>
 
-         <div th:if="${not #strings.isEmpty(employee.jobDescription)}" class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Job Description</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${employee.jobDescription}"></p>
-            </div>
-        </div>
-
 
         <div th:if="${employee.completedTraining != null}" class="profile-item row">
             <div class="col-md-4">
@@ -184,7 +175,7 @@
         </div>
 
 
-        <div sec:authorize="hasAnyAuthority('HR', 'ADMIN')" th:if="${not #lists.isEmpty(employee.documents)}" class="profile-item row">
+        <div sec:authorize="hasAnyAuthority('HUMAN_RESOURCES_DEP', 'SYSTEM_ADMIN_DEP')" th:if="${not #lists.isEmpty(employee.empDocuments)}" class="profile-item row">
             <div class="col-md-4">
                 <p class="name">Documents</p>
             </div>

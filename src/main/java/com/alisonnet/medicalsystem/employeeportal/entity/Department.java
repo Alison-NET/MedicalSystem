@@ -21,4 +21,10 @@ public class Department {
     @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
     private List<JobPosition> jobPositions;
 
+    @OneToOne
+    private JobPosition chiefJobPosition;
+
+    public String toAuthority(){
+        return name.replaceAll("\\s+","_").toUpperCase() + "_DEP";
+    }
 }

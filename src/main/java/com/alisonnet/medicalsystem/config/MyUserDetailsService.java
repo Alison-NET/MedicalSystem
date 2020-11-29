@@ -1,6 +1,7 @@
 package com.alisonnet.medicalsystem.config;
 
 import com.alisonnet.medicalsystem.employeeportal.entity.Credentials;
+import com.alisonnet.medicalsystem.employeeportal.entity.JobPosition;
 import com.alisonnet.medicalsystem.employeeportal.entity.Role;
 import com.alisonnet.medicalsystem.employeeportal.repository.CredentialsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,15 +43,24 @@ public class MyUserDetailsService implements UserDetailsService {
                 accountNonExpired,
                 credentialsNonExpired,
                 accountNonLocked,
-                getAuthorities(credentials.getRoles())
+                getAuthoritiesByJobPosition(credentials.getEmployee().getJobPosition())
         );
     }
 
-    private static List<GrantedAuthority> getAuthorities (List<Role> roles) {
+    private static List<GrantedAuthority> getAuthoritiesByRoles (List<Role> roles) {
         List<GrantedAuthority> authorities = new ArrayList<>();
         for (Role role : roles) {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
+        return authorities;
+    }
+
+    private static List<GrantedAuthority> getAuthoritiesByJobPosition(JobPosition jobPosition){
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        authorities.add(new SimpleGrantedAuthority(jobPosition.getDepartment().toAuthority()));
+        authorities.add(new SimpleGrantedAuthority(jobPosition.toAuthority()));
+
         return authorities;
     }
 }

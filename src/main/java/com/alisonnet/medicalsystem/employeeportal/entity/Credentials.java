@@ -27,6 +27,6 @@ public class Credentials {
     @NotNull
     private String password;
 
-    @ManyToMany
-    private List<Role> roles;
+    @OneToOne(mappedBy = "credentials")
+    private Employee employee;
 }

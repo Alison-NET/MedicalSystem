@@ -44,8 +44,6 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     private List<Contract> contracts;
 
-    private String jobDescription;
-
     private Boolean completedTraining;
 
     private Boolean addedToPayroll;
@@ -74,6 +72,6 @@ public class Employee {
     }
 
     public boolean isDepartmentChief(){
-        return jobPosition.getName().toLowerCase().contains("Department Chief".toLowerCase());
+        return jobPosition.equals(jobPosition.getDepartment().getChiefJobPosition());
     }
 }

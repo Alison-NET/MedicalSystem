@@ -8,25 +8,32 @@
 <div class="bootstrap-wrapper">
     <div class="container">
 
-        <div class="page-info row">
-            <div class="col-md-12">
-                <span class="name" th:text="${jobPosition.department.name} + ' / ' + ${jobPosition.name}"></span>
+        <div th:if="${#lists.isEmpty(jobPosition.intendedDocuments)}">
+            <div class="page-info row">
+                <div class="col-md-12">
+                    <span class="name">There are no documents for your job position.</span>
+                </div>
             </div>
         </div>
+        <div th:unless="${#lists.isEmpty(jobPosition.intendedDocuments)}">
+            <div class="page-info row">
+                <div class="col-md-12">
+                    <span class="name" th:text="${jobPosition.department.name} + ' / ' + ${jobPosition.name}"></span>
+                </div>
+            </div>
 
-        <table>
-            <tr>
-                <th>Document Name</th>
-                <th></th>
-                <th></th>
-
-            </tr>
-            <tr th:each="document: ${jobPosition.intendedDocuments}">
-                <td th:text="${document.name}">Document Name</td>
-                <td><a th:href="@{'/employee-portal/document/' + ${document.id} + '/download'}">Download</a></td>
-            </tr>
-        </table>
-
+            <table>
+                <tr>
+                    <th>Document Name</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr th:each="document: ${jobPosition.intendedDocuments}">
+                    <td th:text="${document.name}">Document Name</td>
+                    <td><a th:href="@{'/employee-portal/document/' + ${document.id} + '/download'}">Download</a></td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
 

@@ -13,6 +13,7 @@ import java.util.List;
 @ToString(exclude = {"empDocuments"})
 @Table(name = "document_types")
 public class DocumentType {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

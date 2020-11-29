@@ -6,7 +6,7 @@
     <div class="container">
 
 
-        <div th:if="${not #lists.isEmpty(employee.documents)}">
+        <div th:if="${not #lists.isEmpty(employee.empDocuments)}">
             <div th:if="${not #lists.isEmpty(documentType.empDocuments)}" th:each="documentType : ${documentTypes}" class="profile-edit-item">
 <!--                <div class="col-md-12">-->
                     <p class="name" th:text="${documentType.name}"></p>

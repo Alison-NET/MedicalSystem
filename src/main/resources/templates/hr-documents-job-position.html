@@ -28,7 +28,6 @@
                         <th>Document Name</th>
                         <th></th>
                         <th></th>
-
                     </tr>
                     <tr th:each="document: ${jobPosition.intendedDocuments}">
                         <td th:text="${document.name}">Document Name</td>
@@ -46,7 +45,7 @@
                     <div class="col-md-8">
                         <div class="input-wrapper">
                             <select class="form-in-item" th:field="*{jobPosition}">
-                                <option th:each="jobPos : ${jobPositions}" th:value="${jobPos.name}" th:text="${jobPos.name}"></option>
+                                <option th:each="jobPos : ${jobPositions}" th:value="${jobPos.id}" th:text="${jobPos.name}"></option>
                             </select>
                             <input class="form-in-item" type="file" th:field="*{files}" name="files" multiple required><br>
                         </div>

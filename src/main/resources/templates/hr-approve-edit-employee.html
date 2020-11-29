@@ -179,8 +179,8 @@
                     <div class="input-wrapper">
                         <select class="form-in-item" th:field="*{jobPosition}">
                             <optgroup th:label="${dep.name}" th:each="dep : ${departments}">
-                                <option th:each="jobPosition : ${dep.jobPositions}"
-                                        th:value="${jobPosition.name}" th:text="${jobPosition.name}"></option>
+                                <option th:each="jobPos : ${dep.jobPositions}"
+                                        th:value="${jobPos.id}" th:text="${jobPos.name}"></option>
                             </optgroup>
                         </select>
                     </div>
@@ -214,16 +214,6 @@
                 <div class="col-md-8">
                     <div class="input-wrapper">
                         <input class="form-in-item" type="text" th:field="*{commission}" th:value="*{commission}">
-                    </div>
-                </div>
-            </div>
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Job description</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <textarea class="form-in-item" th:field="*{jobDescription}" th:value="*{jobDescription}"></textarea>
                     </div>
                 </div>
             </div>
@@ -272,75 +262,76 @@
                 <div class="col-md-8">
                     <div class="input-wrapper">
                         <div class="form-in-item">
-                            <span>Email </span><input type="email" th:field="*{credentials.email}"><span>Password </span><input type="text" th:field="*{credentials.password}">
+                            <span>Email </span><input type="email" th:field="*{credentials.email}">
+                            <span>Password </span><input type="text" th:field="*{credentials.password}">
                             <p class="form-item-error" th:each="error : ${#fields.errors('credentials.email')}" th:text="${error}">Validation error</p>
                             <p class="form-item-error" th:each="error : ${#fields.errors('credentials.password')}" th:text="${error}">Validation error</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Role(s)</p>
-                </div>
-                <div class="col-md-8">
-                    <select th:field="*{credentials.roles}" multiple="multiple">
-                        <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
-                    </select>
-                </div>
-            </div>
+<!--            <div class="profile-edit-item row">-->
+<!--                <div class="col-md-4">-->
+<!--                    <p class="name">Role(s)</p>-->
+<!--                </div>-->
+<!--                <div class="col-md-8">-->
+<!--                    <select th:field="*{credentials.roles}" multiple="multiple">-->
+<!--                        <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--            </div>-->
 
             <input class="btn form-submit-btn" type="submit" th:value="Submit">
         </form>
 
-<!--        <div th:if="${#bools.isTrue(isApproved)}">-->
+        <div th:if="${#bools.isTrue(isApproved)}">
 
-<!--            <hr>-->
-<!--            <div>-->
-<!--                <h2>Manage contracts</h2>-->
-<!--                <div th:replace="fragments/contract-create-form :: contract-create-form"></div>-->
-<!--            </div>-->
-<!--            <hr>-->
-<!--            <div>-->
-<!--                <h2>Manage documents</h2>-->
-<!--                <div th:replace="fragments/emp-document-upload-form.html :: document-upload-form"></div>-->
-<!--            </div>-->
+            <hr>
+            <div>
+                <h2>Manage contracts</h2>
+                <div th:replace="fragments/contract-create-form :: contract-create-form"></div>
+            </div>
+            <hr>
+            <div>
+                <h2>Manage documents</h2>
+                <div th:replace="fragments/emp-document-upload-form.html :: document-upload-form"></div>
+            </div>
 
-<!--            <div th:if="${not #bools.isTrue(employee.isDepartmentChief()) && not #lists.isEmpty(supervisors)}">-->
-<!--                <hr>-->
-<!--                <h2>Manage supervisor</h2>-->
-<!--                <div th:if="${employee.supervisor != null}" class="profile-edit-item row">-->
-<!--                    <div class="col-md-4">-->
-<!--                        <p class="name">Supervisor </p>-->
-<!--                    </div>-->
-<!--                    <div class="col-md-8">-->
-<!--                        <a th:href="@{'/employee-portal/hr/employee/' + ${employee.supervisor.id}}">-->
-<!--                            <p th:text="${employee.supervisor.basicInfo.firstName} + ' ' + ${employee.supervisor.basicInfo.lastName}"></p>-->
-<!--                        </a>-->
-<!--                    </div>-->
-<!--                </div>-->
+            <div th:if="${not #bools.isTrue(employee.isDepartmentChief()) && not #lists.isEmpty(supervisors)}">
+                <hr>
+                <h2>Manage supervisor</h2>
+                <div th:if="${employee.supervisor != null}" class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Supervisor </p>
+                    </div>
+                    <div class="col-md-8">
+                        <a th:href="@{'/employee-portal/hr/employee/' + ${employee.supervisor.id}}">
+                            <p th:text="${employee.supervisor.basicInfo.firstName} + ' ' + ${employee.supervisor.basicInfo.lastName}"></p>
+                        </a>
+                    </div>
+                </div>
 
-<!--                <form  class="profile-edit-form"-->
-<!--                      th:action="@{/employee-portal/hr/employee/__${employee.id}__/add-supervisor}" th:object="${supervisorId}" method="post">-->
+                <form  class="profile-edit-form"
+                      th:action="@{/employee-portal/hr/employee/__${employee.id}__/add-supervisor}" th:object="${supervisorId}" method="post">
 
-<!--                    <div class="profile-edit-item row">-->
-<!--                        <div class="col-md-4">-->
-<!--                            <p class="name">Change</p>-->
-<!--                        </div>-->
-<!--                        <div class="col-md-8">-->
-<!--                            <div class="input-wrapper">-->
-<!--                                <select class="form-in-item" th:field="*{id}">-->
-<!--                                    <option th:each="supervisor : ${supervisors}" th:value="${supervisor.id}"-->
-<!--                                            th:text="${supervisor.basicInfo.firstName} + ' ' + ${supervisor.basicInfo.lastName}"></option>-->
-<!--                                </select>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <div class="profile-edit-item row">
+                        <div class="col-md-4">
+                            <p class="name">Change</p>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="input-wrapper">
+                                <select class="form-in-item" th:field="*{id}">
+                                    <option th:each="supervisor : ${supervisors}" th:value="${supervisor.id}"
+                                            th:text="${supervisor.basicInfo.firstName} + ' ' + ${supervisor.basicInfo.lastName}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 
-<!--                    <input class="btn form-submit-btn" type="submit" value="Update supervisor">-->
+                    <input class="btn form-submit-btn" type="submit" value="Update supervisor">
 
-<!--                </form>-->
-<!--            </div>-->
+                </form>
+            </div>
 
 
 

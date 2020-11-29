@@ -12,6 +12,7 @@ import javax.persistence.Table;
 @Table(name = "employee_documents")
 @ToString(exclude = "employee")
 public class EmpDocument extends Document {
+
     @ManyToOne
     private DocumentType documentType;
 
