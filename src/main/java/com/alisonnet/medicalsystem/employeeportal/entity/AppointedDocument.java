@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Data
 @Table(name = "intended_documents")
 @ToString(exclude = "jobPosition")
-public class IntendedDocument extends Document{
+public class AppointedDocument extends Document{
 
     @ManyToOne
     private JobPosition jobPosition;

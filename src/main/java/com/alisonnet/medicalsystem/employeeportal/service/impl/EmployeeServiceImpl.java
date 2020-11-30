@@ -84,7 +84,17 @@ public class EmployeeServiceImpl implements EmployeeService {
                 employee.setSupervisor(beforeSavingEmployee.get().getSupervisor());
                 employee.setSubordinates(beforeSavingEmployee.get().getSubordinates());
             }
-
         }
+    }
+
+
+    @Override
+    public boolean isInHRDepartment(Employee employee) {
+        return employee.getJobPosition().getDepartment().getName().equals("Human Resources");
+    }
+
+    @Override
+    public boolean isInAdminDepartment(Employee employee) {
+        return employee.getJobPosition().getDepartment().getName().equals("System Admin");
     }
 }

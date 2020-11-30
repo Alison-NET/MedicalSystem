@@ -12,7 +12,8 @@
 
                 <div class="attention-block-section" th:if="${not #lists.isEmpty(departmentsWithoutChief)}">
                     <h3>Attention!</h3>
-                    <p th:each="dep: ${departmentsWithoutChief}" th:text="${dep.name} + ' department has no department chief! Handle this to avoid tree looping!'"></p>
+                    <p th:each="dep: ${departmentsWithoutChief}"
+                       th:text="${dep.name} + ' department has no department chief! Handle this to avoid tree looping!'"></p>
                 </div>
 
             </div>

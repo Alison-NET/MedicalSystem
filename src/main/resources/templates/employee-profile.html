@@ -11,7 +11,13 @@
                 <span class="name">Employee Profile</span>
             </div>
             <div class="col-md-8">
-                <a sec:authorize="hasAnyAuthority('HUMAN_RESOURCES_DEP', 'SYSTEM_ADMIN_DEP')" class="extra-btn" th:href="@{'/employee-portal/hr/employee/' + ${employee.id}}">
+
+                <!--     HR cannot edit own and admin's profile, but admin can edit any profile           -->
+
+                <a th:if="${(#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isFalse(isHrProfile))
+                            or (#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isFalse(isAdminProfile))
+                            or #authorization.expression('hasAuthority(''SYSTEM_ADMIN_DEP'')')}"
+                   class="extra-btn" th:href="@{'/employee-portal/hr/employee/' + ${employee.id}}">
                     <span class="text">Edit</span>
                 </a>
             </div>

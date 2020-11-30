@@ -37,16 +37,16 @@
                 </table>
             </div>
             <hr>
-            <form th:action="@{'/employee-portal/hr/document/for-job-position/save'}" th:object="${jobPosAndFilesDTO}" enctype="multipart/form-data" method="post">
+            <form th:action="@{'/employee-portal/hr/documents-for-job-position/save'}" th:object="${jobPosAndFilesDTO}" enctype="multipart/form-data" method="post">
                 <div class="profile-edit-item row">
                     <div class="col-md-4">
-                        <p class="name">Intend new document</p>
+                        <p class="name">Appoint new document for job position</p>
                     </div>
                     <div class="col-md-8">
                         <div class="input-wrapper">
                             <select class="form-in-item" th:field="*{jobPosition}">
                                 <option th:each="jobPos : ${jobPositions}" th:value="${jobPos.id}" th:text="${jobPos.name}"></option>
-                            </select>
+                            </select><br>
                             <input class="form-in-item" type="file" th:field="*{files}" name="files" multiple required><br>
                         </div>
                     </div>

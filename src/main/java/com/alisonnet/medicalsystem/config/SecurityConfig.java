@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/", "/employee-portal/new-employee").permitAll()
-                .antMatchers("/employee-portal").authenticated()
+                .antMatchers("/employee-portal/**").authenticated()
                 .antMatchers("/employee-portal/admin/**").hasAnyAuthority("SYSTEM_ADMIN_DEP")
                 .antMatchers("/employee-portal/hr/**").hasAnyAuthority("HUMAN_RESOURCES_DEP", "SYSTEM_ADMIN_DEP")
                 .antMatchers("/employee-portal/employee/**").authenticated()

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/general.html :: head"></head>
+<body>
+<header th:replace="fragments/general.html::header"></header>
+
+<div class="bootstrap-wrapper">
+    <div class="container">
+
+        <!--   HR can't change own and admin's data     -->
+        <div th:if="${(#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isTrue(isHrEditPage))
+                        or (#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isTrue(isAdminEditPage))}">
+            You are not allowed to manage this page
+        </div>
+        <div th:unless="${(#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isTrue(isHrEditPage))
+                        or (#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isTrue(isAdminEditPage))}">
+            <div class="page-info row">
+                <div class="col-md-4">
+                    <span th:if="${#bools.isTrue(isApproved)}" class="name">Edit Employee</span>
+                    <span th:unless="${#bools.isTrue(isApproved)}" class="name">Approve Employee</span>
+                </div>
+                <div class="col-md-8">
+                    <a class="extra-btn" th:href="@{'/employee-portal/' + ${employee.id}}">
+                        <span class="text">Profile</span>
+                    </a>
+                </div>
+            </div>
+            <form class="profile-edit-form" th:action="@{'/employee-portal/hr/employee/save'}" th:object="${employee}" method="post">
+
+                <input type="text" th:field="*{basicInfo.id}" th:value="*{basicInfo.id}" hidden>
+                <input type="text" th:field="*{id}" th:value="*{id}" hidden>
+                <input type="text" th:field="*{credentials.id}" th:value="*{credentials.id}" hidden>
+
+                <input type="text" th:field="*{empDocuments}" th:value="*{empDocuments}" hidden>
+                <input type="text" th:field="*{contracts}" th:value="*{contracts}" hidden>
+                <input type="text" th:field="*{supervisor}" th:value="*{supervisor}" hidden>
+                <input type="text" th:field="*{subordinates}" th:value="*{subordinates}" hidden>
+
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Title</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <select class="form-in-item" th:field="*{basicInfo.title}">
+                                <option th:each="tit : ${titles}"
+                                        th:value="${tit.id}"
+                                        th:text="${tit.name}"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">First name</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{basicInfo.firstName}" th:value="*{basicInfo.firstName}">
+                            <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.firstName')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Middle name</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{basicInfo.middleName}" th:value="*{basicInfo.middleName}">
+                            <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.middleName')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Last name</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{basicInfo.lastName}" th:value="*{basicInfo.lastName}">
+                            <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.lastName')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Date of birth</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="date" th:field="*{basicInfo.dateOfBirth}" th:value="*{basicInfo.dateOfBirth}">
+                            <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.dateOfBirth')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Home phone</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="tel" th:field="*{basicInfo.homePhone}" th:value="*{basicInfo.homePhone}">
+                            <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.homePhone')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Mobile phone</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="tel" th:field="*{basicInfo.mobilePhone}" th:value="*{basicInfo.mobilePhone}">
+                            <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.mobilePhone')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Personal email</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="email" th:field="*{basicInfo.personalEmail}" th:value="*{basicInfo.personalEmail}">
+                            <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.personalEmail')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Address 1</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{basicInfo.addressFirst}">
+                            <p th:each="error : ${#fields.errors('basicInfo.addressFirst')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Address 2</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{basicInfo.addressSecond}">
+                            <p th:each="error : ${#fields.errors('basicInfo.addressSecond')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">City</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{basicInfo.city}">
+                            <p th:each="error : ${#fields.errors('basicInfo.city')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">State</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{basicInfo.state}">
+                            <p th:each="error : ${#fields.errors('basicInfo.state')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Department/Job Position</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <select class="form-in-item" th:field="*{jobPosition}">
+                                <optgroup th:label="${dep.name}" th:each="dep : ${departments}">
+                                    <option th:each="jobPos : ${dep.jobPositions}"
+                                            th:value="${jobPos.id}" th:text="${jobPos.name}"></option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Social security</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{basicInfo.socialSecurity}" th:value="*{basicInfo.socialSecurity}">
+                            <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.socialSecurity')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Salary</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{salary}" th:value="*{salary}">
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Commission</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{commission}" th:value="*{commission}">
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Added to payroll</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <label class="checkbox-container form-in-item">
+                                <input th:field="*{addedToPayroll}" type="checkbox" checked="checked">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Completed training</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <label class="checkbox-container form-in-item">
+                                <input th:field="*{completedTraining}" type="checkbox" checked="checked">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Work shift</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <div class="form-in-item"><input  type="time" th:field="*{workShift.beginning}"> - <input type="time" th:field="*{workShift.ending}"></div>
+                            <p class="form-item-error" th:each="error : ${#fields.errors('workShift.beginning')}" th:text="${error}">Validation error</p>
+                            <p class="form-item-error" th:each="error : ${#fields.errors('workShift.ending')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">Credentials</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <div class="form-in-item">
+                                <span>Email </span><input type="email" th:field="*{credentials.email}">
+                                <span>Password </span><input type="text" th:field="*{credentials.password}">
+                                <p class="form-item-error" th:each="error : ${#fields.errors('credentials.email')}" th:text="${error}">Validation error</p>
+                                <p class="form-item-error" th:each="error : ${#fields.errors('credentials.password')}" th:text="${error}">Validation error</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    <!--            <div class="profile-edit-item row">-->
+    <!--                <div class="col-md-4">-->
+    <!--                    <p class="name">Role(s)</p>-->
+    <!--                </div>-->
+    <!--                <div class="col-md-8">-->
+    <!--                    <select th:field="*{credentials.roles}" multiple="multiple">-->
+    <!--                        <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>-->
+    <!--                    </select>-->
+    <!--                </div>-->
+    <!--            </div>-->
+
+                <input class="btn form-submit-btn" type="submit" th:value="Submit">
+            </form>
+
+            <div th:if="${#bools.isTrue(isApproved)}">
+
+                <hr>
+                <div>
+                    <h2>Manage contracts</h2>
+                    <div th:replace="fragments/contract-create-form :: contract-create-form"></div>
+                </div>
+                <hr>
+                <div>
+                    <h2>Manage documents</h2>
+                    <div th:replace="fragments/emp-document-upload-form.html :: document-upload-form"></div>
+                </div>
+
+                <div th:if="${not #bools.isTrue(employee.isDepartmentChief()) && not #lists.isEmpty(supervisors)}">
+                    <hr>
+                    <h2>Manage supervisor</h2>
+                    <div th:if="${employee.supervisor != null}" class="profile-edit-item row">
+                        <div class="col-md-4">
+                            <p class="name">Supervisor </p>
+                        </div>
+                        <div class="col-md-8">
+                            <a th:href="@{'/employee-portal/hr/employee/' + ${employee.supervisor.id}}">
+                                <p th:text="${employee.supervisor.basicInfo.firstName} + ' ' + ${employee.supervisor.basicInfo.lastName}"></p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <form  class="profile-edit-form"
+                          th:action="@{/employee-portal/hr/employee/__${employee.id}__/add-supervisor}" th:object="${supervisorId}" method="post">
+
+                        <div class="profile-edit-item row">
+                            <div class="col-md-4">
+                                <p class="name">Change</p>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="input-wrapper">
+                                    <select class="form-in-item" th:field="*{id}">
+                                        <option th:each="supervisor : ${supervisors}" th:value="${supervisor.id}"
+                                                th:text="${supervisor.basicInfo.firstName} + ' ' + ${supervisor.basicInfo.lastName}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input class="btn form-submit-btn" type="submit" value="Update supervisor">
+
+                    </form>
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+<footer th:replace="fragments/general.html :: footer"></footer>
+</body>
+</html>
+

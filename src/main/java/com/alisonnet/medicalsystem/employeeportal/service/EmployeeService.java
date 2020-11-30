@@ -15,6 +15,8 @@ public interface EmployeeService {
     Optional<Employee> findById(int id);
     Optional<Employee> getActiveEmployee();
     List<Employee> getPossibleSupervisors(int forEmployeeId);
+    boolean isInHRDepartment(Employee employee);
+    boolean isInAdminDepartment(Employee employee);
     void updateRelationsIfNeeded(Employee employee);
 
 }

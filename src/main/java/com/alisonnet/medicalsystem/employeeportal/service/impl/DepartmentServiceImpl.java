@@ -26,10 +26,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<Department> getDepartmentsWithoutChiefs() {
         return departmentRepo.findAll().stream()
-                .filter(department -> {
-                    log.info(department.getChiefJobPosition().getEmployees().toString());
-                    return department.getChiefJobPosition().getEmployees().isEmpty();
-                })
+                .filter(department -> department.getChiefJobPosition().getEmployees().isEmpty())
                 .collect(Collectors.toList());
     }
 }

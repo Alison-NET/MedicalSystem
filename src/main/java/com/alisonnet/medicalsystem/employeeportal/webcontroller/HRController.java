@@ -36,14 +36,14 @@ public class HRController {
 
     DocumentTypeService documentTypeService;
     EmpDocumentService empDocumentService;
-    IntendedDocumentService intendedDocumentService;
+    AppointedDocumentService appointedDocumentService;
 
 
     @GetMapping("/approve-employee")
     public String getEmployeesToApprovePage(Model model){
 
         model.addAttribute("employeesToApprove", basicEmployeeService.getUnapprovedEmployees());
-        return "hr-approve-requests";
+        return "hr/hr-approve-requests";
     }
 
     @GetMapping("/approve-employee/{id}")
@@ -79,7 +79,7 @@ public class HRController {
         model.addAttribute("roles", roleService.findAll());
         model.addAttribute("titles", titleService.findAll());
         model.addAttribute("departments", departmentService.findAll());
-        return "hr-approve-edit-employee";
+        return "hr/hr-approve-edit-employee";
     }
 
 
@@ -119,7 +119,7 @@ public class HRController {
     @GetMapping("/employee")
     public String getAllEmployees(Model model){
         model.addAttribute("employees", employeeService.findAll());
-        return "hr-employees";
+        return "hr/hr-employees";
     }
 
     @GetMapping("/employee/{id}")
@@ -129,7 +129,13 @@ public class HRController {
         if(maybeEmployee.isEmpty())
             return "redirect:/employee-portal/hr/employee";
 
-        model.addAttribute("employee", maybeEmployee.get());
+        Employee employee = maybeEmployee.get();
+
+        // authorities
+        model.addAttribute("isHrEditPage", employeeService.isInHRDepartment(employee));
+        model.addAttribute("isAdminEditPage", employeeService.isInAdminDepartment(employee));
+
+        model.addAttribute("employee", employee);
         model.addAttribute("departments", departmentService.findAll());
         model.addAttribute("titles", titleService.findAll());
         model.addAttribute("roles", roleService.findAll());
@@ -146,7 +152,7 @@ public class HRController {
         model.addAttribute("supervisorId", new EmployeeIdDTO());
         model.addAttribute("supervisors", employeeService.getPossibleSupervisors(id));
 
-        return "hr-approve-edit-employee";
+        return "hr/hr-approve-edit-employee";
     }
 
 
@@ -219,22 +225,22 @@ public class HRController {
         return "redirect:/employee-portal/hr/employee/" + id;
     }
 
-    @GetMapping("/document/for-job-position")
+    @GetMapping("/documents-for-job-position")
     public String getManageDocumentsPerJobPositionPage(Model model){
 
 
         model.addAttribute("jobPositions", jobPositionService.findAll());
         model.addAttribute("jobPosAndFilesDTO", new JobPosAndFilesDTO(new JobPosition(), new MultipartFile[10]));
-        return "hr-documents-job-position";
+        return "hr/hr-documents-job-position";
     }
 
-    @PostMapping("/document/for-job-position/save")
+    @PostMapping("/documents-for-job-position/save")
     public String handleAddingIntendedDocument(@ModelAttribute("jobPosAndFilesDTO") JobPosAndFilesDTO dto){
 
         for(MultipartFile file: dto.getFiles())
-            intendedDocumentService.save(dto.getJobPosition(), file);
+            appointedDocumentService.save(dto.getJobPosition(), file);
 
-        return "redirect:/employee-portal/hr/document/for-job-position";
+        return "redirect:/employee-portal/hr/documents-for-job-position";
     }
 
 }

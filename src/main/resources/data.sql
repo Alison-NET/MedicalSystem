@@ -10,7 +10,7 @@ insert into basic_employees (title_id, first_name, middle_name, last_name, date_
 values (1, 'Admin', 'Admin', 'Admin', '2000-05-05 00:00:00', '-', '-', '-', '-', '-','-','-','-','-')
 
 insert into departments (name) values ('System Admin')
-insert into job_positions (name, department_name) values ('Admin','System Admin')
+insert into job_positions (name, department_name) values ('Admin','System Admin')                       -- manages everything
 update departments set chief_job_position_id=1 where name='System Admin'
 
 insert into work_shifts (beginning, ending) values ('08:00:00', '16:00:00')
@@ -23,12 +23,12 @@ values (1, 1 , 0, 0, 1, 1)
 --
 
 insert into departments (name) values ('Human Resources')
-insert into job_positions (name, department_name) values ('Human Resource Manager','Human Resources')
+insert into job_positions (name, department_name) values ('Human Resource Manager','Human Resources')   -- approves employee, changes employee, manages documents for job positions
 update departments set chief_job_position_id=2 where name='Human Resources'
 
 
 insert into departments (name) values ('Sales')
-insert into job_positions (name, department_name) values ('Sales Manager','Sales')
+insert into job_positions (name, department_name) values ('Sales Manager','Sales')                      -- sends account for approval
 insert into job_positions (name, department_name) values ('Sales Representative','Sales')
 update departments set chief_job_position_id=3 where name='Sales'
 

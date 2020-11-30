@@ -27,7 +27,7 @@ public class JobPosition {
     private Department department;
 
     @OneToMany(mappedBy = "jobPosition")
-    private List<IntendedDocument> intendedDocuments;
+    private List<AppointedDocument> intendedDocuments;
 
     public String toAuthority(){
         return department.toAuthority() + "_" + name.replaceAll("\\s+","_").toUpperCase() + "_POS";
