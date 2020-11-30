@@ -2,7 +2,6 @@ package com.alisonnet.medicalsystem.config;
 
 import com.alisonnet.medicalsystem.employeeportal.entity.Credentials;
 import com.alisonnet.medicalsystem.employeeportal.entity.JobPosition;
-import com.alisonnet.medicalsystem.employeeportal.entity.Role;
 import com.alisonnet.medicalsystem.employeeportal.repository.CredentialsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -46,14 +45,14 @@ public class MyUserDetailsService implements UserDetailsService {
                 getAuthoritiesByJobPosition(credentials.getEmployee().getJobPosition())
         );
     }
-
-    private static List<GrantedAuthority> getAuthoritiesByRoles (List<Role> roles) {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
-        return authorities;
-    }
+//
+//    private static List<GrantedAuthority> getAuthoritiesByRoles (List<Role> roles) {
+//        List<GrantedAuthority> authorities = new ArrayList<>();
+//        for (Role role : roles) {
+//            authorities.add(new SimpleGrantedAuthority(role.getName()));
+//        }
+//        return authorities;
+//    }
 
     private static List<GrantedAuthority> getAuthoritiesByJobPosition(JobPosition jobPosition){
         List<GrantedAuthority> authorities = new ArrayList<>();

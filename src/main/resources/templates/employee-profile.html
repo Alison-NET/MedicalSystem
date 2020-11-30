@@ -77,6 +77,33 @@
             </div>
         </div>
 
+        <div th:if="${employee.basicInfo.city != null}" class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">City</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${employee.basicInfo.city}"></p>
+            </div>
+        </div>
+
+        <div th:if="${employee.basicInfo.state != null}" class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">State</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${employee.basicInfo.state}"></p>
+            </div>
+        </div>
+
+        <div th:if="${employee.basicInfo.ZIP != null}" class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">ZIP</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${employee.basicInfo.ZIP}"></p>
+            </div>
+        </div>
+
          <div th:if="${employee.salary != null}" class="profile-item row">
             <div class="col-md-4">
                 <p class="name">Salary</p>

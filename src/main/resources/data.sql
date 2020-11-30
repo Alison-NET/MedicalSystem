@@ -1,3 +1,10 @@
+insert into pick_up_days_of_week (name) values ('Monday')
+insert into pick_up_days_of_week (name) values ('Tuesday')
+insert into pick_up_days_of_week (name) values ('Wednesday')
+insert into pick_up_days_of_week (name) values ('Thursday')
+insert into pick_up_days_of_week (name) values ('Friday')
+
+
 insert into titles (name) values ('Mr')
 insert into titles (name) values ('Ms')
 insert into titles (name) values ('Phd')

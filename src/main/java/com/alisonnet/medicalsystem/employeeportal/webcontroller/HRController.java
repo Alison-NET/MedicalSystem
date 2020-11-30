@@ -31,7 +31,6 @@ public class HRController {
     TitleService titleService;
     DepartmentService departmentService;
     JobPositionService jobPositionService;
-    RoleService roleService;
     ContractService contractService;
 
     DocumentTypeService documentTypeService;
@@ -76,7 +75,6 @@ public class HRController {
 
 
         model.addAttribute("employee", newEmployee);
-        model.addAttribute("roles", roleService.findAll());
         model.addAttribute("titles", titleService.findAll());
         model.addAttribute("departments", departmentService.findAll());
         return "hr/hr-approve-edit-employee";
@@ -138,7 +136,6 @@ public class HRController {
         model.addAttribute("employee", employee);
         model.addAttribute("departments", departmentService.findAll());
         model.addAttribute("titles", titleService.findAll());
-        model.addAttribute("roles", roleService.findAll());
         model.addAttribute("isApproved", true);
 
         //        Contracts management

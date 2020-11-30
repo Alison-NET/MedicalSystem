@@ -9,7 +9,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@Table(name = "intended_documents")
+@Table(name = "appointed_documents")
 @ToString(exclude = "jobPosition")
 public class AppointedDocument extends Document{
 

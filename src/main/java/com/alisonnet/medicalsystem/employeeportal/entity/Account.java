@@ -41,9 +41,11 @@ public class Account {
 
     private Boolean providerPortal;
 
-    private Boolean paperRequsitions;
+    private Boolean paperRequisitions;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     private SpecimenPickUpDayTime specimenPickUpDayTime;
+
+    private Boolean approved;
 
 }

@@ -10,7 +10,7 @@
         <!--   HR can't change own and admin's data     -->
         <div th:if="${(#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isTrue(isHrEditPage))
                         or (#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isTrue(isAdminEditPage))}">
-            You are not allowed to manage this page
+            <h4>You are not allowed to manage this page</h4>
         </div>
         <div th:unless="${(#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isTrue(isHrEditPage))
                         or (#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isTrue(isAdminEditPage))}">
@@ -177,6 +177,18 @@
                     </div>
                 </div>
 
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">ZIP</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <input class="form-in-item" type="text" th:field="*{basicInfo.ZIP}">
+                            <p th:each="error : ${#fields.errors('basicInfo.ZIP')}" th:text="${error}">Validation error</p>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="profile-edit-item row">
                     <div class="col-md-4">
@@ -277,16 +289,6 @@
                         </div>
                     </div>
                 </div>
-    <!--            <div class="profile-edit-item row">-->
-    <!--                <div class="col-md-4">-->
-    <!--                    <p class="name">Role(s)</p>-->
-    <!--                </div>-->
-    <!--                <div class="col-md-8">-->
-    <!--                    <select th:field="*{credentials.roles}" multiple="multiple">-->
-    <!--                        <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>-->
-    <!--                    </select>-->
-    <!--                </div>-->
-    <!--            </div>-->
 
                 <input class="btn form-submit-btn" type="submit" th:value="Submit">
             </form>
