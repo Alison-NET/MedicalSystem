@@ -42,7 +42,7 @@ public class HRController {
     public String getEmployeesToApprovePage(Model model){
 
         model.addAttribute("employeesToApprove", basicEmployeeService.getUnapprovedEmployees());
-        return "hr/hr-approve-requests";
+        return "hr/approve-requests";
     }
 
     @GetMapping("/approve-employee/{id}")
@@ -77,7 +77,7 @@ public class HRController {
         model.addAttribute("employee", newEmployee);
         model.addAttribute("titles", titleService.findAll());
         model.addAttribute("departments", departmentService.findAll());
-        return "hr/hr-approve-edit-employee";
+        return "hr/approve-edit-employee";
     }
 
 
@@ -117,7 +117,7 @@ public class HRController {
     @GetMapping("/employee")
     public String getAllEmployees(Model model){
         model.addAttribute("employees", employeeService.findAll());
-        return "hr/hr-employees";
+        return "hr/employees";
     }
 
     @GetMapping("/employee/{id}")
@@ -149,7 +149,7 @@ public class HRController {
         model.addAttribute("supervisorId", new EmployeeIdDTO());
         model.addAttribute("supervisors", employeeService.getPossibleSupervisors(id));
 
-        return "hr/hr-approve-edit-employee";
+        return "hr/approve-edit-employee";
     }
 
 
@@ -228,7 +228,7 @@ public class HRController {
 
         model.addAttribute("jobPositions", jobPositionService.findAll());
         model.addAttribute("jobPosAndFilesDTO", new JobPosAndFilesDTO(new JobPosition(), new MultipartFile[10]));
-        return "hr/hr-documents-job-position";
+        return "hr/documents-job-position";
     }
 
     @PostMapping("/documents-for-job-position/save")

@@ -7,7 +7,6 @@ import com.alisonnet.medicalsystem.employeeportal.entity.Provider;
 import com.alisonnet.medicalsystem.employeeportal.entity.SpecimenPickUpDayTime;
 import com.alisonnet.medicalsystem.employeeportal.service.AccountService;
 import com.alisonnet.medicalsystem.employeeportal.service.PickUpDayOfWeekService;
-import com.alisonnet.medicalsystem.employeeportal.service.SpecimenPickUpDayTimeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -29,6 +28,17 @@ public class SalesEmployeeController {
     AccountService accountService;
     PickUpDayOfWeekService pickUpDayOfWeekService;
 
+    @GetMapping
+    public String getSalesControlPage(){
+        return "sales/control";
+    }
+
+    @GetMapping("/account")
+    public String getAllAccounts(Model model){
+        model.addAttribute("accounts", accountService.findAll());
+        return "sales/accounts";
+    }
+
     @GetMapping("/new-account")
     public String getAccountRegistrationPage(Model model){
 
@@ -43,7 +53,7 @@ public class SalesEmployeeController {
         model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
         model.addAttribute("daysOfWeek", pickUpDayOfWeekService.findAll());
         model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
-        return "account-setup";
+        return "sales/account-setup";
     }
 
     @PostMapping(value = "/new-account", params = {"addProvider"})
@@ -57,7 +67,7 @@ public class SalesEmployeeController {
         model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
         model.addAttribute("daysOfWeek", pickUpDayOfWeekService.findAll());
         model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
-        return "account-setup";
+        return "sales/account-setup";
     }
 
     @PostMapping(value = "/new-account", params = {"removeProvider"})
@@ -71,7 +81,7 @@ public class SalesEmployeeController {
         model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
         model.addAttribute("daysOfWeek", pickUpDayOfWeekService.findAll());
         model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
-        return "account-setup";
+        return "sales/account-setup";
     }
 
     @PostMapping(value = "/new-account", params = {"addPickUpTime"})
@@ -88,7 +98,7 @@ public class SalesEmployeeController {
         model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
         model.addAttribute("daysOfWeek", pickUpDayOfWeekService.findAll());
         model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
-        return "account-setup";
+        return "sales/account-setup";
     }
 
     @PostMapping(value = "/new-account", params = {"removePickUpTime"})
@@ -105,7 +115,7 @@ public class SalesEmployeeController {
         model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
         model.addAttribute("daysOfWeek", pickUpDayOfWeekService.findAll());
         model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
-        return "account-setup";
+        return "sales/account-setup";
     }
 
     @PostMapping("/new-account")

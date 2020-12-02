@@ -5,10 +5,13 @@ insert into pick_up_days_of_week (name) values ('Thursday')
 insert into pick_up_days_of_week (name) values ('Friday')
 
 
-insert into titles (name) values ('Mr')
-insert into titles (name) values ('Ms')
-insert into titles (name) values ('Phd')
+insert into titles (name) values ('MR')
+insert into titles (name) values ('MS')
+insert into titles (name) values ('PHD')
 insert into titles (name) values ('MD')
+insert into titles (name) values ('DO')
+insert into titles (name) values ('NP')
+insert into titles (name) values ('PA')
 
 
 -- ADMIN CREATION

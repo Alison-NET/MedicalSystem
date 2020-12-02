@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/general.html :: head"></head>
+<body>
+<header th:replace="fragments/general.html::header"></header>
+
+<div class="bootstrap-wrapper">
+    <div class="container">
+        <div class="page-info row">
+            <div class="col-md-12">
+                <span class="name">Accounts</span>
+            </div>
+        </div>
+
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Address 1</th>
+                <th>Address 2</th>
+                <th>City</th>
+                <th>State</th>
+                <th>ZIP</th>
+                <th>Phone</th>
+                <th>Fax</th>
+                <th>Direct Line</th>
+                <th>Contact Name</th>
+                <th>More info</th>
+                <th></th>
+
+            </tr>
+            <tr th:each="account: ${accounts}">
+                <td th:text="${account.name}">Name</td>
+                <td th:text="${account.addressFirst}">Address 1</td>
+                <td th:text="${account.addressSecond}">Address 2</td>
+                <td th:text="${account.city}">City</td>
+                <td th:text="${account.state}">State</td>
+                <td th:text="${account.ZIP}">ZIP</td>
+                <td th:text="${account.phone}">Phone</td>
+                <td th:text="${account.fax}">Fax</td>
+                <td th:text="${account.directLine}">Direct Line</td>
+                <td th:text="${account.contactName}">Contact Name</td>
+                <td>
+                    <a th:href="@{'/employee-portal/sales/account/' + ${account.id}}">More info</a>
+                </td>
+                <td th:if="${#bools.isTrue(account.approved)}">Approved</td>
+                <td th:unless="${#bools.isTrue(account.approved)}">
+                    <a th:href="@{'/employee-portal/sales/account/edit/' + ${account.id}}">Edit</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<footer th:replace="fragments/general.html :: footer"></footer>
+</body>
+</html>
