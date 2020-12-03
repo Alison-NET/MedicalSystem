@@ -9,4 +9,5 @@ import java.util.List;
 public interface PickUpDayOfWeekService {
 
     List<PickUpDayOfWeek> findAll();
+    List<PickUpDayOfWeek> findAllByOrderByIdAsc();
 }

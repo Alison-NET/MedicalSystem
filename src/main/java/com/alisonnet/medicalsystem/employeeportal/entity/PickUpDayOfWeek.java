@@ -15,7 +15,9 @@ import java.util.List;
 public class PickUpDayOfWeek {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     private String name;
 
     @OneToMany(mappedBy = "pickUpDayOfWeek")

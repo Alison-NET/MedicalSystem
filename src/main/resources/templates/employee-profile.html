@@ -226,7 +226,8 @@
             </div>
         </div>
 
-        <div sec:authorize="hasAuthority('EMPLOYEE')">
+        <div th:if="${(not #authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')'))
+                        or (#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isTrue(isHrProfile))}">
             <hr>
             <h2> Employee documents</h2>
             <div th:replace="fragments/emp-document-upload-form.html :: document-upload-form"></div>

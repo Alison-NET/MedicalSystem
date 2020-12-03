@@ -9,8 +9,6 @@ import java.util.List;
 
 @Entity
 @Data
-@EqualsAndHashCode(exclude = "accounts")
-@ToString(exclude = "accounts")
 @Table(name = "specimen_pick_up_day_times")
 public class SpecimenPickUpDayTime {
 
@@ -18,8 +16,8 @@ public class SpecimenPickUpDayTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(mappedBy = "specimenPickUpDayTime")
-    private List<Account> accounts;
+    @ManyToOne
+    private Account account;
 
     @OneToMany(mappedBy = "specimenPickUpDayTime", cascade = CascadeType.ALL)
     private List<PickUpTime> pickUpTimes;

@@ -1,12 +1,16 @@
 package com.alisonnet.medicalsystem.employeeportal.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Data
+@EqualsAndHashCode(exclude = "specimenPickUpDayTimes")
+@ToString(exclude = "specimenPickUpDayTimes")
 @Table(name = "accounts")
 public class Account {
 
@@ -32,7 +36,9 @@ public class Account {
 
     private String directLine;
 
-    private String contactName;
+    private String contactFirstName;
+
+    private String contactLastName;
 
     private String contactEmail;
 
@@ -43,8 +49,8 @@ public class Account {
 
     private Boolean paperRequisitions;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
-    private SpecimenPickUpDayTime specimenPickUpDayTime;
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<SpecimenPickUpDayTime> specimenPickUpDayTimes;
 
     private Boolean approved;
 

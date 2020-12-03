@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <form th:action="@{'/employee-portal/sales/new-account'}" th:object="${account}" method="post">
+        <form th:action="@{'/employee-portal/sales/account/new'}" th:object="${account}" method="post">
 
             <h4>General Info</h4>
 
@@ -129,12 +129,24 @@
 
             <div class="profile-edit-item row">
                 <div class="col-md-4">
-                    <p class="name">Contact Name</p>
+                    <p class="name">Contact First Name</p>
                 </div>
                 <div class="col-md-8">
                     <div class="input-wrapper">
-                        <input class="form-in-item" type="text" th:field="*{contactName}">
-                        <p th:each="error : ${#fields.errors('contactName')}" th:text="${error}">Validation error</p>
+                        <input class="form-in-item" type="text" th:field="*{contactFirstName}">
+                        <p th:each="error : ${#fields.errors('contactFirstName')}" th:text="${error}">Validation error</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-edit-item row">
+                <div class="col-md-4">
+                    <p class="name">Contact Last Name</p>
+                </div>
+                <div class="col-md-8">
+                    <div class="input-wrapper">
+                        <input class="form-in-item" type="text" th:field="*{contactLastName}">
+                        <p th:each="error : ${#fields.errors('contactLastName')}" th:text="${error}">Validation error</p>
                     </div>
                 </div>
             </div>
@@ -156,8 +168,6 @@
 
             <h4>Add Provider</h4>
 
-
-
             <div class="profile-edit-item row">
                 <div class="col-md-4">
                     <p class="name">
@@ -171,14 +181,15 @@
                     <div class="input-wrapper">
                         <table>
                             <tr th:each="provider, rowStat : *{providers}">
-                                <td><input type="text" th:field="*{providers[__${rowStat.index}__].name}" placeholder="Name..."/></td>
-                                <td><input type="text" th:field="*{providers[__${rowStat.index}__].NPI}" placeholder="NPI..."/></td>
+                                <td><input type="text" th:field="*{providers[__${rowStat.index}__].firstName}" placeholder="First Name"/></td>
+                                <td><input type="text" th:field="*{providers[__${rowStat.index}__].lastName}" placeholder="Second Name"/></td>
+                                <td><input type="text" th:field="*{providers[__${rowStat.index}__].email}" placeholder="Second Name"/></td>
+                                <td><input type="text" th:field="*{providers[__${rowStat.index}__].NPI}" placeholder="NPI"/></td>
                             </tr>
                         </table>
                     </div>
                 </div>
             </div>
-
 
 
             <div class="profile-edit-item row">
@@ -209,43 +220,39 @@
                 </div>
             </div>
 
+
             <h4>Specimen Pick up</h4>
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Day Of The Week</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <select class="form-in-item" th:field="*{specimenPickUpDayTime.pickUpDayOfWeek}">
-                            <option th:each="dow : ${daysOfWeek}" th:value="${dow.name}" th:text="${dow.name}"></option>
-                        </select><br>
+
+            <input type="text" th:field="${account.specimenPickUpDayTimes}" hidden>
+
+            <div th:each="specPickUpDayTime : *{specimenPickUpDayTimes}">
+                <h3 th:text="${specPickUpDayTime.pickUpDayOfWeek.name}" ></h3>
+
+<!--                <input type="text" th:field="${specPickUpDayTime}" hidden>-->
+
+                <div class="profile-edit-item row">
+                    <div class="col-md-4">
+                        <p class="name">
+                            <button th:if="${#lists.size(specPickUpDayTime.pickUpTimes) < maxPickUps }"
+                                    type="submit" name="addPickUpTime">Add Pick Up Time</button>
+                            <button th:if="${#lists.size(specPickUpDayTime.pickUpTimes) >= 1 }"
+                                    type="submit" name="removePickUpTime">Remove Pick Up Time</button>
+                        </p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <table>
+                                <tr th:each="pickUpTime, rowStat : ${specPickUpDayTime.pickUpTimes}">
+                                    <td><input type="time" th:field="${specPickUpDayTime.pickUpTimes[__${rowStat.index}__].pickUpTime}"/></td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
+
             </div>
 
-            <input type="text" th:field="*{specimenPickUpDayTime.pickUpTimes}" hidden>
 
-
-
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">
-                        <button th:if="${#lists.size(account.specimenPickUpDayTime.pickUpTimes) < maxPickUps }"
-                                type="submit" name="addPickUpTime">Add Pick Up Time</button>
-                        <button th:if="${#lists.size(account.specimenPickUpDayTime.pickUpTimes) >= 1 }"
-                                type="submit" name="removePickUpTime">Remove Pick Up Time</button>
-                    </p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <table>
-                            <tr th:each="pickUpTime, rowStat : *{specimenPickUpDayTime.pickUpTimes}">
-                                <td><input type="time" th:field="*{specimenPickUpDayTime.pickUpTimes[__${rowStat.index}__].pickUpTime}"/></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
 
             <input class="btn form-submit-btn" type="submit" th:value="Submit">
         </form>

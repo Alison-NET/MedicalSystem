@@ -5,6 +5,7 @@ import com.alisonnet.medicalsystem.employeeportal.dto.document.DocTypeAndFilesDT
 import com.alisonnet.medicalsystem.employeeportal.entity.Department;
 import com.alisonnet.medicalsystem.employeeportal.entity.DocumentType;
 import com.alisonnet.medicalsystem.employeeportal.entity.Employee;
+import com.alisonnet.medicalsystem.employeeportal.entity.JobPosition;
 import com.alisonnet.medicalsystem.employeeportal.service.DepartmentService;
 import com.alisonnet.medicalsystem.employeeportal.service.DocumentTypeService;
 import com.alisonnet.medicalsystem.employeeportal.service.EmpDocumentService;
@@ -16,8 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Controller
@@ -103,6 +103,33 @@ public class EmployeePortalController {
 
         model.addAttribute("jobPosition", maybeEmployee.get().getJobPosition());
         return "documents-job-position";
+    }
+
+    @GetMapping("/test/add-department")
+    public String testAddDep(Model model){
+
+        Department department = new Department();
+
+        Random random = new Random();
+        List<JobPosition> jobPositions = new ArrayList<>();
+        for(int i = 0; i< 3; i++){
+
+            JobPosition jobPosition = new JobPosition();
+            jobPosition.setId(random.nextInt());
+            jobPosition.setName(random.nextDouble()+"");
+
+            jobPositions.add(jobPosition);
+        }
+
+        department.setJobPositions(jobPositions);
+        model.addAttribute("department", department);
+        return "test-add-department";
+    }
+
+    @PostMapping("/test/add-department")
+    public String handleAddDep(@ModelAttribute Department department){
+        log.info(department.toString());
+        return "test-add-department";
     }
 
 }

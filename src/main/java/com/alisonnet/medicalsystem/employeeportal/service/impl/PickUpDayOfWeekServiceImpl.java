@@ -17,4 +17,9 @@ public class PickUpDayOfWeekServiceImpl implements PickUpDayOfWeekService {
     public List<PickUpDayOfWeek> findAll() {
         return pickUpDayOfWeekRepo.findAll();
     }
+
+    @Override
+    public List<PickUpDayOfWeek> findAllByOrderByIdAsc() {
+        return pickUpDayOfWeekRepo.findAllByOrderByIdAsc();
+    }
 }

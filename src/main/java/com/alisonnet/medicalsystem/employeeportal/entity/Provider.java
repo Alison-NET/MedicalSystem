@@ -16,7 +16,14 @@ public class Provider {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String name;
+    @ManyToOne
+    private Title title;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String email;
 
     private String NPI;
 

@@ -6,13 +6,23 @@
 
 <div class="bootstrap-wrapper">
     <div class="container">
+
+
         <div class="page-info row">
-            <div class="col-md-12">
+            <div th:if="${#lists.isEmpty(accounts)}" class="col-md-6">
+                <span class="name">There are no accounts.</span>
+            </div>
+            <div th:unless="${#lists.isEmpty(accounts)}" class="col-md-6">
                 <span class="name">Accounts</span>
+            </div>
+            <div class="col-md-6">
+                <a href="/employee-portal/sales/account/new">Add account</a>
             </div>
         </div>
 
-        <table>
+
+
+        <table th:unless="${#lists.isEmpty(accounts)}">
             <tr>
                 <th>Name</th>
                 <th>Address 1</th>

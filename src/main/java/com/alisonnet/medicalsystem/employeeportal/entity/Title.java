@@ -9,8 +9,8 @@ import java.util.List;
 
 @Entity
 @Data
-@EqualsAndHashCode(exclude = "basicEmployees")
-@ToString(exclude = "basicEmployees")
+@EqualsAndHashCode(exclude = {"basicEmployees", "providers"})
+@ToString(exclude = {"basicEmployees", "providers"})
 @Table(name = "titles")
 public class Title {
 
@@ -22,4 +22,7 @@ public class Title {
 
     @OneToMany(mappedBy = "title", fetch = FetchType.LAZY)
     private List<BasicEmployee> basicEmployees;
+
+    @OneToMany(mappedBy = "title", fetch = FetchType.LAZY)
+    private List<Provider> providers;
 }

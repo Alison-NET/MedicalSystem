@@ -24,7 +24,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @RequestMapping(Constants.URL_EMPLOYEE_PORTAL + "/hr")
 @Slf4j
-public class HRController {
+public class HREmployeeController {
 
     EmployeeService employeeService;
     BasicEmployeeService basicEmployeeService;
@@ -60,8 +60,6 @@ public class HRController {
         newEmployee.setWorkShift(workShift);
 
         Credentials credentials = new Credentials();
-//        List<Role> roles = new ArrayList<>();
-//        credentials.setRoles(roles);
         newEmployee.setCredentials(credentials);
 
         List<EmpDocument> documents = new ArrayList<>();

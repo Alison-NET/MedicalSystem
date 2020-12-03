@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(Constants.URL_EMPLOYEE_PORTAL + "/admin")
 @AllArgsConstructor
 @Slf4j
-public class AdminController {
+public class SystemAdminEmployeeController {
 
     @GetMapping
     public String getAdminPage(Model model)
