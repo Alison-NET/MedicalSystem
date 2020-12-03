@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.*;
 
 
@@ -127,8 +128,8 @@ public class EmployeePortalController {
     }
 
     @PostMapping("/test/add-department")
-    public String handleAddDep(@ModelAttribute Department department){
-        log.info(department.toString());
+    public String handleAddDep(@Valid @ModelAttribute Department department){
+        log.info(department.getJobPositions().get(0).toString());
         return "test-add-department";
     }
 

@@ -33,7 +33,8 @@
                 <th>Phone</th>
                 <th>Fax</th>
                 <th>Direct Line</th>
-                <th>Contact Name</th>
+                <th>Contact First Name</th>
+                <th>Contact Last Name</th>
                 <th>More info</th>
                 <th></th>
 
@@ -48,7 +49,8 @@
                 <td th:text="${account.phone}">Phone</td>
                 <td th:text="${account.fax}">Fax</td>
                 <td th:text="${account.directLine}">Direct Line</td>
-                <td th:text="${account.contactName}">Contact Name</td>
+                <td th:text="${account.contactFirstName}">Contact First Name</td>
+                <td th:text="${account.contactLastName}">Contact Last Name</td>
                 <td>
                     <a th:href="@{'/employee-portal/sales/account/' + ${account.id}}">More info</a>
                 </td>

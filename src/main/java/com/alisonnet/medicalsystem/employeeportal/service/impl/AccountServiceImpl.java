@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -22,5 +23,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account save(Account account) {
         return accountRepo.save(account);
+    }
+
+    @Override
+    public Optional<Account> findById(int id) {
+        return accountRepo.findById(id);
     }
 }

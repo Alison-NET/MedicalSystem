@@ -223,10 +223,10 @@
 
             <h4>Specimen Pick up</h4>
 
-            <input type="text" th:field="${account.specimenPickUpDayTimes}" hidden>
+            <input type="text" th:field="*{specimenPickUpDayTimes}" th:value="*{specimenPickUpDayTimes}" hidden>
 
-            <div th:each="specPickUpDayTime : *{specimenPickUpDayTimes}">
-                <h3 th:text="${specPickUpDayTime.pickUpDayOfWeek.name}" ></h3>
+            <div th:each="specPickUpDayTime, rowStat : *{specimenPickUpDayTimes}">
+<!--                <h3 th:text="*{specimenPickUpDayTimes[__${rowStat.index}__].pickUpDayOfWeek.name}"  ></h3>-->
 
 <!--                <input type="text" th:field="${specPickUpDayTime}" hidden>-->
 

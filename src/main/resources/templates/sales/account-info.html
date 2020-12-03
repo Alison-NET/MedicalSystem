@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/general.html :: head"></head>
+<body>
+<header th:replace="fragments/general.html::header"></header>
+
+<div class="bootstrap-wrapper">
+    <div class="container">
+        <div class="page-info row">
+            <div class="col-md-4">
+                <span class="name">Account info</span>
+            </div>
+            <div class="col-md-8">
+
+                <!--     SALES DEP employee can edit account if it is not approved, ADMIN DEP employee can change any time          -->
+
+                <a th:if="${(#authorization.expression('hasAuthority(''SALES_DEP'')') and #bools.isFalse(account.approved))
+                            or #authorization.expression('hasAuthority(''SYSTEM_ADMIN_DEP'')')}"
+                   class="extra-btn" th:href="@{'/employee-portal/sales/account/edit/' ${account.id} + }">
+                    <span class="text">Edit</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Name</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${account.name}"></p>
+            </div>
+        </div>
+
+        <div class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Address 1</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${account.addressFirst}"></p>
+            </div>
+        </div>
+
+        <div class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Address 2</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${account.addressSecond}"></p>
+            </div>
+        </div>
+
+        <div class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">City</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${account.city}"></p>
+            </div>
+        </div>
+
+        <div class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">State</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${account.state}"></p>
+            </div>
+        </div>
+
+        <div class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">ZIP</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${account.ZIP}"></p>
+            </div>
+        </div>
+
+        <div class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Phone</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${account.phone}"></p>
+            </div>
+        </div>
+
+        <div class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Fax</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${account.fax}"></p>
+            </div>
+        </div>
+
+        <div class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Direct Line</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${account.directLine}"></p>
+            </div>
+        </div>
+
+        <div class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Contact First Name</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${account.contactFirstName}"></p>
+            </div>
+        </div>
+
+        <div class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Contact Last Name</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${account.contactLastName}"></p>
+            </div>
+        </div>
+
+        <div class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Contact Email</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${account.contactEmail}"></p>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<footer th:replace="fragments/general.html :: footer"></footer>
+</body>
+</html>

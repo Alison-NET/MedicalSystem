@@ -9,11 +9,11 @@
     <div class="container">
         <form th:action="@{'/employee-portal/test/add-department'}" th:object="${department}" method="post">
 
-            <input type="text" th:field="*{jobPositions}" hidden>
-            <div th:each="jobPosition, rowStat : *{jobPositions}">
-                <input type="text" th:field="${department.jobPositions[__${rowStat.index}__]}" hidden>
+            <input type="text" th:field="*{jobPositions}" th:value="*{jobPositions}" hidden>
+<!--            <div th:each="jobPosition, rowStat : *{jobPositions}">-->
+<!--                <input type="text" th:field="${department.jobPositions[__${rowStat.index}__]}" th:value="${department.jobPositions[__${rowStat.index}__]}">-->
 
-            </div>
+<!--            </div>-->
             <input type="submit">
         </form>
     </div>

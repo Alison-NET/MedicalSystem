@@ -9,13 +9,12 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
@@ -38,5 +37,23 @@ public class SalesEmployeeController {
         return "sales/accounts";
     }
 
+    @GetMapping("/account/{id}")
+    public String getAccountByIdInfoPage(@PathVariable int id, HttpServletRequest request, Model model){
+
+        Optional<Account> mbAccount = accountService.findById(id);
+
+        if(mbAccount.isEmpty())
+            return Optional.ofNullable(request.getHeader("Referer"))
+                    .map(requestUrl -> "redirect:" + requestUrl)
+                    .orElse("/");
+
+        model.addAttribute("account", mbAccount.get());
+        return "sales/account-info";
+    }
+
+    @GetMapping("/account/edit/{id}")
+    public String getAccountByIdInfoPage(@PathVariable int id, Model model){
+
+    }
 
 }
