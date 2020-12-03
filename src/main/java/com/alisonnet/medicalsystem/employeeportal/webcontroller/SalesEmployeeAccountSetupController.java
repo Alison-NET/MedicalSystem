@@ -7,6 +7,7 @@ import com.alisonnet.medicalsystem.employeeportal.entity.Provider;
 import com.alisonnet.medicalsystem.employeeportal.entity.SpecimenPickUpDayTime;
 import com.alisonnet.medicalsystem.employeeportal.service.AccountService;
 import com.alisonnet.medicalsystem.employeeportal.service.PickUpDayOfWeekService;
+import com.alisonnet.medicalsystem.employeeportal.service.ProviderService;
 import com.alisonnet.medicalsystem.employeeportal.service.TitleService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,9 +28,9 @@ import java.util.List;
 public class SalesEmployeeAccountSetupController {
 
     AccountService accountService;
+    ProviderService providerService;
     TitleService titleService;
     PickUpDayOfWeekService pickUpDayOfWeekService;
-
 
     @GetMapping
     public String getAccountRegistrationPage(Model model){
@@ -62,8 +63,6 @@ public class SalesEmployeeAccountSetupController {
     @PostMapping(params = {"addProvider"})
     private String addProvider(@ModelAttribute Account account, Model model){
 
-        log.info("On ADD PROVIDER: " + account.getSpecimenPickUpDayTimes().toString());
-
         List<Provider> providers = account.getProviders();
         providers.add(new Provider());
         account.setProviders(providers);
@@ -79,7 +78,9 @@ public class SalesEmployeeAccountSetupController {
     private String removeProvider(@ModelAttribute Account account, Model model){
 
         List<Provider> providers = account.getProviders();
-        providers.remove(providers.size()-1);
+        Provider providerRemoved = providers.remove(providers.size() - 1);
+        providerService.remove(providerRemoved);
+
         account.setProviders(providers);
 
         model.addAttribute("account", account);
@@ -126,13 +127,11 @@ public class SalesEmployeeAccountSetupController {
     }
 
     @PostMapping
-    private String handleAccountRegistration(@ModelAttribute Account account){
-
-//        SpecimenPickUpDayTime specimenPickUpDayTime = account.getSpecimenPickUpDayTime();
-//        List<PickUpTime> pickUpTimes = specimenPickUpDayTime.getPickUpTimes();
-//        pickUpTimes.forEach(pickUpTime -> pickUpTime.setSpecimenPickUpDayTime(specimenPickUpDayTime));
-
+    private String handleAccountSaving(@ModelAttribute Account account){
+        account.getProviders().forEach(provider -> {
+            provider.setAccount(account);
+        });
         accountService.save(account);
-        return "redirect:/index";
+        return "redirect:/employee-portal/sales/account";
     }
 }

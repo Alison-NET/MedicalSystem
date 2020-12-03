@@ -42,14 +42,14 @@ public class Account {
 
     private String contactEmail;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL})
     private List<Provider> providers;
 
     private Boolean providerPortal;
 
     private Boolean paperRequisitions;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account")
     private List<SpecimenPickUpDayTime> specimenPickUpDayTimes;
 
     private Boolean approved;

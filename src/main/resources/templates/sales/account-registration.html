@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/general.html :: head"></head>
 <body>
 <header th:replace="fragments/general.html::header"></header>
@@ -15,7 +15,7 @@
 
         <form th:action="@{'/employee-portal/sales/account/new'}" th:object="${account}" method="post">
 
-            <h4>General Info</h4>
+            <input type="text" th:field="*{id}" th:value="*{id}" hidden>
 
             <div class="profile-edit-item row">
                 <div class="col-md-4">
@@ -166,8 +166,6 @@
 
             <input type="text" th:field="*{providers}" hidden>
 
-            <h4>Add Provider</h4>
-
             <div class="profile-edit-item row">
                 <div class="col-md-4">
                     <p class="name">
@@ -181,9 +179,18 @@
                     <div class="input-wrapper">
                         <table>
                             <tr th:each="provider, rowStat : *{providers}">
+                                <input type="text" th:field="*{providers[__${rowStat.index}__].id}" th:value="*{providers[__${rowStat.index}__].id}" hidden>
+                                <td>
+                                    <select class="form-in-item" th:field="*{providers[__${rowStat.index}__].title}">
+                                        <option th:each="tit : ${titles}"
+                                                th:value="${tit.id}"
+                                                th:text="${tit.name}">
+                                        </option>
+                                    </select>
+                                </td>
                                 <td><input type="text" th:field="*{providers[__${rowStat.index}__].firstName}" placeholder="First Name"/></td>
-                                <td><input type="text" th:field="*{providers[__${rowStat.index}__].lastName}" placeholder="Second Name"/></td>
-                                <td><input type="text" th:field="*{providers[__${rowStat.index}__].email}" placeholder="Second Name"/></td>
+                                <td><input type="text" th:field="*{providers[__${rowStat.index}__].lastName}" placeholder="Last Name"/></td>
+                                <td><input type="text" th:field="*{providers[__${rowStat.index}__].email}" placeholder="Email"/></td>
                                 <td><input type="text" th:field="*{providers[__${rowStat.index}__].NPI}" placeholder="NPI"/></td>
                             </tr>
                         </table>
@@ -225,8 +232,8 @@
 
             <input type="text" th:field="*{specimenPickUpDayTimes}" th:value="*{specimenPickUpDayTimes}" hidden>
 
-            <div th:each="specPickUpDayTime, rowStat : *{specimenPickUpDayTimes}">
-<!--                <h3 th:text="*{specimenPickUpDayTimes[__${rowStat.index}__].pickUpDayOfWeek.name}"  ></h3>-->
+            <div th:each="specPickUpDayTime: *{specimenPickUpDayTimes}">
+                <h3 th:text="${specPickUpDayTime.pickUpDayOfWeek.name}"  ></h3>
 
 <!--                <input type="text" th:field="${specPickUpDayTime}" hidden>-->
 
@@ -252,6 +259,20 @@
 
             </div>
 
+
+            <div sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')" class="profile-edit-item row">
+                <div class="col-md-4">
+                    <p class="name">Approve</p>
+                </div>
+                <div class="col-md-8">
+                    <div class="input-wrapper">
+                        <label class="checkbox-container form-in-item">
+                            <input th:field="*{approved}" type="checkbox" checked="checked">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
 
 
             <input class="btn form-submit-btn" type="submit" th:value="Submit">

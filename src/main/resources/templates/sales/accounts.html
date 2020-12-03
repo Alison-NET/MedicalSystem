@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/general.html :: head"></head>
 <body>
 <header th:replace="fragments/general.html::header"></header>
@@ -16,10 +16,11 @@
                 <span class="name">Accounts</span>
             </div>
             <div class="col-md-6">
-                <a href="/employee-portal/sales/account/new">Add account</a>
+                <a   class="extra-btn" href="/employee-portal/sales/account/new">
+                    <span class="text">Add account</span>
+                </a>
             </div>
         </div>
-
 
 
         <table th:unless="${#lists.isEmpty(accounts)}">
@@ -35,7 +36,7 @@
                 <th>Direct Line</th>
                 <th>Contact First Name</th>
                 <th>Contact Last Name</th>
-                <th>More info</th>
+                <th>Status</th>
                 <th></th>
 
             </tr>
@@ -51,11 +52,13 @@
                 <td th:text="${account.directLine}">Direct Line</td>
                 <td th:text="${account.contactFirstName}">Contact First Name</td>
                 <td th:text="${account.contactLastName}">Contact Last Name</td>
-                <td>
-                    <a th:href="@{'/employee-portal/sales/account/' + ${account.id}}">More info</a>
+                <td th:text="${account.approved}? 'Approved' : 'Unapproved'">Approved</td>
+                <td th:if="${(#authorization.expression('hasAuthority(''SALES_DEP'')') and #bools.isTrue(account.approved))
+                        or #authorization.expression('hasAuthority(''SYSTEM_ADMIN_DEP'')') }">
+                    <a th:href="@{'/employee-portal/sales/account/' + ${account.id}}">More</a>
                 </td>
-                <td th:if="${#bools.isTrue(account.approved)}">Approved</td>
-                <td th:unless="${#bools.isTrue(account.approved)}">
+                <td th:if="${(#authorization.expression('hasAuthority(''SALES_DEP'')') and #bools.isFalse(account.approved))
+                        or #authorization.expression('hasAuthority(''SYSTEM_ADMIN_DEP'')') }">
                     <a th:href="@{'/employee-portal/sales/account/edit/' + ${account.id}}">Edit</a>
                 </td>
             </tr>

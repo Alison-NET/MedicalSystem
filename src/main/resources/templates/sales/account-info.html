@@ -16,7 +16,7 @@
 
                 <a th:if="${(#authorization.expression('hasAuthority(''SALES_DEP'')') and #bools.isFalse(account.approved))
                             or #authorization.expression('hasAuthority(''SYSTEM_ADMIN_DEP'')')}"
-                   class="extra-btn" th:href="@{'/employee-portal/sales/account/edit/' ${account.id} + }">
+                   class="extra-btn" th:href="@{'/employee-portal/sales/account/edit/' + ${account.id}}">
                     <span class="text">Edit</span>
                 </a>
             </div>
@@ -127,6 +127,15 @@
             </div>
             <div class="col-md-8">
                 <p class="descr" th:text="${account.contactEmail}"></p>
+            </div>
+        </div>
+
+        <div class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Status</p>
+            </div>
+            <div class="col-md-8">
+                <p class="descr" th:text="${account.approved}? 'Approved' : 'Unapproved'"></p>
             </div>
         </div>
 
