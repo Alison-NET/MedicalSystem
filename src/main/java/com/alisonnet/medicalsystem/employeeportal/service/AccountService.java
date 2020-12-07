@@ -11,4 +11,5 @@ public interface AccountService {
     List<Account> findAll();
     Account save(Account account);
     Optional<Account> findById(int id);
+    Optional<Account> findOne(Account account);
 }

@@ -18,4 +18,9 @@ public class TitleServiceImpl implements TitleService {
     public List<Title> findAll() {
         return titleRepo.findAll();
     }
+
+    @Override
+    public List<Title> findAllByOrderByIdAsc() {
+        return titleRepo.findAllByOrderByIdAsc();
+    }
 }

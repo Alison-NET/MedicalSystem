@@ -1,9 +1,6 @@
 package com.alisonnet.medicalsystem.employeeportal.entity;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -16,12 +13,12 @@ public class SpecimenPickUpDayTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
-    private Account account;
-
     @OneToMany(mappedBy = "specimenPickUpDayTime", cascade = CascadeType.ALL)
     private List<PickUpTime> pickUpTimes;
 
     @ManyToOne
     private PickUpDayOfWeek pickUpDayOfWeek;
+
+    @ManyToOne
+    private Account account;
 }

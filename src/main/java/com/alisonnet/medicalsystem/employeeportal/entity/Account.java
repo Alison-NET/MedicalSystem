@@ -49,7 +49,7 @@ public class Account {
 
     private Boolean paperRequisitions;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL})
     private List<SpecimenPickUpDayTime> specimenPickUpDayTimes;
 
     private Boolean approved;

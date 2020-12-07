@@ -37,7 +37,7 @@ public class EmployeeRegistrationController {
                                         BindingResult bindingResult,
                                         Model model){
         if(bindingResult.hasErrors()){
-            model.addAttribute("titles", titleService.findAll());
+            model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
             return "employee-registration";
         }
         basicEmployeeService.registerNewBasicEmployee(basicEmployee);

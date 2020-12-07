@@ -198,6 +198,55 @@
                 </div>
             </div>
 
+            <input type="text" th:field="*{specimenPickUpDayTimes}" hidden>
+
+            <div th:each="spudt, spudtStat : *{specimenPickUpDayTimes}" class="profile-edit-item row">
+                <div class="col-md-4">
+                    <p class="name" th:text="${spudt.pickUpDayOfWeek.name}"></p>
+
+                    <input type="text"
+                           th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].id}"
+                           th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].id}" hidden>
+
+                    <input type="text"
+                           th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpDayOfWeek}"
+                           th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpDayOfWeek}" hidden>
+
+                    <input type="text"
+                           th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes}"
+                           th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes}" hidden>
+
+                    <!--                    ????????????????????                    -->
+<!--                    <input type="text"-->
+<!--                           th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].account}"-->
+<!--                           th:value="${account}" hidden>-->
+
+                    <button th:if="${#lists.size(spudt.pickUpTimes) < maxPickUps}"
+                            th:formaction="@{'/employee-portal/sales/account/new/add-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
+                            type="submit" >Add Pick Up Time</button>
+                    <button th:if="${#lists.size(spudt.pickUpTimes) >= 1}"
+                            th:formaction="@{'/employee-portal/sales/account/new/remove-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
+                            type="submit" >Remove Pick Up Time</button>
+
+                </div>
+                <div class="col-md-8">
+                    <div class="input-wrapper">
+                        <table>
+                            <tr th:each="put, putStat : *{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes}">
+
+                                <input type="text"
+                                       th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes[__${putStat.index}__].id}"
+                                       th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes[__${putStat.index}__].id}" hidden>
+
+                                <input class="form-in-item"
+                                       type="time"
+                                       th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes[__${putStat.index}__].pickUpTime}">
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
 
             <div class="profile-edit-item row">
                 <div class="col-md-4">
@@ -226,39 +275,6 @@
                     </div>
                 </div>
             </div>
-
-
-            <h4>Specimen Pick up</h4>
-
-            <input type="text" th:field="*{specimenPickUpDayTimes}" th:value="*{specimenPickUpDayTimes}" hidden>
-
-            <div th:each="specPickUpDayTime: *{specimenPickUpDayTimes}">
-                <h3 th:text="${specPickUpDayTime.pickUpDayOfWeek.name}"  ></h3>
-
-<!--                <input type="text" th:field="${specPickUpDayTime}" hidden>-->
-
-                <div class="profile-edit-item row">
-                    <div class="col-md-4">
-                        <p class="name">
-                            <button th:if="${#lists.size(specPickUpDayTime.pickUpTimes) < maxPickUps }"
-                                    type="submit" name="addPickUpTime">Add Pick Up Time</button>
-                            <button th:if="${#lists.size(specPickUpDayTime.pickUpTimes) >= 1 }"
-                                    type="submit" name="removePickUpTime">Remove Pick Up Time</button>
-                        </p>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="input-wrapper">
-                            <table>
-                                <tr th:each="pickUpTime, rowStat : ${specPickUpDayTime.pickUpTimes}">
-                                    <td><input type="time" th:field="${specPickUpDayTime.pickUpTimes[__${rowStat.index}__].pickUpTime}"/></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
 
             <div sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')" class="profile-edit-item row">
                 <div class="col-md-4">

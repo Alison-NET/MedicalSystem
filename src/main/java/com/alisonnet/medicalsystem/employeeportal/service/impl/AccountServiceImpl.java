@@ -29,4 +29,9 @@ public class AccountServiceImpl implements AccountService {
     public Optional<Account> findById(int id) {
         return accountRepo.findById(id);
     }
+
+    @Override
+    public Optional<Account> findOne(Account account) {
+        return Optional.empty();
+    }
 }

@@ -70,9 +70,6 @@ public class EmployeePortalController {
 
         // authorities
 
-        log.info(employeeService.isInHRDepartment(employee)+"");
-        log.info(employeeService.isInAdminDepartment(employee)+"");
-
         model.addAttribute("isHrProfile", employeeService.isInHRDepartment(employee));
         model.addAttribute("isAdminProfile", employeeService.isInAdminDepartment(employee));
         return "employee-profile";
@@ -108,8 +105,7 @@ public class EmployeePortalController {
 
     @GetMapping("/test/add-department")
     public String testAddDep(Model model){
-
-        Department department = new Department();
+        Department department = new Department();//departmentService.findAll().get(0);
 
         Random random = new Random();
         List<JobPosition> jobPositions = new ArrayList<>();
@@ -121,14 +117,14 @@ public class EmployeePortalController {
 
             jobPositions.add(jobPosition);
         }
-
         department.setJobPositions(jobPositions);
+
         model.addAttribute("department", department);
         return "test-add-department";
     }
 
     @PostMapping("/test/add-department")
-    public String handleAddDep(@Valid @ModelAttribute Department department){
+    public String handleAddDep(@Valid @ModelAttribute Department department, Model model){
         log.info(department.getJobPositions().get(0).toString());
         return "test-add-department";
     }

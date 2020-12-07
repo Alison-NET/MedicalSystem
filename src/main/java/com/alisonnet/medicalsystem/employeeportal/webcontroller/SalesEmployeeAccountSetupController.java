@@ -1,10 +1,7 @@
 package com.alisonnet.medicalsystem.employeeportal.webcontroller;
 
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
-import com.alisonnet.medicalsystem.employeeportal.entity.Account;
-import com.alisonnet.medicalsystem.employeeportal.entity.PickUpDayOfWeek;
-import com.alisonnet.medicalsystem.employeeportal.entity.Provider;
-import com.alisonnet.medicalsystem.employeeportal.entity.SpecimenPickUpDayTime;
+import com.alisonnet.medicalsystem.employeeportal.entity.*;
 import com.alisonnet.medicalsystem.employeeportal.service.AccountService;
 import com.alisonnet.medicalsystem.employeeportal.service.PickUpDayOfWeekService;
 import com.alisonnet.medicalsystem.employeeportal.service.ProviderService;
@@ -13,10 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +26,13 @@ public class SalesEmployeeAccountSetupController {
     TitleService titleService;
     PickUpDayOfWeekService pickUpDayOfWeekService;
 
+    private void setupAccountRegistrationAttributes(@ModelAttribute Account account, Model model) {
+        model.addAttribute("account", account);
+        model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
+        model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
+        model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
+    }
+
     @GetMapping
     public String getAccountRegistrationPage(Model model){
 
@@ -41,38 +42,29 @@ public class SalesEmployeeAccountSetupController {
 
         List<SpecimenPickUpDayTime> specimenPickUpDayTimes = new ArrayList<>();
         List<PickUpDayOfWeek> daysOfWeek = pickUpDayOfWeekService.findAllByOrderByIdAsc();
-        log.info(daysOfWeek.toString());
         daysOfWeek.forEach(dayOfWeek->{
             SpecimenPickUpDayTime specimenPickUpDayTime = new SpecimenPickUpDayTime();
             specimenPickUpDayTime.setPickUpTimes(new ArrayList<>());
             specimenPickUpDayTime.setPickUpDayOfWeek(dayOfWeek);
             specimenPickUpDayTimes.add(specimenPickUpDayTime);
         });
-
         account.setSpecimenPickUpDayTimes(specimenPickUpDayTimes);
 
-        log.info(specimenPickUpDayTimes.toString());
-
-        model.addAttribute("account", account);
-        model.addAttribute("titles", titleService.findAll());
-        model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
-        model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
+        setupAccountRegistrationAttributes(account, model);
         return "sales/account-registration";
     }
+
 
     @PostMapping(params = {"addProvider"})
     private String addProvider(@ModelAttribute Account account, Model model){
 
         List<Provider> providers = account.getProviders();
         providers.add(new Provider());
-        account.setProviders(providers);
 
-        model.addAttribute("account", account);
-        model.addAttribute("titles", titleService.findAll());
-        model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
-        model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
+        setupAccountRegistrationAttributes(account, model);
         return "sales/account-registration";
     }
+
 
     @PostMapping(params = {"removeProvider"})
     private String removeProvider(@ModelAttribute Account account, Model model){
@@ -81,55 +73,46 @@ public class SalesEmployeeAccountSetupController {
         Provider providerRemoved = providers.remove(providers.size() - 1);
         providerService.remove(providerRemoved);
 
-        account.setProviders(providers);
-
-        model.addAttribute("account", account);
-        model.addAttribute("titles", titleService.findAll());
-        model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
-        model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
+        setupAccountRegistrationAttributes(account, model);
         return "sales/account-registration";
     }
 
-    @PostMapping(params = {"addPickUpTime"})
-    private String addPickUpTime(@ModelAttribute Account account, Model model){
+    @PostMapping("/add-pick-up-time")
+    private String addPickUpTimeSec(@ModelAttribute Account account, @RequestParam("dayId") int dayId, Model model){
 
-        log.info("addPickUpTime: " + account.getSpecimenPickUpDayTimes().toString());
+        List<SpecimenPickUpDayTime> specimenPickUpDayTimes = account.getSpecimenPickUpDayTimes();
+        SpecimenPickUpDayTime specimenPickUpDayTime = specimenPickUpDayTimes.get(dayId-1);
+        List<PickUpTime> pickUpTimes = specimenPickUpDayTime.getPickUpTimes();
+        pickUpTimes.add(new PickUpTime());
 
-//        SpecimenPickUpDayTime specimenPickUpDayTime = account.getSpecimenPickUpDayTime();
-//        List<PickUpTime> pickUpTimes = specimenPickUpDayTime.getPickUpTimes();
-//        pickUpTimes.add(new PickUpTime());
-//
-//        specimenPickUpDayTime.setPickUpTimes(pickUpTimes);
-//        account.setSpecimenPickUpDayTime(specimenPickUpDayTime);
-
-        model.addAttribute("account", account);
-        model.addAttribute("titles", titleService.findAll());
-        model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
-        model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
+        setupAccountRegistrationAttributes(account, model);
         return "sales/account-registration";
     }
 
-    @PostMapping(params = {"removePickUpTime"})
-    private String removePickUpTime(@ModelAttribute Account account, Model model){
+    @PostMapping("/remove-pick-up-time")
+    private String removePickUpTime(@ModelAttribute Account account, @RequestParam("dayId") int dayId, Model model){
 
-//        SpecimenPickUpDayTime specimenPickUpDayTime = account.getSpecimenPickUpDayTime();
-//        List<PickUpTime> pickUpTimes = specimenPickUpDayTime.getPickUpTimes();
-//        pickUpTimes.remove(pickUpTimes.size()-1);
-//
-//        specimenPickUpDayTime.setPickUpTimes(pickUpTimes);
-//        account.setSpecimenPickUpDayTime(specimenPickUpDayTime);
+        List<SpecimenPickUpDayTime> specimenPickUpDayTimes = account.getSpecimenPickUpDayTimes();
+        SpecimenPickUpDayTime specimenPickUpDayTime = specimenPickUpDayTimes.get(dayId-1);
+        List<PickUpTime> pickUpTimes = specimenPickUpDayTime.getPickUpTimes();
+        pickUpTimes.remove(pickUpTimes.size() - 1);
 
-        model.addAttribute("account", account);
-        model.addAttribute("titles", titleService.findAll());
-        model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
-        model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
+        setupAccountRegistrationAttributes(account, model);
         return "sales/account-registration";
     }
 
     @PostMapping
     private String handleAccountSaving(@ModelAttribute Account account){
-        account.getProviders().forEach(provider -> {
-            provider.setAccount(account);
+
+        ac
+
+
+
+        account.getProviders().forEach(provider -> provider.setAccount(account));
+        account.getSpecimenPickUpDayTimes().forEach(specimenPickUpDayTime -> {
+                specimenPickUpDayTime.setAccount(account);
+                specimenPickUpDayTime.getPickUpTimes().forEach(
+                        pickUpTime -> pickUpTime.setSpecimenPickUpDayTime(specimenPickUpDayTime));
         });
         accountService.save(account);
         return "redirect:/employee-portal/sales/account";

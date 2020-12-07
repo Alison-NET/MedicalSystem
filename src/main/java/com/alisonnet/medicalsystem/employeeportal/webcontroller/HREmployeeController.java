@@ -73,7 +73,7 @@ public class HREmployeeController {
 
 
         model.addAttribute("employee", newEmployee);
-        model.addAttribute("titles", titleService.findAll());
+        model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
         model.addAttribute("departments", departmentService.findAll());
         return "hr/approve-edit-employee";
     }
@@ -133,7 +133,7 @@ public class HREmployeeController {
 
         model.addAttribute("employee", employee);
         model.addAttribute("departments", departmentService.findAll());
-        model.addAttribute("titles", titleService.findAll());
+        model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
         model.addAttribute("isApproved", true);
 
         //        Contracts management
