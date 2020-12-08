@@ -31,7 +31,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Optional<Account> findOne(Account account) {
-        return Optional.empty();
+    public void remove(Account account) {
+        accountRepo.delete(account);
     }
 }

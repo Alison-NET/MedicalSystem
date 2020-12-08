@@ -103,30 +103,4 @@ public class EmployeePortalController {
         return "documents-job-position";
     }
 
-    @GetMapping("/test/add-department")
-    public String testAddDep(Model model){
-        Department department = new Department();//departmentService.findAll().get(0);
-
-        Random random = new Random();
-        List<JobPosition> jobPositions = new ArrayList<>();
-        for(int i = 0; i< 3; i++){
-
-            JobPosition jobPosition = new JobPosition();
-            jobPosition.setId(random.nextInt());
-            jobPosition.setName(random.nextDouble()+"");
-
-            jobPositions.add(jobPosition);
-        }
-        department.setJobPositions(jobPositions);
-
-        model.addAttribute("department", department);
-        return "test-add-department";
-    }
-
-    @PostMapping("/test/add-department")
-    public String handleAddDep(@Valid @ModelAttribute Department department, Model model){
-        log.info(department.getJobPositions().get(0).toString());
-        return "test-add-department";
-    }
-
 }

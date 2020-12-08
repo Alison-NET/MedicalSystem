@@ -31,40 +31,5 @@ public class SalesEmployeeController {
         return "sales/control";
     }
 
-    @GetMapping("/account")
-    public String getAllAccounts(Model model){
-        model.addAttribute("accounts", accountService.findAll());
-        return "sales/accounts";
-    }
-
-    @GetMapping("/account/{id}")
-    public String getAccountByIdInfoPage(@PathVariable int id, HttpServletRequest request, Model model){
-
-        Optional<Account> mbAccount = accountService.findById(id);
-
-        if(mbAccount.isEmpty())
-            return Optional.ofNullable(request.getHeader("Referer"))
-                    .map(requestUrl -> "redirect:" + requestUrl)
-                    .orElse("/");
-
-        model.addAttribute("account", mbAccount.get());
-        return "sales/account-info";
-    }
-
-    @GetMapping("/account/edit/{id}")
-    public String getAccountByIdEditPage(@PathVariable int id, HttpServletRequest request, Model model){
-        Optional<Account> mbAccount = accountService.findById(id);
-
-        if(mbAccount.isEmpty())
-            return Optional.ofNullable(request.getHeader("Referer"))
-                    .map(requestUrl -> "redirect:" + requestUrl)
-                    .orElse("/");
-
-        model.addAttribute("account", mbAccount.get());
-        model.addAttribute("titles", titleService.findAll());
-        model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
-        model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
-        return "sales/account-registration";
-    }
 
 }

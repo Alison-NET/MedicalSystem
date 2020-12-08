@@ -21,6 +21,6 @@ public class PickUpTime {
 
     private LocalTime pickUpTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private SpecimenPickUpDayTime specimenPickUpDayTime;
 }

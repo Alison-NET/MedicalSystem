@@ -42,7 +42,7 @@ public class Account {
 
     private String contactEmail;
 
-    @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<Provider> providers;
 
     private Boolean providerPortal;

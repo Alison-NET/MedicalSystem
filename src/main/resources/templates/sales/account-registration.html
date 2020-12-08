@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <form th:action="@{'/employee-portal/sales/account/new'}" th:object="${account}" method="post">
+        <form th:action="@{'/employee-portal/sales/account/save'}" th:object="${account}" method="post">
 
             <input type="text" th:field="*{id}" th:value="*{id}" hidden>
 

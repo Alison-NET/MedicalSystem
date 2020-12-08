@@ -13,7 +13,7 @@ public class SpecimenPickUpDayTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(mappedBy = "specimenPickUpDayTime", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "specimenPickUpDayTime", cascade = {CascadeType.ALL})
     private List<PickUpTime> pickUpTimes;
 
     @ManyToOne
