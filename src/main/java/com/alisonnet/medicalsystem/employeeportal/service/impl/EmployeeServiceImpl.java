@@ -1,5 +1,6 @@
 package com.alisonnet.medicalsystem.employeeportal.service.impl;
 
+import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.entity.Credentials;
 import com.alisonnet.medicalsystem.employeeportal.entity.Employee;
 import com.alisonnet.medicalsystem.employeeportal.repository.CredentialsRepo;
@@ -90,11 +91,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public boolean isInHRDepartment(Employee employee) {
-        return employee.getJobPosition().getDepartment().getName().equals("Human Resources");
+        return employee.getJobPosition().getDepartment().getName().equals(Constants.human_resources_department);
     }
 
     @Override
     public boolean isInAdminDepartment(Employee employee) {
-        return employee.getJobPosition().getDepartment().getName().equals("System Admin");
+        return employee.getJobPosition().getDepartment().getName().equals(Constants.system_admin_department);
     }
 }

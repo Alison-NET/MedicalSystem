@@ -13,4 +13,7 @@ public final class Constants {
     public final static int MAX_PROVIDERS_PER_ACCOUNT = 5;
     public final static int MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT = 2;
 
+
+    public static String system_admin_department = "System Admin";
+    public static String human_resources_department = "Human Resources";
 }

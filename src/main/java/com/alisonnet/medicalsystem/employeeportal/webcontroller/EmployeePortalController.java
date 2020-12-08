@@ -34,13 +34,8 @@ public class EmployeePortalController {
 
     @GetMapping
     public String getHomePage(Model model){
-
-        List<Department> departmentsWithoutChiefs = departmentService.getDepartmentsWithoutChiefs();
-
-        log.info(departmentsWithoutChiefs.toString());
         //HR
-        model.addAttribute("departmentsWithoutChief", departmentsWithoutChiefs );
-
+        model.addAttribute("departmentsWithoutChief", departmentService.getDepartmentsWithoutChiefs());
         return "employee-portal-home";
     }
 
@@ -51,7 +46,6 @@ public class EmployeePortalController {
         if(maybeEmployee.isEmpty())
             return "redirect:/index";
 
-        model.addAttribute("employee", maybeEmployee.get());
         return "redirect:/employee-portal/" + maybeEmployee.get().getId();
     }
 
@@ -69,9 +63,17 @@ public class EmployeePortalController {
         model.addAttribute("dto", new DocTypeAndFilesDTO(new DocumentType(), new MultipartFile[10]));
 
         // authorities
+        Optional<Employee> maybeActiveEmployee = employeeService.getActiveEmployee();
+        if(maybeActiveEmployee.isEmpty())
+            return "redirect:/index";
 
-        model.addAttribute("isHrProfile", employeeService.isInHRDepartment(employee));
-        model.addAttribute("isAdminProfile", employeeService.isInAdminDepartment(employee));
+        model.addAttribute("isMyProfile", maybeActiveEmployee.get().getId() == id);
+        model.addAttribute("editButtonShow",
+                ( !(employeeService.isInHRDepartment(employee) || employeeService.isInAdminDepartment(employee))
+                        && employeeService.isInHRDepartment(maybeActiveEmployee.get()))
+                        || employeeService.isInAdminDepartment(maybeActiveEmployee.get())
+        );
+
         return "employee-profile";
     }
 

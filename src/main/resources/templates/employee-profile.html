@@ -14,12 +14,11 @@
 
                 <!--     HR cannot edit own and admin's profile, but admin can edit any profile           -->
 
-                <a th:if="${(#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isFalse(isHrProfile))
-                            or (#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isFalse(isAdminProfile))
-                            or #authorization.expression('hasAuthority(''SYSTEM_ADMIN_DEP'')')}"
+                <a th:if="${#bools.isTrue(editButtonShow)}"
                    class="extra-btn" th:href="@{'/employee-portal/hr/employee/' + ${employee.id}}">
                     <span class="text">Edit</span>
                 </a>
+
             </div>
         </div>
 
@@ -226,8 +225,8 @@
             </div>
         </div>
 
-        <div th:if="${(not #authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')'))
-                        or (#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isTrue(isHrProfile))}">
+        <div th:if="${((not #authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')') and #bools.isTrue(isMyProfile)))
+                        or (#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isTrue(isMyProfile))}">
             <hr>
             <h2> Employee documents</h2>
             <div th:replace="fragments/emp-document-upload-form.html :: document-upload-form"></div>
