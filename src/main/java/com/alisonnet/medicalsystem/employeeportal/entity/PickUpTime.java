@@ -3,6 +3,7 @@ package com.alisonnet.medicalsystem.employeeportal.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalTime;
@@ -19,6 +20,7 @@ public class PickUpTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime pickUpTime;
 
     @ManyToOne

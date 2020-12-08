@@ -20,11 +20,17 @@ import java.util.Optional;
 @Slf4j
 public class SalesEmployeeAccountManagementController {
 
+//  ============  SERVICES  ============
+
     AccountService accountService;
     ProviderService providerService;
     TitleService titleService;
     PickUpDayOfWeekService pickUpDayOfWeekService;
     PickUpTimeService pickUpTimeService;
+
+//  ====================================
+
+    List<PickUpTime> pickUpTimesToRemove = new ArrayList<>();
 
     private void setupAccountNeededAttributes(Account account, Model model) {
         model.addAttribute("account", account);
@@ -77,19 +83,19 @@ public class SalesEmployeeAccountManagementController {
 
     @GetMapping("/edit/{id}")
     public String getAccountByIdEditPage(@PathVariable int id, HttpServletRequest request, Model model){
-        Optional<Account> maybeAccount = accountService.findById(id);
+        Optional<Account> mbAccount = accountService.findById(id);
 
-        if(maybeAccount.isEmpty())
+        if(mbAccount.isEmpty())
             return Optional.ofNullable(request.getHeader("Referer"))
                     .map(requestUrl -> "redirect:" + requestUrl)
                     .orElse("/");
 
-        setupAccountNeededAttributes(maybeAccount.get(),model);
+        setupAccountNeededAttributes(mbAccount.get(),model);
         return "sales/account-registration";
     }
 
 
-    @PostMapping(value = "/new", params = {"addProvider"})
+    @PostMapping(value = "/save", params = {"addProvider"})
     private String addProvider(@ModelAttribute Account account, Model model){
 
         List<Provider> providers = account.getProviders();
@@ -100,7 +106,7 @@ public class SalesEmployeeAccountManagementController {
     }
 
 
-    @PostMapping(value = "/new", params = {"removeProvider"})
+    @PostMapping(value = "/save", params = {"removeProvider"})
     private String removeProvider(@ModelAttribute Account account, Model model){
 
         List<Provider> providers = account.getProviders();
@@ -110,7 +116,7 @@ public class SalesEmployeeAccountManagementController {
         return "sales/account-registration";
     }
 
-    @PostMapping("/new/add-pick-up-time")
+    @PostMapping("/add-pick-up-time")
     private String addPickUpTime(@ModelAttribute Account account, @RequestParam("dayId") int dayId, Model model){
 
         SpecimenPickUpDayTime specimenPickUpDayTime = account.getSpecimenPickUpDayTimes().get(dayId-1);
@@ -121,12 +127,13 @@ public class SalesEmployeeAccountManagementController {
         return "sales/account-registration";
     }
 
-    @PostMapping("/new/remove-pick-up-time")
+    @PostMapping("/remove-pick-up-time")
     private String removePickUpTime(@ModelAttribute Account account, @RequestParam("dayId") int dayId, Model model){
 
         SpecimenPickUpDayTime specimenPickUpDayTime = account.getSpecimenPickUpDayTimes().get(dayId-1);
         List<PickUpTime> pickUpTimes = specimenPickUpDayTime.getPickUpTimes();
-        pickUpTimes.remove(pickUpTimes.size() - 1);
+        PickUpTime pickUpTimeToRemove = pickUpTimes.remove(pickUpTimes.size() - 1);
+        pickUpTimesToRemove.add(pickUpTimeToRemove);
 
         setupAccountNeededAttributes(account, model);
         return "sales/account-registration";
@@ -135,13 +142,7 @@ public class SalesEmployeeAccountManagementController {
     @PostMapping("/save")
     private String handleAccountSaving(@ModelAttribute Account account){
 
-        Optional<Account> maybeAccount = accountService.findById(account.getId());
-
-        log.info("Tuesday PickUpTimes before: " + maybeAccount.get().getSpecimenPickUpDayTimes().get(1).getPickUpTimes().size());
-
-//        If account existed before
-        maybeAccount.ifPresent(value -> removeDeletedItems(account, value));
-
+        pickUpTimesToRemove.forEach(pickUpTime -> pickUpTimeService.remove(pickUpTime));
         account.getProviders().forEach(provider -> provider.setAccount(account));
         account.getSpecimenPickUpDayTimes().forEach(specimenPickUpDayTime -> {
                 specimenPickUpDayTime.setAccount(account);
@@ -150,43 +151,5 @@ public class SalesEmployeeAccountManagementController {
         );
         accountService.save(account);
         return "redirect:/employee-portal/sales/account";
-    }
-
-    private void removeDeletedItems(@ModelAttribute Account account, Account accountBefore) {
-//            If number of providers has changed
-//        if(accountBefore.getProviders().size() != account.getProviders().size()){
-//            List<Provider> providersToRemove = new ArrayList<>(accountBefore.getProviders());
-//            account.getProviders().forEach(providersToRemove::remove);
-//            // remove provider that is no longer in updated account
-//            providersToRemove.stream().forEach(provider -> {
-//                List<Provider> providers = account.getProviders();
-//                providers.remove(provider);
-//
-//                log.info(providerService.findAll().toString());
-//                log.info(providerService.findById(provider.getId()).get().toString());
-//                providerService.remove(providerService.findById(provider.getId()).get());
-//                log.info(providerService.findAll().toString());
-//            });
-//        }
-
-        for(int i = 0; i < pickUpDayOfWeekService.findAll().size();i++) {
-//                If number of pick up times for specific (i) day changed
-            log.info(accountBefore.getSpecimenPickUpDayTimes().get(i).getPickUpDayOfWeek().getName());
-            log.info("PickUpTimes before: " + accountBefore.getSpecimenPickUpDayTimes().get(i).getPickUpTimes().size());
-            log.info("PickUpTimes now: " + account.getSpecimenPickUpDayTimes().get(i).getPickUpTimes().size());
-
-            if (accountBefore.getSpecimenPickUpDayTimes().get(i).getPickUpTimes().size() !=
-                    account.getSpecimenPickUpDayTimes().get(i).getPickUpTimes().size()) {
-                List<PickUpTime> pickUpTimesToRemove =
-                        new ArrayList<>(accountBefore.getSpecimenPickUpDayTimes().get(i).getPickUpTimes());
-                account.getSpecimenPickUpDayTimes().get(i).getPickUpTimes().forEach(pickUpTimesToRemove::remove);
-                log.info("pickUpTimesToRemove" + pickUpTimesToRemove.toString());
-                // remove PickUpTime that is no longer in updated account
-                pickUpTimesToRemove.stream().forEach(pickUpTime -> {
-                    log.info(pickUpTime.toString());
-                    pickUpTimeService.remove(pickUpTime);
-                });
-            }
-        }
     }
 }

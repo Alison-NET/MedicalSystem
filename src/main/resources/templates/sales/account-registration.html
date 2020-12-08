@@ -222,10 +222,10 @@
 <!--                           th:value="${account}" hidden>-->
 
                     <button th:if="${#lists.size(spudt.pickUpTimes) < maxPickUps}"
-                            th:formaction="@{'/employee-portal/sales/account/new/add-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
+                            th:formaction="@{'/employee-portal/sales/account/add-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
                             type="submit" >Add Pick Up Time</button>
                     <button th:if="${#lists.size(spudt.pickUpTimes) >= 1}"
-                            th:formaction="@{'/employee-portal/sales/account/new/remove-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
+                            th:formaction="@{'/employee-portal/sales/account/remove-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
                             type="submit" >Remove Pick Up Time</button>
 
                 </div>
