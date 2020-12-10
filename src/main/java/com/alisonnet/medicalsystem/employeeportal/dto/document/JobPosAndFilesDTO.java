@@ -1,6 +1,6 @@
 package com.alisonnet.medicalsystem.employeeportal.dto.document;
 
-import com.alisonnet.medicalsystem.employeeportal.entity.JobPosition;
+import com.alisonnet.medicalsystem.employeeportal.entity.employee.JobPosition;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;

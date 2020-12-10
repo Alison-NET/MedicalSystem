@@ -8,12 +8,10 @@
     <div class="container">
 
         <!--   HR can't change own and admin's data     -->
-        <div th:if="${(#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isTrue(isHrEditPage))
-                        or (#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isTrue(isAdminEditPage))}">
+        <div th:if="${#bools.isFalse(canEdit)}">
             <h4>You are not allowed to manage this page</h4>
         </div>
-        <div th:unless="${(#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isTrue(isHrEditPage))
-                        or (#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isTrue(isAdminEditPage))}">
+        <div th:if="${#bools.isTrue(canEdit)}">
             <div class="page-info row">
                 <div class="col-md-4">
                     <span th:if="${#bools.isTrue(isApproved)}" class="name">Edit Employee</span>
@@ -62,6 +60,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="profile-edit-item row">
                     <div class="col-md-4">
                         <p class="name">Middle name</p>
@@ -73,6 +72,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="profile-edit-item row">
                     <div class="col-md-4">
                         <p class="name">Last name</p>
@@ -84,6 +84,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="profile-edit-item row">
                     <div class="col-md-4">
                         <p class="name">Date of birth</p>
@@ -95,6 +96,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="profile-edit-item row">
                     <div class="col-md-4">
                         <p class="name">Home phone</p>
@@ -106,6 +108,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="profile-edit-item row">
                     <div class="col-md-4">
                         <p class="name">Mobile phone</p>

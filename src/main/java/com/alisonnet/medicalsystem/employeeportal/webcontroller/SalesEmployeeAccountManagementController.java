@@ -1,8 +1,12 @@
 package com.alisonnet.medicalsystem.employeeportal.webcontroller;
 
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
-import com.alisonnet.medicalsystem.employeeportal.entity.*;
+import com.alisonnet.medicalsystem.employeeportal.entity.account.*;
 import com.alisonnet.medicalsystem.employeeportal.service.*;
+import com.alisonnet.medicalsystem.employeeportal.service.account.AccountService;
+import com.alisonnet.medicalsystem.employeeportal.service.account.PickUpDayOfWeekService;
+import com.alisonnet.medicalsystem.employeeportal.service.account.PickUpTimeService;
+import com.alisonnet.medicalsystem.employeeportal.service.account.ProviderService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -39,11 +43,13 @@ public class SalesEmployeeAccountManagementController {
         model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
     }
 
+
     @GetMapping
     public String getAllAccounts(Model model){
         model.addAttribute("accounts", accountService.findAll());
         return "sales/accounts";
     }
+
 
     @GetMapping("/{id}")
     public String getAccountByIdInfoPage(@PathVariable int id, HttpServletRequest request, Model model){

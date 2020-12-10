@@ -1,8 +1,8 @@
 package com.alisonnet.medicalsystem.config;
 
-import com.alisonnet.medicalsystem.employeeportal.entity.Credentials;
-import com.alisonnet.medicalsystem.employeeportal.entity.JobPosition;
-import com.alisonnet.medicalsystem.employeeportal.repository.CredentialsRepo;
+import com.alisonnet.medicalsystem.employeeportal.entity.employee.Credentials;
+import com.alisonnet.medicalsystem.employeeportal.entity.employee.JobPosition;
+import com.alisonnet.medicalsystem.employeeportal.repository.employee.CredentialsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

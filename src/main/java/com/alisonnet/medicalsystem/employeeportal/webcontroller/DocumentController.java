@@ -2,8 +2,8 @@ package com.alisonnet.medicalsystem.employeeportal.webcontroller;
 
 
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
-import com.alisonnet.medicalsystem.employeeportal.entity.Document;
-import com.alisonnet.medicalsystem.employeeportal.service.DocumentService;
+import com.alisonnet.medicalsystem.employeeportal.entity.employee.Document;
+import com.alisonnet.medicalsystem.employeeportal.service.employee.DocumentService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
@@ -35,12 +35,12 @@ public class DocumentController {
             return null;
 
         Document document = maybeDocument.get();
-
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(document.getExtension()))
                 .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"" + document.getName() + "\"")
                 .body(new ByteArrayResource(document.getData()));
     }
+
 
     @GetMapping("/{id}/delete")
     public String handleDeletingDocument(@PathVariable int id, HttpServletRequest request){

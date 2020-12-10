@@ -4,8 +4,9 @@ import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.dto.document.DocTypeAndFilesDTO;
 import com.alisonnet.medicalsystem.employeeportal.dto.document.JobPosAndFilesDTO;
 import com.alisonnet.medicalsystem.employeeportal.dto.employee.EmployeeIdDTO;
-import com.alisonnet.medicalsystem.employeeportal.entity.*;
+import com.alisonnet.medicalsystem.employeeportal.entity.employee.*;
 import com.alisonnet.medicalsystem.employeeportal.service.*;
+import com.alisonnet.medicalsystem.employeeportal.service.employee.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -45,6 +46,7 @@ public class HREmployeeController {
         return "hr/approve-requests";
     }
 
+
     @GetMapping("/approve-employee/{id}")
     public String getApprovePage(@PathVariable int id, Model model){
 
@@ -74,7 +76,7 @@ public class HREmployeeController {
 
         model.addAttribute("employee", newEmployee);
         model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
-        model.addAttribute("departments", departmentService.findAll());
+        model.addAttribute("departments", departmentService.findAllByOrderByNameAsc());
         return "hr/approve-edit-employee";
     }
 
@@ -96,9 +98,7 @@ public class HREmployeeController {
                                        BindingResult bindingResult,
                                        HttpServletRequest request,
                                        Model model){
-
         if(bindingResult.hasErrors()){
-            bindingResult.getAllErrors().forEach(objectError -> log.info(objectError.toString()));
             return Optional.ofNullable(request.getHeader("Referer"))
                     .map(requestUrl -> "redirect:" + requestUrl)
                     .orElse("/");
@@ -118,6 +118,7 @@ public class HREmployeeController {
         return "hr/employees";
     }
 
+
     @GetMapping("/employee/{id}")
     public String getEmployeeEditProfilePageById(@PathVariable int id, Model model){
 
@@ -125,14 +126,21 @@ public class HREmployeeController {
         if(maybeEmployee.isEmpty())
             return "redirect:/employee-portal/hr/employee";
 
-        Employee employee = maybeEmployee.get();
+        Employee empToEdit = maybeEmployee.get();
 
         // authorities
-        model.addAttribute("isHrEditPage", employeeService.isInHRDepartment(employee));
-        model.addAttribute("isAdminEditPage", employeeService.isInAdminDepartment(employee));
+        Optional<Employee> maybeActiveEmployee = employeeService.getActiveEmployee();
+        if(maybeActiveEmployee.isEmpty())
+            return "redirect:/employee-portal";
 
-        model.addAttribute("employee", employee);
-        model.addAttribute("departments", departmentService.findAll());
+        Employee activeEmp = maybeActiveEmployee.get();
+        model.addAttribute("canEdit",
+                !((employeeService.isInHRDepartment(activeEmp) && employeeService.isInHRDepartment(empToEdit))
+                || (employeeService.isInHRDepartment(activeEmp) && employeeService.isInAdminDepartment(empToEdit))));
+
+        //
+        model.addAttribute("employee", empToEdit);
+        model.addAttribute("departments", departmentService.findAllByOrderByNameAsc());
         model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
         model.addAttribute("isApproved", true);
 
@@ -163,9 +171,9 @@ public class HREmployeeController {
         contract.setEmployee(employee);
         contractService.save(contract);
 
-
         return "redirect:/employee-portal/hr/employee/" + id;
     }
+
 
     @PostMapping("/employee/{id}/add-supervisor")
     public String handleSubordinateAddingRequest(@PathVariable int id,
@@ -186,6 +194,7 @@ public class HREmployeeController {
         return "redirect:/employee-portal/hr/employee/" + id;
     }
 
+
     @GetMapping("/employee/{id}/document/{docId}/lock")
     public String lockEmpDocument(@PathVariable int id, @PathVariable int docId){
 
@@ -202,6 +211,7 @@ public class HREmployeeController {
 
         return "redirect:/employee-portal/hr/employee/" + id;
     }
+
 
     @GetMapping("/employee/{id}/document/{docId}/unlock")
     public String unlockEmpDocument(@PathVariable int id, @PathVariable int docId){
@@ -220,14 +230,15 @@ public class HREmployeeController {
         return "redirect:/employee-portal/hr/employee/" + id;
     }
 
+
     @GetMapping("/documents-for-job-position")
     public String getManageDocumentsPerJobPositionPage(Model model){
-
 
         model.addAttribute("jobPositions", jobPositionService.findAll());
         model.addAttribute("jobPosAndFilesDTO", new JobPosAndFilesDTO(new JobPosition(), new MultipartFile[10]));
         return "hr/documents-job-position";
     }
+
 
     @PostMapping("/documents-for-job-position/save")
     public String handleAddingIntendedDocument(@ModelAttribute("jobPosAndFilesDTO") JobPosAndFilesDTO dto){

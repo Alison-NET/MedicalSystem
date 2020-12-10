@@ -2,14 +2,12 @@ package com.alisonnet.medicalsystem.employeeportal.webcontroller;
 
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.dto.document.DocTypeAndFilesDTO;
-import com.alisonnet.medicalsystem.employeeportal.entity.Department;
-import com.alisonnet.medicalsystem.employeeportal.entity.DocumentType;
-import com.alisonnet.medicalsystem.employeeportal.entity.Employee;
-import com.alisonnet.medicalsystem.employeeportal.entity.JobPosition;
-import com.alisonnet.medicalsystem.employeeportal.service.DepartmentService;
-import com.alisonnet.medicalsystem.employeeportal.service.DocumentTypeService;
-import com.alisonnet.medicalsystem.employeeportal.service.EmpDocumentService;
-import com.alisonnet.medicalsystem.employeeportal.service.EmployeeService;
+import com.alisonnet.medicalsystem.employeeportal.entity.employee.DocumentType;
+import com.alisonnet.medicalsystem.employeeportal.entity.employee.Employee;
+import com.alisonnet.medicalsystem.employeeportal.service.employee.DepartmentService;
+import com.alisonnet.medicalsystem.employeeportal.service.employee.DocumentTypeService;
+import com.alisonnet.medicalsystem.employeeportal.service.employee.EmpDocumentService;
+import com.alisonnet.medicalsystem.employeeportal.service.employee.EmployeeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -17,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.util.*;
 
 
@@ -32,12 +29,14 @@ public class EmployeePortalController {
     DocumentTypeService documentTypeService;
     EmpDocumentService empDocumentService;
 
+
     @GetMapping
     public String getHomePage(Model model){
         //HR
         model.addAttribute("departmentsWithoutChief", departmentService.getDepartmentsWithoutChiefs());
         return "employee-portal-home";
     }
+
 
     @GetMapping("/profile")
     public String getProfile(Model model){
@@ -48,6 +47,7 @@ public class EmployeePortalController {
 
         return "redirect:/employee-portal/" + maybeEmployee.get().getId();
     }
+
 
     @GetMapping("/{id}")
     public String getProfilePageById(@PathVariable int id, Model model){
@@ -76,6 +76,7 @@ public class EmployeePortalController {
 
         return "employee-profile";
     }
+
 
     @PostMapping("/{id}/upload-documents")
     public String uploadDocumentsRequest(@PathVariable int id,
