@@ -1,18 +1,15 @@
-package com.alisonnet.medicalsystem.employeeportal.entity.account;
+package com.alisonnet.medicalsystem.employeeportal.entity.account.unregistered;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
 
+
 @Entity
 @Data
-@EqualsAndHashCode(exclude = "specimenPickUpDayTimes")
-@ToString(exclude = "specimenPickUpDayTimes")
-@Table(name = "accounts")
-public class Account {
+@Table(name = "unregistered_accounts")
+public class UnregisteredAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,12 +40,12 @@ public class Account {
     private String contactEmail;
 
     @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL}, orphanRemoval = true)
-    private List<Provider> providers;
+    private List<UnregisteredProvider> providers;
 
     private Boolean providerPortal;
 
     private Boolean paperRequisitions;
 
     @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL})
-    private List<SpecimenPickUpDayTime> specimenPickUpDayTimes;
+    private List<UnregisteredSpecimenPickUpDayTime> specimenPickUpDayTimes;
 }

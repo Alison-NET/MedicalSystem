@@ -74,6 +74,8 @@ public class HREmployeeController {
         newEmployee.setContracts(contracts);
 
 
+        model.addAttribute("canEdit",true);
+
         model.addAttribute("employee", newEmployee);
         model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
         model.addAttribute("departments", departmentService.findAllByOrderByNameAsc());

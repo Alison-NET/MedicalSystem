@@ -7,6 +7,5 @@ import java.util.List;
 
 @Service
 public interface JobPositionService {
-
     List<JobPosition> findAll();
 }

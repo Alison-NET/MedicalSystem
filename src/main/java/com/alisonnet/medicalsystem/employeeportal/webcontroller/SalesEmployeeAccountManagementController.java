@@ -3,10 +3,11 @@ package com.alisonnet.medicalsystem.employeeportal.webcontroller;
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.*;
 import com.alisonnet.medicalsystem.employeeportal.service.*;
-import com.alisonnet.medicalsystem.employeeportal.service.account.AccountService;
-import com.alisonnet.medicalsystem.employeeportal.service.account.PickUpDayOfWeekService;
-import com.alisonnet.medicalsystem.employeeportal.service.account.PickUpTimeService;
-import com.alisonnet.medicalsystem.employeeportal.service.account.ProviderService;
+import com.alisonnet.medicalsystem.employeeportal.service.account.*;
+import com.alisonnet.medicalsystem.employeeportal.service.account.unregistered.UnregisteredAccountService;
+import com.alisonnet.medicalsystem.employeeportal.service.account.unregistered.UnregisteredPickUpDayOfWeekService;
+import com.alisonnet.medicalsystem.employeeportal.service.account.unregistered.UnregisteredPickUpTimeService;
+import com.alisonnet.medicalsystem.employeeportal.service.account.unregistered.UnregisteredProviderService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -26,11 +27,19 @@ public class SalesEmployeeAccountManagementController {
 
 //  ============  SERVICES  ============
 
+    TitleService titleService;
+
     AccountService accountService;
     ProviderService providerService;
-    TitleService titleService;
     PickUpDayOfWeekService pickUpDayOfWeekService;
     PickUpTimeService pickUpTimeService;
+
+
+    UnregisteredAccountService unapprAccountService;
+    UnregisteredProviderService unapprProviderService;
+    UnregisteredPickUpDayOfWeekService unapprPickUpDayOfWeekService;
+    UnregisteredPickUpTimeService unapprPickUpTimeService;
+
 
 //  ====================================
 
