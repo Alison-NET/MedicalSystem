@@ -1,6 +1,6 @@
 package com.alisonnet.medicalsystem.employeeportal.service.account;
 
-import com.alisonnet.medicalsystem.employeeportal.entity.account.Account;
+import com.alisonnet.medicalsystem.employeeportal.entity.account.approved.Account;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

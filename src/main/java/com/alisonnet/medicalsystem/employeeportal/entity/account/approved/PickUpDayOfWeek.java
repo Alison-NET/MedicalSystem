@@ -1,5 +1,6 @@
-package com.alisonnet.medicalsystem.employeeportal.entity.account;
+package com.alisonnet.medicalsystem.employeeportal.entity.account.approved;
 
+import com.alisonnet.medicalsystem.employeeportal.entity.account.PickUpDayOfWeekBase;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -9,16 +10,10 @@ import java.util.List;
 
 @Entity
 @Data
-@EqualsAndHashCode(exclude = "specimenPickUpDayTimes")
+@EqualsAndHashCode(exclude = "specimenPickUpDayTimes", callSuper = true)
 @ToString(exclude = "specimenPickUpDayTimes")
 @Table(name = "pick_up_days_of_week")
-public class PickUpDayOfWeek {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    private String name;
+public class PickUpDayOfWeek extends PickUpDayOfWeekBase {
 
     @OneToMany(mappedBy = "pickUpDayOfWeek")
     private List<SpecimenPickUpDayTime> specimenPickUpDayTimes;

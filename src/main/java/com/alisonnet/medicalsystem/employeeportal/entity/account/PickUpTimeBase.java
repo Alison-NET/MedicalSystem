@@ -1,20 +1,17 @@
 package com.alisonnet.medicalsystem.employeeportal.entity.account;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import java.time.LocalTime;
 
-
-@Entity
+@MappedSuperclass
 @Data
-@EqualsAndHashCode(exclude = "specimenPickUpDayTime")
-@ToString(exclude = "specimenPickUpDayTime")
-@Table(name = "pick_up_times")
-public class PickUpTime {
+public abstract class PickUpTimeBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +19,4 @@ public class PickUpTime {
 
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime pickUpTime;
-
-    @ManyToOne
-    private SpecimenPickUpDayTime specimenPickUpDayTime;
 }

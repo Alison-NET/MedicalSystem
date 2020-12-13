@@ -1,6 +1,6 @@
 package com.alisonnet.medicalsystem.employeeportal.service.account.impl;
 
-import com.alisonnet.medicalsystem.employeeportal.entity.account.SpecimenPickUpDayTime;
+import com.alisonnet.medicalsystem.employeeportal.entity.account.approved.SpecimenPickUpDayTime;
 import com.alisonnet.medicalsystem.employeeportal.repository.account.SpecimenPickUpDayTimeRepo;
 import com.alisonnet.medicalsystem.employeeportal.service.account.SpecimenPickUpDayTimeService;
 import lombok.AllArgsConstructor;

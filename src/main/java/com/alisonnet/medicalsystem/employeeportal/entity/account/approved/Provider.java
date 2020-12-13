@@ -1,4 +1,4 @@
-package com.alisonnet.medicalsystem.employeeportal.entity.account.updated;
+package com.alisonnet.medicalsystem.employeeportal.entity.account.approved;
 
 import com.alisonnet.medicalsystem.employeeportal.entity.account.ProviderBase;
 import lombok.Data;
@@ -11,9 +11,9 @@ import javax.persistence.*;
 @Data
 @EqualsAndHashCode(exclude = "account", callSuper = true)
 @ToString(exclude = "account")
-@Table(name = "updated_providers")
-public class UpdatedProvider extends ProviderBase {
+@Table(name = "providers")
+public class Provider extends ProviderBase {
 
     @ManyToOne
-    private UpdatedAccount account;
+    private Account account;
 }

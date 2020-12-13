@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Entity
 @Data
 @Table(name = "documents")
-//@ToString(exclude = {"employee"})
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Document {
 

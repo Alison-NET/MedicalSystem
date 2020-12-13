@@ -276,19 +276,19 @@
                 </div>
             </div>
 
-            <div sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')" class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Approve</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <label class="checkbox-container form-in-item">
-                            <input th:field="*{approved}" type="checkbox" checked="checked">
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
+<!--            <div sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')" class="profile-edit-item row">-->
+<!--                <div class="col-md-4">-->
+<!--                    <p class="name">Approve</p>-->
+<!--                </div>-->
+<!--                <div class="col-md-8">-->
+<!--                    <div class="input-wrapper">-->
+<!--                        <label class="checkbox-container form-in-item">-->
+<!--                            <input th:field="*{approved}" type="checkbox" checked="checked">-->
+<!--                            <span class="checkmark"></span>-->
+<!--                        </label>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
 
 
             <input class="btn form-submit-btn" type="submit" th:value="Submit">

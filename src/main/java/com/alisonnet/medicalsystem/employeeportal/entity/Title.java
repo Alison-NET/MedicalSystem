@@ -1,6 +1,6 @@
 package com.alisonnet.medicalsystem.employeeportal.entity;
 
-import com.alisonnet.medicalsystem.employeeportal.entity.account.Provider;
+import com.alisonnet.medicalsystem.employeeportal.entity.account.approved.Provider;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.BasicEmployee;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

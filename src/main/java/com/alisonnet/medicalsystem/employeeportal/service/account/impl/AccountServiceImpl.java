@@ -1,6 +1,6 @@
 package com.alisonnet.medicalsystem.employeeportal.service.account.impl;
 
-import com.alisonnet.medicalsystem.employeeportal.entity.account.Account;
+import com.alisonnet.medicalsystem.employeeportal.entity.account.approved.Account;
 import com.alisonnet.medicalsystem.employeeportal.repository.account.AccountRepo;
 import com.alisonnet.medicalsystem.employeeportal.service.account.AccountService;
 import lombok.AllArgsConstructor;

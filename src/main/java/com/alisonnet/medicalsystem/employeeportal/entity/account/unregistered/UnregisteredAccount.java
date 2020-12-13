@@ -1,50 +1,22 @@
 package com.alisonnet.medicalsystem.employeeportal.entity.account.unregistered;
 
+import com.alisonnet.medicalsystem.employeeportal.entity.account.AccountBase;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
 
-
 @Entity
 @Data
+@EqualsAndHashCode(exclude = "specimenPickUpDayTimes", callSuper = true)
+@ToString(exclude = "specimenPickUpDayTimes")
 @Table(name = "unregistered_accounts")
-public class UnregisteredAccount {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    private String name;
-
-    private String addressFirst;
-
-    private String addressSecond;
-
-    private String city;
-
-    private String state;
-
-    private String ZIP;
-
-    private String phone;
-
-    private String fax;
-
-    private String directLine;
-
-    private String contactFirstName;
-
-    private String contactLastName;
-
-    private String contactEmail;
+public class UnregisteredAccount extends AccountBase {
 
     @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<UnregisteredProvider> providers;
-
-    private Boolean providerPortal;
-
-    private Boolean paperRequisitions;
 
     @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL})
     private List<UnregisteredSpecimenPickUpDayTime> specimenPickUpDayTimes;

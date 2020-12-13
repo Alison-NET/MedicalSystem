@@ -6,9 +6,9 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Table(name = "appointed_documents")
 @ToString(exclude = "jobPosition")
 public class AppointedDocument extends Document{
