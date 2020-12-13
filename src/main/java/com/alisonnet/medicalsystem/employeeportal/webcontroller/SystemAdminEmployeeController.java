@@ -21,18 +21,8 @@ public class SystemAdminEmployeeController {
     @GetMapping
     public String getAdminPage(Model model)
     {
-        return "admin-control";
+        return "system-admin/control";
     }
-
-//  ===============  ACCOUNTS MANAGEMENT  ================
-
-    @GetMapping("/account/delete/{id}")
-    public String deleteAccount(@PathVariable int id){
-        accountService.remove(accountService.findById(id).get());
-        return "redirect:/employee-portal/sales/account";
-    }
-
-//  ======================================================
 
 
 }

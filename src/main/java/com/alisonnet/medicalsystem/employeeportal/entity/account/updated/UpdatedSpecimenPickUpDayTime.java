@@ -1,5 +1,6 @@
 package com.alisonnet.medicalsystem.employeeportal.entity.account.updated;
 
+import com.alisonnet.medicalsystem.employeeportal.entity.account.PickUpDayOfWeek;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.SpecimenPickUpDayTimeBase;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,7 +18,7 @@ public class UpdatedSpecimenPickUpDayTime extends SpecimenPickUpDayTimeBase {
     private List<UpdatedPickUpTime> pickUpTimes;
 
     @ManyToOne
-    private UpdatedPickUpDayOfWeek pickUpDayOfWeek;
+    private PickUpDayOfWeek pickUpDayOfWeek;
 
     @ManyToOne
     private UpdatedAccount account;

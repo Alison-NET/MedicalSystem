@@ -1,5 +1,6 @@
 package com.alisonnet.medicalsystem.employeeportal.entity.account.approved;
 
+import com.alisonnet.medicalsystem.employeeportal.entity.account.PickUpDayOfWeek;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.SpecimenPickUpDayTimeBase;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

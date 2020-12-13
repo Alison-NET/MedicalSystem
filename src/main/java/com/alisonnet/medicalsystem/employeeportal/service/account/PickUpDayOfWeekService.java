@@ -1,6 +1,6 @@
 package com.alisonnet.medicalsystem.employeeportal.service.account;
 
-import com.alisonnet.medicalsystem.employeeportal.entity.account.approved.PickUpDayOfWeek;
+import com.alisonnet.medicalsystem.employeeportal.entity.account.PickUpDayOfWeek;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

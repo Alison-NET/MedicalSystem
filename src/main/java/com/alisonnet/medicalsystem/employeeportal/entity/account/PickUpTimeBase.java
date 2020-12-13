@@ -14,7 +14,7 @@ import java.time.LocalTime;
 public abstract class PickUpTimeBase {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @DateTimeFormat(pattern = "HH:mm")

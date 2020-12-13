@@ -8,8 +8,11 @@ import java.util.Optional;
 
 @Service
 public interface UnregisteredAccountService {
+    UnregisteredAccount createUnregisteredAccount();
     List<UnregisteredAccount> findAll();
     UnregisteredAccount save(UnregisteredAccount unregisteredAccount);
     Optional<UnregisteredAccount> findById(int id);
+    void addPickUpTime(UnregisteredAccount account, int dayId);
+    void removePickUpTime(UnregisteredAccount account, int dayId);
     void remove(UnregisteredAccount unregisteredAccount);
 }

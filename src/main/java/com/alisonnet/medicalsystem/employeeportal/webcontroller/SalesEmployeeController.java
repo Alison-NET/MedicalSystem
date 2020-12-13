@@ -23,6 +23,4 @@ public class SalesEmployeeController {
     public String getSalesControlPage(){
         return "sales/control";
     }
-
-
 }

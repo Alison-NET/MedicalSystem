@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <form th:action="@{'/employee-portal/sales/account/save'}" th:object="${account}" method="post">
+        <form th:action="@{'/employee-portal/sales/account/new/save'}" th:object="${account}" method="post">
 
             <input type="text" th:field="*{id}" th:value="*{id}" hidden>
 
@@ -170,9 +170,11 @@
                 <div class="col-md-4">
                     <p class="name">
                         <button th:if="${#lists.size(account.providers) < maxProviders}"
-                                type="submit" name="addProvider">Add Provider</button>
+                                th:formaction="@{'/employee-portal/sales/account/new/add-provider'}"
+                                type="submit">Add Provider</button>
                         <button th:if="${#lists.size(account.providers) >= 1}"
-                                type="submit" name="removeProvider">Remove Provider</button>
+                                th:formaction="@{'/employee-portal/sales/account/new/rm-provider'}"
+                                type="submit">Remove Provider</button>
                     </p>
                 </div>
                 <div class="col-md-8">
@@ -222,10 +224,10 @@
 <!--                           th:value="${account}" hidden>-->
 
                     <button th:if="${#lists.size(spudt.pickUpTimes) < maxPickUps}"
-                            th:formaction="@{'/employee-portal/sales/account/add-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
+                            th:formaction="@{'/employee-portal/sales/account/new/add-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
                             type="submit" >Add Pick Up Time</button>
                     <button th:if="${#lists.size(spudt.pickUpTimes) >= 1}"
-                            th:formaction="@{'/employee-portal/sales/account/remove-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
+                            th:formaction="@{'/employee-portal/sales/account/new/rm-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
                             type="submit" >Remove Pick Up Time</button>
 
                 </div>

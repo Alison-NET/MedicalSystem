@@ -1,6 +1,6 @@
 package com.alisonnet.medicalsystem.employeeportal.service.account.impl;
 
-import com.alisonnet.medicalsystem.employeeportal.entity.account.approved.PickUpDayOfWeek;
+import com.alisonnet.medicalsystem.employeeportal.entity.account.PickUpDayOfWeek;
 import com.alisonnet.medicalsystem.employeeportal.repository.account.PickUpDayOfWeekRepo;
 import com.alisonnet.medicalsystem.employeeportal.service.account.PickUpDayOfWeekService;
 import lombok.AllArgsConstructor;

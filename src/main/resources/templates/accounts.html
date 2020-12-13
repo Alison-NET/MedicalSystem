@@ -16,7 +16,7 @@
                 <span class="name">Accounts</span>
             </div>
             <div class="col-md-6">
-                <a   class="extra-btn" href="/employee-portal/sales/account/new">
+                <a class="extra-btn" href="/employee-portal/sales/account/new">
                     <span class="text">Add account</span>
                 </a>
             </div>
@@ -36,8 +36,8 @@
                 <th>Direct Line</th>
                 <th>Contact First Name</th>
                 <th>Contact Last Name</th>
-                <th>Status</th>
-                <th></th>
+                <th>More</th>
+                <th>Update</th>
 
             </tr>
             <tr th:each="account: ${accounts}">
@@ -52,17 +52,18 @@
                 <td th:text="${account.directLine}">Direct Line</td>
                 <td th:text="${account.contactFirstName}">Contact First Name</td>
                 <td th:text="${account.contactLastName}">Contact Last Name</td>
-                <td th:text="${account.approved}? 'Approved' : 'Unapproved'">Approved</td>
-                <td th:if="${(#authorization.expression('hasAuthority(''SALES_DEP'')') and #bools.isTrue(account.approved))
-                        or #authorization.expression('hasAuthority(''SYSTEM_ADMIN_DEP'')') }">
-                    <a th:href="@{'/employee-portal/sales/account/' + ${account.id}}">More</a>
+                <td sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')">
+                    <a th:href="@{'/employee-portal/admin/account/' + ${account.id}}">More Info</a>
                 </td>
-                <td th:if="${(#authorization.expression('hasAuthority(''SALES_DEP'')') and #bools.isFalse(account.approved))
-                        or #authorization.expression('hasAuthority(''SYSTEM_ADMIN_DEP'')') }">
-                    <a th:href="@{'/employee-portal/sales/account/edit/' + ${account.id}}">Edit</a>
+                <td sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')">
+                    <a th:href="@{'/employee-portal/admin/account/update/' + ${account.id}}">Update</a>
                 </td>
-                <td th:if="${#authorization.expression('hasAuthority(''SYSTEM_ADMIN_DEP'')')}">
-                    <a th:href="@{'/employee-portal/admin/account/delete/' + ${account.id}}">Remove</a>
+
+                <td sec:authorize="hasAuthority('SALES_DEP')">
+                    <a th:href="@{'/employee-portal/sales/account/' + ${account.id}}">More Info</a>
+                </td>
+                <td sec:authorize="hasAuthority('SALES_DEP')">
+                    <a th:href="@{'/employee-portal/sales/account/update/' + ${account.id}}">Update</a>
                 </td>
             </tr>
         </table>

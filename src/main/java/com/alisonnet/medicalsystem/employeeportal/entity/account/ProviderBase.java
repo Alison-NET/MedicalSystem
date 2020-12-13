@@ -10,7 +10,7 @@ import javax.persistence.*;
 public abstract class ProviderBase {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne

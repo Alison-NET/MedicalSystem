@@ -4,8 +4,9 @@ import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.approved.Account;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.unregistered.UnregisteredAccount;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.unregistered.UnregisteredProvider;
-import com.alisonnet.medicalsystem.employeeportal.service.*;
-import com.alisonnet.medicalsystem.employeeportal.service.account.*;
+import com.alisonnet.medicalsystem.employeeportal.service.TitleService;
+import com.alisonnet.medicalsystem.employeeportal.service.account.AccountService;
+import com.alisonnet.medicalsystem.employeeportal.service.account.PickUpDayOfWeekService;
 import com.alisonnet.medicalsystem.employeeportal.service.account.unregistered.UnregisteredAccountService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +20,9 @@ import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping(Constants.URL_EMPLOYEE_PORTAL + "/sales/account")
+@RequestMapping(Constants.URL_EMPLOYEE_PORTAL + "/admin/account")
 @Slf4j
-public class SalesEmployeeAccountManagementController {
+public class SystemAdminEmployeeAccountManagementController {
 
     TitleService titleService;
     AccountService accountService;
@@ -29,6 +30,8 @@ public class SalesEmployeeAccountManagementController {
     // ========= ACCOUNT REGISTRATION SERVICES=========
     UnregisteredAccountService unregisteredAccountService;
     PickUpDayOfWeekService pickUpDayOfWeekService;
+
+
 
     @GetMapping
     public String getAllAccounts(Model model){
@@ -50,8 +53,16 @@ public class SalesEmployeeAccountManagementController {
         return "account-info";
     }
 
+    @GetMapping("/delete/{id}")
+    public String deleteAccount(@PathVariable int id){
+        accountService.remove(accountService.findById(id).get());
+        return "redirect:/employee-portal/sales/account";
+    }
 
-    // ========= ACCOUNT REGISTRATION =========
+
+
+
+    // ========= UNREGISTERED ACCOUNT REGISTRATION =========
 
     private void setupAccountNeededAttrs(UnregisteredAccount account, Model model) {
         model.addAttribute("account", account);
@@ -60,13 +71,25 @@ public class SalesEmployeeAccountManagementController {
         model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
     }
 
-    @GetMapping("/new")
-    public String getAccountRegPage(Model model){
-        setupAccountNeededAttrs(unregisteredAccountService.createUnregisteredAccount(), model);
+    @GetMapping("/register")
+    public String getAllUnregisteredAccounts(Model model){
+        model.addAttribute("accounts", unregisteredAccountService.findAll());
+        model.addAttribute("unregistered", true);
+        return "system-admin/unapproved-accounts";
+    }
+
+    @GetMapping("/register/{id}")
+    public String getAccountRegPage(@PathVariable int id, Model model){
+        Optional<UnregisteredAccount> mbUnregisteredAccount = unregisteredAccountService.findById(id);
+        if(mbUnregisteredAccount.isEmpty()){
+            model.addAttribute("unregistered", true);
+            return "system-admin/unapproved-accounts";
+        }
+        setupAccountNeededAttrs(mbUnregisteredAccount.get(), model);
         return "account-registration";
     }
 
-    @PostMapping("/new/add-provider")
+    @PostMapping("/register/add-provider")
     private String addProvider(@ModelAttribute UnregisteredAccount account, Model model){
 
         List<UnregisteredProvider> providers = account.getProviders();
@@ -77,7 +100,7 @@ public class SalesEmployeeAccountManagementController {
     }
 
 
-    @PostMapping("/new/rm-provider")
+    @PostMapping("/register/rm-provider")
     private String removeProvider(@ModelAttribute UnregisteredAccount account, Model model){
 
         List<UnregisteredProvider> providers = account.getProviders();
@@ -87,7 +110,7 @@ public class SalesEmployeeAccountManagementController {
         return "account-registration";
     }
 
-    @PostMapping("/new/add-pick-up-time")
+    @PostMapping("/register/add-pick-up-time")
     private String addPickUpTime(@ModelAttribute UnregisteredAccount account,
                                  @RequestParam("dayId") int dayId,
                                  Model model){
@@ -98,7 +121,7 @@ public class SalesEmployeeAccountManagementController {
     }
 
 
-    @PostMapping("/new/rm-pick-up-time")
+    @PostMapping("/register/rm-pick-up-time")
     private String removePickUpTime(@ModelAttribute UnregisteredAccount account,
                                     @RequestParam("dayId") int dayId,
                                     Model model){
@@ -110,9 +133,11 @@ public class SalesEmployeeAccountManagementController {
 
 
 
-    @PostMapping("/new/save")
+    @PostMapping("/register/save")
     private String handleAccountSaving(@ModelAttribute UnregisteredAccount account){
-        unregisteredAccountService.save(account);
+
+        // CONVERT TO ACCOUNT
+
         return "redirect:/employee-portal/sales/account";
     }
 
