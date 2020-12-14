@@ -62,78 +62,80 @@ public class SystemAdminEmployeeAccountManagementController {
 
 
 
-    // ========= UNREGISTERED ACCOUNT REGISTRATION =========
+    // ========= UNREGISTERED ACCOUNT APPROVING =========
 
-    private void setupAccountNeededAttrs(UnregisteredAccount account, Model model) {
+    private void setupUnregisteredAccountNeededAttrs(UnregisteredAccount account, Model model) {
         model.addAttribute("account", account);
+        model.addAttribute("approveUnregistered", true);
         model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
         model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
         model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
     }
 
-    @GetMapping("/register")
+    @GetMapping("/approve-unregistered")
     public String getAllUnregisteredAccounts(Model model){
         model.addAttribute("accounts", unregisteredAccountService.findAll());
-        model.addAttribute("unregistered", true);
+        model.addAttribute("approveUnregistered", true);
         return "system-admin/unapproved-accounts";
     }
 
-    @GetMapping("/register/{id}")
+    @GetMapping("/approve-unregistered/{id}")
     public String getAccountRegPage(@PathVariable int id, Model model){
         Optional<UnregisteredAccount> mbUnregisteredAccount = unregisteredAccountService.findById(id);
         if(mbUnregisteredAccount.isEmpty()){
             model.addAttribute("unregistered", true);
             return "system-admin/unapproved-accounts";
         }
-        setupAccountNeededAttrs(mbUnregisteredAccount.get(), model);
+
+        setupUnregisteredAccountNeededAttrs(mbUnregisteredAccount.get(), model);
         return "account-registration";
     }
 
-    @PostMapping("/register/add-provider")
+    @PostMapping("/approve-unregistered/add-provider")
     private String addProvider(@ModelAttribute UnregisteredAccount account, Model model){
 
         List<UnregisteredProvider> providers = account.getProviders();
         providers.add(new UnregisteredProvider());
 
-        setupAccountNeededAttrs(account, model);
+        setupUnregisteredAccountNeededAttrs(account, model);
         return "account-registration";
     }
 
 
-    @PostMapping("/register/rm-provider")
+    @PostMapping("/approve-unregistered/rm-provider")
     private String removeProvider(@ModelAttribute UnregisteredAccount account, Model model){
 
         List<UnregisteredProvider> providers = account.getProviders();
         providers.remove(providers.size() - 1);
 
-        setupAccountNeededAttrs(account, model);
+        setupUnregisteredAccountNeededAttrs(account, model);
         return "account-registration";
     }
 
-    @PostMapping("/register/add-pick-up-time")
+    @PostMapping("/approve-unregistered/add-pick-up-time")
     private String addPickUpTime(@ModelAttribute UnregisteredAccount account,
                                  @RequestParam("dayId") int dayId,
                                  Model model){
 
         unregisteredAccountService.addPickUpTime(account, dayId);
-        setupAccountNeededAttrs(account, model);
+        setupUnregisteredAccountNeededAttrs(account, model);
         return "account-registration";
     }
 
 
-    @PostMapping("/register/rm-pick-up-time")
+    @PostMapping("/approve-unregistered/rm-pick-up-time")
     private String removePickUpTime(@ModelAttribute UnregisteredAccount account,
                                     @RequestParam("dayId") int dayId,
                                     Model model){
 
         unregisteredAccountService.removePickUpTime(account, dayId);
-        setupAccountNeededAttrs(account, model);
+        setupUnregisteredAccountNeededAttrs(account, model);
         return "account-registration";
     }
 
 
 
-    @PostMapping("/register/save")
+    @PostMapping("/approve-unregistered/save")
     private String handleAccountSaving(@ModelAttribute UnregisteredAccount account){
 
         // CONVERT TO ACCOUNT

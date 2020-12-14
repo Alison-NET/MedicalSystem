@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <form th:action="@{'/employee-portal/sales/account/new/save'}" th:object="${account}" method="post">
+        <form th:action="${'/employee-portal/sales/account/new/save'}" th:object="${account}" method="post">
 
             <input type="text" th:field="*{id}" th:value="*{id}" hidden>
 
@@ -168,7 +168,8 @@
 
             <div class="profile-edit-item row">
                 <div class="col-md-4">
-                    <p class="name">
+
+                    <p th:if="${#bools.isTrue(createUnregistered)}" class="name">
                         <button th:if="${#lists.size(account.providers) < maxProviders}"
                                 th:formaction="@{'/employee-portal/sales/account/new/add-provider'}"
                                 type="submit">Add Provider</button>
@@ -176,6 +177,16 @@
                                 th:formaction="@{'/employee-portal/sales/account/new/rm-provider'}"
                                 type="submit">Remove Provider</button>
                     </p>
+
+                    <p th:if="${#bools.isTrue(approveUnregistered)}">
+                        <button th:if="${#lists.size(account.providers) < maxProviders}"
+                                th:formaction="@{'/employee-portal/admin/account/approve-unregistered/add-provider'}"
+                                type="submit">Add Provider</button>
+                        <button th:if="${#lists.size(account.providers) >= 1}"
+                                th:formaction="@{'/employee-portal/admin/account/approve-unregistered/rm-provider'}"
+                                type="submit">Remove Provider</button>
+                    </p>
+
                 </div>
                 <div class="col-md-8">
                     <div class="input-wrapper">
@@ -223,12 +234,25 @@
 <!--                           th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].account}"-->
 <!--                           th:value="${account}" hidden>-->
 
-                    <button th:if="${#lists.size(spudt.pickUpTimes) < maxPickUps}"
-                            th:formaction="@{'/employee-portal/sales/account/new/add-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
-                            type="submit" >Add Pick Up Time</button>
-                    <button th:if="${#lists.size(spudt.pickUpTimes) >= 1}"
-                            th:formaction="@{'/employee-portal/sales/account/new/rm-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
-                            type="submit" >Remove Pick Up Time</button>
+                    <div th:if="${#bools.isTrue(createUnregistered)}">
+
+                        <button th:if="${#lists.size(spudt.pickUpTimes) < maxPickUps}"
+                                th:formaction="@{'/employee-portal/sales/account/new/add-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
+                                type="submit" >Add Pick Up Time</button>
+                        <button th:if="${#lists.size(spudt.pickUpTimes) >= 1}"
+                                th:formaction="@{'/employee-portal/sales/account/new/rm-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
+                                type="submit" >Remove Pick Up Time</button>
+                    </div>
+
+                    <div th:if="${#bools.isTrue(approveUnregistered)}">
+
+                        <button th:if="${#lists.size(spudt.pickUpTimes) < maxPickUps}"
+                                th:formaction="@{'/employee-portal/admin/account/approve-unregistered/add-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
+                                type="submit" >Add Pick Up Time</button>
+                        <button th:if="${#lists.size(spudt.pickUpTimes) >= 1}"
+                                th:formaction="@{'/employee-portal/admin/account/approve-unregistered/rm-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
+                                type="submit" >Remove Pick Up Time</button>
+                    </div>
 
                 </div>
                 <div class="col-md-8">
@@ -293,7 +317,13 @@
 <!--            </div>-->
 
 
-            <input class="btn form-submit-btn" type="submit" th:value="Submit">
+            <button th:if="${#bools.isTrue(createUnregistered)}"
+                   th:formaction="@{'/employee-portal/sales/account/new/save'}" class="btn form-submit-btn"
+                    type="submit">Submit createUnregistered</button>
+
+            <button th:if="${#bools.isTrue(approveUnregistered)}"
+                   th:formaction="@{'/employee-portal/admin/account/approve-unregistered/save'}" class="btn form-submit-btn"
+                   type="submit">Submit approveUnregistered</button>
         </form>
     </div>
 </div>

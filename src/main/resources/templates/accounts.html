@@ -16,7 +16,10 @@
                 <span class="name">Accounts</span>
             </div>
             <div class="col-md-6">
-                <a class="extra-btn" href="/employee-portal/sales/account/new">
+                <a sec:authorize="hasAuthority('SALES_DEP')" class="extra-btn" href="/employee-portal/sales/account/new">
+                    <span class="text">Add account</span>
+                </a>
+                <a sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')" class="extra-btn" href="/employee-portal/admin/account/new">
                     <span class="text">Add account</span>
                 </a>
             </div>

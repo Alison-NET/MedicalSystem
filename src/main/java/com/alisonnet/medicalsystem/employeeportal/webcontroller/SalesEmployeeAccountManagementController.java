@@ -51,10 +51,11 @@ public class SalesEmployeeAccountManagementController {
     }
 
 
-    // ========= ACCOUNT REGISTRATION =========
+    // ========= CREATING UNREGISTERED ACCOUNT =========
 
-    private void setupAccountNeededAttrs(UnregisteredAccount account, Model model) {
+    private void setupUnregisteredAccountNeededAttrs(UnregisteredAccount account, Model model) {
         model.addAttribute("account", account);
+        model.addAttribute("createUnregistered", true);
         model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
         model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
         model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
@@ -62,7 +63,7 @@ public class SalesEmployeeAccountManagementController {
 
     @GetMapping("/new")
     public String getAccountRegPage(Model model){
-        setupAccountNeededAttrs(unregisteredAccountService.createUnregisteredAccount(), model);
+        setupUnregisteredAccountNeededAttrs(unregisteredAccountService.createUnregisteredAccount(), model);
         return "account-registration";
     }
 
@@ -72,7 +73,7 @@ public class SalesEmployeeAccountManagementController {
         List<UnregisteredProvider> providers = account.getProviders();
         providers.add(new UnregisteredProvider());
 
-        setupAccountNeededAttrs(account, model);
+        setupUnregisteredAccountNeededAttrs(account, model);
         return "account-registration";
     }
 
@@ -83,7 +84,7 @@ public class SalesEmployeeAccountManagementController {
         List<UnregisteredProvider> providers = account.getProviders();
         providers.remove(providers.size() - 1);
 
-        setupAccountNeededAttrs(account, model);
+        setupUnregisteredAccountNeededAttrs(account, model);
         return "account-registration";
     }
 
@@ -93,7 +94,7 @@ public class SalesEmployeeAccountManagementController {
                                  Model model){
 
         unregisteredAccountService.addPickUpTime(account, dayId);
-        setupAccountNeededAttrs(account, model);
+        setupUnregisteredAccountNeededAttrs(account, model);
         return "account-registration";
     }
 
@@ -104,7 +105,7 @@ public class SalesEmployeeAccountManagementController {
                                     Model model){
 
         unregisteredAccountService.removePickUpTime(account, dayId);
-        setupAccountNeededAttrs(account, model);
+        setupUnregisteredAccountNeededAttrs(account, model);
         return "account-registration";
     }
 
