@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface AccountService {
     List<Account> findAll();
     Account save(Account account);
+    void fillUniqueIds(Account account);
+    void fillNeededData(Account account);
     Optional<Account> findById(int id);
     void remove(Account account);
 }

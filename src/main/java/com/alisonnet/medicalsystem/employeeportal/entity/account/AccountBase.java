@@ -1,6 +1,8 @@
 package com.alisonnet.medicalsystem.employeeportal.entity.account;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;

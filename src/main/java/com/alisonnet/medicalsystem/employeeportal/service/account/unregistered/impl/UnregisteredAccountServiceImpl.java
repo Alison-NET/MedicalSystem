@@ -50,7 +50,7 @@ public class UnregisteredAccountServiceImpl implements UnregisteredAccountServic
     }
 
     @Override
-    public UnregisteredAccount save(UnregisteredAccount unregisteredAccount) {
+    public void fillUniqueIds(UnregisteredAccount unregisteredAccount) {
 
         int accountsAmount = unregisteredAccountRepo.findAll().size();
         int providersAmount = unregisteredProviderRepo.findAll().size();
@@ -58,20 +58,31 @@ public class UnregisteredAccountServiceImpl implements UnregisteredAccountServic
         int pickUpTimesAmount = unregisteredPickUpTimeRepo.findAll().size();
 
         unregisteredAccount.setId(++accountsAmount);
-        for(UnregisteredProvider provider : unregisteredAccount.getProviders()) {
+        for(UnregisteredProvider provider : unregisteredAccount.getProviders())
             provider.setId(++providersAmount);
-            provider.setAccount(unregisteredAccount);
-        }
 
         for(UnregisteredSpecimenPickUpDayTime specimenPickUpDayTime : unregisteredAccount.getSpecimenPickUpDayTimes()){
             specimenPickUpDayTime.setId(++specimenPickUpDayTimeAmount);
-            specimenPickUpDayTime.setAccount(unregisteredAccount);
-            for(UnregisteredPickUpTime pickUpTime : specimenPickUpDayTime.getPickUpTimes()){
+            for(UnregisteredPickUpTime pickUpTime : specimenPickUpDayTime.getPickUpTimes())
                 pickUpTime.setId(++pickUpTimesAmount);
-                pickUpTime.setSpecimenPickUpDayTime(specimenPickUpDayTime);
-            }
         }
+    }
 
+    @Override
+    public void fillNeededData(UnregisteredAccount unregisteredAccount) {
+
+        for(UnregisteredProvider provider : unregisteredAccount.getProviders())
+            provider.setAccount(unregisteredAccount);
+
+        for(UnregisteredSpecimenPickUpDayTime specimenPickUpDayTime : unregisteredAccount.getSpecimenPickUpDayTimes()){
+            specimenPickUpDayTime.setAccount(unregisteredAccount);
+            for(UnregisteredPickUpTime pickUpTime : specimenPickUpDayTime.getPickUpTimes())
+                pickUpTime.setSpecimenPickUpDayTime(specimenPickUpDayTime);
+        }
+    }
+
+    @Override
+    public UnregisteredAccount save(UnregisteredAccount unregisteredAccount) {
         return unregisteredAccountRepo.save(unregisteredAccount);
     }
 

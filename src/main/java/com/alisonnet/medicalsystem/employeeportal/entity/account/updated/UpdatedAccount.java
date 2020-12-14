@@ -1,6 +1,7 @@
 package com.alisonnet.medicalsystem.employeeportal.entity.account.updated;
 
 import com.alisonnet.medicalsystem.employeeportal.entity.account.AccountBase;
+import com.alisonnet.medicalsystem.employeeportal.entity.account.approved.Account;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -21,4 +22,7 @@ public class UpdatedAccount extends AccountBase {
 
     @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL})
     private List<UpdatedSpecimenPickUpDayTime> specimenPickUpDayTimes;
+
+    @ManyToOne
+    private Account baseVersion;
 }

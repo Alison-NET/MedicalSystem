@@ -1,9 +1,8 @@
 package com.alisonnet.medicalsystem.employeeportal.entity.account.approved;
 
 import com.alisonnet.medicalsystem.employeeportal.entity.account.AccountBase;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import com.alisonnet.medicalsystem.employeeportal.entity.account.updated.UpdatedAccount;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -20,4 +19,7 @@ public class Account extends AccountBase {
 
     @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL})
     private List<SpecimenPickUpDayTime> specimenPickUpDayTimes;
+
+    @OneToMany(mappedBy = "baseVersion")
+    private List<UpdatedAccount> updatedVersions;
 }

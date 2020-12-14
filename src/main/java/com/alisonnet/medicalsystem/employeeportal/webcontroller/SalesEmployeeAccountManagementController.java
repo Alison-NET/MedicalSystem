@@ -113,6 +113,8 @@ public class SalesEmployeeAccountManagementController {
 
     @PostMapping("/new/save")
     private String handleAccountSaving(@ModelAttribute UnregisteredAccount account){
+        unregisteredAccountService.fillNeededData(account);
+        unregisteredAccountService.fillUniqueIds(account);
         unregisteredAccountService.save(account);
         return "redirect:/employee-portal/sales/account";
     }

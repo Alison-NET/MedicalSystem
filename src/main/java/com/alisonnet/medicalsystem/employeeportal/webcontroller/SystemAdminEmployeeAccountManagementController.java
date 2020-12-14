@@ -10,6 +10,7 @@ import com.alisonnet.medicalsystem.employeeportal.service.account.PickUpDayOfWee
 import com.alisonnet.medicalsystem.employeeportal.service.account.unregistered.UnregisteredAccountService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ public class SystemAdminEmployeeAccountManagementController {
 
     TitleService titleService;
     AccountService accountService;
+    ConversionService conversionService;
 
     // ========= ACCOUNT REGISTRATION SERVICES=========
     UnregisteredAccountService unregisteredAccountService;
@@ -137,9 +139,12 @@ public class SystemAdminEmployeeAccountManagementController {
 
     @PostMapping("/approve-unregistered/save")
     private String handleAccountSaving(@ModelAttribute UnregisteredAccount account){
-
-        // CONVERT TO ACCOUNT
-
+        Account convertedAccount = conversionService.convert(account, Account.class);
+        accountService.fillNeededData(convertedAccount);
+        accountService.fillUniqueIds(convertedAccount);
+        Account savedAccount = accountService.save(convertedAccount);
+        if(savedAccount!=null)
+            unregisteredAccountService.remove(account);
         return "redirect:/employee-portal/sales/account";
     }
 
