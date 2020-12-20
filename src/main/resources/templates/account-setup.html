@@ -17,6 +17,8 @@
 
             <input type="text" th:field="*{id}" th:value="*{id}" hidden>
 
+            <input th:if="${#bools.isTrue(createUpdated)}" th:field="*{baseVersion}" th:value="*{baseVersion}" hidden>
+
             <div class="profile-edit-item row">
                 <div class="col-md-4">
                     <p class="name">Name</p>
@@ -178,7 +180,16 @@
                                 type="submit">Remove Provider</button>
                     </p>
 
-                    <p th:if="${#bools.isTrue(approveUnregistered)}">
+                    <p th:if="${#bools.isTrue(createUpdated)}" class="name">
+                        <button th:if="${#lists.size(account.providers) < maxProviders}"
+                                th:formaction="@{'/employee-portal/sales/account/update/add-provider'}"
+                                type="submit">Add Provider</button>
+                        <button th:if="${#lists.size(account.providers) >= 1}"
+                                th:formaction="@{'/employee-portal/sales/account/update/rm-provider'}"
+                                type="submit">Remove Provider</button>
+                    </p>
+
+                    <p th:if="${#bools.isTrue(approveUnregistered)}" class="name">
                         <button th:if="${#lists.size(account.providers) < maxProviders}"
                                 th:formaction="@{'/employee-portal/admin/account/approve-unregistered/add-provider'}"
                                 type="submit">Add Provider</button>
@@ -241,6 +252,16 @@
                                 type="submit" >Add Pick Up Time</button>
                         <button th:if="${#lists.size(spudt.pickUpTimes) >= 1}"
                                 th:formaction="@{'/employee-portal/sales/account/new/rm-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
+                                type="submit" >Remove Pick Up Time</button>
+                    </div>
+
+                    <div th:if="${#bools.isTrue(createUpdated)}">
+
+                        <button th:if="${#lists.size(spudt.pickUpTimes) < maxPickUps}"
+                                th:formaction="@{'/employee-portal/sales/account/update/add-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
+                                type="submit" >Add Pick Up Time</button>
+                        <button th:if="${#lists.size(spudt.pickUpTimes) >= 1}"
+                                th:formaction="@{'/employee-portal/sales/account/update/rm-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
                                 type="submit" >Remove Pick Up Time</button>
                     </div>
 
@@ -317,13 +338,18 @@
 <!--            </div>-->
 
 
+
             <button th:if="${#bools.isTrue(createUnregistered)}"
                    th:formaction="@{'/employee-portal/sales/account/new/save'}" class="btn form-submit-btn"
                     type="submit">Submit createUnregistered</button>
 
-            <button th:if="${#bools.isTrue(approveUnregistered)}"
-                   th:formaction="@{'/employee-portal/admin/account/approve-unregistered/save'}" class="btn form-submit-btn"
+            <button th:if="${#bools.isTrue(createUpdated)}"
+                   th:formaction="@{'/employee-portal/sales/account/update/save'}" class="btn form-submit-btn"
                    type="submit">Submit approveUnregistered</button>
+
+            <button th:if="${#bools.isTrue(approveUnregistered)}"
+                    th:formaction="@{'/employee-portal/admin/account/approve-unregistered/save'}" class="btn form-submit-btn"
+                    type="submit">Submit approveUnregistered</button>
         </form>
     </div>
 </div>

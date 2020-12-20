@@ -77,8 +77,7 @@ public class SystemAdminEmployeeAccountManagementController {
     @GetMapping("/approve-unregistered")
     public String getAllUnregisteredAccounts(Model model){
         model.addAttribute("accounts", unregisteredAccountService.findAll());
-        model.addAttribute("approveUnregistered", true);
-        return "system-admin/unapproved-accounts";
+        return "unregistered-accounts";
     }
 
     @GetMapping("/approve-unregistered/{id}")
@@ -86,11 +85,11 @@ public class SystemAdminEmployeeAccountManagementController {
         Optional<UnregisteredAccount> mbUnregisteredAccount = unregisteredAccountService.findById(id);
         if(mbUnregisteredAccount.isEmpty()){
             model.addAttribute("unregistered", true);
-            return "system-admin/unapproved-accounts";
+            return "unregistered-accounts";
         }
 
         setupUnregisteredAccountNeededAttrs(mbUnregisteredAccount.get(), model);
-        return "account-registration";
+        return "account-setup";
     }
 
     @PostMapping("/approve-unregistered/add-provider")
@@ -100,7 +99,7 @@ public class SystemAdminEmployeeAccountManagementController {
         providers.add(new UnregisteredProvider());
 
         setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-registration";
+        return "account-setup";
     }
 
 
@@ -111,7 +110,7 @@ public class SystemAdminEmployeeAccountManagementController {
         providers.remove(providers.size() - 1);
 
         setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-registration";
+        return "account-setup";
     }
 
     @PostMapping("/approve-unregistered/add-pick-up-time")
@@ -121,7 +120,7 @@ public class SystemAdminEmployeeAccountManagementController {
 
         unregisteredAccountService.addPickUpTime(account, dayId);
         setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-registration";
+        return "account-setup";
     }
 
 
@@ -132,9 +131,8 @@ public class SystemAdminEmployeeAccountManagementController {
 
         unregisteredAccountService.removePickUpTime(account, dayId);
         setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-registration";
+        return "account-setup";
     }
-
 
 
     @PostMapping("/approve-unregistered/save")
@@ -149,5 +147,5 @@ public class SystemAdminEmployeeAccountManagementController {
     }
 
     // =============================================
-
+// ========= UNREGISTERED ACCOUNT APPROVING =========
 }

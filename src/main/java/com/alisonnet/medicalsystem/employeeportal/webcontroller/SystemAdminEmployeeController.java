@@ -24,5 +24,4 @@ public class SystemAdminEmployeeController {
         return "system-admin/control";
     }
 
-
 }

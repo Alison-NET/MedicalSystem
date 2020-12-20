@@ -13,8 +13,7 @@
                 <span class="name">There are no accounts.</span>
             </div>
             <div th:unless="${#lists.isEmpty(accounts)}" class="col-md-12">
-                <span th:if="${#bools.isTrue(approveUnregistered)}" class="name">Accounts Requested for Registration</span>
-                <span th:if="${#bools.isTrue(updated)}" class="name">Accounts Requested for Updating</span>
+                <span class="name">Accounts Requested for Updating</span>
             </div>
         </div>
 
@@ -32,8 +31,6 @@
                 <th>Direct Line</th>
                 <th>Contact First Name</th>
                 <th>Contact Last Name</th>
-                <th>Open</th>
-
             </tr>
             <tr th:each="account: ${accounts}">
                 <td th:text="${account.name}">Name</td>
@@ -47,11 +44,9 @@
                 <td th:text="${account.directLine}">Direct Line</td>
                 <td th:text="${account.contactFirstName}">Contact First Name</td>
                 <td th:text="${account.contactLastName}">Contact Last Name</td>
-                <td>
-                    <a th:if="${#bools.isTrue(approveUnregistered)}" th:href="@{'/employee-portal/admin/account/approve-unregistered/' + ${account.id}}">Register</a>
-                    <a th:if="${#bools.isTrue(updated)}" th:href="@{'/employee-portal/admin/account/approve-updated/' + ${account.id}}">Update</a>
+                <td sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')">
+                    <a th:href="@{'/employee-portal/admin/account/approve-updated/' + ${account.id}}">Update</a>
                 </td>
-
 
             </tr>
         </table>

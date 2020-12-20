@@ -20,7 +20,9 @@
 
         </div>
 
-        <p>Hello, <span sec:authentication="principal.authorities"></span></p>
+        <p>Hello, <span sec:authorize="authenticated" sec:authentication="principal.authorities"></span>
+                  <span sec:authorize="anonymous">guest</span>
+        </p>
     </div>
 </div>
 

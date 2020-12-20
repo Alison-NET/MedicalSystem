@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/general.html :: head"></head>
+<body>
+<header th:replace="fragments/general.html::header"></header>
+
+<div class="bootstrap-wrapper">
+    <div class="container">
+
+
+        <div class="page-info row">
+            <div th:if="${#lists.isEmpty(accounts)}" class="col-md-12">
+                <span class="name">There are no accounts.</span>
+            </div>
+            <div th:unless="${#lists.isEmpty(accounts)}" class="col-md-12">
+                <span class="name">Accounts Requested for Registration</span>
+            </div>
+        </div>
+
+
+        <table th:unless="${#lists.isEmpty(accounts)}">
+            <tr>
+                <th>Name</th>
+                <th>Address 1</th>
+                <th>Address 2</th>
+                <th>City</th>
+                <th>State</th>
+                <th>ZIP</th>
+                <th>Phone</th>
+                <th>Fax</th>
+                <th>Direct Line</th>
+                <th>Contact First Name</th>
+                <th>Contact Last Name</th>
+            </tr>
+            <tr th:each="account: ${accounts}">
+                <td th:text="${account.name}">Name</td>
+                <td th:text="${account.addressFirst}">Address 1</td>
+                <td th:text="${account.addressSecond}">Address 2</td>
+                <td th:text="${account.city}">City</td>
+                <td th:text="${account.state}">State</td>
+                <td th:text="${account.ZIP}">ZIP</td>
+                <td th:text="${account.phone}">Phone</td>
+                <td th:text="${account.fax}">Fax</td>
+                <td th:text="${account.directLine}">Direct Line</td>
+                <td th:text="${account.contactFirstName}">Contact First Name</td>
+                <td th:text="${account.contactLastName}">Contact Last Name</td>
+                <td sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')">
+                    <a th:href="@{'/employee-portal/admin/account/approve-unregistered/' + ${account.id}}">Register</a>
+                </td>
+
+            </tr>
+        </table>
+    </div>
+</div>
+
+<footer th:replace="fragments/general.html :: footer"></footer>
+</body>
+</html>

@@ -20,6 +20,6 @@ public class Account extends AccountBase {
     @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL})
     private List<SpecimenPickUpDayTime> specimenPickUpDayTimes;
 
-    @OneToMany(mappedBy = "baseVersion")
+    @OneToMany(mappedBy = "baseVersion", fetch = FetchType.LAZY)
     private List<UpdatedAccount> updatedVersions;
 }

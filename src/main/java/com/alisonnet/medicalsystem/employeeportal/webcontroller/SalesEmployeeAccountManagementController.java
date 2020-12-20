@@ -4,11 +4,15 @@ import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.approved.Account;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.unregistered.UnregisteredAccount;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.unregistered.UnregisteredProvider;
+import com.alisonnet.medicalsystem.employeeportal.entity.account.updated.UpdatedAccount;
+import com.alisonnet.medicalsystem.employeeportal.entity.account.updated.UpdatedProvider;
 import com.alisonnet.medicalsystem.employeeportal.service.*;
 import com.alisonnet.medicalsystem.employeeportal.service.account.*;
 import com.alisonnet.medicalsystem.employeeportal.service.account.unregistered.UnregisteredAccountService;
+import com.alisonnet.medicalsystem.employeeportal.service.account.updated.UpdatedAccountService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,10 +29,11 @@ public class SalesEmployeeAccountManagementController {
 
     TitleService titleService;
     AccountService accountService;
-
-    // ========= ACCOUNT REGISTRATION SERVICES=========
-    UnregisteredAccountService unregisteredAccountService;
+    ConversionService conversionService;
     PickUpDayOfWeekService pickUpDayOfWeekService;
+
+    UnregisteredAccountService unregisteredAccountService;
+    UpdatedAccountService updatedAccountService;
 
     @GetMapping
     public String getAllAccounts(Model model){
@@ -42,8 +47,7 @@ public class SalesEmployeeAccountManagementController {
         Optional<Account> mbAccount = accountService.findById(id);
 
         if(mbAccount.isEmpty())
-            return Optional.ofNullable(request.getHeader("Referer"))
-                    .map(requestUrl -> "redirect:" + requestUrl)
+            return Optional.ofNullable(request.getHeader("Referer")).map(requestUrl -> "redirect:" + requestUrl)
                     .orElse("/");
 
         model.addAttribute("account", mbAccount.get());
@@ -64,55 +68,55 @@ public class SalesEmployeeAccountManagementController {
     @GetMapping("/new")
     public String getAccountRegPage(Model model){
         setupUnregisteredAccountNeededAttrs(unregisteredAccountService.createUnregisteredAccount(), model);
-        return "account-registration";
+        return "account-setup";
     }
 
     @PostMapping("/new/add-provider")
-    private String addProvider(@ModelAttribute UnregisteredAccount account, Model model){
+    private String addUnregisteredProvider(@ModelAttribute UnregisteredAccount account, Model model){
 
         List<UnregisteredProvider> providers = account.getProviders();
         providers.add(new UnregisteredProvider());
 
         setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-registration";
+        return "account-setup";
     }
 
 
     @PostMapping("/new/rm-provider")
-    private String removeProvider(@ModelAttribute UnregisteredAccount account, Model model){
+    private String removeUnregisteredProvider(@ModelAttribute UnregisteredAccount account, Model model){
 
         List<UnregisteredProvider> providers = account.getProviders();
         providers.remove(providers.size() - 1);
 
         setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-registration";
+        return "account-setup";
     }
 
     @PostMapping("/new/add-pick-up-time")
-    private String addPickUpTime(@ModelAttribute UnregisteredAccount account,
+    private String addUnregisteredPickUpTime(@ModelAttribute UnregisteredAccount account,
                                  @RequestParam("dayId") int dayId,
                                  Model model){
 
         unregisteredAccountService.addPickUpTime(account, dayId);
         setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-registration";
+        return "account-setup";
     }
 
 
     @PostMapping("/new/rm-pick-up-time")
-    private String removePickUpTime(@ModelAttribute UnregisteredAccount account,
+    private String removeUnregisteredPickUpTime(@ModelAttribute UnregisteredAccount account,
                                     @RequestParam("dayId") int dayId,
                                     Model model){
 
         unregisteredAccountService.removePickUpTime(account, dayId);
         setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-registration";
+        return "account-setup";
     }
 
 
 
     @PostMapping("/new/save")
-    private String handleAccountSaving(@ModelAttribute UnregisteredAccount account){
+    private String handleUnregisteredAccountSaving(@ModelAttribute UnregisteredAccount account){
         unregisteredAccountService.fillNeededData(account);
         unregisteredAccountService.fillUniqueIds(account);
         unregisteredAccountService.save(account);
@@ -120,5 +124,77 @@ public class SalesEmployeeAccountManagementController {
     }
 
     // =============================================
+    // ========= CREATING UPDATED ACCOUNT =========
 
+
+    private void setupUpdatedAccountNeededAttrs(UpdatedAccount account, Model model) {
+        model.addAttribute("account", account);
+        model.addAttribute("createUpdated", true);
+        model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
+        model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
+        model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
+    }
+
+    @GetMapping("/update/{id}")
+    private String getUpdateAccountPage(@PathVariable int id, HttpServletRequest request, Model model){
+        Optional<Account> mbAccount = accountService.findById(id);
+        if(mbAccount.isEmpty())
+            return Optional.ofNullable(request.getHeader("Referer")).map(requestUrl -> "redirect:" + requestUrl)
+                    .orElse("/");
+
+        UpdatedAccount updatedAccount = conversionService.convert(mbAccount.get(), UpdatedAccount.class);
+
+        setupUpdatedAccountNeededAttrs(updatedAccount, model);
+        return "account-setup";
+    }
+
+    @PostMapping("/update/add-provider")
+    private String addUpdatedProvider(@ModelAttribute UpdatedAccount account, Model model){
+
+        List<UpdatedProvider> providers = account.getProviders();
+        providers.add(new UpdatedProvider());
+
+        setupUpdatedAccountNeededAttrs(account, model);
+        return "account-setup";
+    }
+
+
+    @PostMapping("/update/rm-provider")
+    private String removeUpdatedProvider(@ModelAttribute UpdatedAccount account, Model model){
+
+        List<UpdatedProvider> providers = account.getProviders();
+        providers.remove(providers.size() - 1);
+
+        setupUpdatedAccountNeededAttrs(account, model);
+        return "account-setup";
+    }
+
+    @PostMapping("/update/add-pick-up-time")
+    private String addUpdatedPickUpTime(@ModelAttribute UpdatedAccount account,
+                                 @RequestParam("dayId") int dayId,
+                                 Model model){
+
+        updatedAccountService.addPickUpTime(account, dayId);
+        setupUpdatedAccountNeededAttrs(account, model);
+        return "account-setup";
+    }
+
+
+    @PostMapping("/update/rm-pick-up-time")
+    private String removeUpdatedPickUpTime(@ModelAttribute UpdatedAccount account,
+                                    @RequestParam("dayId") int dayId,
+                                    Model model){
+
+        updatedAccountService.removePickUpTime(account, dayId);
+        setupUpdatedAccountNeededAttrs(account, model);
+        return "account-setup";
+    }
+
+    @PostMapping("/update/save")
+    private String handleUpdatedAccountSaving(@ModelAttribute UpdatedAccount account){
+        updatedAccountService.fillNeededData(account);
+        updatedAccountService.fillUniqueIds(account);
+        updatedAccountService.save(account);
+        return "redirect:/employee-portal/sales/account";
+    }
 }
