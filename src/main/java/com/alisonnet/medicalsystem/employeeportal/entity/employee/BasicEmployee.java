@@ -8,7 +8,9 @@ import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.util.Date;
 
@@ -26,41 +28,48 @@ public class BasicEmployee {
     @ManyToOne
     private Title title;
 
-    @NotBlank(message = Constants.VALID_MSG_NOT_EMPTY)
+    @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
     private String firstName;
 
-    @NotBlank(message = Constants.VALID_MSG_NOT_EMPTY)
+    @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
     private String middleName;
 
-    @NotBlank(message = Constants.VALID_MSG_NOT_EMPTY)
+    @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
     private String lastName;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotEmpty(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
     private Date dateOfBirth;
 
+    @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
     private String addressFirst;
 
     private String addressSecond;
 
+    @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
     private String city;
 
+    @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
     private String state;
 
+    @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
+    @Pattern(regexp = Constants.ZIP_PATTERN, message = Constants.VALIDATION_MSG_INVALID_ZIP)
     private String ZIP;
 
-    @NotBlank(message = Constants.VALID_MSG_NOT_EMPTY)
-    @Pattern(regexp="(^$|[0-9]{10})", message = Constants.VALID_MSG_PATTERN)
+    @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
+    @Pattern(regexp = Constants.PHONE_PATTERN, message = Constants.VALIDATION_MSG_INVALID_PHONE)
     private String homePhone;
 
-    @NotBlank(message = Constants.VALID_MSG_NOT_EMPTY)
-    @Pattern(regexp="(^$|[0-9]{10})", message = Constants.VALID_MSG_PATTERN)
+    @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
+    @Pattern(regexp = Constants.PHONE_PATTERN, message = Constants.VALIDATION_MSG_INVALID_PHONE)
     private String mobilePhone;
 
-    @NotBlank(message = Constants.VALID_MSG_NOT_EMPTY)
+    @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
+    @Email
     private String personalEmail;
 
-    // Add regex pattern
-    @NotBlank(message = Constants.VALID_MSG_NOT_EMPTY)
+    @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
+    @Pattern(regexp = Constants.SSN_PATTERN, message = Constants.VALIDATION_MSG_INVALID_SNN)
     private String socialSecurity;
 
     @OneToOne(mappedBy = "basicInfo", cascade = CascadeType.ALL)

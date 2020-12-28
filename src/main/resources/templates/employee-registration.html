@@ -86,7 +86,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="input-wrapper">
-                            <input class="form-in-item" type="text" th:field="*{socialSecurity}">
+                            <input class="form-in-item" type="text" placeholder="AAA-GG-SSSS" th:field="*{socialSecurity}">
                             <p th:each="error : ${#fields.errors('socialSecurity')}" th:text="${error}">Validation error</p>
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="input-wrapper">
-                            <input class="form-in-item" type="text" th:field="*{homePhone}">
+                            <input class="form-in-item" type="text" placeholder="000-000-0000" th:field="*{homePhone}">
                             <p th:each="error : ${#fields.errors('homePhone')}" th:text="${error}">Validation error</p>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="input-wrapper">
-                            <input class="form-in-item" type="text" th:field="*{mobilePhone}">
+                            <input class="form-in-item" type="text" placeholder="000-000-0000" th:field="*{mobilePhone}">
                             <p th:each="error : ${#fields.errors('mobilePhone')}" th:text="${error}">Validation error</p>
                         </div>
                     </div>
@@ -182,7 +182,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="input-wrapper">
-                            <input class="form-in-item" type="text" th:field="*{ZIP}">
+                            <input class="form-in-item" type="text" placeholder="nnnnn{-nnnn}" th:field="*{ZIP}">
                             <p th:each="error : ${#fields.errors('ZIP')}" th:text="${error}">Validation error</p>
                         </div>
                     </div>

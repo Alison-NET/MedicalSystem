@@ -9,7 +9,32 @@
 
         <div class="page-info row">
             <div class="col-md-12">
-                <span class="name">New Account</span>
+<!--                <span th:if="${#bools.isTrue(updateCreate) or #bools.isTrue(createUnregistered)}" class="name">New Account</span>-->
+<!--                <span th:if="${#bools.isTrue(createUpdated) or #bools.isTrue(createUnregistered) or #bools.isTrue(approveUpdated)}" class="name">Update Account</span>-->
+
+
+<!--                <button th:if="${#bools.isTrue(createUnregistered)}"-->
+<!--                        th:formaction="@{'/employee-portal/sales/account/new/save'}" class="btn form-submit-btn"-->
+<!--                        type="submit">Propose new account</button>-->
+
+<!--                <button th:if="${#bools.isTrue(createUpdated)}"-->
+<!--                        th:formaction="@{'/employee-portal/sales/account/update/save'}" class="btn form-submit-btn"-->
+<!--                        type="submit">Propose account updating</button>-->
+
+<!--                <button th:if="${#bools.isTrue(approveUnregistered)}"-->
+<!--                        th:formaction="@{'/employee-portal/admin/account/approve-unregistered/save'}" class="btn form-submit-btn"-->
+<!--                        type="submit">Approve</button>-->
+
+<!--                <button th:if="${#bools.isTrue(approveUpdated)}"-->
+<!--                        th:formaction="@{'/employee-portal/admin/account/approve-updated/save'}" class="btn form-submit-btn"-->
+<!--                        type="submit">Approve</button>-->
+
+<!--                <button th:if="${#bools.isTrue(updateCreate)}"-->
+<!--                        th:formaction="@{'/employee-portal/admin/account/update-create/save'}" class="btn form-submit-btn"-->
+<!--                        type="submit">Approve</button>-->
+
+                <span class="name">Account</span>
+
             </div>
         </div>
 
@@ -17,7 +42,8 @@
 
             <input type="text" th:field="*{id}" th:value="*{id}" hidden>
 
-            <input th:if="${#bools.isTrue(createUpdated)}" th:field="*{baseVersion}" th:value="*{baseVersion}" hidden>
+            <input th:if="${#bools.isTrue(createUpdated)} or ${#bools.isTrue(approveUpdated)}"
+                   th:field="*{baseVersion}" th:value="*{baseVersion}" hidden>
 
             <div class="profile-edit-item row">
                 <div class="col-md-4">
@@ -198,6 +224,24 @@
                                 type="submit">Remove Provider</button>
                     </p>
 
+                    <p th:if="${#bools.isTrue(approveUpdated)}" class="name">
+                        <button th:if="${#lists.size(account.providers) < maxProviders}"
+                                th:formaction="@{'/employee-portal/admin/account/approve-updated/add-provider'}"
+                                type="submit">Add Provider</button>
+                        <button th:if="${#lists.size(account.providers) >= 1}"
+                                th:formaction="@{'/employee-portal/admin/account/approve-updated/rm-provider'}"
+                                type="submit">Remove Provider</button>
+                    </p>
+
+                    <p th:if="${#bools.isTrue(updateCreate)}" class="name">
+                        <button th:if="${#lists.size(account.providers) < maxProviders}"
+                                th:formaction="@{'/employee-portal/admin/account/update-create/add-provider'}"
+                                type="submit">Add Provider</button>
+                        <button th:if="${#lists.size(account.providers) >= 1}"
+                                th:formaction="@{'/employee-portal/admin/account/update-create/rm-provider'}"
+                                type="submit">Remove Provider</button>
+                    </p>
+
                 </div>
                 <div class="col-md-8">
                     <div class="input-wrapper">
@@ -275,6 +319,26 @@
                                 type="submit" >Remove Pick Up Time</button>
                     </div>
 
+                    <div th:if="${#bools.isTrue(approveUpdated)}">
+
+                        <button th:if="${#lists.size(spudt.pickUpTimes) < maxPickUps}"
+                                th:formaction="@{'/employee-portal/admin/account/approve-updated/add-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
+                                type="submit" >Add Pick Up Time</button>
+                        <button th:if="${#lists.size(spudt.pickUpTimes) >= 1}"
+                                th:formaction="@{'/employee-portal/admin/account/approve-updated/rm-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
+                                type="submit" >Remove Pick Up Time</button>
+                    </div>
+
+                    <div th:if="${#bools.isTrue(updateCreate)}">
+
+                        <button th:if="${#lists.size(spudt.pickUpTimes) < maxPickUps}"
+                                th:formaction="@{'/employee-portal/admin/account/update-create/add-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
+                                type="submit" >Add Pick Up Time</button>
+                        <button th:if="${#lists.size(spudt.pickUpTimes) >= 1}"
+                                th:formaction="@{'/employee-portal/admin/account/update-create/rm-pick-up-time'(dayId=${spudt.pickUpDayOfWeek.id})}"
+                                type="submit" >Remove Pick Up Time</button>
+                    </div>
+
                 </div>
                 <div class="col-md-8">
                     <div class="input-wrapper">
@@ -341,15 +405,23 @@
 
             <button th:if="${#bools.isTrue(createUnregistered)}"
                    th:formaction="@{'/employee-portal/sales/account/new/save'}" class="btn form-submit-btn"
-                    type="submit">Submit createUnregistered</button>
+                    type="submit">Propose new account</button>
 
             <button th:if="${#bools.isTrue(createUpdated)}"
                    th:formaction="@{'/employee-portal/sales/account/update/save'}" class="btn form-submit-btn"
-                   type="submit">Submit approveUnregistered</button>
+                   type="submit">Propose account updating</button>
 
             <button th:if="${#bools.isTrue(approveUnregistered)}"
                     th:formaction="@{'/employee-portal/admin/account/approve-unregistered/save'}" class="btn form-submit-btn"
-                    type="submit">Submit approveUnregistered</button>
+                    type="submit">Approve</button>
+
+            <button th:if="${#bools.isTrue(approveUpdated)}"
+                    th:formaction="@{'/employee-portal/admin/account/approve-updated/save'}" class="btn form-submit-btn"
+                    type="submit">Approve</button>
+
+            <button th:if="${#bools.isTrue(updateCreate)}"
+                    th:formaction="@{'/employee-portal/admin/account/update-create/save'}" class="btn form-submit-btn"
+                    type="submit">Approve</button>
         </form>
     </div>
 </div>

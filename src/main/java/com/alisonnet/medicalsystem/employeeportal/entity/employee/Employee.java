@@ -59,12 +59,12 @@ public class Employee {
             });
             return;
         }
-        if(subordinates!=null) {
+        if(subordinates != null) {
             subordinates.forEach(subordinate -> {
                 subordinate.setSupervisor(supervisor);
             });
         }
-        if(supervisor!=null){
+        if(supervisor != null){
             supervisor = null;
         }
     }

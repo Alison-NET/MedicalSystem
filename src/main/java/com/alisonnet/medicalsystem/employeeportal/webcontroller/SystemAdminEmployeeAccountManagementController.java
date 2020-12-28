@@ -2,12 +2,16 @@ package com.alisonnet.medicalsystem.employeeportal.webcontroller;
 
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.approved.Account;
+import com.alisonnet.medicalsystem.employeeportal.entity.account.approved.Provider;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.unregistered.UnregisteredAccount;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.unregistered.UnregisteredProvider;
+import com.alisonnet.medicalsystem.employeeportal.entity.account.updated.UpdatedAccount;
+import com.alisonnet.medicalsystem.employeeportal.entity.account.updated.UpdatedProvider;
 import com.alisonnet.medicalsystem.employeeportal.service.TitleService;
 import com.alisonnet.medicalsystem.employeeportal.service.account.AccountService;
 import com.alisonnet.medicalsystem.employeeportal.service.account.PickUpDayOfWeekService;
 import com.alisonnet.medicalsystem.employeeportal.service.account.unregistered.UnregisteredAccountService;
+import com.alisonnet.medicalsystem.employeeportal.service.account.updated.UpdatedAccountService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionService;
@@ -28,11 +32,10 @@ public class SystemAdminEmployeeAccountManagementController {
     TitleService titleService;
     AccountService accountService;
     ConversionService conversionService;
-
-    // ========= ACCOUNT REGISTRATION SERVICES=========
-    UnregisteredAccountService unregisteredAccountService;
     PickUpDayOfWeekService pickUpDayOfWeekService;
 
+    UnregisteredAccountService unregisteredAccountService;
+    UpdatedAccountService updatedAccountService;
 
 
     @GetMapping
@@ -58,7 +61,7 @@ public class SystemAdminEmployeeAccountManagementController {
     @GetMapping("/delete/{id}")
     public String deleteAccount(@PathVariable int id){
         accountService.remove(accountService.findById(id).get());
-        return "redirect:/employee-portal/sales/account";
+        return "redirect:/employee-portal/admin/account";
     }
 
 
@@ -80,20 +83,24 @@ public class SystemAdminEmployeeAccountManagementController {
         return "unregistered-accounts";
     }
 
-    @GetMapping("/approve-unregistered/{id}")
-    public String getAccountRegPage(@PathVariable int id, Model model){
-        Optional<UnregisteredAccount> mbUnregisteredAccount = unregisteredAccountService.findById(id);
-        if(mbUnregisteredAccount.isEmpty()){
-            model.addAttribute("unregistered", true);
-            return "unregistered-accounts";
-        }
+    @GetMapping("/approve-unregistered/reject/{id}")
+    public String rejectUnregisteredAccount(@PathVariable int id, Model model){
+        unregisteredAccountService.remove(unregisteredAccountService.findById(id).get());
+        return "unregistered-accounts";
+    }
 
-        setupUnregisteredAccountNeededAttrs(mbUnregisteredAccount.get(), model);
+    @GetMapping("/approve-unregistered/{id}")
+    public String getUnregisteredAccountRegPage(@PathVariable int id, Model model){
+        Optional<UnregisteredAccount> mbAccount = unregisteredAccountService.findById(id);
+        if(mbAccount.isEmpty())
+            return "unregistered-accounts";
+
+        setupUnregisteredAccountNeededAttrs(mbAccount.get(), model);
         return "account-setup";
     }
 
     @PostMapping("/approve-unregistered/add-provider")
-    private String addProvider(@ModelAttribute UnregisteredAccount account, Model model){
+    private String addUnregisteredProvider(@ModelAttribute UnregisteredAccount account, Model model){
 
         List<UnregisteredProvider> providers = account.getProviders();
         providers.add(new UnregisteredProvider());
@@ -104,7 +111,7 @@ public class SystemAdminEmployeeAccountManagementController {
 
 
     @PostMapping("/approve-unregistered/rm-provider")
-    private String removeProvider(@ModelAttribute UnregisteredAccount account, Model model){
+    private String removeUnregisteredProvider(@ModelAttribute UnregisteredAccount account, Model model){
 
         List<UnregisteredProvider> providers = account.getProviders();
         providers.remove(providers.size() - 1);
@@ -114,7 +121,7 @@ public class SystemAdminEmployeeAccountManagementController {
     }
 
     @PostMapping("/approve-unregistered/add-pick-up-time")
-    private String addPickUpTime(@ModelAttribute UnregisteredAccount account,
+    private String addUnregisteredPickUpTime(@ModelAttribute UnregisteredAccount account,
                                  @RequestParam("dayId") int dayId,
                                  Model model){
 
@@ -125,7 +132,7 @@ public class SystemAdminEmployeeAccountManagementController {
 
 
     @PostMapping("/approve-unregistered/rm-pick-up-time")
-    private String removePickUpTime(@ModelAttribute UnregisteredAccount account,
+    private String removeUnregisteredPickUpTime(@ModelAttribute UnregisteredAccount account,
                                     @RequestParam("dayId") int dayId,
                                     Model model){
 
@@ -136,16 +143,181 @@ public class SystemAdminEmployeeAccountManagementController {
 
 
     @PostMapping("/approve-unregistered/save")
-    private String handleAccountSaving(@ModelAttribute UnregisteredAccount account){
+    private String handleUnregisteredAccountApproving(@ModelAttribute UnregisteredAccount account){
         Account convertedAccount = conversionService.convert(account, Account.class);
         accountService.fillNeededData(convertedAccount);
         accountService.fillUniqueIds(convertedAccount);
-        Account savedAccount = accountService.save(convertedAccount);
-        if(savedAccount!=null)
+        if(accountService.save(convertedAccount)!=null)
             unregisteredAccountService.remove(account);
-        return "redirect:/employee-portal/sales/account";
+        return "redirect:/employee-portal/admin/account";
     }
 
-    // =============================================
-// ========= UNREGISTERED ACCOUNT APPROVING =========
+
+
+    // ==================================================
+    // ========= UPDATED ACCOUNT APPROVING =========
+
+    private void setupUpdatedAccountNeededAttrs(UpdatedAccount account, Model model) {
+        model.addAttribute("account", account);
+        model.addAttribute("approveUpdated", true);
+        model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
+        model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
+        model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
+    }
+
+    @GetMapping("/approve-updated")
+    public String getAllUpdatedAccounts(Model model){
+        model.addAttribute("accounts", updatedAccountService.findAll());
+        return "updated-accounts";
+    }
+
+    @GetMapping("/approve-updated/{id}")
+    public String getUpdatedAccountRegPage(@PathVariable int id, Model model){
+        Optional<UpdatedAccount> mbAccount = updatedAccountService.findById(id);
+        if(mbAccount.isEmpty())
+            return "updated-accounts";
+
+        setupUpdatedAccountNeededAttrs(mbAccount.get(), model);
+        return "account-setup";
+    }
+
+    @PostMapping("/approve-updated/add-provider")
+    private String addUpdatedProvider(@ModelAttribute UpdatedAccount account, Model model){
+
+        List<UpdatedProvider> providers = account.getProviders();
+        providers.add(new UpdatedProvider());
+
+        setupUpdatedAccountNeededAttrs(account, model);
+        return "account-setup";
+    }
+
+
+    @PostMapping("/approve-updated/rm-provider")
+    private String removeUpdatedProvider(@ModelAttribute UpdatedAccount account, Model model){
+
+        List<UpdatedProvider> providers = account.getProviders();
+        providers.remove(providers.size() - 1);
+
+        setupUpdatedAccountNeededAttrs(account, model);
+        return "account-setup";
+    }
+
+    @PostMapping("/approve-updated/add-pick-up-time")
+    private String addUpdatedPickUpTime(@ModelAttribute UpdatedAccount account,
+                                        @RequestParam("dayId") int dayId,
+                                        Model model){
+
+        updatedAccountService.addPickUpTime(account, dayId);
+        setupUpdatedAccountNeededAttrs(account, model);
+        return "account-setup";
+    }
+
+
+    @PostMapping("/approve-updated/rm-pick-up-time")
+    private String removeUpdatedPickUpTime(@ModelAttribute UpdatedAccount account,
+                                           @RequestParam("dayId") int dayId,
+                                           Model model){
+
+        updatedAccountService.removePickUpTime(account, dayId);
+        setupUpdatedAccountNeededAttrs(account, model);
+        return "account-setup";
+    }
+
+    @PostMapping("/approve-updated/save")
+    private String handleUpdatedAccountApproving(@ModelAttribute UpdatedAccount account){
+        Account convertedAccount = conversionService.convert(account, Account.class);
+        accountService.matchIdsGenerateUniqueIfNeeded(account.getBaseVersion(), convertedAccount);
+        if(accountService.save(convertedAccount)!=null){
+            updatedAccountService.remove(updatedAccountService.findById(account.getId()).get());
+        }
+        return "redirect:/employee-portal/admin/account";
+    }
+
+    // ==================================================
+    // ================ ACCOUNT CREATION ================
+
+    private void setupAccountNeededAttrs(Account account, Model model) {
+        model.addAttribute("account", account);
+        model.addAttribute("updateCreate", true);
+        model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
+        model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
+        model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
+    }
+
+    @GetMapping("/new")
+    public String getAccountRegPage(Model model){
+        setupAccountNeededAttrs(accountService.createAccount(), model);
+        return "account-setup";
+    }
+
+    @GetMapping("/update/{id}")
+    public String getAccountUpdatePage(@PathVariable int id, Model model){
+        Optional<Account> mbAccount = accountService.findById(id);
+        if(mbAccount.isEmpty())
+            return "accounts";
+
+        setupAccountNeededAttrs(mbAccount.get(), model);
+        return "account-setup";
+    }
+
+    @PostMapping("/update-create/add-provider")
+    private String addProvider(@ModelAttribute Account account, Model model){
+
+        List<Provider> providers = account.getProviders();
+        providers.add(new Provider());
+
+        setupAccountNeededAttrs(account, model);
+        return "account-setup";
+    }
+
+
+    @PostMapping("/update-create/rm-provider")
+    private String removeProvider(@ModelAttribute Account account, Model model){
+
+        List<Provider> providers = account.getProviders();
+        providers.remove(providers.size() - 1);
+
+        setupAccountNeededAttrs(account, model);
+        return "account-setup";
+    }
+
+    @PostMapping("/update-create/add-pick-up-time")
+    private String addPickUpTime(@ModelAttribute Account account,
+                                             @RequestParam("dayId") int dayId,
+                                             Model model){
+
+        accountService.addPickUpTime(account, dayId);
+        setupAccountNeededAttrs(account, model);
+        return "account-setup";
+    }
+
+
+    @PostMapping("/update-create/rm-pick-up-time")
+    private String removePickUpTime(@ModelAttribute Account account,
+                                                @RequestParam("dayId") int dayId,
+                                                Model model){
+
+        accountService.removePickUpTime(account, dayId);
+        setupAccountNeededAttrs(account, model);
+        return "account-setup";
+    }
+
+
+    @PostMapping("/update-create/save")
+    private String handleAccountSaving(@ModelAttribute Account account){
+
+        Optional<Account> mbAccount = accountService.findById(account.getId());
+        if(mbAccount.isEmpty())
+            accountService.fillUniqueIds(account);
+        else
+            accountService.fillUniqueEmptyIds(account);
+
+        accountService.fillNeededData(account);
+        accountService.save(account);
+        return "redirect:/employee-portal/admin/account";
+    }
+
+
+
+
 }

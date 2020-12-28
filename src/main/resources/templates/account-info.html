@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/general.html :: head"></head>
 <body>
 <header th:replace="fragments/general.html::header"></header>
@@ -12,11 +12,17 @@
             </div>
             <div class="col-md-8">
 
-                <!--     SALES DEP employee can edit account if it is not approved, ADMIN DEP employee can change any time          -->
-
-                <a th:if="${ #authorization.expression('hasAuthority(''SYSTEM_ADMIN_DEP'')')}"
-                   class="extra-btn" th:href="@{'/employee-portal/sales/account/edit/' + ${account.id}}">
+                <a sec:authorize="hasAuthority('SALES_DEP')" class="extra-btn"
+                   th:href="@{'/employee-portal/sales/account/update/' + ${account.id}}">
+                    <span class="text">Update</span>
+                </a>
+                <a sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')" class="extra-btn"
+                   th:href="@{'/employee-portal/admin/account/update/' + ${account.id}}">
                     <span class="text">Edit</span>
+                </a>
+                <a sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')" class="extra-btn"
+                   th:href="@{'/employee-portal/admin/account/delete/' + ${account.id}}">
+                    <span class="text">Delete</span>
                 </a>
             </div>
         </div>
@@ -102,6 +108,7 @@
             </div>
         </div>
 
+        <hr>
         <div class="profile-item row">
             <div class="col-md-4">
                 <p class="name">Contact First Name</p>
@@ -128,7 +135,34 @@
                 <p class="descr" th:text="${account.contactEmail}"></p>
             </div>
         </div>
+        <hr>
 
+        <div th:if="${!#lists.isEmpty(account.providers)}" class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Provider(s)</p>
+            </div>
+            <div class="col-md-8">
+                <div th:each="prov : ${account.providers}">
+                        <p class="descr" th:text="${prov.firstName + ' ' + prov.lastName}"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-item row">
+            <div class="col-md-4">
+                <p class="name">Specimen Pick Ups</p>
+            </div>
+            <div class="col-md-8">
+                <div th:each="specimenPicksUp : ${account.specimenPickUpDayTimes}">
+                    <div th:if="${!#lists.isEmpty(specimenPicksUp.pickUpTimes)}">
+                        <span class="descr" th:text="${specimenPicksUp.pickUpDayOfWeek.name}"></span>
+                        <div th:each="pUpTime : ${specimenPicksUp.pickUpTimes}">
+                            <span th:text="${pUpTime.pickUpTime.toString()}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 </div>

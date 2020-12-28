@@ -10,7 +10,7 @@
 
         <div class="page-info row">
             <div th:if="${#lists.isEmpty(accounts)}" class="col-md-12">
-                <span class="name">There are no accounts.</span>
+                <span class="name">There are no accounts to register.</span>
             </div>
             <div th:unless="${#lists.isEmpty(accounts)}" class="col-md-12">
                 <span class="name">Accounts Requested for Registration</span>
@@ -46,6 +46,7 @@
                 <td th:text="${account.contactLastName}">Contact Last Name</td>
                 <td sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')">
                     <a th:href="@{'/employee-portal/admin/account/approve-unregistered/' + ${account.id}}">Register</a>
+                    <a th:href="@{'/employee-portal/admin/account/approve-unregistered/reject/' + ${account.id}}">Reject</a>
                 </td>
 
             </tr>

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<form class="profile-edit-form document-upload-form" th:fragment="document-upload-form" th:action="@{'/employee-portal/employee/' + ${employee.id} + '/upload-documents'}"  th:object="${dto}" enctype="multipart/form-data" method="post">
+<form class="profile-edit-form document-upload-form" th:fragment="document-upload-form" th:action="@{'/employee-portal/' + ${employee.id} + '/upload-documents'}"  th:object="${dto}" enctype="multipart/form-data" method="post">
 
     <div th:replace="fragments/emp-documents-management.html :: documents-management"></div>
 

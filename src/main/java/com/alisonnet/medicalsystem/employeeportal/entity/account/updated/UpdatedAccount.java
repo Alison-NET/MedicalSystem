@@ -12,8 +12,8 @@ import java.util.List;
 
 @Entity
 @Data
-@EqualsAndHashCode(exclude = "specimenPickUpDayTimes", callSuper = true)
-@ToString(exclude = "specimenPickUpDayTimes")
+@EqualsAndHashCode(exclude = {"specimenPickUpDayTimes", "baseVersion"}, callSuper = true)
+@ToString(exclude = {"specimenPickUpDayTimes", "baseVersion"})
 @Table(name = "updated_accounts")
 public class UpdatedAccount extends AccountBase {
 

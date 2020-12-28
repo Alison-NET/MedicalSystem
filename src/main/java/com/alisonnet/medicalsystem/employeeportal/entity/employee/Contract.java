@@ -21,7 +21,7 @@ public class Contract {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotBlank(message = Constants.VALID_MSG_NOT_EMPTY)
+    @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
     private String link;
 
     private Boolean signed;
