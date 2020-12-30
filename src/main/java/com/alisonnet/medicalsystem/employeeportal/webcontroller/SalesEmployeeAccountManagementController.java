@@ -15,9 +15,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -116,7 +118,14 @@ public class SalesEmployeeAccountManagementController {
 
 
     @PostMapping("/new/save")
-    private String handleUnregisteredAccountSaving(@ModelAttribute UnregisteredAccount account){
+    private String handleUnregisteredAccountSaving(@Valid @ModelAttribute UnregisteredAccount account,
+                                                   BindingResult bindingResult,
+                                                   Model model){
+        if(bindingResult.hasErrors()){
+            setupUnregisteredAccountNeededAttrs(account, model);
+            return "account-setup";
+        }
+
         unregisteredAccountService.fillNeededData(account);
         unregisteredAccountService.fillUniqueIds(account);
         unregisteredAccountService.save(account);
@@ -191,7 +200,15 @@ public class SalesEmployeeAccountManagementController {
     }
 
     @PostMapping("/update/save")
-    private String handleUpdatedAccountSaving(@ModelAttribute UpdatedAccount account){
+    private String handleUpdatedAccountSaving(@Valid @ModelAttribute UpdatedAccount account,
+                                              BindingResult bindingResult,
+                                              Model model){
+
+        if(bindingResult.hasErrors()){
+            setupUpdatedAccountNeededAttrs(account, model);
+            return "account-setup";
+        }
+
         updatedAccountService.fillNeededData(account);
         updatedAccountService.fillUniqueIds(account);
         updatedAccountService.save(account);

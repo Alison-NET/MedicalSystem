@@ -8,10 +8,7 @@ import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.util.Date;
 
 @Entity
@@ -38,7 +35,7 @@ public class BasicEmployee {
     private String lastName;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @NotEmpty(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
+    @NotNull(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
     private Date dateOfBirth;
 
     @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)

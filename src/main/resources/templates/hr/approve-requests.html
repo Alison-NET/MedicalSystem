@@ -32,7 +32,6 @@
                         <th>Mobile Phone</th>
                         <th>Personal Email</th>
                         <th>Social Security</th>
-                        <th>Department</th>
                     </tr>
                     <tr th:each="employee: ${employeesToApprove}">
                         <td th:text="${employee.firstName}">Employee Name</td>
@@ -43,7 +42,6 @@
                         <td th:text="${employee.mobilePhone}">Mobile Phone</td>
                         <td th:text="${employee.personalEmail}">Personal Email</td>
                         <td th:text="${employee.socialSecurity}">Social Security</td>
-    <!--                    <td th:text="${employee.department.name}">Department</td>-->
                         <td><a th:href="@{'/employee-portal/hr/approve-employee/' + ${employee.id}}">Approve</a></td>
                         <td><a th:href="@{'/employee-portal/hr/approve-employee/reject/' + ${employee.id}}">Reject</a></td>
                     </tr>

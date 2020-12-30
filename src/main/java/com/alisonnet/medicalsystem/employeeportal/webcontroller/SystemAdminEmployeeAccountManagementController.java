@@ -17,9 +17,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -143,7 +145,14 @@ public class SystemAdminEmployeeAccountManagementController {
 
 
     @PostMapping("/approve-unregistered/save")
-    private String handleUnregisteredAccountApproving(@ModelAttribute UnregisteredAccount account){
+    private String handleUnregisteredAccountApproving(@Valid @ModelAttribute UnregisteredAccount account,
+                                                      BindingResult bindingResult,
+                                                      Model model){
+        if(bindingResult.hasErrors()){
+            setupUnregisteredAccountNeededAttrs(account, model);
+            return "account-setup";
+        }
+
         Account convertedAccount = conversionService.convert(account, Account.class);
         accountService.fillNeededData(convertedAccount);
         accountService.fillUniqueIds(convertedAccount);
@@ -224,7 +233,14 @@ public class SystemAdminEmployeeAccountManagementController {
     }
 
     @PostMapping("/approve-updated/save")
-    private String handleUpdatedAccountApproving(@ModelAttribute UpdatedAccount account){
+    private String handleUpdatedAccountApproving(@Valid @ModelAttribute UpdatedAccount account,
+                                                 BindingResult bindingResult,
+                                                 Model model){
+        if(bindingResult.hasErrors()){
+            setupUpdatedAccountNeededAttrs(account, model);
+            return "account-setup";
+        }
+
         Account convertedAccount = conversionService.convert(account, Account.class);
         accountService.matchIdsGenerateUniqueIfNeeded(account.getBaseVersion(), convertedAccount);
         if(accountService.save(convertedAccount)!=null){
@@ -304,7 +320,14 @@ public class SystemAdminEmployeeAccountManagementController {
 
 
     @PostMapping("/update-create/save")
-    private String handleAccountSaving(@ModelAttribute Account account){
+    private String handleAccountSaving(@Valid @ModelAttribute Account account,
+                                       BindingResult bindingResult,
+                                       Model model){
+
+        if(bindingResult.hasErrors()){
+            setupAccountNeededAttrs(account, model);
+            return "account-setup";
+        }
 
         Optional<Account> mbAccount = accountService.findById(account.getId());
         if(mbAccount.isEmpty())

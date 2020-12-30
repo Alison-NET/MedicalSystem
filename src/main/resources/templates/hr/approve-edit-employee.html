@@ -11,14 +11,14 @@
         <div th:if="${#bools.isFalse(canEdit)}">
             <h4>You are not allowed to manage this page</h4>
         </div>
-        <div th:if="${#bools.isTrue(canEdit)}">
+        <div th:if="${#bools.isTrue(canEdit) or #bools.isFalse(isApproved)}">
             <div class="page-info row">
                 <div class="col-md-4">
                     <span th:if="${#bools.isTrue(isApproved)}" class="name">Edit Employee</span>
-                    <span th:unless="${#bools.isTrue(isApproved)}" class="name">Approve Employee</span>
+                    <span th:if="${#bools.isFalse(isApproved)}" class="name">Approve Employee</span>
                 </div>
                 <div class="col-md-8">
-                    <a class="extra-btn" th:href="@{'/employee-portal/' + ${employee.id}}">
+                    <a th:if="${#bools.isTrue(isApproved)}" class="extra-btn" th:href="@{'/employee-portal/' + ${employee.id}}">
                         <span class="text">Profile</span>
                     </a>
                 </div>
@@ -27,6 +27,7 @@
 
                 <input type="text" th:field="*{basicInfo.id}" th:value="*{basicInfo.id}" hidden>
                 <input type="text" th:field="*{id}" th:value="*{id}" hidden>
+                <input type="text" th:field="*{workShift.id}" th:value="*{workShift.id}" hidden>
                 <input type="text" th:field="*{credentials.id}" th:value="*{credentials.id}" hidden>
 
                 <input type="text" th:field="*{empDocuments}" th:value="*{empDocuments}" hidden>
@@ -103,7 +104,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="input-wrapper">
-                            <input class="form-in-item" type="tel" th:field="*{basicInfo.homePhone}" th:value="*{basicInfo.homePhone}">
+                            <input class="form-in-item" type="tel" placeholder="000-000-0000" th:field="*{basicInfo.homePhone}" th:value="*{basicInfo.homePhone}">
                             <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.homePhone')}" th:text="${error}">Validation error</p>
                         </div>
                     </div>
@@ -115,7 +116,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="input-wrapper">
-                            <input class="form-in-item" type="tel" th:field="*{basicInfo.mobilePhone}" th:value="*{basicInfo.mobilePhone}">
+                            <input class="form-in-item" type="tel" placeholder="000-000-0000" th:field="*{basicInfo.mobilePhone}" th:value="*{basicInfo.mobilePhone}">
                             <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.mobilePhone')}" th:text="${error}">Validation error</p>
                         </div>
                     </div>
@@ -186,7 +187,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="input-wrapper">
-                            <input class="form-in-item" type="text" th:field="*{basicInfo.ZIP}">
+                            <input class="form-in-item" type="text" placeholder="00000{-0000}" th:field="*{basicInfo.ZIP}">
                             <p th:each="error : ${#fields.errors('basicInfo.ZIP')}" th:text="${error}">Validation error</p>
                         </div>
                     </div>
@@ -214,7 +215,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="input-wrapper">
-                            <input class="form-in-item" type="text" th:field="*{basicInfo.socialSecurity}" th:value="*{basicInfo.socialSecurity}">
+                            <input class="form-in-item" type="text" placeholder="AAA-GG-SSSS" th:field="*{basicInfo.socialSecurity}" th:value="*{basicInfo.socialSecurity}">
                             <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.socialSecurity')}" th:text="${error}">Validation error</p>
                         </div>
                     </div>
@@ -226,6 +227,7 @@
                     <div class="col-md-8">
                         <div class="input-wrapper">
                             <input class="form-in-item" type="text" th:field="*{salary}" th:value="*{salary}">
+                            <p th:each="error : ${#fields.errors('salary')}" th:text="${error}">Validation error</p>
                         </div>
                     </div>
                 </div>
@@ -236,6 +238,7 @@
                     <div class="col-md-8">
                         <div class="input-wrapper">
                             <input class="form-in-item" type="text" th:field="*{commission}" th:value="*{commission}">
+                            <p th:each="error : ${#fields.errors('commission')}" th:text="${error}">Validation error</p>
                         </div>
                     </div>
                 </div>
@@ -271,7 +274,8 @@
                     </div>
                     <div class="col-md-8">
                         <div class="input-wrapper">
-                            <div class="form-in-item"><input  type="time" th:field="*{workShift.beginning}"> - <input type="time" th:field="*{workShift.ending}"></div>
+                            <div class="form-in-item"><input  type="time" value="9:00" th:field="*{workShift.beginning}">
+                                - <input type="time" value="17:00" th:field="*{workShift.ending}"></div>
                             <p class="form-item-error" th:each="error : ${#fields.errors('workShift.beginning')}" th:text="${error}">Validation error</p>
                             <p class="form-item-error" th:each="error : ${#fields.errors('workShift.ending')}" th:text="${error}">Validation error</p>
                         </div>

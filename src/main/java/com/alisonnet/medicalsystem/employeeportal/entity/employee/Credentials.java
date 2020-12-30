@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -22,12 +23,10 @@ public class Credentials {
     private int id;
 
     @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
-    @NotEmpty
-    @NotNull
+    @Email
     private String email;
 
     @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
-    @NotNull
     private String password;
 
     @OneToOne(mappedBy = "credentials")

@@ -37,6 +37,8 @@
                     <input type="date" th:field="*{starting}">
                     <label>Expiring</label>
                     <input type="date" th:field="*{expiring}"><br>
+                    <p class="form-item-error" th:each="error : ${#fields.errors('starting')}" th:text="${error}">Validation error</p>
+                    <p class="form-item-error" th:each="error : ${#fields.errors('expiring')}" th:text="${error}">Validation error</p>
                 </div>
             </div>
         </div>

@@ -12,6 +12,7 @@ public interface EmployeeService {
     Employee save(Employee employee);
     List<Employee> findAll();
     Optional<Employee> findById(int id);
+    boolean exists(Employee employee);
     Optional<Employee> getActiveEmployee();
     List<Employee> getPossibleSupervisors(int forEmployeeId);
     boolean isInHRDepartment(Employee employee);

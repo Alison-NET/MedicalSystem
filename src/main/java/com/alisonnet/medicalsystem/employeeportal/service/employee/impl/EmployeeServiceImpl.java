@@ -7,6 +7,7 @@ import com.alisonnet.medicalsystem.employeeportal.repository.employee.Credential
 import com.alisonnet.medicalsystem.employeeportal.repository.employee.EmployeeRepo;
 import com.alisonnet.medicalsystem.employeeportal.service.employee.EmployeeService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Example;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private EmployeeRepo employeeRepo;
-    private CredentialsRepo credentialsRepo;
+    private final EmployeeRepo employeeRepo;
+    private final CredentialsRepo credentialsRepo;
 
     @Override
     public Employee save(Employee employee) {
@@ -34,6 +35,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Optional<Employee> findById(int id) {
         return employeeRepo.findById(id);
+    }
+
+    @Override
+    public boolean exists(Employee employee) {
+        return employeeRepo.exists(Example.of(employee));
     }
 
     @Override

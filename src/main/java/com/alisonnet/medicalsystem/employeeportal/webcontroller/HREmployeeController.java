@@ -54,6 +54,9 @@ public class HREmployeeController {
         if(maybeBasicEmployee.isEmpty())
             return "redirect:/employee-portal/hr/approve-employee";
 
+        if(maybeBasicEmployee.get().getFullInfo() != null )                 // Add exception
+            return "redirect:/employee-portal/hr/approve-employee";
+
         Employee newEmployee = new Employee();
 
         newEmployee.setBasicInfo(maybeBasicEmployee.get());
@@ -74,7 +77,7 @@ public class HREmployeeController {
         newEmployee.setContracts(contracts);
 
 
-        model.addAttribute("canEdit",true);
+//        model.addAttribute("canEdit",true);
 
         model.addAttribute("employee", newEmployee);
         model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
@@ -90,6 +93,9 @@ public class HREmployeeController {
         if(maybeBasicEmployee.isEmpty())                                                    //Add exception
             return "redirect:/employee-portal/hr/approve-employee";
 
+        if(maybeBasicEmployee.get().getFullInfo() != null)                                  //Add exception
+            return "redirect:/employee-portal/hr/approve-employee";
+
         basicEmployeeService.deleteById(id);
         return "redirect:/employee-portal/hr/approve-employee";
     }
@@ -98,12 +104,35 @@ public class HREmployeeController {
     @PostMapping("/employee/save")
     public String handleSavingEmployee(@Valid @ModelAttribute Employee employee,
                                        BindingResult bindingResult,
-                                       HttpServletRequest request,
                                        Model model){
+
         if(bindingResult.hasErrors()){
-            return Optional.ofNullable(request.getHeader("Referer"))
-                    .map(requestUrl -> "redirect:" + requestUrl)
-                    .orElse("/");
+            model.addAttribute("employee", employee);
+            model.addAttribute("departments", departmentService.findAllByOrderByNameAsc());
+            model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
+
+//            model.addAttribute("canEdit",true );
+
+            if(employeeService.findById(employee.getId()).isPresent()){
+                Employee activeEmp = employeeService.getActiveEmployee().get();
+                model.addAttribute("canEdit",
+                        !((employeeService.isInHRDepartment(activeEmp) && employeeService.isInHRDepartment(employee))
+                                || (employeeService.isInHRDepartment(activeEmp) && employeeService.isInAdminDepartment(employee))));
+
+                model.addAttribute("isApproved", true);
+
+                //        Contracts management
+                model.addAttribute("contract", new Contract());
+
+                //        Documents management
+                model.addAttribute("documentTypes", documentTypeService.getAllTypesBasedOnEmployee(employee));
+                model.addAttribute("dto", new DocTypeAndFilesDTO(new DocumentType(), new MultipartFile[10]));
+
+                //        Supervisor adding
+                model.addAttribute("supervisorId", new EmployeeIdDTO());
+                model.addAttribute("supervisors", employeeService.getPossibleSupervisors(employee.getId()));
+            }
+            return "hr/approve-edit-employee";
         }
 
         employeeService.updateRelationsIfNeeded(employee);

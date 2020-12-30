@@ -111,7 +111,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="input-wrapper">
-                        <input class="form-in-item" type="text" th:field="*{ZIP}">
+                        <input class="form-in-item" type="text" placeholder="00000{-0000}" th:field="*{ZIP}">
                         <p th:each="error : ${#fields.errors('ZIP')}" th:text="${error}">Validation error</p>
                     </div>
                 </div>
@@ -123,7 +123,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="input-wrapper">
-                        <input class="form-in-item" type="text" th:field="*{phone}">
+                        <input class="form-in-item" type="text" placeholder="000-000-0000" th:field="*{phone}">
                         <p th:each="error : ${#fields.errors('phone')}" th:text="${error}">Validation error</p>
                     </div>
                 </div>
@@ -135,7 +135,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="input-wrapper">
-                        <input class="form-in-item" type="text" th:field="*{fax}">
+                        <input class="form-in-item" type="text" placeholder="000-000-0000" th:field="*{fax}">
                         <p th:each="error : ${#fields.errors('fax')}" th:text="${error}">Validation error</p>
                     </div>
                 </div>
@@ -148,7 +148,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="input-wrapper">
-                        <input class="form-in-item" type="text" th:field="*{directLine}">
+                        <input class="form-in-item" type="text" placeholder="000-000-0000" th:field="*{directLine}">
                         <p th:each="error : ${#fields.errors('directLine')}" th:text="${error}">Validation error</p>
                     </div>
                 </div>

@@ -6,6 +6,8 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -22,9 +24,11 @@ public class WorkShift {
     private int id;
 
     @DateTimeFormat(pattern = "HH:mm")
+    @NotNull(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
     private LocalTime beginning;
 
     @DateTimeFormat(pattern = "HH:mm")
+    @NotNull(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
     private LocalTime ending;
 
     @OneToMany(mappedBy = "workShift", fetch = FetchType.LAZY)
