@@ -7,6 +7,7 @@ import com.alisonnet.medicalsystem.employeeportal.dto.employee.EmployeeIdDTO;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.*;
 import com.alisonnet.medicalsystem.employeeportal.service.*;
 import com.alisonnet.medicalsystem.employeeportal.service.employee.*;
+import com.alisonnet.medicalsystem.employeeportal.validator.EmployeeCredentialsEmailValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -38,6 +39,7 @@ public class HREmployeeController {
     EmpDocumentService empDocumentService;
     AppointedDocumentService appointedDocumentService;
 
+    EmployeeCredentialsEmailValidator employeeCredentialsEmailValidator;
 
     @GetMapping("/approve-employee")
     public String getEmployeesToApprovePage(Model model){
@@ -106,6 +108,7 @@ public class HREmployeeController {
                                        BindingResult bindingResult,
                                        Model model){
 
+        employeeCredentialsEmailValidator.validate(employee, bindingResult);
         if(bindingResult.hasErrors()){
             model.addAttribute("employee", employee);
             model.addAttribute("departments", departmentService.findAllByOrderByNameAsc());

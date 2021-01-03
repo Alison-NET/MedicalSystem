@@ -14,5 +14,7 @@ public interface BasicEmployeeService {
     Optional<BasicEmployee> findById(int id);
     BasicEmployee save(BasicEmployee basicEmployee);
     void deleteById(int id);
+
+    boolean hasUniquePersonalEmail(BasicEmployee basicEmployee);
     boolean personalEmailExists(String personalEmail);
 }

@@ -58,6 +58,14 @@ public class BasicEmployeeServiceImpl implements BasicEmployeeService {
 //        return basicEmployeeRepo.save(basicEmployee);
 //    }
 
+
+    @Override
+    public boolean hasUniquePersonalEmail(BasicEmployee basicEmployee) {
+        return basicEmployeeRepo.findAll().stream()
+                .filter(basEmp -> basEmp.getId() != basicEmployee.getId())
+                .noneMatch( basEmp -> basEmp.getPersonalEmail().toUpperCase().equals(basicEmployee.getPersonalEmail().toUpperCase()));
+    }
+
     @Override
     public boolean personalEmailExists(String personalEmail) {
         return basicEmployeeRepo.findFirstByPersonalEmail(personalEmail) != null;

@@ -7,6 +7,7 @@ import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -22,6 +23,7 @@ public class Employee {
     @Id
     private int id;
 
+    @Valid
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     BasicEmployee basicInfo;
@@ -41,6 +43,7 @@ public class Employee {
     @NotNull(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
     private Double commission;
 
+    @Valid
     @ManyToOne(cascade = CascadeType.ALL)
     private WorkShift workShift;
 
@@ -54,6 +57,7 @@ public class Employee {
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
     private List<EmpDocument> empDocuments;
 
+    @Valid
     @OneToOne(cascade = CascadeType.ALL)
     private Credentials credentials;
 
