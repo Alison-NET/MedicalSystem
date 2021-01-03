@@ -63,6 +63,7 @@ public class BasicEmployee {
 
     @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
     @Email
+//    @Unique(message = "Employee with such an email already exists", fieldName = "personalEmail", service = BasicEmployeeService.class)
     private String personalEmail;
 
     @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)

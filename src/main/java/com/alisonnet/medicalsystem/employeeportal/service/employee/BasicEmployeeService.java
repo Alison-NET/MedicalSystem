@@ -9,7 +9,6 @@ import java.util.Optional;
 @Service
 public interface BasicEmployeeService {
 
-    BasicEmployee registerNewBasicEmployee(BasicEmployee basicEmployee);
     List<BasicEmployee> findAll();
     List<BasicEmployee> getUnapprovedEmployees();
     Optional<BasicEmployee> findById(int id);

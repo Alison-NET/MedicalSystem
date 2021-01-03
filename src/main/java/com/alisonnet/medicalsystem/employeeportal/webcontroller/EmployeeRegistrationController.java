@@ -4,6 +4,7 @@ import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.BasicEmployee;
 import com.alisonnet.medicalsystem.employeeportal.service.employee.BasicEmployeeService;
 import com.alisonnet.medicalsystem.employeeportal.service.TitleService;
+import com.alisonnet.medicalsystem.employeeportal.validator.BasicEmployeePersonalEmailValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,8 @@ public class EmployeeRegistrationController {
     BasicEmployeeService basicEmployeeService;
     TitleService titleService;
 
+    BasicEmployeePersonalEmailValidator basicEmployeePersonalEmailValidator;
+
     @GetMapping
     public String getRegistrationPage(Model model){
         model.addAttribute("basicEmployee", new BasicEmployee());
@@ -33,11 +36,12 @@ public class EmployeeRegistrationController {
     public String handleRegisterRequest(@ModelAttribute @Valid BasicEmployee basicEmployee,
                                         BindingResult bindingResult,
                                         Model model){
+        basicEmployeePersonalEmailValidator.validate(basicEmployee, bindingResult);
         if(bindingResult.hasErrors()){
             model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
             return "employee-registration";
         }
-        basicEmployeeService.registerNewBasicEmployee(basicEmployee);
+        basicEmployeeService.save(basicEmployee);
         model.addAttribute("message", Constants.BASIC_EMPLOYEE_THANK_FOR_REG);
         return "action-result";
     }

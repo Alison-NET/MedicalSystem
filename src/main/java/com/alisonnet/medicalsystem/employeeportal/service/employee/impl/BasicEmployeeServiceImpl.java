@@ -7,6 +7,7 @@ import com.alisonnet.medicalsystem.employeeportal.repository.employee.EmployeeRe
 import com.alisonnet.medicalsystem.employeeportal.service.employee.BasicEmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Optional;
@@ -47,18 +48,19 @@ public class BasicEmployeeServiceImpl implements BasicEmployeeService {
         basicEmployeeRepo.deleteById(id);
     }
 
-    @Override
-    public BasicEmployee registerNewBasicEmployee(BasicEmployee basicEmployee) {
-
-        if(personalEmailExists(basicEmployee.getPersonalEmail())){
-            throw new BasicEmployeeAlreadyRegisteredException
-                    ("Employee with such an email " + basicEmployee.getPersonalEmail() + " already exists ");
-        }
-        return basicEmployeeRepo.save(basicEmployee);
-    }
+//    @Override
+//    public BasicEmployee registerNewBasicEmployee(BasicEmployee basicEmployee) {
+//
+//        if(personalEmailExists(basicEmployee.getPersonalEmail())){
+//            throw new BasicEmployeeAlreadyRegisteredException
+//                    ("Employee with such an email " + basicEmployee.getPersonalEmail() + " already exists ");
+//        }
+//        return basicEmployeeRepo.save(basicEmployee);
+//    }
 
     @Override
     public boolean personalEmailExists(String personalEmail) {
         return basicEmployeeRepo.findFirstByPersonalEmail(personalEmail) != null;
     }
+
 }
