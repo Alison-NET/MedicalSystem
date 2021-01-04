@@ -7,7 +7,8 @@ import com.alisonnet.medicalsystem.employeeportal.dto.employee.EmployeeIdDTO;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.*;
 import com.alisonnet.medicalsystem.employeeportal.service.*;
 import com.alisonnet.medicalsystem.employeeportal.service.employee.*;
-import com.alisonnet.medicalsystem.employeeportal.validator.EmployeeCredentialsEmailValidator;
+import com.alisonnet.medicalsystem.employeeportal.validator.BasicEmployeePersonalEmailValidator;
+import com.alisonnet.medicalsystem.employeeportal.validator.CredentialsEmailValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,11 +39,11 @@ public class HREmployeeController {
     EmpDocumentService empDocumentService;
     AppointedDocumentService appointedDocumentService;
 
-    EmployeeCredentialsEmailValidator employeeCredentialsEmailValidator;
+    BasicEmployeePersonalEmailValidator basicEmployeePersonalEmailValidator;
+    CredentialsEmailValidator credentialsEmailValidator;
 
     @GetMapping("/approve-employee")
     public String getEmployeesToApprovePage(Model model){
-
         model.addAttribute("employeesToApprove", basicEmployeeService.getUnapprovedEmployees());
         return "hr/approve-requests";
     }
@@ -79,7 +79,7 @@ public class HREmployeeController {
         newEmployee.setContracts(contracts);
 
 
-//        model.addAttribute("canEdit",true);
+        model.addAttribute("canEdit",true);
 
         model.addAttribute("employee", newEmployee);
         model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
@@ -108,13 +108,18 @@ public class HREmployeeController {
                                        BindingResult bindingResult,
                                        Model model){
 
-        employeeCredentialsEmailValidator.validate(employee, bindingResult);
+        basicEmployeePersonalEmailValidator.setFieldPath("basicInfo.personalEmail");
+        basicEmployeePersonalEmailValidator.validate(employee.getBasicInfo(), bindingResult);
+
+        credentialsEmailValidator.setFieldPath("credentials.email");
+        credentialsEmailValidator.validate(employee.getCredentials(), bindingResult);
+
         if(bindingResult.hasErrors()){
             model.addAttribute("employee", employee);
             model.addAttribute("departments", departmentService.findAllByOrderByNameAsc());
             model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
 
-//            model.addAttribute("canEdit",true );
+            model.addAttribute("canEdit",true );
 
             if(employeeService.findById(employee.getId()).isPresent()){
                 Employee activeEmp = employeeService.getActiveEmployee().get();

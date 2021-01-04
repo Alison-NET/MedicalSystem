@@ -10,10 +10,16 @@ import org.springframework.validation.Validator;
 
 
 @Component
-@AllArgsConstructor
 public class BasicEmployeePersonalEmailValidator implements Validator {
 
+    @Autowired
     BasicEmployeeService basicEmployeeService;
+
+    String fieldPath;
+
+    public void setFieldPath(String fieldPath) {
+        this.fieldPath = fieldPath;
+    }
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -23,15 +29,20 @@ public class BasicEmployeePersonalEmailValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         BasicEmployee basicEmployee = (BasicEmployee) target;
-//
-//        if(basicEmployeeService.findById(basicEmployee.getId()).isPresent())
-//            if(basicEmployeeService.hasUniquePersonalEmail(basicEmployee))
-//               return;
-//        else if(!basicEmployeeService.personalEmailExists(basicEmployee.getPersonalEmail()))
-//            return;
+
+        // If basic employee already present, check if someone else (except me) has such a personal email
+        // If not present, just check if such an email exists
+//        if(basicEmployeeService.findById(basicEmployee.getId()).isPresent()) {
+//            if (!basicEmployeeService.hasUniquePersonalEmail(basicEmployee))
+//                errors.rejectValue("basicInfo.personalEmail", "", "This email is already in use");
+//        }
+//        else if(basicEmployeeService.personalEmailExists(basicEmployee.getPersonalEmail())) {
+//            errors.rejectValue("personalEmail", "", "This email is already in use");
+//        }
+
 
 
         if(!basicEmployeeService.hasUniquePersonalEmail(basicEmployee))
-            errors.rejectValue("personalEmail","", "This email is already in use");
+            errors.rejectValue(fieldPath,"", "This email is already in use");
     }
 }

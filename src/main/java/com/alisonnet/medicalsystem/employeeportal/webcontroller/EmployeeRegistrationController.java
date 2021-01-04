@@ -36,6 +36,7 @@ public class EmployeeRegistrationController {
     public String handleRegisterRequest(@ModelAttribute @Valid BasicEmployee basicEmployee,
                                         BindingResult bindingResult,
                                         Model model){
+        basicEmployeePersonalEmailValidator.setFieldPath("personalEmail");
         basicEmployeePersonalEmailValidator.validate(basicEmployee, bindingResult);
         if(bindingResult.hasErrors()){
             model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
