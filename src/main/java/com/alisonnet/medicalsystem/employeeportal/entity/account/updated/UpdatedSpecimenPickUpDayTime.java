@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.util.List;
 
 @Entity
@@ -14,6 +15,7 @@ import java.util.List;
 @Table(name = "updated_specimen_pick_up_day_times")
 public class UpdatedSpecimenPickUpDayTime extends SpecimenPickUpDayTimeBase {
 
+    @Valid
     @OneToMany(mappedBy = "specimenPickUpDayTime", cascade = {CascadeType.ALL})
     private List<UpdatedPickUpTime> pickUpTimes;
 

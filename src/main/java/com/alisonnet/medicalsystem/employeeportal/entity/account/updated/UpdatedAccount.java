@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -17,9 +18,11 @@ import java.util.List;
 @Table(name = "updated_accounts")
 public class UpdatedAccount extends AccountBase {
 
+    @Valid
     @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<UpdatedProvider> providers;
 
+    @Valid
     @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL})
     private List<UpdatedSpecimenPickUpDayTime> specimenPickUpDayTimes;
 

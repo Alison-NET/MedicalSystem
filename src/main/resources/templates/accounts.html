@@ -31,7 +31,6 @@
             <tr>
                 <th>Name</th>
                 <th>Address 1</th>
-                <th>Address 2</th>
                 <th>City</th>
                 <th>State</th>
                 <th>ZIP</th>
@@ -47,7 +46,6 @@
             <tr th:each="account: ${accounts}">
                 <td th:text="${account.name}">Name</td>
                 <td th:text="${account.addressFirst}">Address 1</td>
-                <td th:text="${account.addressSecond}">Address 2</td>
                 <td th:text="${account.city}">City</td>
                 <td th:text="${account.state}">State</td>
                 <td th:text="${account.ZIP}">ZIP</td>

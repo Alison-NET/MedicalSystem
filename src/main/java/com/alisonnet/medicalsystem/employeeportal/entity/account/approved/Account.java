@@ -5,6 +5,7 @@ import com.alisonnet.medicalsystem.employeeportal.entity.account.updated.Updated
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.util.List;
 
 @Entity
@@ -14,9 +15,11 @@ import java.util.List;
 @Table(name = "accounts")
 public class Account extends AccountBase {
 
+    @Valid
     @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<Provider> providers;
 
+    @Valid
     @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL})
     private List<SpecimenPickUpDayTime> specimenPickUpDayTimes;
 

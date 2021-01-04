@@ -12,6 +12,7 @@
         <div class="col-md-4">
             <div class="input-wrapper">
                 <input class="form-in-item" type="text" th:field="*{link}">
+                <p class="form-item-error" th:each="error : ${#fields.errors('link')}" th:text="${error}">Validation error</p>
             </div>
         </div>
         <div class="col-md-4">
@@ -24,7 +25,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="profile-edit-item row">
         <div class="col-md-4">

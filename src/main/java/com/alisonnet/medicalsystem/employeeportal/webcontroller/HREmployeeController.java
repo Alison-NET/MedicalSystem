@@ -118,28 +118,11 @@ public class HREmployeeController {
             model.addAttribute("employee", employee);
             model.addAttribute("departments", departmentService.findAllByOrderByNameAsc());
             model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
-
             model.addAttribute("canEdit",true );
 
-            if(employeeService.findById(employee.getId()).isPresent()){
-                Employee activeEmp = employeeService.getActiveEmployee().get();
-                model.addAttribute("canEdit",
-                        !((employeeService.isInHRDepartment(activeEmp) && employeeService.isInHRDepartment(employee))
-                                || (employeeService.isInHRDepartment(activeEmp) && employeeService.isInAdminDepartment(employee))));
+            if(employeeService.findById(employee.getId()).isPresent())
+                setupEditEmployeeAttributes(model, employee);
 
-                model.addAttribute("isApproved", true);
-
-                //        Contracts management
-                model.addAttribute("contract", new Contract());
-
-                //        Documents management
-                model.addAttribute("documentTypes", documentTypeService.getAllTypesBasedOnEmployee(employee));
-                model.addAttribute("dto", new DocTypeAndFilesDTO(new DocumentType(), new MultipartFile[10]));
-
-                //        Supervisor adding
-                model.addAttribute("supervisorId", new EmployeeIdDTO());
-                model.addAttribute("supervisors", employeeService.getPossibleSupervisors(employee.getId()));
-            }
             return "hr/approve-edit-employee";
         }
 
@@ -167,12 +150,13 @@ public class HREmployeeController {
 
         Employee empToEdit = maybeEmployee.get();
 
-        // authorities
-        Optional<Employee> maybeActiveEmployee = employeeService.getActiveEmployee();
-        if(maybeActiveEmployee.isEmpty())
-            return "redirect:/employee-portal";
+        setupEditEmployeeAttributes(model, empToEdit);
 
-        Employee activeEmp = maybeActiveEmployee.get();
+        return "hr/approve-edit-employee";
+    }
+
+    private void setupEditEmployeeAttributes(Model model, Employee empToEdit) {
+        Employee activeEmp = employeeService.getActiveEmployee().get();
         model.addAttribute("canEdit",
                 !((employeeService.isInHRDepartment(activeEmp) && employeeService.isInHRDepartment(empToEdit))
                 || (employeeService.isInHRDepartment(activeEmp) && employeeService.isInAdminDepartment(empToEdit))));
@@ -187,24 +171,30 @@ public class HREmployeeController {
         model.addAttribute("contract", new Contract());
 
         //        Documents management
-        model.addAttribute("documentTypes", documentTypeService.getAllTypesBasedOnEmployee(maybeEmployee.get()));
+        model.addAttribute("documentTypes", documentTypeService.getAllTypesBasedOnEmployee(empToEdit));
         model.addAttribute("dto", new DocTypeAndFilesDTO(new DocumentType(), new MultipartFile[10]));
 
         //        Supervisor adding
         model.addAttribute("supervisorId", new EmployeeIdDTO());
-        model.addAttribute("supervisors", employeeService.getPossibleSupervisors(id));
-
-        return "hr/approve-edit-employee";
+        model.addAttribute("supervisors", employeeService.getPossibleSupervisors(empToEdit.getId()));
     }
 
 
     @PostMapping("/employee/{id}/new-contract")
     public String handleContractCreationRequest(@PathVariable int id,
-                                                @ModelAttribute Contract contract){
+                                                @ModelAttribute @Valid Contract contract,
+                                                BindingResult bindingResult,
+                                                Model model){
 
         Optional<Employee> maybeEmployee = employeeService.findById(id);
         if(maybeEmployee.isEmpty())
             return "redirect:/employee-portal/hr/employee";
+
+        if(bindingResult.hasErrors()) {
+            setupEditEmployeeAttributes(model, maybeEmployee.get());
+            model.addAttribute("contract", contract);
+            return "hr/approve-edit-employee";
+        }
 
         Employee employee = maybeEmployee.get();
         contract.setEmployee(employee);

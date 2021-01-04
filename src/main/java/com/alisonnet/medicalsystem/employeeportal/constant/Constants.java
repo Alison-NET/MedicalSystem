@@ -12,6 +12,7 @@ public final class Constants {
 
     public final static String FAX_PATTERN = "(^\\(?([0-9]{3})\\)?[-.\\s]?([0-9]{3})[-.\\s]?([0-9]{4})$)"; // SAME AS PHONE PATTERN
     public final static String DIRECT_LINE_PATTERN = "(^\\(?([0-9]{3})\\)?[-.\\s]?([0-9]{3})[-.\\s]?([0-9]{4})$)"; // SAME AS PHONE PATTERN
+    public final static String NPI_PATTERN = "(^[0-9]{10}$)";
 
     //  =========
 

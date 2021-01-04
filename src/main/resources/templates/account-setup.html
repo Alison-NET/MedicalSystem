@@ -256,10 +256,27 @@
                                         </option>
                                     </select>
                                 </td>
-                                <td><input type="text" th:field="*{providers[__${rowStat.index}__].firstName}" placeholder="First Name"/></td>
-                                <td><input type="text" th:field="*{providers[__${rowStat.index}__].lastName}" placeholder="Last Name"/></td>
-                                <td><input type="text" th:field="*{providers[__${rowStat.index}__].email}" placeholder="Email"/></td>
-                                <td><input type="text" th:field="*{providers[__${rowStat.index}__].NPI}" placeholder="NPI"/></td>
+                                <td>
+                                    <span>First Name</span>
+                                    <input type="text" th:field="*{providers[__${rowStat.index}__].firstName}"/>
+<!--                                    <p th:each="error : ${#fields.errors('providers[' + rowStat.index + '].firstname')}" th:text="${error}">Validation error</p>-->
+                                </td>
+                                <td>
+                                    <span>Last Name</span>
+                                    <input type="text" th:field="*{providers[__${rowStat.index}__].lastName}"/>
+<!--                                    <p th:each="error : ${#fields.errors('providers[' + __${rowStat.index}__ + '].lastName')}" th:text="${error}">Validation error</p>-->
+                                </td>
+
+                                <td>
+                                    <span>Email</span>
+                                    <input type="email" th:field="*{providers[__${rowStat.index}__].email}"/>
+<!--                                    <p th:each="error : ${#fields.errors('providers[' + *{__${rowStat.index}__ } + '].email')}" th:text="${error}">Validation error</p>-->
+                                </td>
+                                <td>
+                                    <span>NPI</span>
+                                    <input type="text" th:field="*{providers[__${rowStat.index}__].NPI}" placeholder="0000000000"/>
+<!--                                    <p th:each="error : ${#fields.errors('providers['+*{__${rowStat.index}__ }+'].NPI')}" th:text="${error}">Validation error</p>-->
+                                </td>
                             </tr>
                         </table>
                     </div>

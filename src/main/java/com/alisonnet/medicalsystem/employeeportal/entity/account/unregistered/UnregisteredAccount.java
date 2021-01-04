@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.util.List;
 
 @Entity
@@ -15,9 +16,11 @@ import java.util.List;
 @Table(name = "unregistered_accounts")
 public class UnregisteredAccount extends AccountBase {
 
+    @Valid
     @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<UnregisteredProvider> providers;
 
+    @Valid
     @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL})
     private List<UnregisteredSpecimenPickUpDayTime> specimenPickUpDayTimes;
 }
