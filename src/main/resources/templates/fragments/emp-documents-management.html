@@ -20,27 +20,27 @@
                     <div class="col-md-8">
                         <div class="input-wrapper">
 
-                            <a sec:authorize="hasAuthority('EMPLOYEE')" th:if="${#bools.isFalse(document.isLocked)}"
+                            <a th:if="${not #authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')') and #bools.isFalse(document.isLocked)}"
                                th:href="@{'/employee-portal/document/' + ${document.id} + '/delete'}">
                                 <span>Remove &nbsp;</span>
                             </a>
 
-                            <span sec:authorize="hasAuthority('EMPLOYEE')" th:if="${#bools.isTrue(document.isLocked)}"
+                            <span th:if="${not #authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')') and #bools.isTrue(document.isLocked)}"
                                   th:href="@{'/employee-portal/document/' + ${document.id} + '/delete'}">
                                 <span>Locked</span>
                             </span>
 
-                            <a sec:authorize="hasAnyAuthority('HR','ADMIN')"
+                            <a th:if="${#authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')')}"
                                th:href="@{'/employee-portal/document/' + ${document.id} + '/delete'}">
                                 <span>Remove &nbsp;</span>
                             </a>
 
-                            <a sec:authorize="hasAnyAuthority('HR','ADMIN')" th:if="${#bools.isFalse(document.isLocked)}"
+                            <a th:if="${#authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')') and #bools.isFalse(document.isLocked)}"
                                th:href="@{'/employee-portal/hr/employee/' + ${employee.id} + '/document/' + ${document.id} + '/lock'}">
                                 <span>Lock</span>
                             </a>
 
-                            <a sec:authorize="hasAnyAuthority('HR','ADMIN')" th:if="${#bools.isTrue(document.isLocked)}"
+                            <a th:if="${#authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')') and #bools.isTrue(document.isLocked)}"
                                th:href="@{'/employee-portal/hr/employee/' + ${employee.id} + '/document/' + ${document.id} + '/unlock'}">
                                 <span>Unlock</span>
                             </a>

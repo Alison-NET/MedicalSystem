@@ -16,8 +16,7 @@ insert into titles (name) values ('PA')
 
 -- ADMIN CREATION
 
-insert into basic_employees (title_id, first_name, middle_name, last_name, date_of_birth, address_first, address_second, city, state, zip, home_phone, mobile_phone, personal_email, social_security)
-values (1, 'Admin', 'Admin', 'Admin', '2000-05-05 00:00:00', '-', '-', '-', '-', '11111','2222222222','1111111111','admin@gmail.com','111-11-1111')
+insert into basic_employees (title_id, first_name, middle_name, last_name, date_of_birth, address_first, address_second, city, state, zip, home_phone, mobile_phone, personal_email, social_security) values (1, 'Admin', 'Admin', 'Admin', '2000-05-05 00:00:00', '-', '-', '-', '-', '11111','2222222222','1111111111','admin@gmail.com','111-11-1111')
 
 insert into departments (name) values ('System Admin')
 insert into job_positions (name, department_name) values ('Admin','System Admin')                       -- manages everything

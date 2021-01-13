@@ -48,6 +48,15 @@ public class HREmployeeController {
         return "hr/approve-requests";
     }
 
+    @GetMapping("/approve-employee/reject/{id}")
+    public String deleteBasicEmployee(@PathVariable int id){
+
+        if(basicEmployeeService.getUnapprovedEmployees().stream()
+                .anyMatch(basicEmployee -> basicEmployee == basicEmployeeService.findById(id).orElse(null)))
+            basicEmployeeService.deleteById(id);
+        return "redirect:/employee-portal/hr/approve-employee";
+    }
+
 
     @GetMapping("/approve-employee/{id}")
     public String getApprovePage(@PathVariable int id, Model model){
@@ -88,19 +97,6 @@ public class HREmployeeController {
     }
 
 
-    @GetMapping("/approve-employee/reject/{id}")
-    public String deleteBasicEmployee(@PathVariable int id){
-
-        Optional<BasicEmployee> maybeBasicEmployee = basicEmployeeService.findById(id);
-        if(maybeBasicEmployee.isEmpty())                                                    //Add exception
-            return "redirect:/employee-portal/hr/approve-employee";
-
-        if(maybeBasicEmployee.get().getFullInfo() != null)                                  //Add exception
-            return "redirect:/employee-portal/hr/approve-employee";
-
-        basicEmployeeService.deleteById(id);
-        return "redirect:/employee-portal/hr/approve-employee";
-    }
 
 
     @PostMapping("/employee/save")
