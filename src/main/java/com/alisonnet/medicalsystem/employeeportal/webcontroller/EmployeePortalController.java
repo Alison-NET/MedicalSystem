@@ -67,11 +67,18 @@ public class EmployeePortalController {
         if(maybeActiveEmployee.isEmpty())
             return "redirect:/index";
 
-        model.addAttribute("isMyProfile", maybeActiveEmployee.get().getId() == id);
+        Employee activeEmp = maybeActiveEmployee.get();
+        boolean isMyProfile = activeEmp.getId() == id;
+
+//        model.addAttribute("isMyProfile", activeEmp.getId() == id);
+        model.addAttribute("canManageDocuments",
+                (!(employeeService.isInAdminDepartment(activeEmp) || employeeService.isInHRDepartment(activeEmp))
+                        && isMyProfile)
+                        || (employeeService.isInHRDepartment(activeEmp) && isMyProfile));
         model.addAttribute("editButtonShow",
                 ( !(employeeService.isInHRDepartment(employee) || employeeService.isInAdminDepartment(employee))
-                        && employeeService.isInHRDepartment(maybeActiveEmployee.get()))
-                        || employeeService.isInAdminDepartment(maybeActiveEmployee.get())
+                        && employeeService.isInHRDepartment(activeEmp))
+                        || employeeService.isInAdminDepartment(activeEmp)
         );
 
         return "employee-profile";

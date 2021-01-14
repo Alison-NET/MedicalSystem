@@ -207,7 +207,7 @@
         </div>
 
 
-        <div sec:authorize="hasAnyAuthority('HUMAN_RESOURCES_DEP', 'SYSTEM_ADMIN_DEP')" th:if="${not #lists.isEmpty(employee.empDocuments)}" class="profile-item row">
+        <div th:if="${(not #lists.isEmpty(employee.empDocuments)) and #bools.isFalse(canManageDocuments)}" class="profile-item row">
             <div class="col-md-4">
                 <p class="name">Documents</p>
             </div>
@@ -225,8 +225,11 @@
             </div>
         </div>
 
-        <div th:if="${((not #authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')') and #bools.isTrue(isMyProfile)))
-                        or (#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isTrue(isMyProfile))}">
+<!--        th:if="${((not #authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')') and #bools.isTrue(isMyProfile)))-->
+<!--        or (#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isTrue(isMyProfile))}"-->
+
+
+        <div th:if="${#bools.isTrue(canManageDocuments)}">
             <hr>
             <h2> Employee documents</h2>
             <div th:replace="fragments/emp-document-upload-form.html :: document-upload-form"></div>
