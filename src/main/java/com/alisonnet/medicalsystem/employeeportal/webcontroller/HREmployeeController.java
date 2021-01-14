@@ -186,13 +186,13 @@ public class HREmployeeController {
         if(maybeEmployee.isEmpty())
             return "redirect:/employee-portal/hr/employee";
 
+        Employee employee = maybeEmployee.get();
         if(bindingResult.hasErrors()) {
-            setupEditEmployeeAttributes(model, maybeEmployee.get());
+            setupEditEmployeeAttributes(model, employee);
             model.addAttribute("contract", contract);
             return "hr/approve-edit-employee";
         }
 
-        Employee employee = maybeEmployee.get();
         contract.setEmployee(employee);
         contractService.save(contract);
 

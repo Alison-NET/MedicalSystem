@@ -12,6 +12,7 @@
             <h4>You are not allowed to manage this page</h4>
         </div>
         <div th:if="${#bools.isTrue(canEdit) or #bools.isFalse(isApproved)}">
+
             <div class="page-info row">
                 <div class="col-md-4">
                     <span th:if="${#bools.isTrue(isApproved)}" class="name">Edit Employee</span>
@@ -328,7 +329,7 @@
                     </div>
 
                     <form  class="profile-edit-form"
-                          th:action="@{/employee-portal/hr/employee/__${employee.id}__/add-supervisor}" th:object="${supervisorId}" method="post">
+                          th:action="@{'/employee-portal/hr/employee/' + ${employee.id} + '/add-supervisor'}" th:object="${supervisorId}" method="post">
 
                         <div class="profile-edit-item row">
                             <div class="col-md-4">

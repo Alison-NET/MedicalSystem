@@ -185,7 +185,7 @@
             </div>
             <div class="col-md-8">
                 <div th:each="sub : ${employee.subordinates}">
-                    <a th:href="@{/employee-portal/employee/__${sub.id}__}">
+                    <a th:href="@{/employee-portal/__${sub.id}__}">
                         <p class="descr" th:text="${sub.basicInfo.firstName + ' ' + sub.basicInfo.lastName}"></p>
                     </a>
                 </div>
