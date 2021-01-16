@@ -27,7 +27,14 @@ public final class Constants {
     public final static String VALIDATION_MSG_INVALID_ZIP = "Invalid ZIP Code";
     //  ==========
 
-    public final static String BASIC_EMPLOYEE_THANK_FOR_REG = "Thank you for registration. You will receive the message after approval";
+    //  MESSAGES
+    public final static String BASIC_EMPLOYEE_THANKS_FOR_REG_MSG = "Thank you for registration. You will receive the message after approval";
+
+    //  EXCEPTIONS MESSAGES
+
+    public final static String DOWNLOAD_DOCUMENT_ACCESS_DENIED_MSG = "You can not download this document";
+    public final static String DELETE_DOCUMENT_ACCESS_DENIED_MSG = "You can not delete this document";
+    public final static String VIEW_PAGE_ACCESS_DENIED_MSG = "You are not allowed view this page";
 
     //  FORMATS
     public final static String WORK_TIME_FORMAT = "hh:mm a";

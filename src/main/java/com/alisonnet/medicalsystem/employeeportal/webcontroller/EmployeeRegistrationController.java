@@ -43,7 +43,7 @@ public class EmployeeRegistrationController {
             return "employee-registration";
         }
         basicEmployeeService.save(basicEmployee);
-        model.addAttribute("message", Constants.BASIC_EMPLOYEE_THANK_FOR_REG);
+        model.addAttribute("message", Constants.BASIC_EMPLOYEE_THANKS_FOR_REG_MSG);
         return "action-result";
     }
 

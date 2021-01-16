@@ -5,6 +5,7 @@ import com.alisonnet.medicalsystem.employeeportal.dto.document.DocTypeAndFilesDT
 import com.alisonnet.medicalsystem.employeeportal.dto.document.JobPosAndFilesDTO;
 import com.alisonnet.medicalsystem.employeeportal.dto.employee.EmployeeIdDTO;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.*;
+import com.alisonnet.medicalsystem.employeeportal.exception.exceptions.AccessDeniedException;
 import com.alisonnet.medicalsystem.employeeportal.service.*;
 import com.alisonnet.medicalsystem.employeeportal.service.employee.*;
 import com.alisonnet.medicalsystem.employeeportal.validator.BasicEmployeePersonalEmailValidator;
@@ -17,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -88,8 +90,6 @@ public class HREmployeeController {
         newEmployee.setContracts(contracts);
 
 
-        model.addAttribute("canEdit",true);
-
         model.addAttribute("employee", newEmployee);
         model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
         model.addAttribute("departments", departmentService.findAllByOrderByNameAsc());
@@ -114,7 +114,6 @@ public class HREmployeeController {
             model.addAttribute("employee", employee);
             model.addAttribute("departments", departmentService.findAllByOrderByNameAsc());
             model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
-            model.addAttribute("canEdit",true );
 
             if(employeeService.findById(employee.getId()).isPresent())
                 setupEditEmployeeAttributes(model, employee);
@@ -151,12 +150,14 @@ public class HREmployeeController {
         return "hr/approve-edit-employee";
     }
 
-    private void setupEditEmployeeAttributes(Model model, Employee empToEdit) {
-        Employee activeEmp = employeeService.getActiveEmployee().get();
-        model.addAttribute("canEdit", employeeService.canBeEdited(empToEdit, activeEmp));
+    private void setupEditEmployeeAttributes(Model model, Employee employeeToEdit) {
+        Employee activeEmployee = employeeService.getActiveEmployee().get();
+
+        if(!employeeService.canBeEdited(employeeToEdit, activeEmployee))
+            throw new AccessDeniedException(Constants.VIEW_PAGE_ACCESS_DENIED_MSG);
 
         //
-        model.addAttribute("employee", empToEdit);
+        model.addAttribute("employee", employeeToEdit);
         model.addAttribute("departments", departmentService.findAllByOrderByNameAsc());
         model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
         model.addAttribute("isApproved", true);
@@ -165,12 +166,12 @@ public class HREmployeeController {
         model.addAttribute("contract", new Contract());
 
         //        Documents management
-        model.addAttribute("documentTypes", documentTypeService.getAllTypesBasedOnEmployee(empToEdit));
+        model.addAttribute("documentTypes", documentTypeService.getAllTypesBasedOnEmployee(employeeToEdit));
         model.addAttribute("dto", new DocTypeAndFilesDTO(new DocumentType(), new MultipartFile[10]));
 
         //        Supervisor adding
         model.addAttribute("supervisorId", new EmployeeIdDTO());
-        model.addAttribute("supervisors", employeeService.getPossibleSupervisors(empToEdit.getId()));
+        model.addAttribute("supervisors", employeeService.getPossibleSupervisors(employeeToEdit));
     }
 
 
@@ -220,7 +221,7 @@ public class HREmployeeController {
 
 
     @GetMapping("/employee/{id}/document/{docId}/lock")
-    public String lockEmpDocument(@PathVariable int id, @PathVariable int docId){
+    public String lockEmpDocument(@PathVariable int id, @PathVariable int docId, HttpServletRequest request){
 
         if(employeeService.findById(id).isEmpty())
             return "redirect:/employee-portal/hr/employee";
@@ -233,12 +234,14 @@ public class HREmployeeController {
         document.setIsLocked(true);
         empDocumentService.save(document);
 
-        return "redirect:/employee-portal/hr/employee/" + id;
+        return Optional.ofNullable(request.getHeader("Referer"))
+                .map(requestUrl -> "redirect:" + requestUrl)
+                .orElse("/");
     }
 
 
     @GetMapping("/employee/{id}/document/{docId}/unlock")
-    public String unlockEmpDocument(@PathVariable int id, @PathVariable int docId){
+    public String unlockEmpDocument(@PathVariable int id, @PathVariable int docId, HttpServletRequest request){
 
         if(employeeService.findById(id).isEmpty())
             return "redirect:/employee-portal/hr/employee";
@@ -251,13 +254,14 @@ public class HREmployeeController {
         document.setIsLocked(false);
         empDocumentService.save(document);
 
-        return "redirect:/employee-portal/hr/employee/" + id;
+        return Optional.ofNullable(request.getHeader("Referer"))
+                .map(requestUrl -> "redirect:" + requestUrl)
+                .orElse("/");
     }
 
 
     @GetMapping("/documents-for-job-position")
     public String getManageDocumentsPerJobPositionPage(Model model){
-
         model.addAttribute("jobPositions", jobPositionService.findAll());
         model.addAttribute("jobPosAndFilesDTO", new JobPosAndFilesDTO(new JobPosition(), new MultipartFile[10]));
         return "hr/documents-job-position";
@@ -266,7 +270,6 @@ public class HREmployeeController {
 
     @PostMapping("/documents-for-job-position/save")
     public String handleAddingIntendedDocument(@ModelAttribute("jobPosAndFilesDTO") JobPosAndFilesDTO dto){
-
         for(MultipartFile file: dto.getFiles())
             appointedDocumentService.save(dto.getJobPosition(), file);
 

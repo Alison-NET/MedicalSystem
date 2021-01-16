@@ -5,6 +5,7 @@ import com.alisonnet.medicalsystem.employeeportal.entity.employee.Employee;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.JobPosition;
 import com.alisonnet.medicalsystem.employeeportal.repository.employee.AppointedDocumentRepo;
 import com.alisonnet.medicalsystem.employeeportal.service.employee.AppointedDocumentService;
+import com.alisonnet.medicalsystem.employeeportal.service.employee.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +17,7 @@ import java.util.Optional;
 public class AppointedDocumentServiceImpl implements AppointedDocumentService {
 
     AppointedDocumentRepo appointedDocumentRepo;
+    EmployeeService employeeService;
 
     @Override
     public AppointedDocument save(AppointedDocument intendedDocument) {
@@ -45,11 +47,14 @@ public class AppointedDocumentServiceImpl implements AppointedDocumentService {
 
     @Override
     public boolean canBeDownloaded(AppointedDocument empDocument, Employee employee) {
-        return false;
+        if(employeeService.isInHRDepartment(employee) || employeeService.isInAdminDepartment(employee))
+            return true;
+        else
+            return employee.getJobPosition() == empDocument.getJobPosition();
     }
 
     @Override
     public boolean canBeDeleted(AppointedDocument empDocument, Employee employee) {
-        return false;
+        return employeeService.isInHRDepartment(employee) || employeeService.isInAdminDepartment(employee);
     }
 }

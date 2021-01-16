@@ -6,6 +6,7 @@ import com.alisonnet.medicalsystem.employeeportal.entity.employee.AppointedDocum
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.Document;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.EmpDocument;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.Employee;
+import com.alisonnet.medicalsystem.employeeportal.exception.exceptions.AccessDeniedException;
 import com.alisonnet.medicalsystem.employeeportal.service.employee.AppointedDocumentService;
 import com.alisonnet.medicalsystem.employeeportal.service.employee.DocumentService;
 import com.alisonnet.medicalsystem.employeeportal.service.employee.EmpDocumentService;
@@ -48,17 +49,11 @@ public class DocumentController {
         Document document = maybeDocument.get();
 
         if (document instanceof EmpDocument){
-            if (empDocumentService.canBeDownloaded((EmpDocument) document, activeEmployee)){
-                log.info("Employee Document can be downloaded");
-            }else{
-                log.info("Employee Document can't be downloaded");
-            }
+            if (!empDocumentService.canBeDownloaded((EmpDocument) document, activeEmployee))
+                throw new AccessDeniedException(Constants.DOWNLOAD_DOCUMENT_ACCESS_DENIED_MSG);
         } else if (document instanceof AppointedDocument ) {
-            if (appointedDocumentService.canBeDownloaded((AppointedDocument) document, activeEmployee)){
-                log.info("Appointed Document can be downloaded");
-            }else{
-                log.info("Appointed Document can't be downloaded");
-            }
+            if (!appointedDocumentService.canBeDownloaded((AppointedDocument) document, activeEmployee))
+                throw new AccessDeniedException(Constants.DOWNLOAD_DOCUMENT_ACCESS_DENIED_MSG + " appointed");
         }
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(document.getExtension()))
@@ -70,25 +65,20 @@ public class DocumentController {
     @GetMapping("/{id}/delete")
     public String deleteDocument(@PathVariable int id, HttpServletRequest request){
         Employee activeEmployee = employeeService.getActiveEmployee().get();
+
         Optional<Document> maybeDocument = documentService.findById(id);
         if(maybeDocument.isEmpty())                                             // Add exception
             return null;
 
         Document document = maybeDocument.get();
         if (document instanceof EmpDocument){
-            if (empDocumentService.canBeDeleted((EmpDocument) document, activeEmployee)){
-                log.info("Employee Document can be deleted");
-            }else{
-                log.info("Employee Document can't be deleted");
-            }
+            if (!empDocumentService.canBeDeleted((EmpDocument) document, activeEmployee))
+                throw new AccessDeniedException(Constants.DELETE_DOCUMENT_ACCESS_DENIED_MSG);
         } else if (document instanceof AppointedDocument ) {
-            if (appointedDocumentService.canBeDeleted((AppointedDocument) document, activeEmployee)){
-                log.info("Appointed Document can be deleted");
-            }else{
-                log.info("Appointed Document can't be deleted");
-            }
+            if (!appointedDocumentService.canBeDeleted((AppointedDocument) document, activeEmployee))
+                throw new AccessDeniedException(Constants.DELETE_DOCUMENT_ACCESS_DENIED_MSG + " appointed");
         }
-        documentService.deleteById(id);
+//        documentService.deleteById(id);
         return Optional.ofNullable(request.getHeader("Referer"))
                 .map(requestUrl -> "redirect:" + requestUrl)
                 .orElse("/");

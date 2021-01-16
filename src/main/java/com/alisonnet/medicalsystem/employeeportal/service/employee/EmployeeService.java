@@ -14,7 +14,7 @@ public interface EmployeeService {
     Optional<Employee> findById(int id);
     boolean exists(Employee employee);
     Optional<Employee> getActiveEmployee();
-    List<Employee> getPossibleSupervisors(int forEmployeeId);
+    List<Employee> getPossibleSupervisors(Employee employee);
     boolean isInHRDepartment(Employee employee);
     boolean isInAdminDepartment(Employee employee);
     boolean canBeEdited(Employee employeeToEdit, Employee activeEmployee);

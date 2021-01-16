@@ -63,13 +63,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Override
-    public List<Employee> getPossibleSupervisors(int forEmployeeId) {
-        Employee thisEmployee = findById(forEmployeeId).get();
-        List<Employee> employees = employeeRepo.findEmployeesByIdNot(forEmployeeId);
+    public List<Employee> getPossibleSupervisors(Employee forEmployee) {
+        List<Employee> employees = employeeRepo.findEmployeesByIdNot(forEmployee.getId());
 
         return employees.stream().
                 filter(employee -> employee.getJobPosition().getDepartment()
-                        .equals(thisEmployee.getJobPosition().getDepartment()))
+                        .equals(forEmployee.getJobPosition().getDepartment()))
                 .collect(Collectors.toList());
 
     }
