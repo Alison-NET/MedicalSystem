@@ -17,6 +17,7 @@ public interface EmployeeService {
     List<Employee> getPossibleSupervisors(int forEmployeeId);
     boolean isInHRDepartment(Employee employee);
     boolean isInAdminDepartment(Employee employee);
+    boolean canBeEdited(Employee employeeToEdit, Employee activeEmployee);
     void updateRelationsIfNeeded(Employee employee);
 
 }

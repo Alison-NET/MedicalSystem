@@ -22,7 +22,8 @@
             <tr>
                 <th>Base Account ID</th>
                 <th>Base Account</th>
-                <th sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')">View changes/Update</th>
+                <th sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')">View Updated</th>
+                <th sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')">Reject</th>
             </tr>
             <tr th:each="account: ${accounts}">
                 <td th:text="${account.id}">Id</td>
@@ -32,7 +33,9 @@
                 <td sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')">
                     <a th:href="@{'/employee-portal/admin/account/approve-updated/' + ${account.id}}">Update</a>
                 </td>
-
+                <td sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')">
+                    <a th:href="@{'/employee-portal/admin/account/approve-updated/reject/' + ${account.id}}">Reject</a>
+                </td>
             </tr>
         </table>
     </div>

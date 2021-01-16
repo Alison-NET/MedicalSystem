@@ -104,4 +104,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     public boolean isInAdminDepartment(Employee employee) {
         return employee.getJobPosition().getDepartment().getName().equals(Constants.system_admin_department);
     }
+
+    @Override
+    public boolean canBeEdited(Employee employeeToEdit, Employee activeEmployee) {
+        return !((isInHRDepartment(activeEmployee) && isInHRDepartment(employeeToEdit))
+                || (isInHRDepartment(activeEmployee) && isInAdminDepartment(employeeToEdit)));
+    }
 }

@@ -70,15 +70,17 @@ public class EmployeePortalController {
         Employee activeEmp = maybeActiveEmployee.get();
         boolean isMyProfile = activeEmp.getId() == id;
 
-//        model.addAttribute("isMyProfile", activeEmp.getId() == id);
-        model.addAttribute("canManageDocuments",
-                (!(employeeService.isInAdminDepartment(activeEmp) || employeeService.isInHRDepartment(activeEmp))
-                        && isMyProfile)
-                        || (employeeService.isInHRDepartment(activeEmp) && isMyProfile));
         model.addAttribute("editButtonShow",
                 ( !(employeeService.isInHRDepartment(employee) || employeeService.isInAdminDepartment(employee))
                         && employeeService.isInHRDepartment(activeEmp))
                         || employeeService.isInAdminDepartment(activeEmp)
+        );
+
+
+        model.addAttribute("canManageDocuments",
+                (!(employeeService.isInAdminDepartment(activeEmp) || employeeService.isInHRDepartment(activeEmp))
+                        && isMyProfile)
+                        || (employeeService.isInHRDepartment(activeEmp) && isMyProfile)
         );
 
         return "employee-profile";

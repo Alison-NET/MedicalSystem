@@ -224,11 +224,7 @@
                 </ul>
             </div>
         </div>
-
-<!--        th:if="${((not #authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')') and #bools.isTrue(isMyProfile)))-->
-<!--        or (#authorization.expression('hasAuthority(''HUMAN_RESOURCES_DEP'')') and #bools.isTrue(isMyProfile))}"-->
-
-
+        
         <div th:if="${#bools.isTrue(canManageDocuments)}">
             <hr>
             <h2> Employee documents</h2>

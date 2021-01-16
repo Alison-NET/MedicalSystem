@@ -86,7 +86,7 @@ public class SystemAdminEmployeeAccountManagementController {
     }
 
     @GetMapping("/approve-unregistered/reject/{id}")
-    public String rejectUnregisteredAccount(@PathVariable int id, Model model){
+    public String rejectUnregisteredAccount(@PathVariable int id){
         unregisteredAccountService.remove(unregisteredAccountService.findById(id).get());
         return "unregistered-accounts";
     }
@@ -188,6 +188,12 @@ public class SystemAdminEmployeeAccountManagementController {
 
         setupUpdatedAccountNeededAttrs(mbAccount.get(), model);
         return "account-setup";
+    }
+
+    @GetMapping("/approve-updated/reject/{id}")
+    public String rejectUpdatedAccount(@PathVariable int id){
+        updatedAccountService.remove(updatedAccountService.findById(id).get());
+        return "unregistered-accounts";
     }
 
     @PostMapping("/approve-updated/add-provider")

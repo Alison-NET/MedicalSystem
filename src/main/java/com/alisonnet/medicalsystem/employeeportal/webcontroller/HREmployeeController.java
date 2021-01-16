@@ -153,9 +153,7 @@ public class HREmployeeController {
 
     private void setupEditEmployeeAttributes(Model model, Employee empToEdit) {
         Employee activeEmp = employeeService.getActiveEmployee().get();
-        model.addAttribute("canEdit",
-                !((employeeService.isInHRDepartment(activeEmp) && employeeService.isInHRDepartment(empToEdit))
-                || (employeeService.isInHRDepartment(activeEmp) && employeeService.isInAdminDepartment(empToEdit))));
+        model.addAttribute("canEdit", employeeService.canBeEdited(empToEdit, activeEmp));
 
         //
         model.addAttribute("employee", empToEdit);
@@ -211,6 +209,7 @@ public class HREmployeeController {
         Optional<Employee> maybeSupervisor = employeeService.findById(supervisorId.getId());
         if(maybeSupervisor.isEmpty())
             return "redirect:/employee-portal/hr/employee";                 // Add exception
+
 
         maybeEmployee.get().setSupervisor(maybeSupervisor.get());
 

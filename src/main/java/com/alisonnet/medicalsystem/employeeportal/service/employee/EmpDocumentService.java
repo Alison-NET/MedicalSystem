@@ -15,5 +15,6 @@ public interface EmpDocumentService {
     EmpDocument save(EmpDocument document);
     EmpDocument save(MultipartFile file, DocumentType documentType, Employee owner);
     Optional<EmpDocument> findById(int id);
-
+    boolean canBeDownloaded(EmpDocument empDocument, Employee employee);
+    boolean canBeDeleted(EmpDocument empDocument, Employee employee);
 }

@@ -26,8 +26,10 @@ public abstract class AccountBase {
 
     private String addressSecond;
 
+    @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
     private String city;
 
+    @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
     private String state;
 
     @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
