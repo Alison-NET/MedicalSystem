@@ -156,8 +156,9 @@ public class HREmployeeController {
     private void setupEditEmployeeAttributes(Model model, Employee employeeToEdit) {
         Employee activeEmployee = employeeService.getActiveEmployee().get();
 
-        if(!employeeService.canBeEdited(employeeToEdit, activeEmployee))
+        if (!employeeService.canBeEdited(employeeToEdit, activeEmployee))
             throw new AccessDeniedException(Constants.VIEW_PAGE_ACCESS_DENIED_MSG);
+
 
         //
         model.addAttribute("employee", employeeToEdit);

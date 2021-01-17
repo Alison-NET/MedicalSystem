@@ -1,6 +1,7 @@
 package com.alisonnet.medicalsystem.employeeportal.exception.handler;
 
 import com.alisonnet.medicalsystem.employeeportal.exception.exceptions.AccessDeniedException;
+import com.alisonnet.medicalsystem.employeeportal.exception.exceptions.ActiveEmployeeAbsenceException;
 import com.alisonnet.medicalsystem.employeeportal.exception.exceptions.BasicEmployeeAlreadyRegisteredException;
 import com.alisonnet.medicalsystem.employeeportal.exception.exceptions.InvalidPathVariableException;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,12 @@ public class CustomExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(InvalidPathVariableException.class)
     public String handleInvalidPathVariableException(InvalidPathVariableException ex, Model model){
+        model.addAttribute("message", ex.getMessage());
+        return "action-result";
+    }
+
+    @ExceptionHandler(ActiveEmployeeAbsenceException.class)
+    public String handleActiveEmployeeAbsenceException(ActiveEmployeeAbsenceException ex, Model model){
         model.addAttribute("message", ex.getMessage());
         return "action-result";
     }

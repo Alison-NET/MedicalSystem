@@ -4,6 +4,8 @@ import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.dto.document.DocTypeAndFilesDTO;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.DocumentType;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.Employee;
+import com.alisonnet.medicalsystem.employeeportal.exception.exceptions.ActiveEmployeeAbsenceException;
+import com.alisonnet.medicalsystem.employeeportal.exception.exceptions.InvalidPathVariableException;
 import com.alisonnet.medicalsystem.employeeportal.service.employee.DepartmentService;
 import com.alisonnet.medicalsystem.employeeportal.service.employee.DocumentTypeService;
 import com.alisonnet.medicalsystem.employeeportal.service.employee.EmpDocumentService;
@@ -43,7 +45,7 @@ public class EmployeePortalController {
 
         Optional<Employee> maybeEmployee = employeeService.getActiveEmployee();
         if(maybeEmployee.isEmpty())
-            return "redirect:/index";
+            throw new ActiveEmployeeAbsenceException(Constants.ACTIVE_EMPLOYEE_ABSENCE_MSG);
 
         return "redirect:/employee-portal/" + maybeEmployee.get().getId();
     }
@@ -65,7 +67,7 @@ public class EmployeePortalController {
         // authorities
         Optional<Employee> maybeActiveEmployee = employeeService.getActiveEmployee();
         if(maybeActiveEmployee.isEmpty())
-            return "redirect:/index";
+            throw new ActiveEmployeeAbsenceException(Constants.ACTIVE_EMPLOYEE_ABSENCE_MSG);
 
         Employee activeEmp = maybeActiveEmployee.get();
         boolean isMyProfile = activeEmp.getId() == id;
@@ -93,7 +95,7 @@ public class EmployeePortalController {
 
         Optional<Employee> maybeEmployee = employeeService.findById(id);
         if(maybeEmployee.isEmpty())
-            return "redirect:/employee-portal/hr/employee";
+            throw new InvalidPathVariableException(Constants.INVALID_EMPLOYEE_ID_MSG);
 
         Employee employee = maybeEmployee.get();
 
@@ -109,7 +111,7 @@ public class EmployeePortalController {
 
         Optional<Employee> maybeEmployee = employeeService.getActiveEmployee();
         if(maybeEmployee.isEmpty())
-            return "redirect:/index";
+            throw new ActiveEmployeeAbsenceException(Constants.ACTIVE_EMPLOYEE_ABSENCE_MSG);
 
         model.addAttribute("jobPosition", maybeEmployee.get().getJobPosition());
         return "documents-job-position";

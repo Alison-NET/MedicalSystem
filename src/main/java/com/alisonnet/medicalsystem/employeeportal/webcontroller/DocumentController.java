@@ -7,6 +7,7 @@ import com.alisonnet.medicalsystem.employeeportal.entity.employee.Document;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.EmpDocument;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.Employee;
 import com.alisonnet.medicalsystem.employeeportal.exception.exceptions.AccessDeniedException;
+import com.alisonnet.medicalsystem.employeeportal.exception.exceptions.InvalidPathVariableException;
 import com.alisonnet.medicalsystem.employeeportal.service.employee.AppointedDocumentService;
 import com.alisonnet.medicalsystem.employeeportal.service.employee.DocumentService;
 import com.alisonnet.medicalsystem.employeeportal.service.employee.EmpDocumentService;
@@ -43,8 +44,8 @@ public class DocumentController {
         Employee activeEmployee = employeeService.getActiveEmployee().get();
 
         Optional<Document> maybeDocument = documentService.findById(id);
-        if(maybeDocument.isEmpty())                                             // Add exception
-            return null;
+        if(maybeDocument.isEmpty())
+            throw new InvalidPathVariableException(Constants.INVALID_DOCUMENT_ID_MSG);
 
         Document document = maybeDocument.get();
 
@@ -68,7 +69,7 @@ public class DocumentController {
 
         Optional<Document> maybeDocument = documentService.findById(id);
         if(maybeDocument.isEmpty())                                             // Add exception
-            return null;
+            throw new InvalidPathVariableException(Constants.INVALID_DOCUMENT_ID_MSG);
 
         Document document = maybeDocument.get();
         if (document instanceof EmpDocument){

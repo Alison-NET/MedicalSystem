@@ -40,6 +40,7 @@ public final class Constants {
     public final static String INVALID_EMPLOYEE_ID_MSG = "There isn't such an employee";
     public final static String ALREADY_REGISTERED_EMPLOYEE_MSG = "Employee with such id is already registered";
     public final static String INVALID_DOCUMENT_ID_MSG = "There isn't such a document";
+    public final static String ACTIVE_EMPLOYEE_ABSENCE_MSG = "There is no employee logged in";
 
     //  FORMATS
     public final static String WORK_TIME_FORMAT = "hh:mm a";
