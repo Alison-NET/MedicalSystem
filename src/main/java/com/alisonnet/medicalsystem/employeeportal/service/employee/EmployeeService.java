@@ -12,9 +12,9 @@ public interface EmployeeService {
     Employee save(Employee employee);
     List<Employee> findAll();
     Optional<Employee> findById(int id);
-    boolean exists(Employee employee);
     Optional<Employee> getActiveEmployee();
-    List<Employee> getPossibleSupervisors(Employee employee);
+    List<Employee> getPossibleSupervisorsFor(Employee employee);
+    void removeFromDepartmentRelations(Employee employee);
     boolean isInHRDepartment(Employee employee);
     boolean isInAdminDepartment(Employee employee);
     boolean canBeEdited(Employee employeeToEdit, Employee activeEmployee);

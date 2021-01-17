@@ -36,6 +36,11 @@ public final class Constants {
     public final static String DELETE_DOCUMENT_ACCESS_DENIED_MSG = "You can not delete this document";
     public final static String VIEW_PAGE_ACCESS_DENIED_MSG = "You are not allowed view this page";
 
+
+    public final static String INVALID_EMPLOYEE_ID_MSG = "There isn't such an employee";
+    public final static String ALREADY_REGISTERED_EMPLOYEE_MSG = "Employee with such id is already registered";
+    public final static String INVALID_DOCUMENT_ID_MSG = "There isn't such a document";
+
     //  FORMATS
     public final static String WORK_TIME_FORMAT = "hh:mm a";
     //  ==========

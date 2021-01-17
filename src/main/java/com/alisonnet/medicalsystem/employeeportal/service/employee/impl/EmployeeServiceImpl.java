@@ -38,39 +38,33 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public boolean exists(Employee employee) {
-        return employeeRepo.exists(Example.of(employee));
-    }
-
-    @Override
     public Optional<Employee> getActiveEmployee() {
 
         Optional<Authentication> maybeAuthentication =
                 Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication());
         if(maybeAuthentication.isEmpty()){
-            return null;
+            return Optional.empty();
         }
         Optional<Credentials> maybeCredentials =
                 credentialsRepo.findByEmail(maybeAuthentication.get().getName());
         if(maybeCredentials.isEmpty()){
-            return null;
+            return Optional.empty();
         }
-        Optional<Employee> maybeEmployee =
-                employeeRepo.findFirstByCredentials(maybeCredentials.get());
+//        Optional<Employee> maybeEmployee =
+//                employeeRepo.findFirstByCredentials(maybeCredentials.get());
 
-        return maybeEmployee;
+        return Optional.ofNullable(maybeCredentials.get().getEmployee());
     }
 
 
     @Override
-    public List<Employee> getPossibleSupervisors(Employee forEmployee) {
+    public List<Employee> getPossibleSupervisorsFor(Employee forEmployee) {
         List<Employee> employees = employeeRepo.findEmployeesByIdNot(forEmployee.getId());
 
         return employees.stream().
                 filter(employee -> employee.getJobPosition().getDepartment()
                         .equals(forEmployee.getJobPosition().getDepartment()))
                 .collect(Collectors.toList());
-
     }
 
     @Override
@@ -79,20 +73,38 @@ public class EmployeeServiceImpl implements EmployeeService {
         if(employee.isDepartmentChief())
             employee.setSupervisor(null);
 
-        Optional<Employee> beforeSavingEmployee = findById(employee.getId());
-        if(beforeSavingEmployee.isPresent()){
-
+        Optional<Employee> beforeSavingMaybeEmployee = findById(employee.getId());
+        if(beforeSavingMaybeEmployee.isPresent()){
+            Employee beforeSavingEmployee = beforeSavingMaybeEmployee.get();
             //IF DEPARTMENT CHANGED
-            if(!beforeSavingEmployee.get().getJobPosition().getDepartment()
+            if(!beforeSavingEmployee.getJobPosition().getDepartment()
                     .equals(employee.getJobPosition().getDepartment())){
 
-                beforeSavingEmployee.get().removeFromDepartmentRelations();
-                employee.setSupervisor(beforeSavingEmployee.get().getSupervisor());
-                employee.setSubordinates(beforeSavingEmployee.get().getSubordinates());
+                removeFromDepartmentRelations(beforeSavingEmployee);
+                employee.setSupervisor(beforeSavingEmployee.getSupervisor());
+                employee.setSubordinates(beforeSavingEmployee.getSubordinates());
             }
         }
     }
 
+    @Override
+    public void removeFromDepartmentRelations(Employee employee) {
+
+        if(employee.isDepartmentChief()){
+            employee.getSubordinates().forEach(subordinate -> {
+                subordinate.setSupervisor(null);
+            });
+            return;
+        }
+        if(employee.getSubordinates() != null) {
+            employee.getSubordinates().forEach(subordinate -> {
+                subordinate.setSupervisor(employee.getSupervisor());
+            });
+        }
+        if(employee.getSupervisor() != null){
+            employee.setSupervisor(null);
+        }
+    }
 
     @Override
     public boolean isInHRDepartment(Employee employee) {

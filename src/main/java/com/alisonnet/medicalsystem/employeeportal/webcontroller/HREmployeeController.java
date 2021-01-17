@@ -6,17 +6,20 @@ import com.alisonnet.medicalsystem.employeeportal.dto.document.JobPosAndFilesDTO
 import com.alisonnet.medicalsystem.employeeportal.dto.employee.EmployeeIdDTO;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.*;
 import com.alisonnet.medicalsystem.employeeportal.exception.exceptions.AccessDeniedException;
+import com.alisonnet.medicalsystem.employeeportal.exception.exceptions.InvalidPathVariableException;
 import com.alisonnet.medicalsystem.employeeportal.service.*;
 import com.alisonnet.medicalsystem.employeeportal.service.employee.*;
 import com.alisonnet.medicalsystem.employeeportal.validator.BasicEmployeePersonalEmailValidator;
 import com.alisonnet.medicalsystem.employeeportal.validator.CredentialsEmailValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -65,10 +68,10 @@ public class HREmployeeController {
 
         Optional<BasicEmployee> maybeBasicEmployee = basicEmployeeService.findById(id);
         if(maybeBasicEmployee.isEmpty())
-            return "redirect:/employee-portal/hr/approve-employee";
+            throw new InvalidPathVariableException(Constants.INVALID_EMPLOYEE_ID_MSG);
 
-        if(maybeBasicEmployee.get().getFullInfo() != null )                 // Add exception
-            return "redirect:/employee-portal/hr/approve-employee";
+        if(maybeBasicEmployee.get().getFullInfo() != null )
+            throw new InvalidPathVariableException(Constants.ALREADY_REGISTERED_EMPLOYEE_MSG);
 
         Employee newEmployee = new Employee();
 
@@ -141,7 +144,7 @@ public class HREmployeeController {
 
         Optional<Employee> maybeEmployee = employeeService.findById(id);
         if(maybeEmployee.isEmpty())
-            return "redirect:/employee-portal/hr/employee";
+            throw new InvalidPathVariableException(Constants.INVALID_EMPLOYEE_ID_MSG);
 
         Employee empToEdit = maybeEmployee.get();
 
@@ -171,7 +174,7 @@ public class HREmployeeController {
 
         //        Supervisor adding
         model.addAttribute("supervisorId", new EmployeeIdDTO());
-        model.addAttribute("supervisors", employeeService.getPossibleSupervisors(employeeToEdit));
+        model.addAttribute("supervisors", employeeService.getPossibleSupervisorsFor(employeeToEdit));
     }
 
 
@@ -183,7 +186,7 @@ public class HREmployeeController {
 
         Optional<Employee> maybeEmployee = employeeService.findById(id);
         if(maybeEmployee.isEmpty())
-            return "redirect:/employee-portal/hr/employee";
+            throw new InvalidPathVariableException(Constants.INVALID_EMPLOYEE_ID_MSG);
 
         Employee employee = maybeEmployee.get();
         if(bindingResult.hasErrors()) {
@@ -205,11 +208,11 @@ public class HREmployeeController {
 
         Optional<Employee> maybeEmployee = employeeService.findById(id);
         if(maybeEmployee.isEmpty())
-            return "redirect:/employee-portal/hr/employee";
+            throw new InvalidPathVariableException(Constants.INVALID_EMPLOYEE_ID_MSG);
 
         Optional<Employee> maybeSupervisor = employeeService.findById(supervisorId.getId());
         if(maybeSupervisor.isEmpty())
-            return "redirect:/employee-portal/hr/employee";                 // Add exception
+            throw new InvalidPathVariableException(Constants.INVALID_EMPLOYEE_ID_MSG);
 
 
         maybeEmployee.get().setSupervisor(maybeSupervisor.get());
@@ -224,11 +227,11 @@ public class HREmployeeController {
     public String lockEmpDocument(@PathVariable int id, @PathVariable int docId, HttpServletRequest request){
 
         if(employeeService.findById(id).isEmpty())
-            return "redirect:/employee-portal/hr/employee";
+            throw new InvalidPathVariableException(Constants.INVALID_EMPLOYEE_ID_MSG);
 
         Optional<EmpDocument> maybeDocument = empDocumentService.findById(docId);
-        if(maybeDocument.isEmpty())                                             // Add exception
-            return "redirect:/employee-portal/hr/employee/" + id;
+        if(maybeDocument.isEmpty())
+            throw new InvalidPathVariableException(Constants.INVALID_DOCUMENT_ID_MSG);
 
         EmpDocument document = maybeDocument.get();
         document.setIsLocked(true);
@@ -244,11 +247,11 @@ public class HREmployeeController {
     public String unlockEmpDocument(@PathVariable int id, @PathVariable int docId, HttpServletRequest request){
 
         if(employeeService.findById(id).isEmpty())
-            return "redirect:/employee-portal/hr/employee";
+            throw new InvalidPathVariableException(Constants.INVALID_EMPLOYEE_ID_MSG);
 
         Optional<EmpDocument> maybeDocument = empDocumentService.findById(docId);
-        if(maybeDocument.isEmpty())                                             // Add exception
-            return "redirect:/employee-portal/hr/employee/" + id;
+        if(maybeDocument.isEmpty())
+            throw new InvalidPathVariableException(Constants.INVALID_DOCUMENT_ID_MSG);
 
         EmpDocument document = maybeDocument.get();
         document.setIsLocked(false);
