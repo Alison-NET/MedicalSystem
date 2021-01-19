@@ -2,6 +2,7 @@ package com.alisonnet.medicalsystem.employeeportal.entity;
 
 import com.alisonnet.medicalsystem.employeeportal.entity.account.approved.Provider;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.BasicEmployee;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -22,9 +23,11 @@ public class Title {
 
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "title", fetch = FetchType.LAZY)
     private List<BasicEmployee> basicEmployees;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "title", fetch = FetchType.LAZY)
     private List<Provider> providers;
 }

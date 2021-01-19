@@ -34,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/employee-portal/sales/**").hasAuthority( "SALES_DEP")
                 .antMatchers("/employee-portal/employee/**").authenticated()
                 .antMatchers("/employee-portal/document/**").authenticated()
+                .antMatchers("/api/**").authenticated()
                 .and().logout().logoutSuccessUrl("/login")
                 .and().formLogin();
 

@@ -70,7 +70,7 @@ public class SalesEmployeeAccountManagementController {
     @GetMapping("/new")
     public String getAccountRegPage(Model model){
         setupUnregisteredAccountNeededAttrs(unregisteredAccountService.createUnregisteredAccount(), model);
-        return "account-setup";
+        return "account-setup-new";
     }
 
     @PostMapping("/new/add-provider")
@@ -80,7 +80,7 @@ public class SalesEmployeeAccountManagementController {
         providers.add(new UnregisteredProvider());
 
         setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-setup";
+        return "account-setup-new";
     }
 
 
@@ -91,7 +91,7 @@ public class SalesEmployeeAccountManagementController {
         providers.remove(providers.size() - 1);
 
         setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-setup";
+        return "account-setup-new";
     }
 
     @PostMapping("/new/add-pick-up-time")
@@ -101,7 +101,7 @@ public class SalesEmployeeAccountManagementController {
 
         unregisteredAccountService.addPickUpTime(account, dayId);
         setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-setup";
+        return "account-setup-new";
     }
 
 
@@ -112,7 +112,7 @@ public class SalesEmployeeAccountManagementController {
 
         unregisteredAccountService.removePickUpTime(account, dayId);
         setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-setup";
+        return "account-setup-new";
     }
 
 
@@ -123,7 +123,7 @@ public class SalesEmployeeAccountManagementController {
                                                    Model model){
         if(bindingResult.hasErrors()){
             setupUnregisteredAccountNeededAttrs(account, model);
-            return "account-setup";
+            return "account-setup-new";
         }
 
         unregisteredAccountService.fillNeededData(account);
@@ -154,7 +154,7 @@ public class SalesEmployeeAccountManagementController {
         UpdatedAccount updatedAccount = conversionService.convert(mbAccount.get(), UpdatedAccount.class);
 
         setupUpdatedAccountNeededAttrs(updatedAccount, model);
-        return "account-setup";
+        return "account-setup-new";
     }
 
     @PostMapping("/update/add-provider")
@@ -164,7 +164,7 @@ public class SalesEmployeeAccountManagementController {
         providers.add(new UpdatedProvider());
 
         setupUpdatedAccountNeededAttrs(account, model);
-        return "account-setup";
+        return "account-setup-new";
     }
 
 
@@ -175,7 +175,7 @@ public class SalesEmployeeAccountManagementController {
         providers.remove(providers.size() - 1);
 
         setupUpdatedAccountNeededAttrs(account, model);
-        return "account-setup";
+        return "account-setup-new";
     }
 
     @PostMapping("/update/add-pick-up-time")
@@ -185,7 +185,7 @@ public class SalesEmployeeAccountManagementController {
 
         updatedAccountService.addPickUpTime(account, dayId);
         setupUpdatedAccountNeededAttrs(account, model);
-        return "account-setup";
+        return "account-setup-new";
     }
 
 
@@ -196,7 +196,7 @@ public class SalesEmployeeAccountManagementController {
 
         updatedAccountService.removePickUpTime(account, dayId);
         setupUpdatedAccountNeededAttrs(account, model);
-        return "account-setup";
+        return "account-setup-new";
     }
 
     @PostMapping("/update/save")
@@ -206,7 +206,7 @@ public class SalesEmployeeAccountManagementController {
 
         if(bindingResult.hasErrors()){
             setupUpdatedAccountNeededAttrs(account, model);
-            return "account-setup";
+            return "account-setup-new";
         }
 
         updatedAccountService.fillNeededData(account);

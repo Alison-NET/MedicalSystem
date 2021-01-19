@@ -98,7 +98,7 @@ public class SystemAdminEmployeeAccountManagementController {
             return "unregistered-accounts";
 
         setupUnregisteredAccountNeededAttrs(mbAccount.get(), model);
-        return "account-setup";
+        return "account-setup-new";
     }
 
     @PostMapping("/approve-unregistered/add-provider")
@@ -108,7 +108,7 @@ public class SystemAdminEmployeeAccountManagementController {
         providers.add(new UnregisteredProvider());
 
         setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-setup";
+        return "account-setup-new";
     }
 
 
@@ -119,7 +119,7 @@ public class SystemAdminEmployeeAccountManagementController {
         providers.remove(providers.size() - 1);
 
         setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-setup";
+        return "account-setup-new";
     }
 
     @PostMapping("/approve-unregistered/add-pick-up-time")
@@ -129,7 +129,7 @@ public class SystemAdminEmployeeAccountManagementController {
 
         unregisteredAccountService.addPickUpTime(account, dayId);
         setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-setup";
+        return "account-setup-new";
     }
 
 
@@ -140,7 +140,7 @@ public class SystemAdminEmployeeAccountManagementController {
 
         unregisteredAccountService.removePickUpTime(account, dayId);
         setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-setup";
+        return "account-setup-new";
     }
 
 
@@ -150,7 +150,7 @@ public class SystemAdminEmployeeAccountManagementController {
                                                       Model model){
         if(bindingResult.hasErrors()){
             setupUnregisteredAccountNeededAttrs(account, model);
-            return "account-setup";
+            return "account-setup-new";
         }
 
         Account convertedAccount = conversionService.convert(account, Account.class);
@@ -187,7 +187,7 @@ public class SystemAdminEmployeeAccountManagementController {
             return "updated-accounts";
 
         setupUpdatedAccountNeededAttrs(mbAccount.get(), model);
-        return "account-setup";
+        return "account-setup-new";
     }
 
     @GetMapping("/approve-updated/reject/{id}")
@@ -203,7 +203,7 @@ public class SystemAdminEmployeeAccountManagementController {
         providers.add(new UpdatedProvider());
 
         setupUpdatedAccountNeededAttrs(account, model);
-        return "account-setup";
+        return "account-setup-new";
     }
 
 
@@ -214,7 +214,7 @@ public class SystemAdminEmployeeAccountManagementController {
         providers.remove(providers.size() - 1);
 
         setupUpdatedAccountNeededAttrs(account, model);
-        return "account-setup";
+        return "account-setup-new";
     }
 
     @PostMapping("/approve-updated/add-pick-up-time")
@@ -224,7 +224,7 @@ public class SystemAdminEmployeeAccountManagementController {
 
         updatedAccountService.addPickUpTime(account, dayId);
         setupUpdatedAccountNeededAttrs(account, model);
-        return "account-setup";
+        return "account-setup-new";
     }
 
 
@@ -235,7 +235,7 @@ public class SystemAdminEmployeeAccountManagementController {
 
         updatedAccountService.removePickUpTime(account, dayId);
         setupUpdatedAccountNeededAttrs(account, model);
-        return "account-setup";
+        return "account-setup-new";
     }
 
     @PostMapping("/approve-updated/save")
@@ -244,7 +244,7 @@ public class SystemAdminEmployeeAccountManagementController {
                                                  Model model){
         if(bindingResult.hasErrors()){
             setupUpdatedAccountNeededAttrs(account, model);
-            return "account-setup";
+            return "account-setup-new";
         }
 
         Account convertedAccount = conversionService.convert(account, Account.class);
@@ -348,5 +348,12 @@ public class SystemAdminEmployeeAccountManagementController {
 
 
 
+//    ===========TEST NEW==============
+
+    @GetMapping("/test")
+    public String getAccountCreateTestPage(Model model){
+        setupAccountNeededAttrs(accountService.createAccount(), model);
+        return "account-setup-new";
+    }
 
 }
