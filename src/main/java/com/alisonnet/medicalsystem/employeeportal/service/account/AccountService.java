@@ -17,7 +17,6 @@ public interface AccountService {
     void fillUniqueEmptyIds(Account account);
     void matchIdsGenerateUniqueIfNeeded(Account from, Account to);
     void fillNeededData(Account account);
-    void addPickUpTime(Account account, int dayId);
-    void removePickUpTime(Account account, int dayId);
     void remove(Account account);
+    int getMaxId();
 }

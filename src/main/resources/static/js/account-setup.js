@@ -9,23 +9,32 @@ document.addEventListener("DOMContentLoaded", function(){
         })
         .then((constants) => {
 
+            onFetchSetupListeners(constants);
 
-            let addProviderBtn = document.querySelector(".add-provider-btn");
+            console.log(constants);
+        })
+        .catch(err=>console.log(err));
 
-            addProviderBtn.addEventListener("click", ()=>{
 
-                let providersTableNode = document.querySelector(".providers-table");
-                let provsCount = providersTableNode.children.length;
 
-                if( provsCount < constants['maxProviders']){
+    function onFetchSetupListeners(constants) {
 
-                    let options = '';
-                    for(title of constants['titles']){
-                        options+=`<option value="${title['id']}">${title['name']}</option>`;
-                    }
+        let addProviderBtn = document.querySelector(".add-provider-btn");
 
-                    providersTableNode.insertAdjacentHTML('beforeend',
-                        `<tr class="provider-row">
+        addProviderBtn.addEventListener("click", ()=>{
+
+            let providersTableNode = document.querySelector(".providers-table");
+            let provsCount = providersTableNode.children.length;
+
+            if( provsCount < constants['maxProviders']){
+
+                let options = '';
+                for(title of constants['titles']){
+                    options+=`<option value="${title['id']}">${title['name']}</option>`;
+                }
+
+                providersTableNode.insertAdjacentHTML('beforeend',
+                    `<tr class="provider-row">
                                 <td>
                                     <select class="form-in-item" id="providers${provsCount}.title" name="providers[${provsCount}].title">
                                      ${options}
@@ -52,67 +61,114 @@ document.addEventListener("DOMContentLoaded", function(){
                                     <button type="button" class="remove-provider-btn">Remove</button>
                                 </td>
                             </tr>`);
-                }
-            });
-
-            window.addEventListener("click", (evt) => {
-
-                if(evt.target.classList.contains("remove-provider-btn")) {
-                    let parentToDelete = evt.target.closest('tbody');
-                    parentToDelete.parentElement.removeChild(parentToDelete);
-                    console.log("remove clicked");
-
-                    updateElementInnerAttributesIndexes(".providers-table",
-                        'input, select',
-                        ["id", "name"]);
-                }
-            });
-
-            function updateElementInnerAttributesIndexes(parentElemSelector, innerElemsSelector, attributesToUpdate){
-                let providersTableNode = document.querySelector(parentElemSelector);
-
-                let index = 0;
-                for(let providersChildNode of providersTableNode.children){
-                    let elementsToUpdate = providersChildNode.querySelectorAll(innerElemsSelector);
-                    for(let elementToUpdate of elementsToUpdate){
-                        updateElementAttrsIndex(elementToUpdate, attributesToUpdate, index);
-                    }
-                    ++index;
-                }
             }
+        });
 
-            function updateElementAttrsIndex(element, attributes, index){
-                for(let attrName of attributes){
-                    if(element.hasAttribute(attrName)){
-                        let attributeVal  = element.getAttribute(attrName);
-                        attributeVal = attributeVal.replace(/\d+/g,index+"");
-                        element.setAttribute(attrName, attributeVal);
-                    }
+
+        window.addEventListener("click", (evt) => {
+
+            let elementClicked = evt.target;
+
+
+            if(elementClicked.classList.contains("add-pick-up-time-btn")){
+
+                let specimenPickUpDayTimes = elementClicked.closest(".specimen-pick-ups-item")
+                let nodes = Array.prototype.slice.call(specimenPickUpDayTimes.parentElement.querySelectorAll(".specimen-pick-ups-item"));
+                let dayIndex = nodes.indexOf(specimenPickUpDayTimes);
+
+                let specimenPickUpTimes = specimenPickUpDayTimes.querySelector(".specimen-pick-up-times");
+
+                let specimenPickUpTimesAmount = specimenPickUpTimes.children.length;
+
+                if(specimenPickUpTimesAmount < constants['maxPickUpTimes']){
+                    specimenPickUpTimes.insertAdjacentHTML("beforeend",
+                        `<div class="specimen-pick-up-times-item">
+
+                                <input class="form-in-item" type="time" 
+                                    id="specimenPickUpDayTimes${dayIndex}.pickUpTimes${specimenPickUpTimesAmount}.pickUpTime" 
+                                    name="specimenPickUpDayTimes[${dayIndex}].pickUpTimes[${specimenPickUpTimesAmount}].pickUpTime">
+
+                                <button type="button" class="remove-pick-up-time-btn">Remove</button>
+
+                            </div>`)
                 }
+
             }
+            else if(elementClicked.classList.contains("remove-provider-btn")) {
 
 
 
-            console.log(constants);
-        })
-        .catch(err=>console.log(err));
+                let elementToDelete = elementClicked.closest('.provider-row');
+                elementToDelete.parentElement.removeChild(elementToDelete);
+
+                let parentElementToUpdateChildrenIds = document.querySelector(".providers-table");
+                updateElementInnerAttributesIndexes(parentElementToUpdateChildrenIds,
+                    "providers",
+                    'input, select',
+                    ["id", "name"]);
+
+
+
+            }else if(elementClicked.classList.contains("remove-pick-up-time-btn")){
+
+
+                let elementToDelete = elementClicked.closest('.specimen-pick-up-times-item');
+                let elementToUpdateChildrenIds = evt.target.closest(".specimen-pick-up-times");
+                elementToDelete.parentElement.removeChild(elementToDelete);
+
+                updateElementInnerAttributesIndexes(elementToUpdateChildrenIds,
+                    "pickUpTimes",
+                    'input',
+                    ["id", "name"]);
+
+
+
+            }
+        });
+    }
+
+    function updateElementInnerAttributesIndexes(parentElem, indexOf, innerElemsSelector, attributesToUpdate){
+
+        let index = 0;
+        for(let providersChildNode of parentElem.children){
+            let elementsToUpdate = providersChildNode.querySelectorAll(innerElemsSelector);
+            for(let elementToUpdate of elementsToUpdate){
+                updateElementAttrsIndex(elementToUpdate, attributesToUpdate, index, indexOf);
+            }
+            ++index;
+        }
+    }
+
+    function updateElementAttrsIndex(element, attributes, index, indexOf){
+        for(let attrName of attributes){
+            if(element.hasAttribute(attrName)){
+                let attributeVal  = element.getAttribute(attrName);
+
+                let regexp = new RegExp(`(${indexOf}.?)(\\d+)`, "g")
+
+                attributeVal = attributeVal.replace(regexp, "$1" + index);
+                element.setAttribute(attrName, attributeVal);
+            }
+        }
+    }
+
+    function addPickUpTime(specimenPickUpDayId){
+
+        let pickUpTimesNode = document.querySelector(".pick-up-times-wrapper");
+        let pickUpTimesCount = pickUpTimesNode.children.length;
+
+        if( pickUpTimesCount < constants['maxPickUpTimes']){
+            pickUpTimesNode.insertAdjacentHTML('beforeend',
+                `<div class="pick-up-times-item">
+                                    <input class="form-in-item" type="time" id="specimenPickUpDayTimes${specimenPickUpDayId}.pickUpTimes${pickUpTimesCount}.pickUpTime" 
+                                    name="specimenPickUpDayTimes[${specimenPickUpDayId}].pickUpTimes[${pickUpTimesCount}].pickUpTime" />
+                                    <button type="button" class="remove-pick-up-time">Remove</button>
+                              </div>`);
+        }
+    }
 
 
 
 
 });
 
-function addPickUpTime(specimenPickUpDayId){
-
-    let pickUpTimesNode = document.querySelector(".pick-up-times-wrapper");
-    let pickUpTimesCount = pickUpTimesNode.children.length;
-
-    if( pickUpTimesCount < constants['maxPickUpTimes']){
-        pickUpTimesNode.insertAdjacentHTML('beforeend',
-            `<div class="pick-up-times-item">
-                                    <input class="form-in-item" type="time" id="specimenPickUpDayTimes${specimenPickUpDayId}.pickUpTimes${pickUpTimesCount}.pickUpTime" 
-                                    name="specimenPickUpDayTimes[${specimenPickUpDayId}].pickUpTimes[${pickUpTimesCount}].pickUpTime" />
-                                    <button type="button" class="remove-pick-up-time">Remove</button>
-                              </div>`);
-    }
-}

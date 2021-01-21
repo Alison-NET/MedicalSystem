@@ -1,16 +1,16 @@
 package com.alisonnet.medicalsystem.employeeportal.service.account.impl;
 
+import com.alisonnet.medicalsystem.employeeportal.entity.account.AccountBase;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.PickUpDayOfWeek;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.approved.Account;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.approved.PickUpTime;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.approved.Provider;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.approved.SpecimenPickUpDayTime;
-import com.alisonnet.medicalsystem.employeeportal.entity.account.unregistered.UnregisteredAccount;
-import com.alisonnet.medicalsystem.employeeportal.entity.account.unregistered.UnregisteredPickUpTime;
-import com.alisonnet.medicalsystem.employeeportal.entity.account.unregistered.UnregisteredProvider;
-import com.alisonnet.medicalsystem.employeeportal.entity.account.unregistered.UnregisteredSpecimenPickUpDayTime;
 import com.alisonnet.medicalsystem.employeeportal.repository.account.*;
 import com.alisonnet.medicalsystem.employeeportal.service.account.AccountService;
+import com.alisonnet.medicalsystem.employeeportal.service.account.PickUpTimeService;
+import com.alisonnet.medicalsystem.employeeportal.service.account.ProviderService;
+import com.alisonnet.medicalsystem.employeeportal.service.account.SpecimenPickUpDayTimeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +22,11 @@ import java.util.Optional;
 @AllArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
-    AccountRepo accountRepo;
-    ProviderRepo providerRepo;
-    SpecimenPickUpDayTimeRepo specimenPickUpDayTimeRepo;
-    PickUpTimeRepo pickUpTimeRepo;
-    PickUpDayOfWeekRepo pickUpDayOfWeekRepo;
+    private final AccountRepo accountRepo;
+    private final ProviderService providerService;
+    private final SpecimenPickUpDayTimeService specimenPickUpDayTimeService;
+    private final PickUpTimeService pickUpTimeService;
+    private final PickUpDayOfWeekRepo pickUpDayOfWeekRepo;
 
     List<PickUpTime> pickUpTimesToDelete = new ArrayList<>();
 
@@ -37,7 +37,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account save(Account account) {
-        pickUpTimesToDelete.forEach(pickUpTime -> pickUpTimeRepo.delete(pickUpTime));
+        pickUpTimesToDelete.forEach(pickUpTimeService::remove);
         return accountRepo.save(account);
     }
 
@@ -66,19 +66,19 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void fillUniqueIds(Account account) {
 
-        int accountsAmount = accountRepo.findAll().size();
-        int providersAmount = providerRepo.findAll().size();
-        int specimenPickUpDayTimeAmount = specimenPickUpDayTimeRepo.findAll().size();
-        int pickUpTimesAmount = pickUpTimeRepo.findAll().size();
+        int accountUniqueId = getMaxId();
+        int providerUniqueId = providerService.getMaxId();
+        int specimenPickUpDayTimeUniqueId = specimenPickUpDayTimeService.getMaxId();
+        int pickUpTimeUniqueId = pickUpTimeService.getMaxId();
 
-        account.setId(++accountsAmount);
+        account.setId(++accountUniqueId);
         for(Provider provider : account.getProviders())
-            provider.setId(++providersAmount);
+            provider.setId(++providerUniqueId);
 
         for(SpecimenPickUpDayTime specimenPickUpDayTime : account.getSpecimenPickUpDayTimes()){
-            specimenPickUpDayTime.setId(++specimenPickUpDayTimeAmount);
+            specimenPickUpDayTime.setId(++specimenPickUpDayTimeUniqueId);
             for(PickUpTime pickUpTime : specimenPickUpDayTime.getPickUpTimes())
-                pickUpTime.setId(++pickUpTimesAmount);
+                pickUpTime.setId(++pickUpTimeUniqueId);
         }
 
     }
@@ -86,27 +86,27 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void fillUniqueEmptyIds(Account account) {
 
-        int accountsAmount = accountRepo.findAll().size();
-        int providersAmount = providerRepo.findAll().size();
-        int specimenPickUpDayTimeAmount = specimenPickUpDayTimeRepo.findAll().size();
-        int pickUpTimesAmount = pickUpTimeRepo.findAll().size();
+        int accountUniqueId = getMaxId();
+        int providerUniqueId = providerService.getMaxId();
+        int specimenPickUpDayTimeUniqueId = specimenPickUpDayTimeService.getMaxId();
+        int pickUpTimeUniqueId = pickUpTimeService.getMaxId();
 
         if(account.getId()==0)
-            account.setId(++accountsAmount);
+            account.setId(++accountUniqueId);
 
         for(Provider provider : account.getProviders()){
             if(provider.getId()==0){
-                provider.setId(++providersAmount);
+                provider.setId(++providerUniqueId);
             }
         }
 
         for(SpecimenPickUpDayTime specimenPickUpDayTime : account.getSpecimenPickUpDayTimes()){
             if(specimenPickUpDayTime.getId()==0) {
-                specimenPickUpDayTime.setId(++specimenPickUpDayTimeAmount);
+                specimenPickUpDayTime.setId(++specimenPickUpDayTimeUniqueId);
             }
             for(PickUpTime pickUpTime : specimenPickUpDayTime.getPickUpTimes()){
                 if (pickUpTime.getId()==0){
-                    pickUpTime.setId(++pickUpTimesAmount);
+                    pickUpTime.setId(++pickUpTimeUniqueId);
                 }
             }
         }
@@ -127,8 +127,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void matchIdsGenerateUniqueIfNeeded(Account from, Account to) {
-        int providersAmount = providerRepo.findAll().size();
-        int pickUpTimesAmount = pickUpTimeRepo.findAll().size();
+        int providerUniqueId = providerService.getMaxId();
+        int pickUpTimeUniqueId = pickUpTimeService.getMaxId();
 
         to.setId(from.getId());
 
@@ -136,7 +136,7 @@ public class AccountServiceImpl implements AccountService {
             if(from.getProviders().size() > i) {
                 to.getProviders().get(i).setId(from.getProviders().get(i).getId());
             }else{
-                to.getProviders().get(i).setId(++providersAmount);
+                to.getProviders().get(i).setId(++providerUniqueId);
             }
         }
 
@@ -148,28 +148,33 @@ public class AccountServiceImpl implements AccountService {
                     to.getSpecimenPickUpDayTimes().get(i).getPickUpTimes().get(j)
                             .setId(from.getSpecimenPickUpDayTimes().get(i).getPickUpTimes().get(j).getId());
                 }else{
-                    to.getSpecimenPickUpDayTimes().get(i).getPickUpTimes().get(j).setId(++pickUpTimesAmount);
+                    to.getSpecimenPickUpDayTimes().get(i).getPickUpTimes().get(j).setId(++pickUpTimeUniqueId);
                 }
             }
         }
     }
 
-    @Override
-    public void addPickUpTime(Account account, int dayId) {
-        SpecimenPickUpDayTime specimenPickUpDayTime = account.getSpecimenPickUpDayTimes().get(dayId - 1);
-        List<PickUpTime> pickUpTimes = specimenPickUpDayTime.getPickUpTimes();
-        pickUpTimes.add(new PickUpTime());
-    }
-
-    @Override
-    public void removePickUpTime(Account account, int dayId) {
-        SpecimenPickUpDayTime specimenPickUpDayTime = account.getSpecimenPickUpDayTimes().get(dayId - 1);
-        List<PickUpTime> pickUpTimes = specimenPickUpDayTime.getPickUpTimes();
-        pickUpTimesToDelete.add(pickUpTimes.remove(pickUpTimes.size() - 1));
-    }
+//    @Override
+//    public void addPickUpTime(Account account, int dayId) {
+//        SpecimenPickUpDayTime specimenPickUpDayTime = account.getSpecimenPickUpDayTimes().get(dayId - 1);
+//        List<PickUpTime> pickUpTimes = specimenPickUpDayTime.getPickUpTimes();
+//        pickUpTimes.add(new PickUpTime());
+//    }
+//
+//    @Override
+//    public void removePickUpTime(Account account, int dayId) {
+//        SpecimenPickUpDayTime specimenPickUpDayTime = account.getSpecimenPickUpDayTimes().get(dayId - 1);
+//        List<PickUpTime> pickUpTimes = specimenPickUpDayTime.getPickUpTimes();
+//        pickUpTimesToDelete.add(pickUpTimes.remove(pickUpTimes.size() - 1));
+//    }
 
     @Override
     public void remove(Account account) {
         accountRepo.delete(account);
+    }
+
+    @Override
+    public int getMaxId() {
+        return accountRepo.findTopByOrderByIdDesc().map(AccountBase::getId).orElse(0);
     }
 }

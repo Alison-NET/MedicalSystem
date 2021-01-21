@@ -117,7 +117,6 @@
                 </div>
             </div>
 
-
             <div class="profile-edit-item row">
                 <div class="col-md-4">
                     <p class="name">Direct Line</p>
@@ -129,7 +128,6 @@
                     </div>
                 </div>
             </div>
-
 
             <div class="profile-edit-item row">
                 <div class="col-md-4">
@@ -168,89 +166,103 @@
                 </div>
             </div>
 
-            <input type="text" th:field="*{providers}" hidden>
+            <div class="providers-section">
+                <hr>
+                <h3>Providers</h3>
+                <div class="profile-edit-item row">
 
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
+                    <div class="col-md-4">
+                        <input type="text" th:field="*{providers}" hidden>
+                        <button type="button" class="add-provider-btn">Add Provider</button>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-wrapper">
+                            <table>
+                                <tbody class="providers-table">
+                                <tr class="provider-row" th:each="provider, rowStat : *{providers}">
+                                    <input type="text" th:field="*{providers[__${rowStat.index}__].id}" th:value="*{providers[__${rowStat.index}__].id}" hidden>
+                                    <td>
+                                        <select class="form-in-item" th:field="*{providers[__${rowStat.index}__].title}">
+                                            <option th:each="tit : ${titles}"
+                                                    th:value="${tit.id}"
+                                                    th:text="${tit.name}">
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <span>First Name</span>
+                                        <input type="text" th:field="*{providers[__${rowStat.index}__].firstName}"/>
+                                        <!--                                    <p th:each="error : ${#fields.errors('providers[' + rowStat.index + '].firstname')}" th:text="${error}">Validation error</p>-->
+                                    </td>
+                                    <td>
+                                        <span>Last Name</span>
+                                        <input type="text" th:field="*{providers[__${rowStat.index}__].lastName}"/>
+                                        <!--                                    <p th:each="error : ${#fields.errors('providers[' + __${rowStat.index}__ + '].lastName')}" th:text="${error}">Validation error</p>-->
+                                    </td>
 
-                    <button type="button" class="add-provider-btn">Add Provider</button>
-
-
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <table class="providers-table">
-                            <tr class="provider-row" th:each="provider, rowStat : *{providers}">
-                                <input type="text" th:field="*{providers[__${rowStat.index}__].id}" th:value="*{providers[__${rowStat.index}__].id}" hidden>
-                                <td>
-                                    <select class="form-in-item" th:field="*{providers[__${rowStat.index}__].title}">
-                                        <option th:each="tit : ${titles}"
-                                                th:value="${tit.id}"
-                                                th:text="${tit.name}">
-                                        </option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <span>First Name</span>
-                                    <input type="text" th:field="*{providers[__${rowStat.index}__].firstName}"/>
-<!--                                    <p th:each="error : ${#fields.errors('providers[' + rowStat.index + '].firstname')}" th:text="${error}">Validation error</p>-->
-                                </td>
-                                <td>
-                                    <span>Last Name</span>
-                                    <input type="text" th:field="*{providers[__${rowStat.index}__].lastName}"/>
-<!--                                    <p th:each="error : ${#fields.errors('providers[' + __${rowStat.index}__ + '].lastName')}" th:text="${error}">Validation error</p>-->
-                                </td>
-
-                                <td>
-                                    <span>Email</span>
-                                    <input type="email" th:field="*{providers[__${rowStat.index}__].email}"/>
-<!--                                    <p th:each="error : ${#fields.errors('providers[' + *{__${rowStat.index}__ } + '].email')}" th:text="${error}">Validation error</p>-->
-                                </td>
-                                <td>
-                                    <span>NPI</span>
-                                    <input type="text" th:field="*{providers[__${rowStat.index}__].NPI}" placeholder="0000000000"/>
-<!--                                    <p th:each="error : ${#fields.errors('providers['+*{__${rowStat.index}__ }+'].NPI')}" th:text="${error}">Validation error</p>-->
-                                </td>
-                                <td>
-                                    <button type="button" class="remove-provider-btn">Remove</button>
-                                </td>
-                            </tr>
-                        </table>
+                                    <td>
+                                        <span>Email</span>
+                                        <input type="email" th:field="*{providers[__${rowStat.index}__].email}"/>
+                                        <!--                                    <p th:each="error : ${#fields.errors('providers[' + *{__${rowStat.index}__ } + '].email')}" th:text="${error}">Validation error</p>-->
+                                    </td>
+                                    <td>
+                                        <span>NPI</span>
+                                        <input type="text" th:field="*{providers[__${rowStat.index}__].NPI}" placeholder="0000000000"/>
+                                        <!--                                    <p th:each="error : ${#fields.errors('providers['+*{__${rowStat.index}__ }+'].NPI')}" th:text="${error}">Validation error</p>-->
+                                    </td>
+                                    <td>
+                                        <button type="button" class="remove-provider-btn">Remove</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <input type="text" th:field="*{specimenPickUpDayTimes}" hidden>
-
-            <div th:each="spudt, spudtStat : *{specimenPickUpDayTimes}" class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name" th:text="${spudt.pickUpDayOfWeek.name}"></p>
-
-                    <input type="text"
-                           th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].id}"
-                           th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].id}" hidden>
-
-                    <input type="text"
-                           th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpDayOfWeek}"
-                           th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpDayOfWeek}" hidden>
-
-                    <button type="button" th:onclick="'addPickUpTime('+${spudtStat.index}+')'">App Pick Time</button>
-
-                </div>
-                <div class="col-md-8">
-                    <div class="pick-up-times-wrapper">
-                        <div class="pick-up-times-item" th:each="put, putStat : *{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes}">
+            <div class="specimen-pick-ups-section">
+                <hr>
+                <h3>Specimen pick ups</h3>
+                <div>
+                    <div th:each="spudt, spudtStat : *{specimenPickUpDayTimes}" class="profile-edit-item row specimen-pick-ups-item">
+                        <div class="col-md-4">
+                            <hr>
+                            <p class="name  specimen-pick-up-day" th:text="${spudt.pickUpDayOfWeek.name}"></p>
 
                             <input type="text"
-                                   th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes[__${putStat.index}__].id}"
-                                   th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes[__${putStat.index}__].id}" hidden>
+                                   th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].id}"
+                                   th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].id}" hidden>
 
-                            <input class="form-in-item" type="time"
-                                   th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes[__${putStat.index}__].pickUpTime}">
-                            <button type="button" class="remove-pick-up-time">Remove</button>
+                            <input type="text"
+                                   th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpDayOfWeek}"
+                                   th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpDayOfWeek}" hidden>
+
+                            <input type="text"
+                                   th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes}"
+                                   th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes}" hidden>
+
+                            <button type="button" class="add-pick-up-time-btn">App Pick Time</button>
 
                         </div>
+                        <div class="col-md-8">
+                            <div class="specimen-pick-up-times">
 
+                                <div th:each="put, putStat : *{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes}" class="specimen-pick-up-times-item">
+
+                                    <input type="text"
+                                           th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes[__${putStat.index}__].id}"
+                                           th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes[__${putStat.index}__].id}" hidden>
+
+                                    <input class="form-in-item" type="time"
+                                           th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes[__${putStat.index}__].pickUpTime}">
+
+                                    <button type="button" class="remove-pick-up-time-btn">Remove</button>
+
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -283,22 +295,6 @@
                     </div>
                 </div>
             </div>
-
-<!--            <div sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')" class="profile-edit-item row">-->
-<!--                <div class="col-md-4">-->
-<!--                    <p class="name">Approve</p>-->
-<!--                </div>-->
-<!--                <div class="col-md-8">-->
-<!--                    <div class="input-wrapper">-->
-<!--                        <label class="checkbox-container form-in-item">-->
-<!--                            <input th:field="*{approved}" type="checkbox" checked="checked">-->
-<!--                            <span class="checkmark"></span>-->
-<!--                        </label>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-
 
             <button th:if="${#bools.isTrue(createUnregistered)}"
                    th:formaction="@{'/employee-portal/sales/account/new/save'}" class="btn form-submit-btn"

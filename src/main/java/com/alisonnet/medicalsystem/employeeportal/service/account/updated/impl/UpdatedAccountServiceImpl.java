@@ -75,20 +75,6 @@ public class UpdatedAccountServiceImpl implements UpdatedAccountService {
     }
 
     @Override
-    public void addPickUpTime(UpdatedAccount account, int dayId) {
-        UpdatedSpecimenPickUpDayTime specimenPickUpDayTime = account.getSpecimenPickUpDayTimes().get(dayId - 1);
-        List<UpdatedPickUpTime> pickUpTimes = specimenPickUpDayTime.getPickUpTimes();
-        pickUpTimes.add(new UpdatedPickUpTime());
-    }
-
-    @Override
-    public void removePickUpTime(UpdatedAccount account, int dayId) {
-        UpdatedSpecimenPickUpDayTime specimenPickUpDayTime = account.getSpecimenPickUpDayTimes().get(dayId - 1);
-        List<UpdatedPickUpTime> pickUpTimes = specimenPickUpDayTime.getPickUpTimes();
-        pickUpTimes.remove(pickUpTimes.size() - 1);
-    }
-
-    @Override
     public void remove(UpdatedAccount updatedAccount) {
         updatedAccountRepo.delete(updatedAccount);
     }

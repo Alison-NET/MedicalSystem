@@ -73,49 +73,6 @@ public class SalesEmployeeAccountManagementController {
         return "account-setup-new";
     }
 
-    @PostMapping("/new/add-provider")
-    private String addUnregisteredProvider(@ModelAttribute UnregisteredAccount account, Model model){
-
-        List<UnregisteredProvider> providers = account.getProviders();
-        providers.add(new UnregisteredProvider());
-
-        setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-setup-new";
-    }
-
-
-    @PostMapping("/new/rm-provider")
-    private String removeUnregisteredProvider(@ModelAttribute UnregisteredAccount account, Model model){
-
-        List<UnregisteredProvider> providers = account.getProviders();
-        providers.remove(providers.size() - 1);
-
-        setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-setup-new";
-    }
-
-    @PostMapping("/new/add-pick-up-time")
-    private String addUnregisteredPickUpTime(@ModelAttribute UnregisteredAccount account,
-                                 @RequestParam("dayId") int dayId,
-                                 Model model){
-
-        unregisteredAccountService.addPickUpTime(account, dayId);
-        setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-setup-new";
-    }
-
-
-    @PostMapping("/new/rm-pick-up-time")
-    private String removeUnregisteredPickUpTime(@ModelAttribute UnregisteredAccount account,
-                                    @RequestParam("dayId") int dayId,
-                                    Model model){
-
-        unregisteredAccountService.removePickUpTime(account, dayId);
-        setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-setup-new";
-    }
-
-
 
     @PostMapping("/new/save")
     private String handleUnregisteredAccountSaving(@Valid @ModelAttribute UnregisteredAccount account,
@@ -154,48 +111,6 @@ public class SalesEmployeeAccountManagementController {
         UpdatedAccount updatedAccount = conversionService.convert(mbAccount.get(), UpdatedAccount.class);
 
         setupUpdatedAccountNeededAttrs(updatedAccount, model);
-        return "account-setup-new";
-    }
-
-    @PostMapping("/update/add-provider")
-    private String addUpdatedProvider(@ModelAttribute UpdatedAccount account, Model model){
-
-        List<UpdatedProvider> providers = account.getProviders();
-        providers.add(new UpdatedProvider());
-
-        setupUpdatedAccountNeededAttrs(account, model);
-        return "account-setup-new";
-    }
-
-
-    @PostMapping("/update/rm-provider")
-    private String removeUpdatedProvider(@ModelAttribute UpdatedAccount account, Model model){
-
-        List<UpdatedProvider> providers = account.getProviders();
-        providers.remove(providers.size() - 1);
-
-        setupUpdatedAccountNeededAttrs(account, model);
-        return "account-setup-new";
-    }
-
-    @PostMapping("/update/add-pick-up-time")
-    private String addUpdatedPickUpTime(@ModelAttribute UpdatedAccount account,
-                                 @RequestParam("dayId") int dayId,
-                                 Model model){
-
-        updatedAccountService.addPickUpTime(account, dayId);
-        setupUpdatedAccountNeededAttrs(account, model);
-        return "account-setup-new";
-    }
-
-
-    @PostMapping("/update/rm-pick-up-time")
-    private String removeUpdatedPickUpTime(@ModelAttribute UpdatedAccount account,
-                                    @RequestParam("dayId") int dayId,
-                                    Model model){
-
-        updatedAccountService.removePickUpTime(account, dayId);
-        setupUpdatedAccountNeededAttrs(account, model);
         return "account-setup-new";
     }
 

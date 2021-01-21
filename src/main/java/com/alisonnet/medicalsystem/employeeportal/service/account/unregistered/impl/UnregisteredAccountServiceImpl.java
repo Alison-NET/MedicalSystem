@@ -92,20 +92,6 @@ public class UnregisteredAccountServiceImpl implements UnregisteredAccountServic
     }
 
     @Override
-    public void addPickUpTime(UnregisteredAccount account, int dayId) {
-        UnregisteredSpecimenPickUpDayTime specimenPickUpDayTime = account.getSpecimenPickUpDayTimes().get(dayId - 1);
-        List<UnregisteredPickUpTime> pickUpTimes = specimenPickUpDayTime.getPickUpTimes();
-        pickUpTimes.add(new UnregisteredPickUpTime());
-    }
-
-    @Override
-    public void removePickUpTime(UnregisteredAccount account, int dayId) {
-        UnregisteredSpecimenPickUpDayTime specimenPickUpDayTime = account.getSpecimenPickUpDayTimes().get(dayId - 1);
-        List<UnregisteredPickUpTime> pickUpTimes = specimenPickUpDayTime.getPickUpTimes();
-        pickUpTimes.remove(pickUpTimes.size() - 1);
-    }
-
-    @Override
     public void remove(UnregisteredAccount unregisteredAccount) {
         unregisteredAccountRepo.delete(unregisteredAccount);
     }

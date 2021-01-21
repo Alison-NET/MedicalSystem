@@ -1,5 +1,6 @@
 package com.alisonnet.medicalsystem.employeeportal.service.account.impl;
 
+import com.alisonnet.medicalsystem.employeeportal.entity.account.ProviderBase;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.approved.Provider;
 import com.alisonnet.medicalsystem.employeeportal.repository.account.ProviderRepo;
 import com.alisonnet.medicalsystem.employeeportal.service.account.ProviderService;
@@ -33,4 +34,8 @@ public class ProviderServiceImpl implements ProviderService {
         providerRepo.delete(provider);
     }
 
+    @Override
+    public int getMaxId() {
+        return providerRepo.findTopByOrderByIdDesc().map(ProviderBase::getId).orElse(0);
+    }
 }

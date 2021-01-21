@@ -11,7 +11,8 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class PickUpDayOfWeekServiceImpl implements PickUpDayOfWeekService {
-    PickUpDayOfWeekRepo pickUpDayOfWeekRepo;
+
+    private final PickUpDayOfWeekRepo pickUpDayOfWeekRepo;
 
     @Override
     public List<PickUpDayOfWeek> findAll() {

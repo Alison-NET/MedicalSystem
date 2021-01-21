@@ -14,7 +14,5 @@ public interface UpdatedAccountService {
     Optional<UpdatedAccount> findById(int id);
     void fillUniqueIds(UpdatedAccount updatedAccount);
     void fillNeededData(UpdatedAccount updatedAccount);
-    void addPickUpTime(UpdatedAccount account, int dayId);
-    void removePickUpTime(UpdatedAccount account, int dayId);
     void remove(UpdatedAccount updatedAccount);
 }

@@ -67,8 +67,6 @@ public class SystemAdminEmployeeAccountManagementController {
     }
 
 
-
-
     // ========= UNREGISTERED ACCOUNT APPROVING =========
 
     private void setupUnregisteredAccountNeededAttrs(UnregisteredAccount account, Model model) {
@@ -100,49 +98,6 @@ public class SystemAdminEmployeeAccountManagementController {
         setupUnregisteredAccountNeededAttrs(mbAccount.get(), model);
         return "account-setup-new";
     }
-
-    @PostMapping("/approve-unregistered/add-provider")
-    private String addUnregisteredProvider(@ModelAttribute UnregisteredAccount account, Model model){
-
-        List<UnregisteredProvider> providers = account.getProviders();
-        providers.add(new UnregisteredProvider());
-
-        setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-setup-new";
-    }
-
-
-    @PostMapping("/approve-unregistered/rm-provider")
-    private String removeUnregisteredProvider(@ModelAttribute UnregisteredAccount account, Model model){
-
-        List<UnregisteredProvider> providers = account.getProviders();
-        providers.remove(providers.size() - 1);
-
-        setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-setup-new";
-    }
-
-    @PostMapping("/approve-unregistered/add-pick-up-time")
-    private String addUnregisteredPickUpTime(@ModelAttribute UnregisteredAccount account,
-                                 @RequestParam("dayId") int dayId,
-                                 Model model){
-
-        unregisteredAccountService.addPickUpTime(account, dayId);
-        setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-setup-new";
-    }
-
-
-    @PostMapping("/approve-unregistered/rm-pick-up-time")
-    private String removeUnregisteredPickUpTime(@ModelAttribute UnregisteredAccount account,
-                                    @RequestParam("dayId") int dayId,
-                                    Model model){
-
-        unregisteredAccountService.removePickUpTime(account, dayId);
-        setupUnregisteredAccountNeededAttrs(account, model);
-        return "account-setup-new";
-    }
-
 
     @PostMapping("/approve-unregistered/save")
     private String handleUnregisteredAccountApproving(@Valid @ModelAttribute UnregisteredAccount account,
@@ -196,47 +151,6 @@ public class SystemAdminEmployeeAccountManagementController {
         return "unregistered-accounts";
     }
 
-    @PostMapping("/approve-updated/add-provider")
-    private String addUpdatedProvider(@ModelAttribute UpdatedAccount account, Model model){
-
-        List<UpdatedProvider> providers = account.getProviders();
-        providers.add(new UpdatedProvider());
-
-        setupUpdatedAccountNeededAttrs(account, model);
-        return "account-setup-new";
-    }
-
-
-    @PostMapping("/approve-updated/rm-provider")
-    private String removeUpdatedProvider(@ModelAttribute UpdatedAccount account, Model model){
-
-        List<UpdatedProvider> providers = account.getProviders();
-        providers.remove(providers.size() - 1);
-
-        setupUpdatedAccountNeededAttrs(account, model);
-        return "account-setup-new";
-    }
-
-    @PostMapping("/approve-updated/add-pick-up-time")
-    private String addUpdatedPickUpTime(@ModelAttribute UpdatedAccount account,
-                                        @RequestParam("dayId") int dayId,
-                                        Model model){
-
-        updatedAccountService.addPickUpTime(account, dayId);
-        setupUpdatedAccountNeededAttrs(account, model);
-        return "account-setup-new";
-    }
-
-
-    @PostMapping("/approve-updated/rm-pick-up-time")
-    private String removeUpdatedPickUpTime(@ModelAttribute UpdatedAccount account,
-                                           @RequestParam("dayId") int dayId,
-                                           Model model){
-
-        updatedAccountService.removePickUpTime(account, dayId);
-        setupUpdatedAccountNeededAttrs(account, model);
-        return "account-setup-new";
-    }
 
     @PostMapping("/approve-updated/save")
     private String handleUpdatedAccountApproving(@Valid @ModelAttribute UpdatedAccount account,
@@ -269,7 +183,7 @@ public class SystemAdminEmployeeAccountManagementController {
     @GetMapping("/new")
     public String getAccountRegPage(Model model){
         setupAccountNeededAttrs(accountService.createAccount(), model);
-        return "account-setup";
+        return "account-setup-new";
     }
 
     @GetMapping("/update/{id}")
@@ -279,51 +193,8 @@ public class SystemAdminEmployeeAccountManagementController {
             return "accounts";
 
         setupAccountNeededAttrs(mbAccount.get(), model);
-        return "account-setup";
+        return "account-setup-new";
     }
-
-    @PostMapping("/update-create/add-provider")
-    private String addProvider(@ModelAttribute Account account, Model model){
-
-        List<Provider> providers = account.getProviders();
-        providers.add(new Provider());
-
-        setupAccountNeededAttrs(account, model);
-        return "account-setup";
-    }
-
-
-    @PostMapping("/update-create/rm-provider")
-    private String removeProvider(@ModelAttribute Account account, Model model){
-
-        List<Provider> providers = account.getProviders();
-        providers.remove(providers.size() - 1);
-
-        setupAccountNeededAttrs(account, model);
-        return "account-setup";
-    }
-
-    @PostMapping("/update-create/add-pick-up-time")
-    private String addPickUpTime(@ModelAttribute Account account,
-                                             @RequestParam("dayId") int dayId,
-                                             Model model){
-
-        accountService.addPickUpTime(account, dayId);
-        setupAccountNeededAttrs(account, model);
-        return "account-setup";
-    }
-
-
-    @PostMapping("/update-create/rm-pick-up-time")
-    private String removePickUpTime(@ModelAttribute Account account,
-                                                @RequestParam("dayId") int dayId,
-                                                Model model){
-
-        accountService.removePickUpTime(account, dayId);
-        setupAccountNeededAttrs(account, model);
-        return "account-setup";
-    }
-
 
     @PostMapping("/update-create/save")
     private String handleAccountSaving(@Valid @ModelAttribute Account account,
@@ -332,14 +203,16 @@ public class SystemAdminEmployeeAccountManagementController {
 
         if(bindingResult.hasErrors()){
             setupAccountNeededAttrs(account, model);
-            return "account-setup";
+            return "account-setup-new";
         }
 
         Optional<Account> mbAccount = accountService.findById(account.getId());
-        if(mbAccount.isEmpty())
-            accountService.fillUniqueIds(account);
-        else
-            accountService.fillUniqueEmptyIds(account);
+        accountService.fillUniqueIds(account);
+
+        if(mbAccount.isPresent()){
+            accountService.remove(mbAccount.get());
+            account.setId(mbAccount.get().getId());
+        }
 
         accountService.fillNeededData(account);
         accountService.save(account);
@@ -349,11 +222,11 @@ public class SystemAdminEmployeeAccountManagementController {
 
 
 //    ===========TEST NEW==============
-
-    @GetMapping("/test")
-    public String getAccountCreateTestPage(Model model){
-        setupAccountNeededAttrs(accountService.createAccount(), model);
-        return "account-setup-new";
-    }
+//
+//    @GetMapping("/test")
+//    public String getAccountCreateTestPage(Model model){
+//        setupAccountNeededAttrs(accountService.createAccount(), model);
+//        return "account-setup-new";
+//    }
 
 }

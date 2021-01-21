@@ -7,4 +7,5 @@ import org.springframework.stereotype.Service;
 public interface PickUpTimeService {
 
     void remove(PickUpTime pickUpTime);
+    int getMaxId();
 }

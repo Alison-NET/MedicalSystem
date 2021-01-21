@@ -12,4 +12,5 @@ public interface ProviderService {
     Optional<Provider> findById(int id);
     Provider save(Provider provider);
     void remove(Provider provider);
+    int getMaxId();
 }

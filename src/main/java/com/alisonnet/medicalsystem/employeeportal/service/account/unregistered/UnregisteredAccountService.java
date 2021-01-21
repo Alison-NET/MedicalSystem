@@ -15,7 +15,5 @@ public interface UnregisteredAccountService {
     Optional<UnregisteredAccount> findById(int id);
     void fillUniqueIds(UnregisteredAccount unregisteredAccount);
     void fillNeededData(UnregisteredAccount unregisteredAccount);
-    void addPickUpTime(UnregisteredAccount account, int dayId);
-    void removePickUpTime(UnregisteredAccount account, int dayId);
     void remove(UnregisteredAccount unregisteredAccount);
 }
