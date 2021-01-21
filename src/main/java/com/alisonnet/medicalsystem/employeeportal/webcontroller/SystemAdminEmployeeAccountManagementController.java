@@ -207,6 +207,8 @@ public class SystemAdminEmployeeAccountManagementController {
         }
 
         Optional<Account> mbAccount = accountService.findById(account.getId());
+
+        accountService.fillNeededData(account);
         accountService.fillUniqueIds(account);
 
         if(mbAccount.isPresent()){
@@ -214,7 +216,6 @@ public class SystemAdminEmployeeAccountManagementController {
             account.setId(mbAccount.get().getId());
         }
 
-        accountService.fillNeededData(account);
         accountService.save(account);
         return "redirect:/employee-portal/admin/account";
     }

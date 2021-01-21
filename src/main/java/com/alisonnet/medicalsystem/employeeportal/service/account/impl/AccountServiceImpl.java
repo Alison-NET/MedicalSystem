@@ -80,7 +80,6 @@ public class AccountServiceImpl implements AccountService {
             for(PickUpTime pickUpTime : specimenPickUpDayTime.getPickUpTimes())
                 pickUpTime.setId(++pickUpTimeUniqueId);
         }
-
     }
 
     @Override
@@ -115,13 +114,19 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void fillNeededData(Account account) {
-        for(Provider provider : account.getProviders())
-            provider.setAccount(account);
+        if (account.getProviders() != null)
+            for(Provider provider : account.getProviders())
+                provider.setAccount(account);
+        else
+            account.setProviders(new ArrayList<>());
 
         for(SpecimenPickUpDayTime specimenPickUpDayTime : account.getSpecimenPickUpDayTimes()){
             specimenPickUpDayTime.setAccount(account);
-            for(PickUpTime pickUpTime : specimenPickUpDayTime.getPickUpTimes())
-                pickUpTime.setSpecimenPickUpDayTime(specimenPickUpDayTime);
+            if( specimenPickUpDayTime.getPickUpTimes() != null )
+                for(PickUpTime pickUpTime : specimenPickUpDayTime.getPickUpTimes())
+                    pickUpTime.setSpecimenPickUpDayTime(specimenPickUpDayTime);
+            else
+                specimenPickUpDayTime.setPickUpTimes(new ArrayList<>());
         }
     }
 

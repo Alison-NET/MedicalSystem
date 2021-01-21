@@ -172,7 +172,7 @@
                 <div class="profile-edit-item row">
 
                     <div class="col-md-4">
-                        <input type="text" th:field="*{providers}" hidden>
+<!--                        <input type="text" th:field="*{providers}" hidden>-->
                         <button type="button" class="add-provider-btn">Add Provider</button>
                     </div>
                     <div class="col-md-8">
@@ -180,7 +180,7 @@
                             <table>
                                 <tbody class="providers-table">
                                 <tr class="provider-row" th:each="provider, rowStat : *{providers}">
-                                    <input type="text" th:field="*{providers[__${rowStat.index}__].id}" th:value="*{providers[__${rowStat.index}__].id}" hidden>
+<!--                                    <input type="text" th:field="*{providers[__${rowStat.index}__].id}" th:value="*{providers[__${rowStat.index}__].id}" hidden>-->
                                     <td>
                                         <select class="form-in-item" th:field="*{providers[__${rowStat.index}__].title}">
                                             <option th:each="tit : ${titles}"
@@ -238,9 +238,9 @@
                                    th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpDayOfWeek}"
                                    th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpDayOfWeek}" hidden>
 
-                            <input type="text"
-                                   th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes}"
-                                   th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes}" hidden>
+<!--                            <input type="text"-->
+<!--                                   th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes}"-->
+<!--                                   th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes}" hidden>-->
 
                             <button type="button" class="add-pick-up-time-btn">App Pick Time</button>
 
@@ -250,9 +250,9 @@
 
                                 <div th:each="put, putStat : *{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes}" class="specimen-pick-up-times-item">
 
-                                    <input type="text"
-                                           th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes[__${putStat.index}__].id}"
-                                           th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes[__${putStat.index}__].id}" hidden>
+<!--                                    <input type="text"-->
+<!--                                           th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes[__${putStat.index}__].id}"-->
+<!--                                           th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes[__${putStat.index}__].id}" hidden>-->
 
                                     <input class="form-in-item" type="time"
                                            th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes[__${putStat.index}__].pickUpTime}">
