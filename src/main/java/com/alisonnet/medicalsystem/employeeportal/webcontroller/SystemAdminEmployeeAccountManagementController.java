@@ -73,8 +73,6 @@ public class SystemAdminEmployeeAccountManagementController {
         model.addAttribute("account", account);
         model.addAttribute("approveUnregistered", true);
         model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
-        model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
-        model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
     }
 
     @GetMapping("/approve-unregistered")
@@ -111,8 +109,8 @@ public class SystemAdminEmployeeAccountManagementController {
         Account convertedAccount = conversionService.convert(account, Account.class);
         accountService.fillNeededData(convertedAccount);
         accountService.fillUniqueIds(convertedAccount);
-        if(accountService.save(convertedAccount)!=null)
-            unregisteredAccountService.remove(account);
+        if(accountService.save(convertedAccount) != null)
+            unregisteredAccountService.remove(unregisteredAccountService.findById(account.getId()).get());
         return "redirect:/employee-portal/admin/account";
     }
 
@@ -125,8 +123,6 @@ public class SystemAdminEmployeeAccountManagementController {
         model.addAttribute("account", account);
         model.addAttribute("approveUpdated", true);
         model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
-        model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
-        model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
     }
 
     @GetMapping("/approve-updated")
@@ -161,11 +157,18 @@ public class SystemAdminEmployeeAccountManagementController {
             return "account-setup-new";
         }
 
+
+
         Account convertedAccount = conversionService.convert(account, Account.class);
-        accountService.matchIdsGenerateUniqueIfNeeded(account.getBaseVersion(), convertedAccount);
-        if(accountService.save(convertedAccount)!=null){
-            updatedAccountService.remove(updatedAccountService.findById(account.getId()).get());
-        }
+        accountService.fillNeededData(convertedAccount);
+        accountService.fillUniqueIds(convertedAccount);
+        convertedAccount.setId(account.getBaseVersion().getId());
+
+        updatedAccountService.remove(updatedAccountService.findById(account.getId()).get());
+        accountService.remove(accountService.findById(account.getBaseVersion().getId()).get());
+
+        accountService.save(convertedAccount);
+
         return "redirect:/employee-portal/admin/account";
     }
 
@@ -176,8 +179,6 @@ public class SystemAdminEmployeeAccountManagementController {
         model.addAttribute("account", account);
         model.addAttribute("updateCreate", true);
         model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
-        model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
-        model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
     }
 
     @GetMapping("/new")
@@ -219,15 +220,5 @@ public class SystemAdminEmployeeAccountManagementController {
         accountService.save(account);
         return "redirect:/employee-portal/admin/account";
     }
-
-
-
-//    ===========TEST NEW==============
-//
-//    @GetMapping("/test")
-//    public String getAccountCreateTestPage(Model model){
-//        setupAccountNeededAttrs(accountService.createAccount(), model);
-//        return "account-setup-new";
-//    }
 
 }

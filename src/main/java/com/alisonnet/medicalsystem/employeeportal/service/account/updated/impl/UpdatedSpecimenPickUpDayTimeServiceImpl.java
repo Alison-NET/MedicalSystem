@@ -1,5 +1,6 @@
 package com.alisonnet.medicalsystem.employeeportal.service.account.updated.impl;
 
+import com.alisonnet.medicalsystem.employeeportal.entity.account.SpecimenPickUpDayTimeBase;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.updated.UpdatedSpecimenPickUpDayTime;
 import com.alisonnet.medicalsystem.employeeportal.repository.account.updated.UpdatedSpecimenPickUpDayTimeRepo;
 import com.alisonnet.medicalsystem.employeeportal.service.account.updated.UpdatedSpecimenPickUpDayTimeService;
@@ -17,5 +18,10 @@ public class UpdatedSpecimenPickUpDayTimeServiceImpl implements UpdatedSpecimenP
     @Override
     public List<UpdatedSpecimenPickUpDayTime> findAll() {
         return updatedSpecimenPickUpDayTimeRepo.findAll();
+    }
+
+    @Override
+    public int getMaxId() {
+        return  updatedSpecimenPickUpDayTimeRepo.findTopByOrderByIdDesc().map(SpecimenPickUpDayTimeBase::getId).orElse(0);
     }
 }

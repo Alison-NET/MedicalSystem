@@ -1,5 +1,6 @@
 package com.alisonnet.medicalsystem.employeeportal.service.account.unregistered.impl;
 
+import com.alisonnet.medicalsystem.employeeportal.entity.account.AccountBase;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.PickUpDayOfWeek;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.unregistered.UnregisteredAccount;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.unregistered.UnregisteredPickUpTime;
@@ -11,6 +12,9 @@ import com.alisonnet.medicalsystem.employeeportal.repository.account.unregistere
 import com.alisonnet.medicalsystem.employeeportal.repository.account.unregistered.UnregisteredProviderRepo;
 import com.alisonnet.medicalsystem.employeeportal.repository.account.unregistered.UnregisteredSpecimenPickUpDayTimeRepo;
 import com.alisonnet.medicalsystem.employeeportal.service.account.unregistered.UnregisteredAccountService;
+import com.alisonnet.medicalsystem.employeeportal.service.account.unregistered.UnregisteredPickUpTimeService;
+import com.alisonnet.medicalsystem.employeeportal.service.account.unregistered.UnregisteredProviderService;
+import com.alisonnet.medicalsystem.employeeportal.service.account.unregistered.UnregisteredSpecimenPickUpDayTimeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +26,11 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UnregisteredAccountServiceImpl implements UnregisteredAccountService {
 
-    UnregisteredAccountRepo unregisteredAccountRepo;
-    UnregisteredProviderRepo unregisteredProviderRepo;
-    UnregisteredSpecimenPickUpDayTimeRepo unregisteredSpecimenPickUpDayTimeRepo;
-    UnregisteredPickUpTimeRepo unregisteredPickUpTimeRepo;
-    PickUpDayOfWeekRepo pickUpDayOfWeekRepo;
+    private final UnregisteredAccountRepo unregisteredAccountRepo;
+    private final UnregisteredProviderService unregisteredProviderService;
+    private final UnregisteredSpecimenPickUpDayTimeService unregisteredSpecimenPickUpDayTimeService;
+    private final UnregisteredPickUpTimeService unregisteredPickUpTimeService;
+    private final PickUpDayOfWeekRepo pickUpDayOfWeekRepo;
 
     @Override
     public UnregisteredAccount createUnregisteredAccount() {
@@ -52,32 +56,39 @@ public class UnregisteredAccountServiceImpl implements UnregisteredAccountServic
     @Override
     public void fillUniqueIds(UnregisteredAccount unregisteredAccount) {
 
-        int accountsAmount = unregisteredAccountRepo.findAll().size();
-        int providersAmount = unregisteredProviderRepo.findAll().size();
-        int specimenPickUpDayTimeAmount = unregisteredSpecimenPickUpDayTimeRepo.findAll().size();
-        int pickUpTimesAmount = unregisteredPickUpTimeRepo.findAll().size();
+        int accountUniqueId = getMaxId();
+        int providerUniqueId = unregisteredProviderService.getMaxId();
+        int specimenPickUpDayTimeUniqueId = unregisteredSpecimenPickUpDayTimeService.getMaxId();
+        int pickUpTimeUniqueId = unregisteredPickUpTimeService.getMaxId();
 
-        unregisteredAccount.setId(++accountsAmount);
+        unregisteredAccount.setId(++accountUniqueId);
         for(UnregisteredProvider provider : unregisteredAccount.getProviders())
-            provider.setId(++providersAmount);
+            provider.setId(++providerUniqueId);
 
         for(UnregisteredSpecimenPickUpDayTime specimenPickUpDayTime : unregisteredAccount.getSpecimenPickUpDayTimes()){
-            specimenPickUpDayTime.setId(++specimenPickUpDayTimeAmount);
+            specimenPickUpDayTime.setId(++specimenPickUpDayTimeUniqueId);
             for(UnregisteredPickUpTime pickUpTime : specimenPickUpDayTime.getPickUpTimes())
-                pickUpTime.setId(++pickUpTimesAmount);
+                pickUpTime.setId(++pickUpTimeUniqueId);
         }
     }
 
     @Override
     public void fillNeededData(UnregisteredAccount unregisteredAccount) {
 
-        for(UnregisteredProvider provider : unregisteredAccount.getProviders())
-            provider.setAccount(unregisteredAccount);
+        if(unregisteredAccount.getProviders() != null)
+            for(UnregisteredProvider provider : unregisteredAccount.getProviders())
+                provider.setAccount(unregisteredAccount);
+        else
+            unregisteredAccount.setProviders(new ArrayList<>());
+
 
         for(UnregisteredSpecimenPickUpDayTime specimenPickUpDayTime : unregisteredAccount.getSpecimenPickUpDayTimes()){
             specimenPickUpDayTime.setAccount(unregisteredAccount);
-            for(UnregisteredPickUpTime pickUpTime : specimenPickUpDayTime.getPickUpTimes())
-                pickUpTime.setSpecimenPickUpDayTime(specimenPickUpDayTime);
+            if(specimenPickUpDayTime.getPickUpTimes() != null)
+                for(UnregisteredPickUpTime pickUpTime : specimenPickUpDayTime.getPickUpTimes())
+                    pickUpTime.setSpecimenPickUpDayTime(specimenPickUpDayTime);
+            else
+                specimenPickUpDayTime.setPickUpTimes(new ArrayList<>());
         }
     }
 
@@ -94,5 +105,10 @@ public class UnregisteredAccountServiceImpl implements UnregisteredAccountServic
     @Override
     public void remove(UnregisteredAccount unregisteredAccount) {
         unregisteredAccountRepo.delete(unregisteredAccount);
+    }
+
+    @Override
+    public int getMaxId() {
+        return unregisteredAccountRepo.findTopByOrderByIdDesc().map(AccountBase::getId).orElse(0);
     }
 }

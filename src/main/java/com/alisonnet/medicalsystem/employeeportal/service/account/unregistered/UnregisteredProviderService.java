@@ -12,4 +12,5 @@ public interface UnregisteredProviderService {
     Optional<UnregisteredProvider> findById(int id);
     UnregisteredProvider save(UnregisteredProvider unregisteredProvider);
     void remove(UnregisteredProvider unregisteredProvider);
+    int getMaxId();
 }

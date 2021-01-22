@@ -51,41 +51,40 @@ public class GenericUpdatedAccountConverter implements GenericConverter {
             convertedAcc.setProviderPortal(sourceAcc.getProviderPortal());
             convertedAcc.setPaperRequisitions(sourceAcc.getPaperRequisitions());
 
-            List<Provider> sourceAccProviders = sourceAcc.getProviders();
+            if( sourceAcc.getProviders() != null) {
+                List<UpdatedProvider> providers = sourceAcc.getProviders().stream()
+                        .map(sourceProvider -> {
+                            UpdatedProvider provider = new UpdatedProvider();
+                            provider.setId(sourceProvider.getId()); // ??
+                            provider.setTitle(sourceProvider.getTitle());
+                            provider.setFirstName(sourceProvider.getFirstName());
+                            provider.setLastName(sourceProvider.getLastName());
+                            provider.setEmail(sourceProvider.getEmail());
+                            provider.setNPI(sourceProvider.getNPI());
+                            provider.setAccount(convertedAcc);
+                            return provider;
+                        }).collect(Collectors.toList());
+                convertedAcc.setProviders(providers);
+            }
 
-            List<UpdatedProvider> providers = sourceAccProviders.stream()
-                    .map(sourceProvider -> {
-                        UpdatedProvider provider = new UpdatedProvider();
-                        provider.setId(sourceProvider.getId()); // ??
-                        provider.setTitle(sourceProvider.getTitle());
-                        provider.setFirstName(sourceProvider.getFirstName());
-                        provider.setLastName(sourceProvider.getLastName());
-                        provider.setEmail(sourceProvider.getEmail());
-                        provider.setNPI(sourceProvider.getNPI());
-                        provider.setAccount(convertedAcc);
-                        return provider;
-                    }).collect(Collectors.toList());
-
-            convertedAcc.setProviders(providers);
-
-            List<SpecimenPickUpDayTime> sourceAccSpecimenPickUpDayTimes = sourceAcc.getSpecimenPickUpDayTimes();
-
-            List<UpdatedSpecimenPickUpDayTime> specimenPickUpDayTimes = sourceAccSpecimenPickUpDayTimes.stream()
+            List<UpdatedSpecimenPickUpDayTime> specimenPickUpDayTimes = sourceAcc.getSpecimenPickUpDayTimes().stream()
                     .map(sourceSpecimenPickUpDayTime -> {
                         UpdatedSpecimenPickUpDayTime specimenPickUpDayTime = new UpdatedSpecimenPickUpDayTime();
                         specimenPickUpDayTime.setId(sourceSpecimenPickUpDayTime.getId());  // ??
                         specimenPickUpDayTime.setPickUpDayOfWeek(sourceSpecimenPickUpDayTime.getPickUpDayOfWeek());
                         specimenPickUpDayTime.setAccount(convertedAcc);
 
-                        List<UpdatedPickUpTime> pickUpTimes = sourceSpecimenPickUpDayTime.getPickUpTimes().stream().map(sourcePickUpTime -> {
-                            UpdatedPickUpTime pickUpTime = new UpdatedPickUpTime();
-                            pickUpTime.setId(sourcePickUpTime.getId()); // ??
-                            pickUpTime.setPickUpTime(sourcePickUpTime.getPickUpTime());
-                            pickUpTime.setSpecimenPickUpDayTime(specimenPickUpDayTime);
-                            return pickUpTime;
-                        }).collect(Collectors.toList());
+                        if( sourceSpecimenPickUpDayTime.getPickUpTimes() != null ) {
+                            List<UpdatedPickUpTime> pickUpTimes = sourceSpecimenPickUpDayTime.getPickUpTimes().stream().map(sourcePickUpTime -> {
+                                UpdatedPickUpTime pickUpTime = new UpdatedPickUpTime();
+                                pickUpTime.setId(sourcePickUpTime.getId()); // ??
+                                pickUpTime.setPickUpTime(sourcePickUpTime.getPickUpTime());
+                                pickUpTime.setSpecimenPickUpDayTime(specimenPickUpDayTime);
+                                return pickUpTime;
+                            }).collect(Collectors.toList());
 
-                        specimenPickUpDayTime.setPickUpTimes(pickUpTimes);
+                            specimenPickUpDayTime.setPickUpTimes(pickUpTimes);
+                        }
                         return specimenPickUpDayTime;
                     }).collect(Collectors.toList());
 

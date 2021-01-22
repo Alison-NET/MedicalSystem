@@ -8,4 +8,5 @@ import java.util.List;
 @Service
 public interface UnregisteredSpecimenPickUpDayTimeService {
     List<UnregisteredSpecimenPickUpDayTime> findAll();
+    int getMaxId();
 }

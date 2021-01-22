@@ -7,7 +7,6 @@ import java.util.List;
 
 @Service
 public interface PickUpDayOfWeekService {
-
     List<PickUpDayOfWeek> findAll();
     List<PickUpDayOfWeek> findAllByOrderByIdAsc();
 }

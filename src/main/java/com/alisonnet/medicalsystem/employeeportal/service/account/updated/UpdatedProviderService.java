@@ -12,4 +12,5 @@ public interface UpdatedProviderService {
     Optional<UpdatedProvider> findById(int id);
     UpdatedProvider save(UpdatedProvider updatedProvider);
     void remove(UpdatedProvider updatedProvider);
+    int getMaxId();
 }

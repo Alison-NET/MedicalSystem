@@ -16,4 +16,5 @@ public interface UnregisteredAccountService {
     void fillUniqueIds(UnregisteredAccount unregisteredAccount);
     void fillNeededData(UnregisteredAccount unregisteredAccount);
     void remove(UnregisteredAccount unregisteredAccount);
+    int getMaxId();
 }

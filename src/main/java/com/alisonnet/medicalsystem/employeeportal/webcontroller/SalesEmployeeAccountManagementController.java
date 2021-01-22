@@ -63,8 +63,6 @@ public class SalesEmployeeAccountManagementController {
         model.addAttribute("account", account);
         model.addAttribute("createUnregistered", true);
         model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
-        model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
-        model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
     }
 
     @GetMapping("/new")
@@ -97,8 +95,6 @@ public class SalesEmployeeAccountManagementController {
         model.addAttribute("account", account);
         model.addAttribute("createUpdated", true);
         model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
-        model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
-        model.addAttribute("maxPickUps", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
     }
 
     @GetMapping("/update/{id}")

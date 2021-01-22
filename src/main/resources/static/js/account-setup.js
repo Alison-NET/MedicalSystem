@@ -104,9 +104,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 let parentElementToUpdateChildrenIds = document.querySelector(".providers-table");
                 updateElementInnerAttributesIndexes(parentElementToUpdateChildrenIds,
                     "providers",
-                    'input, select',
-                    ["id", "name"]);
-
+                    'input, select');
 
 
             }else if(elementClicked.classList.contains("remove-pick-up-time-btn")){
@@ -118,24 +116,24 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 updateElementInnerAttributesIndexes(elementToUpdateChildrenIds,
                     "pickUpTimes",
-                    'input',
-                    ["id", "name"]);
-
-
+                    'input');
 
             }
         });
     }
 
-    function updateElementInnerAttributesIndexes(parentElem, indexOf, innerElemsSelector, attributesToUpdate){
+    function updateElementInnerAttributesIndexes(parentElem,
+                                                 indexOf,
+                                                 childInnerElemsSelector,
+                                                 attributesToUpdate = ["id", "name"],
+                                                 startIndex = 0){
 
-        let index = 0;
         for(let providersChildNode of parentElem.children){
-            let elementsToUpdate = providersChildNode.querySelectorAll(innerElemsSelector);
+            let elementsToUpdate = providersChildNode.querySelectorAll(childInnerElemsSelector);
             for(let elementToUpdate of elementsToUpdate){
-                updateElementAttrsIndex(elementToUpdate, attributesToUpdate, index, indexOf);
+                updateElementAttrsIndex(elementToUpdate, attributesToUpdate, startIndex, indexOf);
             }
-            ++index;
+            ++startIndex;
         }
     }
 
@@ -151,22 +149,6 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         }
     }
-
-    function addPickUpTime(specimenPickUpDayId){
-
-        let pickUpTimesNode = document.querySelector(".pick-up-times-wrapper");
-        let pickUpTimesCount = pickUpTimesNode.children.length;
-
-        if( pickUpTimesCount < constants['maxPickUpTimes']){
-            pickUpTimesNode.insertAdjacentHTML('beforeend',
-                `<div class="pick-up-times-item">
-                                    <input class="form-in-item" type="time" id="specimenPickUpDayTimes${specimenPickUpDayId}.pickUpTimes${pickUpTimesCount}.pickUpTime" 
-                                    name="specimenPickUpDayTimes[${specimenPickUpDayId}].pickUpTimes[${pickUpTimesCount}].pickUpTime" />
-                                    <button type="button" class="remove-pick-up-time">Remove</button>
-                              </div>`);
-        }
-    }
-
 
 
 

@@ -6,4 +6,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UnregisteredPickUpTimeService {
     void remove(UnregisteredPickUpTime unregisteredPickUpTime);
+    int getMaxId();
 }

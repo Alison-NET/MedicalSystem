@@ -1,5 +1,7 @@
 package com.alisonnet.medicalsystem.employeeportal.service.account.unregistered.impl;
 
+import com.alisonnet.medicalsystem.employeeportal.entity.account.PickUpTimeBase;
+import com.alisonnet.medicalsystem.employeeportal.entity.account.ProviderBase;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.unregistered.UnregisteredProvider;
 import com.alisonnet.medicalsystem.employeeportal.repository.account.unregistered.UnregisteredProviderRepo;
 import com.alisonnet.medicalsystem.employeeportal.service.account.unregistered.UnregisteredProviderService;
@@ -34,5 +36,10 @@ public class UnregisteredProviderServiceImpl implements UnregisteredProviderServ
     @Override
     public void remove(UnregisteredProvider unregisteredProvider) {
         unregisteredProviderRepo.delete(unregisteredProvider);
+    }
+
+    @Override
+    public int getMaxId() {
+        return unregisteredProviderRepo.findTopByOrderByIdDesc().map(ProviderBase::getId).orElse(0);
     }
 }

@@ -15,4 +15,5 @@ public interface UpdatedAccountService {
     void fillUniqueIds(UpdatedAccount updatedAccount);
     void fillNeededData(UpdatedAccount updatedAccount);
     void remove(UpdatedAccount updatedAccount);
+    int getMaxId();
 }

@@ -1,5 +1,6 @@
 package com.alisonnet.medicalsystem.employeeportal.service.account.updated.impl;
 
+import com.alisonnet.medicalsystem.employeeportal.entity.account.ProviderBase;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.unregistered.UnregisteredProvider;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.updated.UpdatedProvider;
 import com.alisonnet.medicalsystem.employeeportal.repository.account.unregistered.UnregisteredProviderRepo;
@@ -37,5 +38,10 @@ public class UpdatedProviderServiceImpl implements UpdatedProviderService {
     @Override
     public void remove(UpdatedProvider updatedProvider) {
         updatedProviderRepo.delete(updatedProvider);
+    }
+
+    @Override
+    public int getMaxId() {
+        return updatedProviderRepo.findTopByOrderByIdDesc().map(ProviderBase::getId).orElse(0);
     }
 }

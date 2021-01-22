@@ -28,8 +28,6 @@ public class AccountServiceImpl implements AccountService {
     private final PickUpTimeService pickUpTimeService;
     private final PickUpDayOfWeekRepo pickUpDayOfWeekRepo;
 
-    List<PickUpTime> pickUpTimesToDelete = new ArrayList<>();
-
     @Override
     public List<Account> findAll() {
         return accountRepo.findAll();
@@ -37,7 +35,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account save(Account account) {
-        pickUpTimesToDelete.forEach(pickUpTimeService::remove);
         return accountRepo.save(account);
     }
 
@@ -122,7 +119,7 @@ public class AccountServiceImpl implements AccountService {
 
         for(SpecimenPickUpDayTime specimenPickUpDayTime : account.getSpecimenPickUpDayTimes()){
             specimenPickUpDayTime.setAccount(account);
-            if( specimenPickUpDayTime.getPickUpTimes() != null )
+            if(specimenPickUpDayTime.getPickUpTimes() != null)
                 for(PickUpTime pickUpTime : specimenPickUpDayTime.getPickUpTimes())
                     pickUpTime.setSpecimenPickUpDayTime(specimenPickUpDayTime);
             else
@@ -158,20 +155,6 @@ public class AccountServiceImpl implements AccountService {
             }
         }
     }
-
-//    @Override
-//    public void addPickUpTime(Account account, int dayId) {
-//        SpecimenPickUpDayTime specimenPickUpDayTime = account.getSpecimenPickUpDayTimes().get(dayId - 1);
-//        List<PickUpTime> pickUpTimes = specimenPickUpDayTime.getPickUpTimes();
-//        pickUpTimes.add(new PickUpTime());
-//    }
-//
-//    @Override
-//    public void removePickUpTime(Account account, int dayId) {
-//        SpecimenPickUpDayTime specimenPickUpDayTime = account.getSpecimenPickUpDayTimes().get(dayId - 1);
-//        List<PickUpTime> pickUpTimes = specimenPickUpDayTime.getPickUpTimes();
-//        pickUpTimesToDelete.add(pickUpTimes.remove(pickUpTimes.size() - 1));
-//    }
 
     @Override
     public void remove(Account account) {

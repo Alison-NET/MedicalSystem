@@ -1,5 +1,6 @@
 package com.alisonnet.medicalsystem.employeeportal.service.account.updated.impl;
 
+import com.alisonnet.medicalsystem.employeeportal.entity.account.PickUpTimeBase;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.unregistered.UnregisteredPickUpTime;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.updated.UpdatedPickUpTime;
 import com.alisonnet.medicalsystem.employeeportal.repository.account.unregistered.UnregisteredPickUpTimeRepo;
@@ -18,5 +19,10 @@ public class UpdatedPickUpTimeServiceImpl implements UpdatedPickUpTimeService {
     @Override
     public void remove(UpdatedPickUpTime updatedPickUpTime) {
         updatedPickUpTimeRepo.delete(updatedPickUpTime);
+    }
+
+    @Override
+    public int getMaxId() {
+        return updatedPickUpTimeRepo.findTopByOrderByIdDesc().map(PickUpTimeBase::getId).orElse(0);
     }
 }
