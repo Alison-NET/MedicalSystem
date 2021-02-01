@@ -31,13 +31,13 @@ import java.util.Optional;
 @Slf4j
 public class SystemAdminEmployeeAccountManagementController {
 
-    TitleService titleService;
-    AccountService accountService;
-    ConversionService conversionService;
-    PickUpDayOfWeekService pickUpDayOfWeekService;
+    private final TitleService titleService;
+    private final AccountService accountService;
+    private final ConversionService conversionService;
+    private final PickUpDayOfWeekService pickUpDayOfWeekService;
 
-    UnregisteredAccountService unregisteredAccountService;
-    UpdatedAccountService updatedAccountService;
+    private final UnregisteredAccountService unregisteredAccountService;
+    private final UpdatedAccountService updatedAccountService;
 
 
     @GetMapping
@@ -156,7 +156,6 @@ public class SystemAdminEmployeeAccountManagementController {
             setupUpdatedAccountNeededAttrs(account, model);
             return "account-setup-new";
         }
-
 
 
         Account convertedAccount = conversionService.convert(account, Account.class);
