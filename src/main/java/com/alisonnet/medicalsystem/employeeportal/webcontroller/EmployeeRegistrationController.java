@@ -20,10 +20,10 @@ import javax.validation.Valid;
 @Slf4j
 public class EmployeeRegistrationController {
 
-    BasicEmployeeService basicEmployeeService;
-    TitleService titleService;
+    private final BasicEmployeeService basicEmployeeService;
+    private final TitleService titleService;
 
-    BasicEmployeePersonalEmailValidator basicEmployeePersonalEmailValidator;
+    private final BasicEmployeePersonalEmailValidator basicEmployeePersonalEmailValidator;
 
     @GetMapping
     public String getRegistrationPage(Model model){

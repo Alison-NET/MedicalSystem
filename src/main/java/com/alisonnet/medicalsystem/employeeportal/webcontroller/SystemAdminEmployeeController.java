@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 public class SystemAdminEmployeeController {
 
-    AccountService accountService;
+    private final AccountService accountService;
 
     @GetMapping
     public String getAdminPage(Model model)

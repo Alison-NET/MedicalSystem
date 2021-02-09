@@ -73,6 +73,8 @@ public class SystemAdminEmployeeAccountManagementController {
         model.addAttribute("account", account);
         model.addAttribute("approveUnregistered", true);
         model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
+        model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
+        model.addAttribute("maxPickUpTimes", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
     }
 
     @GetMapping("/approve-unregistered")
@@ -178,6 +180,8 @@ public class SystemAdminEmployeeAccountManagementController {
         model.addAttribute("account", account);
         model.addAttribute("updateCreate", true);
         model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
+        model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
+        model.addAttribute("maxPickUpTimes", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
     }
 
     @GetMapping("/new")

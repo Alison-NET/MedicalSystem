@@ -25,6 +25,7 @@ public final class Constants {
     public final static String VALIDATION_MSG_INVALID_DIRECT_LINE = "Invalid direct line number";
     public final static String VALIDATION_MSG_INVALID_SNN = "Invalid SSN";
     public final static String VALIDATION_MSG_INVALID_ZIP = "Invalid ZIP Code";
+    public final static String VALIDATION_MSG_EMAIL_USED = "This email is already in use";
     //  ==========
 
     //  MESSAGES

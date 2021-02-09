@@ -33,19 +33,19 @@ import java.util.Optional;
 @Slf4j
 public class HREmployeeController {
 
-    EmployeeService employeeService;
-    BasicEmployeeService basicEmployeeService;
-    TitleService titleService;
-    DepartmentService departmentService;
-    JobPositionService jobPositionService;
-    ContractService contractService;
+    private final EmployeeService employeeService;
+    private final BasicEmployeeService basicEmployeeService;
+    private final TitleService titleService;
+    private final DepartmentService departmentService;
+    private final JobPositionService jobPositionService;
+    private final ContractService contractService;
 
-    DocumentTypeService documentTypeService;
-    EmpDocumentService empDocumentService;
-    AppointedDocumentService appointedDocumentService;
+    private final DocumentTypeService documentTypeService;
+    private final EmpDocumentService empDocumentService;
+    private final AppointedDocumentService appointedDocumentService;
 
-    BasicEmployeePersonalEmailValidator basicEmployeePersonalEmailValidator;
-    CredentialsEmailValidator credentialsEmailValidator;
+    private final BasicEmployeePersonalEmailValidator basicEmployeePersonalEmailValidator;
+    private final CredentialsEmailValidator credentialsEmailValidator;
 
     @GetMapping("/approve-employee")
     public String getEmployeesToApprovePage(Model model){

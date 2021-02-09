@@ -1,6 +1,7 @@
 package com.alisonnet.medicalsystem.employeeportal.validator;
 
 
+import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.Credentials;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.Employee;
 import com.alisonnet.medicalsystem.employeeportal.service.employee.CredentialsService;
@@ -30,6 +31,6 @@ public class CredentialsEmailValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Credentials credentials = (Credentials) target;
         if(!credentialsService.hasUniqueEmail(credentials))
-            errors.rejectValue(fieldPath,"", "This credentials email is already in use");
+            errors.rejectValue(fieldPath,"", Constants.VALIDATION_MSG_EMAIL_USED);
     }
 }

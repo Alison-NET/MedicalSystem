@@ -33,11 +33,11 @@ import java.util.Optional;
 @Slf4j
 public class DocumentController {
 
-    DocumentService documentService;
+    private final DocumentService documentService;
 
-    EmployeeService employeeService;
-    AppointedDocumentService appointedDocumentService;
-    EmpDocumentService empDocumentService;
+    private final EmployeeService employeeService;
+    private final AppointedDocumentService appointedDocumentService;
+    private final EmpDocumentService empDocumentService;
 
     @GetMapping("/{id}/download")
     public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable int id){

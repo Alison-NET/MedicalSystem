@@ -26,10 +26,10 @@ import java.util.*;
 @Slf4j
 public class EmployeePortalController {
 
-    DepartmentService departmentService;
-    EmployeeService employeeService;
-    DocumentTypeService documentTypeService;
-    EmpDocumentService empDocumentService;
+    private final DepartmentService departmentService;
+    private final EmployeeService employeeService;
+    private final DocumentTypeService documentTypeService;
+    private final EmpDocumentService empDocumentService;
 
 
     @GetMapping

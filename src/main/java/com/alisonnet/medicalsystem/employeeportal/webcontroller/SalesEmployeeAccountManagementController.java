@@ -63,6 +63,8 @@ public class SalesEmployeeAccountManagementController {
         model.addAttribute("account", account);
         model.addAttribute("createUnregistered", true);
         model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
+        model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
+        model.addAttribute("maxPickUpTimes", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
     }
 
     @GetMapping("/new")
@@ -95,6 +97,8 @@ public class SalesEmployeeAccountManagementController {
         model.addAttribute("account", account);
         model.addAttribute("createUpdated", true);
         model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
+        model.addAttribute("maxProviders", Constants.MAX_PROVIDERS_PER_ACCOUNT);
+        model.addAttribute("maxPickUpTimes", Constants.MAX_PICK_UP_TIME_AMOUNT_PER_ACCOUNT);
     }
 
     @GetMapping("/update/{id}")
@@ -114,7 +118,6 @@ public class SalesEmployeeAccountManagementController {
     private String handleUpdatedAccountSaving(@Valid @ModelAttribute UpdatedAccount account,
                                               BindingResult bindingResult,
                                               Model model){
-
         if(bindingResult.hasErrors()){
             setupUpdatedAccountNeededAttrs(account, model);
             return "account-setup-new";

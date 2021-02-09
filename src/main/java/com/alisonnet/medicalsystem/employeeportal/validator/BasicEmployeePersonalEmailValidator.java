@@ -1,5 +1,6 @@
 package com.alisonnet.medicalsystem.employeeportal.validator;
 
+import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.BasicEmployee;
 import com.alisonnet.medicalsystem.employeeportal.service.employee.BasicEmployeeService;
 import lombok.AllArgsConstructor;
@@ -30,19 +31,7 @@ public class BasicEmployeePersonalEmailValidator implements Validator {
     public void validate(Object target, Errors errors) {
         BasicEmployee basicEmployee = (BasicEmployee) target;
 
-        // If basic employee already present, check if someone else (except me) has such a personal email
-        // If not present, just check if such an email exists
-//        if(basicEmployeeService.findById(basicEmployee.getId()).isPresent()) {
-//            if (!basicEmployeeService.hasUniquePersonalEmail(basicEmployee))
-//                errors.rejectValue("basicInfo.personalEmail", "", "This email is already in use");
-//        }
-//        else if(basicEmployeeService.personalEmailExists(basicEmployee.getPersonalEmail())) {
-//            errors.rejectValue("personalEmail", "", "This email is already in use");
-//        }
-
-
-
         if(!basicEmployeeService.hasUniquePersonalEmail(basicEmployee))
-            errors.rejectValue(fieldPath,"", "This email is already in use");
+            errors.rejectValue(fieldPath,"", Constants.VALIDATION_MSG_EMAIL_USED);
     }
 }

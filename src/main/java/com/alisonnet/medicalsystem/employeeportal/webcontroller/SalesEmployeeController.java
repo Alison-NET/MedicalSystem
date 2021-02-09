@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class SalesEmployeeController {
 
-    AccountService accountService;
-    TitleService titleService;
-    PickUpDayOfWeekService pickUpDayOfWeekService;
+    private final AccountService accountService;
+    private final TitleService titleService;
+    private final PickUpDayOfWeekService pickUpDayOfWeekService;
 
     @GetMapping
     public String getSalesControlPage(){
