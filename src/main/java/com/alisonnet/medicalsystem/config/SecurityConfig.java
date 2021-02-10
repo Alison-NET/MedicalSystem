@@ -26,17 +26,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests()
-                .antMatchers("/", "/employee-portal/new-employee").permitAll()
+        http
+                .authorizeRequests()
 //                .antMatchers("/employee-portal/**").authenticated()
                 .antMatchers("/employee-portal/admin/**").hasAuthority("SYSTEM_ADMIN_DEP")
                 .antMatchers("/employee-portal/hr/**").hasAnyAuthority("HUMAN_RESOURCES_DEP", "SYSTEM_ADMIN_DEP")
                 .antMatchers("/employee-portal/sales/**").hasAuthority( "SALES_DEP")
                 .antMatchers("/employee-portal/employee/**").authenticated()
                 .antMatchers("/employee-portal/document/**").authenticated()
-                .antMatchers("/api/**").authenticated()
-                .and().logout().logoutSuccessUrl("/login")
-                .and().formLogin();
+                .antMatchers("/", "/employee-portal/new-employee").permitAll()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login");
 
     }
 
