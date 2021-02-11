@@ -4,8 +4,7 @@
 <body>
     <header th:replace="fragments/general.html::header"></header>
 
-    <div class="bootstrap-wrapper">
-        <div class="container">
+        <div class="container mx-auto">
 
             <div th:if="${#lists.isEmpty(employees)}">
                 <div class="page-info row">
@@ -21,34 +20,66 @@
                         <span class="name">Employees</span>
                     </div>
                 </div>
+                <div class="flex flex-col">
+                    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Name
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Department/Position
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Work Shift
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Phone
+                                        </th>
+                                        <th scope="col" class="relative px-6 py-3">
+                                            <span class="sr-only">Profile</span>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr th:each="employee: ${employees}">
 
-                <table>
-                    <tr>
-                        <th>Employee Name</th>
-                        <th>Last Name</th>
-                        <th>Personal Email</th>
-                        <th>Department</th>
-                        <th>Job Position</th>
-                        <th>Work Shift</th>
-                        <th>Completed Training</th>
-                        <th>Added To Payroll</th>
-                        <th></th>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div th:text="${employee.basicInfo.firstName} + ' ' + ${employee.basicInfo.lastName}" class="text-sm font-medium text-gray-900">
+                                                Jane Cooper
+                                            </div>
+                                            <div th:text="${employee.basicInfo.personalEmail}" class="text-sm text-gray-500">
+                                                jane.cooper@example.com
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div th:text="${employee.jobPosition.name}" class="text-sm text-gray-900">Sales Manager</div>
+                                            <div th:text="${employee.jobPosition.department.name}" class="text-sm text-gray-500">Sales</div>
+                                        </td>
+                                        <td th:text="${employee.workShift}" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            10:20 AM - 08:20 PM
+                                        </td>
+                                        <td th:text="${employee.basicInfo.mobilePhone}" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            00000
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <a th:href="@{'/employee-portal/' + ${employee.id}}" class="text-indigo-600 hover:text-indigo-900">Profile</a>
+                                        </td>
+                                    </tr>
 
-                    </tr>
-                    <tr th:each="employee: ${employees}">
-                        <td th:text="${employee.basicInfo.firstName}">Employee Name</td>
-                        <td th:text="${employee.basicInfo.lastName}">Last Name</td>
-                        <td th:text="${employee.basicInfo.personalEmail}">Personal Email</td>
-                        <td th:text="${employee.jobPosition.department.name}">Department</td>
-                        <td th:text="${employee.jobPosition.name}">Job Position</td>
-                        <td th:text="${employee.workShift}">Work Shift</td>
-                        <td th:text="${employee.completedTraining}? 'Yes' : 'No'">true/false</td>
-                        <td th:text="${employee.addedToPayroll}? 'Yes' : 'No'">true/false</td>
-                        <td><a th:href="@{'/employee-portal/' + ${employee.id}}">Profile</a></td>
-                    </tr>
-                </table>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
             </div>
-        </div>
     </div>
 
 <footer th:replace="fragments/general.html :: footer"></footer>

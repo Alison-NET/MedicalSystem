@@ -47,6 +47,7 @@ public class MyUserDetailsService implements UserDetailsService {
                 getAuthoritiesByJobPosition(credentials.getEmployee().getJobPosition())
         );
     }
+
 //
 //    private static List<GrantedAuthority> getAuthoritiesByRoles (List<Role> roles) {
 //        List<GrantedAuthority> authorities = new ArrayList<>();

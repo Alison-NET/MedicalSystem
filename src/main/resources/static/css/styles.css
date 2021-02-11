@@ -6,6 +6,7 @@
 
 body {
     margin: 0;
+    background-color: #f3f5f7;
 }
 
 .isDisabled {
@@ -18,19 +19,6 @@ body {
 th, td {
     font-size: 14px;
 }
-
-
-
-
-
-
-/*.red{*/
-/*    background-color: red;*/
-/*    height: 200px;*/
-/*    !*width: 100%;*!*/
-/*}*/
-
-
 
 
 .btn.form-submit-btn{
@@ -109,7 +97,8 @@ th, td {
 
 .page-info .name{
     font-size: 24px;
-    font-weight: 600;
+    font-weight: 500;
+    color: #a1a4b5;
 }
 
 .extra-btn{
@@ -290,3 +279,11 @@ footer{
 }
 
 /*FOOTER*/
+
+
+
+.login-form-wrapper{
+    min-height: 80vh;
+}
+
+
