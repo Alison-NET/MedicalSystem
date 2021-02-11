@@ -4,6 +4,14 @@
 <body>
 <header th:replace="fragments/general.html::header"></header>
 
+<div class="bg-white custom-shadow">
+    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold leading-tight text-gray-900">
+            Employee portal hub
+        </h1>
+       </div>
+</div>
+
 <div class="bootstrap-wrapper">
     <div class="container">
         <div sec:authorize="hasAnyAuthority('HUMAN_RESOURCES_DEP', 'SYSTEM_ADMIN_DEP')">

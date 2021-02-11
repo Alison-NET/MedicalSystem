@@ -57,6 +57,12 @@ th, td {
     box-shadow: 0px 0px 45px 0px rgba(216,226,237,0.8);
 }
 
+.custom-shadow{
+    -webkit-box-shadow: 0px 16px 20px 5px rgba(216, 226, 237, .3);
+    -moz-box-shadow: 0px 16px 20px 5px rgba(216, 226, 237, .3);
+    box-shadow: 0px 16px 20px 5px rgba(216, 226, 237, .3);
+}
+
 .top-nav a{
     text-decoration: none;
 }
@@ -285,5 +291,4 @@ footer{
 .login-form-wrapper{
     min-height: 80vh;
 }
-
 
