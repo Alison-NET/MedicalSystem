@@ -16,21 +16,7 @@ body {
     text-decoration: none;
 }
 
-th, td {
-    font-size: 14px;
-}
 
-
-.btn.form-submit-btn{
-    background-color: #377fd8;
-    border-radius: 4px;
-    color: #fff;
-    padding: 10px 25px;
-    border: none;
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: .03em;
-}
 /* HEADER */
 
 .top-info{
@@ -50,47 +36,12 @@ th, td {
     margin: 10px 0;
 }
 
-.top-nav-wrapper{
-    background-color: #fff;
-    -webkit-box-shadow: 0px 0px 45px 0px rgba(216,226,237,0.8);
-    -moz-box-shadow: 0px 0px 45px 0px rgba(216,226,237,0.8);
-    box-shadow: 0px 0px 45px 0px rgba(216,226,237,0.8);
-}
-
 .custom-shadow{
     -webkit-box-shadow: 0px 16px 20px 5px rgba(216, 226, 237, .3);
     -moz-box-shadow: 0px 16px 20px 5px rgba(216, 226, 237, .3);
     box-shadow: 0px 16px 20px 5px rgba(216, 226, 237, .3);
 }
 
-.top-nav a{
-    text-decoration: none;
-}
-
-.top-nav-links{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.top-nav-links .nav-link{
-    text-transform: uppercase;
-    font-size: 14px;
-    font-weight: 500;
-    margin-left: 18px;
-}
-
-.top-nav-links .nav-link a{
-    color: #000;
-}
-
-
-.top-nav .brand-title{
-    color: #4b83d6;
-    font-size: 28px;
-    font-weight: 600;
-    margin: 24px 0;
-}
 
 /* HEADER */
 
@@ -125,74 +76,14 @@ th, td {
 /*PAGE TITLE*/
 
 
-/*REGISTER FORM*/
 
-.register-form .form-submit-btn{
 
-    margin-top: 30px;
+[type='text'], [type='email'], [type='url'], [type='password'], [type='number'], [type='date'], [type='month'], [type='search'], [type='tel'], [type='time'], [multiple], textarea, select {
+    padding-top: 0.5rem;
+    padding-right: 0.75rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.75rem;
 }
-
-/*REGISTER FORM*/
-
-
-/* EMPLOYEE PROFILE */
-
-.profile-item .name, .profile-item .descr{
-    display: inline-block;
-    margin-top: 0;
-}
-
-.profile-item .name, .profile-edit-item .name{
-    font-weight: 500;
-    margin-top: 12px;
-    margin-bottom: 12px;
-}
-
-.profile-item .descr, .profile-edit-item .descr{
-    font-weight: 500;
-}
-
-.profile-item .descr{
-    margin-top: 12px;
-    margin-bottom: 12px;
-}
-
-.ul-no-dot{
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-.profile-item .contract-link{
-    text-decoration: none;
-}
-
-.profile-item .document-name{
-    margin-left: 8px;
-}
-
-
-/* EMPLOYEE PROFILE */
-
-
-/* EMPLOYEE PROFILE EDIT */
-
-.profile-edit-item .input-wrapper{
-    height: 100%;
-    display: flex;
-}
-
-.profile-edit-item .form-in-item{
-    align-self: center;
-}
-
-.profile-edit-form .form-submit-btn{
-    margin: 30px auto;
-    display: block;
-}
-
-/* EMPLOYEE PROFILE EDIT */
-
 
 
 
@@ -207,84 +98,10 @@ th, td {
 
 /* CHECKBOX */
 
-/* Customize the label (the container) */
-.checkbox-container {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    /*font-size: 22px;*/
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+input:checked ~ svg {
+ display: block;
 }
-
-/* Hide the browser's default checkbox */
-.checkbox-container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-}
-
-/* Create a custom checkbox */
-.checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 25px;
-    width: 25px;
-    background-color: #eee;
-}
-
-/* On mouse-over, add a grey background color */
-.checkbox-container:hover input ~ .checkmark {
-    background-color: #ccc;
-}
-
-/* When the checkbox is checked, add a blue background */
-.checkbox-container input:checked ~ .checkmark {
-    background-color: #377fd8;
-}
-
-/* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
-
-/* Show the checkmark when checked */
-.checkbox-container input:checked ~ .checkmark:after {
-    display: block;
-}
-
-/* Style the checkmark/indicator */
-.checkbox-container .checkmark:after {
-    left: 9px;
-    top: 5px;
-    width: 7px;
-    height: 12px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
-
 /* CHECKBOX */
-
-
-/*FOOTER*/
-
-footer{
-    margin-top: 100px;
-}
-
-/*FOOTER*/
 
 
 

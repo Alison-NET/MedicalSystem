@@ -4,346 +4,271 @@
 <body>
 <header th:replace="fragments/general.html::header"></header>
 
-<div class="bootstrap-wrapper">
-    <div class="container">
-        <div class="page-info row">
-            <div class="col-md-4">
-                <span th:if="${#bools.isTrue(isApproved)}" class="name">Edit Employee</span>
-                <span th:if="${#bools.isFalse(isApproved)}" class="name">Approve Employee</span>
-            </div>
-            <div class="col-md-8">
-                <a th:if="${#bools.isTrue(isApproved)}" class="extra-btn" th:href="@{'/employee-portal/' + ${employee.id}}">
-                    <span class="text">Profile</span>
-                </a>
-            </div>
-        </div>
-        <form class="profile-edit-form" th:action="@{'/employee-portal/hr/employee/save'}" th:object="${employee}" method="post">
+<div class="bg-white custom-shadow">
+    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <h1 th:if="${#bools.isTrue(isApproved)}" class="text-3xl font-bold leading-tight text-gray-800">Edit Employee</h1>
+        <h1 th:if="${#bools.isFalse(isApproved)}" class="text-3xl font-bold leading-tight text-gray-800">Approve Employee</h1>
+    </div>
+</div>
 
-            <input type="text" th:field="*{basicInfo.id}" th:value="*{basicInfo.id}" hidden>
-            <input type="text" th:field="*{id}" th:value="*{id}" hidden>
-            <input type="text" th:field="*{workShift.id}" th:value="*{workShift.id}" hidden>
-            <input type="text" th:field="*{credentials.id}" th:value="*{credentials.id}" hidden>
 
-            <input type="text" th:field="*{empDocuments}" th:value="*{empDocuments}" hidden>
-            <input type="text" th:field="*{contracts}" th:value="*{contracts}" hidden>
-            <input type="text" th:field="*{supervisor}" th:value="*{supervisor}" hidden>
-            <input type="text" th:field="*{subordinates}" th:value="*{subordinates}" hidden>
+<div class="max-w-5xl mx-auto py-14">
 
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Title</p>
+    <form th:action="@{'/employee-portal/hr/employee/save'}" th:object="${employee}" method="POST">
+
+        <input type="text" th:field="*{basicInfo.id}" th:value="*{basicInfo.id}" hidden>
+        <input type="text" th:field="*{id}" th:value="*{id}" hidden>
+        <input type="text" th:field="*{workShift.id}" th:value="*{workShift.id}" hidden>
+        <input type="text" th:field="*{credentials.id}" th:value="*{credentials.id}" hidden>
+
+        <input type="text" th:field="*{empDocuments}" th:value="*{empDocuments}" hidden>
+        <input type="text" th:field="*{contracts}" th:value="*{contracts}" hidden>
+        <input type="text" th:field="*{supervisor}" th:value="*{supervisor}" hidden>
+        <input type="text" th:field="*{subordinates}" th:value="*{subordinates}" hidden>
+
+        <div class="shadow overflow-hidden sm:rounded-md">
+            <div class="px-4 py-5 bg-white sm:p-6">
+
+                <div class="mt-10 mb-4">
+                    <h4 class="text-2xl">Basic info</h4>
                 </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <select class="form-in-item" th:field="*{basicInfo.title}">
-                            <option th:each="tit : ${titles}"
-                                    th:value="${tit.id}"
-                                    th:text="${tit.name}"></option>
-                        </select>
+                <div class="grid grid-cols-8 gap-6">
+                    <div class="col-span-8 sm:col-span-2">
+                        <label for="firstName" class="block text-sm font-medium text-gray-700">First name</label>
+                        <input th:field="*{basicInfo.firstName}" type="text" id="firstName"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('basicInfo.firstName')}" th:text="${error}">Validation error</div>
+                    </div>
+
+                    <div class="col-span-8 sm:col-span-2">
+                        <label for="lastName" class="block text-sm font-medium text-gray-700">Last name</label>
+                        <input th:field="*{basicInfo.lastName}" type="text" id="lastName"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('basicInfo.lastName')}" th:text="${error}">Validation error</div>
+                    </div>
+
+                    <div class="col-span-8 sm:col-span-2">
+                        <label for="dateOfBirth" class="block text-sm font-medium text-gray-700">Date of birth</label>
+                        <input th:field="*{basicInfo.dateOfBirth}" type="date" id="dateOfBirth"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('basicInfo.dateOfBirth')}" th:text="${error}">Validation error</div>
                     </div>
                 </div>
-            </div>
 
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">First name</p>
+                <div class="mt-10 mb-4">
+                    <h4 class="text-2xl">Contacts</h4>
                 </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" th:field="*{basicInfo.firstName}" th:value="*{basicInfo.firstName}">
-                        <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.firstName')}" th:text="${error}">Validation error</p>
-                    </div>
-                </div>
-            </div>
+                <div class="grid grid-cols-8 gap-6">
 
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Middle name</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" th:field="*{basicInfo.middleName}" th:value="*{basicInfo.middleName}">
-                        <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.middleName')}" th:text="${error}">Validation error</p>
+                    <div class="col-span-8 sm:col-span-2">
+                        <label for="mobilePhone" class="block text-sm font-medium text-gray-700">Mobile phone</label>
+                        <input th:field="*{basicInfo.mobilePhone}" type="tel" id="mobilePhone" placeholder="000-000-0000"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('basicInfo.mobilePhone')}" th:text="${error}">Validation error</div>
                     </div>
-                </div>
-            </div>
 
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Last name</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" th:field="*{basicInfo.lastName}" th:value="*{basicInfo.lastName}">
-                        <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.lastName')}" th:text="${error}">Validation error</p>
+                    <div class="col-span-8 sm:col-span-2">
+                        <label for="personalEmail" class="block text-sm font-medium text-gray-700">Email address</label>
+                        <input th:field="*{basicInfo.personalEmail}" type="email" id="personalEmail" placeholder="aaa@example.com"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('basicInfo.personalEmail')}" th:text="${error}">Validation error</div>
                     </div>
-                </div>
-            </div>
 
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Date of birth</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="date" th:field="*{basicInfo.dateOfBirth}" th:value="*{basicInfo.dateOfBirth}">
-                        <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.dateOfBirth')}" th:text="${error}">Validation error</p>
+                    <div class="col-span-8 sm:col-span-2">
+                        <label for="socialSecurity" class="block text-sm font-medium text-gray-700">Social security number</label>
+                        <input th:field="*{basicInfo.socialSecurity}" type="tel" id="socialSecurity" placeholder="AAA-GG-SSSS"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('basicInfo.socialSecurity')}" th:text="${error}">Validation error</div>
                     </div>
-                </div>
-            </div>
 
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Home phone</p>
                 </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="tel" placeholder="000-000-0000" th:field="*{basicInfo.homePhone}" th:value="*{basicInfo.homePhone}">
-                        <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.homePhone')}" th:text="${error}">Validation error</p>
-                    </div>
-                </div>
-            </div>
 
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Mobile phone</p>
+                <div class="mt-10 mb-4">
+                    <h4 class="text-2xl">Location</h4>
                 </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="tel" placeholder="000-000-0000" th:field="*{basicInfo.mobilePhone}" th:value="*{basicInfo.mobilePhone}">
-                        <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.mobilePhone')}" th:text="${error}">Validation error</p>
-                    </div>
-                </div>
-            </div>
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Personal email</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="email" th:field="*{basicInfo.personalEmail}" th:value="*{basicInfo.personalEmail}">
-                        <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.personalEmail')}" th:text="${error}">Validation error</p>
-                    </div>
-                </div>
-            </div>
+                <div class="grid grid-cols-8 gap-6">
 
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Address 1</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" th:field="*{basicInfo.addressFirst}">
-                        <p th:each="error : ${#fields.errors('basicInfo.addressFirst')}" th:text="${error}">Validation error</p>
+                    <div class="col-span-8 sm:col-span-4">
+                        <label for="addressFirst" class="block text-sm font-medium text-gray-700">Street address</label>
+                        <input th:field="*{basicInfo.addressFirst}" type="text" id="addressFirst"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('basicInfo.addressFirst')}" th:text="${error}">Validation error</div>
                     </div>
-                </div>
-            </div>
 
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Address 2</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" th:field="*{basicInfo.addressSecond}">
-                        <p th:each="error : ${#fields.errors('basicInfo.addressSecond')}" th:text="${error}">Validation error</p>
+                    <div class="col-span-8 sm:col-span-4">
+                        <label for="addressSecond" class="block text-sm font-medium text-gray-700">Street address 2</label>
+                        <input th:field="*{basicInfo.addressSecond}" type="text" id="addressSecond"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('basicInfo.addressSecond')}" th:text="${error}">Validation error</div>
                     </div>
-                </div>
-            </div>
 
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">City</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" th:field="*{basicInfo.city}">
-                        <p th:each="error : ${#fields.errors('basicInfo.city')}" th:text="${error}">Validation error</p>
+                    <div class="col-span-8 sm:col-span-6 lg:col-span-2">
+                        <label for="city" class="block text-sm font-medium text-gray-700">City</label>
+                        <input th:field="*{basicInfo.city}" type="text" id="city"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('basicInfo.city')}" th:text="${error}">Validation error</div>
                     </div>
-                </div>
-            </div>
 
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">State</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" th:field="*{basicInfo.state}">
-                        <p th:each="error : ${#fields.errors('basicInfo.state')}" th:text="${error}">Validation error</p>
+                    <div class="col-span-8 sm:col-span-3 lg:col-span-2">
+                        <label for="state" class="block text-sm font-medium text-gray-700">State / Province</label>
+                        <input th:field="*{basicInfo.state}" type="text" id="state"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('basicInfo.state')}" th:text="${error}">Validation error</div>
                     </div>
-                </div>
-            </div>
 
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">ZIP</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" placeholder="00000{-0000}" th:field="*{basicInfo.ZIP}">
-                        <p th:each="error : ${#fields.errors('basicInfo.ZIP')}" th:text="${error}">Validation error</p>
+                    <div class="col-span-8 sm:col-span-3 lg:col-span-2">
+                        <label for="ZIP" class="block text-sm font-medium text-gray-700">ZIP / Postal</label>
+                        <input th:field="*{basicInfo.ZIP}" type="text" id="ZIP" placeholder="00000{-0000}"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('basicInfo.ZIP')}" th:text="${error}">Validation error</div>
                     </div>
-                </div>
-            </div>
 
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Department/Job Position</p>
                 </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <select class="form-in-item" th:field="*{jobPosition}">
+
+                <div class="mt-10 mb-4">
+                    <h4 class="text-2xl">Work info</h4>
+                </div>
+
+                <div class="grid grid-cols-8 gap-6">
+                    <div class="col-span-8 sm:col-span-3 lg:col-span-2">
+                        <label for="jobPosition" class="block text-sm font-medium text-gray-700">Department / Job Position</label>
+
+                        <select class="mt-1 p-2 border border-gray-300 bg-white text-gray-900 block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md"
+                                th:field="*{jobPosition}" id="jobPosition">
                             <optgroup th:label="${dep.name}" th:each="dep : ${departments}">
                                 <option th:each="jobPos : ${dep.jobPositions}"
                                         th:value="${jobPos.id}" th:text="${jobPos.name}"></option>
                             </optgroup>
                         </select>
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('jobPosition')}" th:text="${error}">Validation error</div>
                     </div>
-                </div>
-            </div>
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Social security</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" placeholder="AAA-GG-SSSS" th:field="*{basicInfo.socialSecurity}" th:value="*{basicInfo.socialSecurity}">
-                        <p class="form-item-error" th:each="error : ${#fields.errors('basicInfo.socialSecurity')}" th:text="${error}">Validation error</p>
-                    </div>
-                </div>
-            </div>
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Salary</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" th:field="*{salary}" th:value="*{salary}">
-                        <p th:each="error : ${#fields.errors('salary')}" th:text="${error}">Validation error</p>
-                    </div>
-                </div>
-            </div>
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Commission</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" th:field="*{commission}" th:value="*{commission}">
-                        <p th:each="error : ${#fields.errors('commission')}" th:text="${error}">Validation error</p>
-                    </div>
-                </div>
-            </div>
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Added to payroll</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <label class="checkbox-container form-in-item">
-                            <input th:field="*{addedToPayroll}" type="checkbox" checked="checked">
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Completed training</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <label class="checkbox-container form-in-item">
-                            <input th:field="*{completedTraining}" type="checkbox" checked="checked">
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Work shift</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <div class="form-in-item"><input  type="time" value="9:00" th:field="*{workShift.beginning}">
-                            - <input type="time" value="17:00" th:field="*{workShift.ending}"></div>
-                        <p class="form-item-error" th:each="error : ${#fields.errors('workShift.beginning')}" th:text="${error}">Validation error</p>
-                        <p class="form-item-error" th:each="error : ${#fields.errors('workShift.ending')}" th:text="${error}">Validation error</p>
-                    </div>
-                </div>
-            </div>
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Credentials</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <div class="form-in-item">
-                            <span>Email </span><input type="email" th:field="*{credentials.email}">
-                            <span>Password </span><input type="text" th:field="*{credentials.password}">
-                            <p class="form-item-error" th:each="error : ${#fields.errors('credentials.email')}" th:text="${error}">Validation error</p>
-                            <p class="form-item-error" th:each="error : ${#fields.errors('credentials.password')}" th:text="${error}">Validation error</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <input class="btn form-submit-btn" type="submit" th:value="Submit">
-        </form>
-
-        <div th:if="${#bools.isTrue(isApproved)}">
-
-            <hr>
-            <div>
-                <h2>Manage contracts</h2>
-                <div th:replace="fragments/contract-create-form :: contract-create-form"></div>
-            </div>
-            <hr>
-            <div>
-                <h2>Manage documents</h2>
-                <div th:replace="fragments/emp-document-upload-form.html :: document-upload-form"></div>
-            </div>
-
-            <div th:if="${not #bools.isTrue(employee.isDepartmentChief()) && not #lists.isEmpty(supervisors)}">
-                <hr>
-                <h2>Manage supervisor</h2>
-                <div th:if="${employee.supervisor != null}" class="profile-edit-item row">
-                    <div class="col-md-4">
-                        <p class="name">Supervisor </p>
+                    <div class="col-span-8 sm:col-span-3 lg:col-span-2">
+                        <label for="salary" class="block text-sm font-medium text-gray-700">Salary</label>
+                        <input th:field="*{salary}" type="text" id="salary"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('salary')}" th:text="${error}">Validation error</div>
                     </div>
-                    <div class="col-md-8">
-                        <a th:href="@{'/employee-portal/hr/employee/' + ${employee.supervisor.id}}">
-                            <p th:text="${employee.supervisor.basicInfo.firstName} + ' ' + ${employee.supervisor.basicInfo.lastName}"></p>
-                        </a>
+
+                    <div class="col-span-8 sm:col-span-3 lg:col-span-2">
+                        <label for="commission" class="block text-sm font-medium text-gray-700">Commission</label>
+                        <input th:field="*{commission}" type="text" id="commission"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('commission')}" th:text="${error}">Validation error</div>
                     </div>
-                </div>
 
-                <form  class="profile-edit-form"
-                      th:action="@{'/employee-portal/hr/employee/' + ${employee.id} + '/add-supervisor'}" th:object="${supervisorId}" method="post">
-
-                    <div class="profile-edit-item row">
-                        <div class="col-md-4">
-                            <p class="name">Change</p>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="input-wrapper">
-                                <select class="form-in-item" th:field="*{id}">
-                                    <option th:each="supervisor : ${supervisors}" th:value="${supervisor.id}"
-                                            th:text="${supervisor.basicInfo.firstName} + ' ' + ${supervisor.basicInfo.lastName}"></option>
-                                </select>
+                    <div class="col-span-8 sm:col-span-3 lg:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">Work shift</label>
+                        <div class="flex flex-row justify-between mt-1">
+                            <div>
+                                <input th:field="*{workShift.beginning}" type="time" value="9:00" id="workShift.beginning"
+                                       class="py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-30 ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                                <div class="text-xs text-red-500" th:each="error : ${#fields.errors('workShift.beginning')}" th:text="${error}">Validation error</div>
+                            </div>
+                            <span class="self-center">-</span>
+                            <div>
+                                <input th:field="*{workShift.ending}" type="time" value="17:00" id="workShift.ending"
+                                       class="py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-30 ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                                <div class="text-xs text-red-500" th:each="error : ${#fields.errors('workShift.ending')}" th:text="${error}">Validation error</div>
                             </div>
                         </div>
                     </div>
 
-                    <input class="btn form-submit-btn" type="submit" value="Update supervisor">
+                    <div class="col-span-8 sm:col-span-3 lg:col-span-2">
+                        <label class="flex justify-start items-start">
+                            <div class="bg-white border-2 rounded border-gray-400 w-6 h-6 flex flex-shrink-0 justify-center items-center mr-2 focus-within:border-blue-500">
+                                <input th:field="*{addedToPayroll}" type="checkbox" class="opacity-0 absolute">
+                                <svg class="fill-current hidden w-4 h-4 text-indigo-500 pointer-events-none" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"></path></svg>
+                            </div>
+                            <div class="select-none">Added to payroll</div>
+                        </label>
+                    </div>
 
-                </form>
+                    <div class="col-span-8 sm:col-span-3 lg:col-span-2">
+                        <label class="flex justify-start items-start">
+                            <div class="bg-white border-2 rounded border-gray-400 w-6 h-6 flex flex-shrink-0 justify-center items-center mr-2 focus-within:border-blue-500">
+                                <input th:field="*{completedTraining}" type="checkbox" class="opacity-0 absolute">
+                                <svg class="fill-current hidden w-4 h-4 text-indigo-500 pointer-events-none" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"></path></svg>
+                            </div>
+                            <div class="select-none">Completed training</div>
+                        </label>
+                    </div>
+
+
+                </div>
+
+
+                <div class="mt-10 mb-4">
+                    <h4 class="text-2xl">Credentials</h4>
+                </div>
+                <div class="grid grid-cols-8 gap-6">
+                    <div class="col-span-8 sm:col-span-3 lg:col-span-2">
+                        <label for="credentials.email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input th:field="*{credentials.email}" type="text" id="credentials.email"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('credentials.email')}" th:text="${error}">Validation error</div>
+                    </div>
+
+                    <div class="col-span-8 sm:col-span-3 lg:col-span-2">
+                        <label for="credentials.password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input th:field="*{credentials.password}" type="text" id="credentials.password"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('credentials.password')}" th:text="${error}">Validation error</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Submit
+                </button>
             </div>
         </div>
+
+    </form>
+
+    <div th:if="${#bools.isTrue(isApproved)}">
+        <div th:replace="fragments/contract-create-form :: contract-create-form"></div>
+        <div th:replace="fragments/emp-document-upload-form.html :: document-upload-form"></div>
+
+
+        <form th:if="${not #bools.isTrue(employee.isDepartmentChief()) && not #lists.isEmpty(supervisors)}"
+              th:action="@{'/employee-portal/hr/employee/' + ${employee.id} + '/add-supervisor'}" th:object="${supervisorId}" method="post">
+
+            <div class="my-8 shadow overflow-hidden sm:rounded-md">
+                <div class="px-4 py-5 bg-white sm:p-6">
+                    <div class="mt-10 mb-4">
+                        <h4 class="text-2xl">Manage supervisor</h4>
+                    </div>
+                    <div th:if="${employee.supervisor != null}" class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <span class="text-sm font-medium text-gray-500">Supervisor</span>
+                        <a th:href="@{'/employee-portal/hr/employee/' + ${employee.supervisor.id}}"
+                           th:text="${employee.supervisor.basicInfo.firstName} + ' ' + ${employee.supervisor.basicInfo.lastName}"
+                           class="mt-1 text-sm text-gray-900 sm:mt-0">Some Kek</a>
+                    </div>
+                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <span class="text-sm font-medium text-gray-500">New</span>
+                        <select class="mt-1 p-2 text-sm border border-gray-300 bg-white text-gray-900 block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md"
+                                th:field="*{id}" id="id">
+                            <option th:each="supervisor : ${supervisors}" th:value="${supervisor.id}"
+                                    th:text="${supervisor.basicInfo.firstName} + ' ' + ${supervisor.basicInfo.lastName}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                    <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
+
 
 <footer th:replace="fragments/general.html :: footer"></footer>
 </body>

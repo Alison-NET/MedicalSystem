@@ -68,7 +68,7 @@ public class DocumentController {
         Employee activeEmployee = employeeService.getActiveEmployee().get();
 
         Optional<Document> maybeDocument = documentService.findById(id);
-        if(maybeDocument.isEmpty())                                             // Add exception
+        if(maybeDocument.isEmpty())
             throw new InvalidPathVariableException(Constants.INVALID_DOCUMENT_ID_MSG);
 
         Document document = maybeDocument.get();
@@ -79,7 +79,7 @@ public class DocumentController {
             if (!appointedDocumentService.canBeDeleted((AppointedDocument) document, activeEmployee))
                 throw new AccessDeniedException(Constants.DELETE_DOCUMENT_ACCESS_DENIED_MSG + " appointed");
         }
-//        documentService.deleteById(id);
+        documentService.deleteById(id);
         return Optional.ofNullable(request.getHeader("Referer"))
                 .map(requestUrl -> "redirect:" + requestUrl)
                 .orElse("/");

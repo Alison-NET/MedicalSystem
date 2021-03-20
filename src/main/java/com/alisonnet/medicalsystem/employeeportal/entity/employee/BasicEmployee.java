@@ -28,7 +28,7 @@ public class BasicEmployee {
     @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
     private String firstName;
 
-    @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
+//    @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
     private String middleName;
 
     @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
@@ -53,8 +53,8 @@ public class BasicEmployee {
     @Pattern(regexp = Constants.ZIP_PATTERN, message = Constants.VALIDATION_MSG_INVALID_ZIP)
     private String ZIP;
 
-    @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
-    @Pattern(regexp = Constants.PHONE_PATTERN, message = Constants.VALIDATION_MSG_INVALID_PHONE)
+//    @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)
+//    @Pattern(regexp = Constants.PHONE_PATTERN, message = Constants.VALIDATION_MSG_INVALID_PHONE)
     private String homePhone;
 
     @NotBlank(message = Constants.VALIDATION_MSG_CANT_BE_EMPTY)

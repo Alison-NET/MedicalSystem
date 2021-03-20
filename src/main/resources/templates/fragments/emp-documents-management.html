@@ -2,55 +2,98 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 
-<div th:fragment="documents-management" class="bootstrap-wrapper">
-    <div class="container">
+<div th:fragment="documents-management">
 
 
-        <div th:if="${not #lists.isEmpty(employee.empDocuments)}">
-            <div th:if="${not #lists.isEmpty(documentType.empDocuments)}" th:each="documentType : ${documentTypes}" class="profile-edit-item">
-<!--                <div class="col-md-12">-->
-                    <p class="name" th:text="${documentType.name}"></p>
-<!--                </div>-->
-                <div th:each="document : ${documentType.empDocuments}" class="profile-edit-item row">
-                    <div class="col-md-4">
-                        <a th:href="@{'/employee-portal/document/' + ${document.id} + '/download'}">
-                            <span th:text="${document.name}"></span>
-                        </a>
+    <div th:if="${not #lists.isEmpty(employee.empDocuments)}">
+    <div th:if="${not #lists.isEmpty(documentType.empDocuments)}" th:each="documentType : ${documentTypes}" class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt th:text="${documentType.name}" class="text-sm font-medium text-gray-500">
+            Driving card
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+                <li th:each="document : ${documentType.empDocuments}" class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                    <div class="w-0 flex-1 flex items-center">
+                        <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
+                        </svg>
+                        <span th:text="${document.name}" class="ml-2 flex-1 w-0 truncate">resume_back_end_developer.pdf</span>
                     </div>
-                    <div class="col-md-8">
-                        <div class="input-wrapper">
-
-                            <a th:if="${not #authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')') and #bools.isFalse(document.isLocked)}"
-                               th:href="@{'/employee-portal/document/' + ${document.id} + '/delete'}">
-                                <span>Remove &nbsp;</span>
-                            </a>
-
-                            <span th:if="${not #authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')') and #bools.isTrue(document.isLocked)}"
-                                  th:href="@{'/employee-portal/document/' + ${document.id} + '/delete'}">
-                                <span>Locked</span>
-                            </span>
-
-                            <a th:if="${#authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')')}"
-                               th:href="@{'/employee-portal/document/' + ${document.id} + '/delete'}">
-                                <span>Remove &nbsp;</span>
-                            </a>
-
-                            <a th:if="${#authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')') and #bools.isFalse(document.isLocked)}"
-                               th:href="@{'/employee-portal/hr/employee/' + ${employee.id} + '/document/' + ${document.id} + '/lock'}">
-                                <span>Lock</span>
-                            </a>
-
-                            <a th:if="${#authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')') and #bools.isTrue(document.isLocked)}"
-                               th:href="@{'/employee-portal/hr/employee/' + ${employee.id} + '/document/' + ${document.id} + '/unlock'}">
-                                <span>Unlock</span>
-                            </a>
-                        </div>
+                    <div class="ml-4 flex-shrink-0">
+                        <a th:href="@{'/employee-portal/document/' + ${document.id} + '/download'}" class="font-medium text-indigo-600 hover:text-indigo-500">Download</a>
                     </div>
-                </div>
-            </div>
-        </div>
-
+                    <div th:if="${not #authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')') and #bools.isFalse(document.isLocked)}"
+                         class="ml-4 flex-shrink-0">
+                        <a th:href="@{'/employee-portal/document/' + ${document.id} + '/delete'}" class="font-medium text-red-500 hover:text-red-600">Remove</a>
+                    </div>
+                    <div th:if="${not #authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')') and #bools.isTrue(document.isLocked)}"
+                         class="ml-4 flex-shrink-0">
+                        <span class="font-medium text-gray-500">Locked</span>
+                    </div>
+                    <div th:if="${#authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')')}"
+                         class="ml-4 flex-shrink-0">
+                        <a th:href="@{'/employee-portal/document/' + ${document.id} + '/delete'}" class="font-medium text-red-500 hover:text-red-600">Remove</a>
+                    </div>
+                    <div th:if="${#authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')') and #bools.isFalse(document.isLocked)}"
+                         class="ml-4 flex-shrink-0">
+                        <a th:href="@{'/employee-portal/hr/employee/' + ${employee.id} + '/document/' + ${document.id} + '/lock'}" class="font-medium text-red-200 hover:text-red-300">Lock</a>
+                    </div>
+                    <div th:if="${#authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')') and #bools.isTrue(document.isLocked)}"
+                         class="ml-4 flex-shrink-0">
+                        <a th:href="@{'/employee-portal/hr/employee/' + ${employee.id} + '/document/' + ${document.id} + '/unlock'}" class="font-medium text-yellow-300 hover:text-yellow-400">Unlock</a>
+                    </div>
+                </li>
+            </ul>
+        </dd>
     </div>
+    </div>
+
+<!--    <div class="container">-->
+<!--        <div th:if="${not #lists.isEmpty(employee.empDocuments)}">-->
+<!--            <div th:if="${not #lists.isEmpty(documentType.empDocuments)}" th:each="documentType : ${documentTypes}" class="profile-edit-item">-->
+<!--&lt;!&ndash;                <div class="col-md-12">&ndash;&gt;-->
+<!--                    <p class="name" th:text="${documentType.name}"></p>-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--                <div th:each="document : ${documentType.empDocuments}" class="profile-edit-item row">-->
+<!--                    <div class="col-md-4">-->
+<!--                        <a th:href="@{'/employee-portal/document/' + ${document.id} + '/download'}">-->
+<!--                            <span th:text="${document.name}"></span>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                    <div class="col-md-8">-->
+<!--                        <div class="input-wrapper">-->
+
+<!--                            <a th:if="${not #authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')') and #bools.isFalse(document.isLocked)}"-->
+<!--                               th:href="@{'/employee-portal/document/' + ${document.id} + '/delete'}">-->
+<!--                                <span>Remove &nbsp;</span>-->
+<!--                            </a>-->
+
+<!--                            <span th:if="${not #authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')') and #bools.isTrue(document.isLocked)}"-->
+<!--                                  th:href="@{'/employee-portal/document/' + ${document.id} + '/delete'}">-->
+<!--                                <span>Locked</span>-->
+<!--                            </span>-->
+
+<!--                            <a th:if="${#authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')')}"-->
+<!--                               th:href="@{'/employee-portal/document/' + ${document.id} + '/delete'}">-->
+<!--                                <span>Remove &nbsp;</span>-->
+<!--                            </a>-->
+
+<!--                            <a th:if="${#authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')') and #bools.isFalse(document.isLocked)}"-->
+<!--                               th:href="@{'/employee-portal/hr/employee/' + ${employee.id} + '/document/' + ${document.id} + '/lock'}">-->
+<!--                                <span>Lock</span>-->
+<!--                            </a>-->
+
+<!--                            <a th:if="${#authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'', ''SYSTEM_ADMIN_DEP'')') and #bools.isTrue(document.isLocked)}"-->
+<!--                               th:href="@{'/employee-portal/hr/employee/' + ${employee.id} + '/document/' + ${document.id} + '/unlock'}">-->
+<!--                                <span>Unlock</span>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
 </div>
 
 

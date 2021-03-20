@@ -3,48 +3,59 @@
 <body>
 
 
-<form class="profile-edit-form contract-create-form" th:fragment="contract-create-form"  th:action="@{/employee-portal/hr/employee/__${employee.id}__/new-contract}" th:object="${contract}" method="post">
+<form th:fragment="contract-create-form"  th:action="@{/employee-portal/hr/employee/__${employee.id}__/new-contract}" th:object="${contract}" method="post">
 
-    <div class="profile-edit-item row">
-        <div class="col-md-4">
-            <p class="name">Link</p>
-        </div>
-        <div class="col-md-4">
-            <div class="input-wrapper">
-                <input class="form-in-item" type="text" th:field="*{link}">
-                <p class="form-item-error" th:each="error : ${#fields.errors('link')}" th:text="${error}">Validation error</p>
+    <div class="my-8 shadow overflow-hidden sm:rounded-md">
+        <div class="px-4 py-5 bg-white sm:p-6">
+            <div class="mt-10 mb-4">
+                <h4 class="text-2xl">Manage contracts</h4>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="input-wrapper">
-                <p class="name">Signed</p>
-                <label class="checkbox-container form-in-item">
-                    <input th:field="*{signed}" type="checkbox" checked="checked">
-                    <span class="checkmark"></span>
-                </label>
-            </div>
-        </div>
-    </div>
 
-    <div class="profile-edit-item row">
-        <div class="col-md-4">
-            <p class="name">Terms</p>
-        </div>
-        <div class="col-md-8">
-            <div class="input-wrapper">
-                <div class="form-in-item" >
-                    <label>Starting</label>
-                    <input type="date" th:field="*{starting}">
-                    <label>Expiring</label>
-                    <input type="date" th:field="*{expiring}"><br>
-                    <p class="form-item-error" th:each="error : ${#fields.errors('starting')}" th:text="${error}">Validation error</p>
-                    <p class="form-item-error" th:each="error : ${#fields.errors('expiring')}" th:text="${error}">Validation error</p>
+            <div class="grid grid-cols-8 gap-6">
+                <div class="col-span-8 sm:col-span-6">
+                    <label for="link" class="block text-sm font-medium text-gray-700">Link</label>
+                    <input th:field="*{link}" type="text" id="link"
+                           class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                    <div class="text-xs text-red-500" th:each="error : ${#fields.errors('link')}" th:text="${error}">Validation error</div>
+                </div>
+                <div class="col-span-8 sm:col-span-2">
+                    <div class="h-full flex items-end">
+                        <label class="flex justify-start items-start">
+                            <div class="bg-white border-2 rounded border-gray-400 w-6 h-6 flex flex-shrink-0 justify-center items-center mr-2 focus-within:border-blue-500">
+                                <input th:field="*{signed}" type="checkbox" class="opacity-0 absolute">
+                                <svg class="fill-current hidden w-4 h-4 text-indigo-500 pointer-events-none" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"></path></svg>
+                            </div>
+                            <div class="select-none">Signed</div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-span-8 sm:col-span-4">
+                    <label class="block text-sm font-medium text-gray-700">Terms</label>
+                    <div class="flex flex-row justify-between mt-1">
+                        <div>
+                            <input th:field="*{starting}" type="date" id="starting"
+                                   class="py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-50 ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                            <div class="text-xs text-red-500" th:each="error : ${#fields.errors('starting')}" th:text="${error}">Validation error</div>
+                        </div>
+                        <span class="self-center">-</span>
+                        <div>
+                            <input th:field="*{expiring}" type="date" id="expiring"
+                                   class="py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-50 ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                            <div class="text-xs text-red-500" th:each="error : ${#fields.errors('expiring')}" th:text="${error}">Validation error</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <input class="btn form-submit-btn" type="submit" value="Add new contract">
+        <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+            <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Add
+            </button>
+        </div>
+
+    </div>
 </form>
 
 </body>
