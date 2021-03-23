@@ -19,33 +19,31 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class MyUserDetailsService implements UserDetailsService {
+public class EmployeeUserDetailsService implements UserDetailsService {
 
     CredentialsService credentialsService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        Optional<Credentials> maybeCredentials = credentialsService.findByEmail(email);
-
-        Credentials credentials =
-                maybeCredentials
+        Credentials credentials = credentialsService.findByEmail(email)
                         .orElseThrow(() -> new UsernameNotFoundException("No user found with username: " + email));
 
-        boolean enabled = true;
-        boolean accountNonExpired = true;
-        boolean credentialsNonExpired = true;
-        boolean accountNonLocked = true;
-
-        return new org.springframework.security.core.userdetails.User(
-                credentials.getEmail(),
-                credentials.getPassword().toLowerCase(),
-                enabled,
-                accountNonExpired,
-                credentialsNonExpired,
-                accountNonLocked,
-                getAuthoritiesByJobPosition(credentials.getEmployee().getJobPosition())
-        );
+        return new EmployeeUserDetails(credentials.getEmployee());
+//        boolean enabled = true;
+//        boolean accountNonExpired = true;
+//        boolean credentialsNonExpired = true;
+//        boolean accountNonLocked = true;
+//
+//        return new org.springframework.security.core.userdetails.User(
+//                credentials.getEmail(),
+//                credentials.getPassword().toLowerCase(),
+//                enabled,
+//                accountNonExpired,
+//                credentialsNonExpired,
+//                accountNonLocked,
+//                getAuthoritiesByJobPosition(credentials.getEmployee().getJobPosition())
+//        );
     }
 
 //

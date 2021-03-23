@@ -6,10 +6,12 @@
 <form th:fragment="contract-create-form"  th:action="@{/employee-portal/hr/employee/__${employee.id}__/new-contract}" th:object="${contract}" method="post">
 
     <div class="my-8 shadow overflow-hidden sm:rounded-md">
+        <div class="bg-white border-b border-gray-200 px-4 py-5 sm:px-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Manage contracts
+            </h3>
+        </div>
         <div class="px-4 py-5 bg-white sm:p-6">
-            <div class="mt-10 mb-4">
-                <h4 class="text-2xl">Manage contracts</h4>
-            </div>
 
             <div class="grid grid-cols-8 gap-6">
                 <div class="col-span-8 sm:col-span-6">
@@ -33,15 +35,15 @@
                 <div class="col-span-8 sm:col-span-4">
                     <label class="block text-sm font-medium text-gray-700">Terms</label>
                     <div class="flex flex-row justify-between mt-1">
-                        <div>
+                        <div class="flex-grow">
                             <input th:field="*{starting}" type="date" id="starting"
-                                   class="py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-50 ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                                   class="py-2 w-full border border-gray-300 bg-white text-gray-900 appearance-none block ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
                             <div class="text-xs text-red-500" th:each="error : ${#fields.errors('starting')}" th:text="${error}">Validation error</div>
                         </div>
-                        <span class="self-center">-</span>
-                        <div>
+                        <span class="px-2 self-center">–</span>
+                        <div class="flex-grow">
                             <input th:field="*{expiring}" type="date" id="expiring"
-                                   class="py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-50 ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                                   class="py-2 w-full border border-gray-300 bg-white text-gray-900 appearance-none block ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
                             <div class="text-xs text-red-500" th:each="error : ${#fields.errors('expiring')}" th:text="${error}">Validation error</div>
                         </div>
                     </div>

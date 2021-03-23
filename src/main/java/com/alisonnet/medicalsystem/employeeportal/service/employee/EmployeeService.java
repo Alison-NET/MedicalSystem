@@ -1,5 +1,6 @@
 package com.alisonnet.medicalsystem.employeeportal.service.employee;
 
+import com.alisonnet.medicalsystem.config.EmployeeUserDetails;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.Employee;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +16,10 @@ public interface EmployeeService {
     Optional<Employee> getActiveEmployee();
     List<Employee> getPossibleSupervisorsFor(Employee employee);
     void removeFromDepartmentRelations(Employee employee);
+    boolean hasInSubordinates(Employee supervisor, Employee subordinate);
+    boolean isDepartmentChief(Employee employee);
     boolean isInHRDepartment(Employee employee);
     boolean isInAdminDepartment(Employee employee);
-    boolean canBeEdited(Employee employeeToEdit, Employee activeEmployee);
-    void updateRelationsIfNeeded(Employee employee);
-
+    boolean canEdit(Employee activeEmployee, Employee employeeToEdit);
+    void tryUpdateRelations(Employee employee);
 }

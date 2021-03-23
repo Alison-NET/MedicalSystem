@@ -61,24 +61,4 @@ public class Employee {
     @OneToOne(cascade = CascadeType.ALL)
     private Credentials credentials;
 
-//    public void removeFromDepartmentRelations() {
-//        if(isDepartmentChief()){
-//            subordinates.forEach(subordinate -> {
-//                subordinate.setSupervisor(null);
-//            });
-//            return;
-//        }
-//        if(subordinates != null) {
-//            subordinates.forEach(subordinate -> {
-//                subordinate.setSupervisor(supervisor);
-//            });
-//        }
-//        if(supervisor != null){
-//            supervisor = null;
-//        }
-//    }
-
-    public boolean isDepartmentChief(){
-        return jobPosition.equals(jobPosition.getDepartment().getChiefJobPosition());
-    }
 }

@@ -1,7 +1,9 @@
 package com.alisonnet.medicalsystem.employeeportal.webcontroller;
 
+import com.alisonnet.medicalsystem.config.EmployeeUserDetails;
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.dto.document.DocTypeAndFilesDTO;
+import com.alisonnet.medicalsystem.employeeportal.entity.employee.Department;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.DocumentType;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.Employee;
 import com.alisonnet.medicalsystem.employeeportal.exception.exceptions.ActiveEmployeeAbsenceException;
@@ -12,6 +14,7 @@ import com.alisonnet.medicalsystem.employeeportal.service.employee.EmpDocumentSe
 import com.alisonnet.medicalsystem.employeeportal.service.employee.EmployeeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,24 +37,35 @@ public class EmployeePortalController {
 
     @GetMapping
     public String getHomePage(Model model){
-        //HR
-        model.addAttribute("departmentsWithoutChief", departmentService.getDepartmentsWithoutChiefs());
+        boolean isAttention = false;
+
+        Optional<Employee> activeEmployee = employeeService.getActiveEmployee();
+        if(activeEmployee.isPresent()){
+            if(employeeService.isInAdminDepartment(activeEmployee.get())
+                    || employeeService.isInHRDepartment(activeEmployee.get())){
+                //HR ar ADMIN
+                List<Department> departmentsWithoutChiefs = departmentService.getDepartmentsWithoutChiefs();
+                if(!departmentsWithoutChiefs.isEmpty()) isAttention = true;
+                model.addAttribute("departmentsWithoutChief", departmentsWithoutChiefs);
+            }
+        }
+        model.addAttribute("isAttention", isAttention);
         return "employee-portal-home";
     }
 
 
-    @GetMapping("/profile")
+    @GetMapping("/employee/profile")
     public String getProfile(Model model){
 
         Optional<Employee> maybeEmployee = employeeService.getActiveEmployee();
         if(maybeEmployee.isEmpty())
             throw new ActiveEmployeeAbsenceException(Constants.ACTIVE_EMPLOYEE_ABSENCE_MSG);
 
-        return "redirect:/employee-portal/" + maybeEmployee.get().getId();
+        return "redirect:/employee-portal/employee/" + maybeEmployee.get().getId();
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/employee/{id}")
     public String getProfilePageById(@PathVariable int id, Model model){
 
         Optional<Employee> maybeEmployee = employeeService.findById(id);
@@ -72,18 +86,24 @@ public class EmployeePortalController {
         Employee activeEmp = maybeActiveEmployee.get();
         boolean isMyProfile = activeEmp.getId() == id;
 
-        model.addAttribute("editButtonShow",
-                ( !(employeeService.isInHRDepartment(employee) || employeeService.isInAdminDepartment(employee))
-                        && employeeService.isInHRDepartment(activeEmp))
-                        || employeeService.isInAdminDepartment(activeEmp)
+        model.addAttribute("canSeeEditButton", employeeService.canEdit(activeEmp, employee));
+
+        model.addAttribute("canSeeWorkInfo",
+                ( isMyProfile
+                || employeeService.hasInSubordinates(activeEmp, employee)
+                || employeeService.isInHRDepartment(activeEmp) && !employeeService.isInHRDepartment(employee)
+                || employeeService.isInAdminDepartment(activeEmp) )
         );
 
+        model.addAttribute("isMyProfile", isMyProfile);
 
-        model.addAttribute("canManageDocuments",
-                (!(employeeService.isInAdminDepartment(activeEmp) || employeeService.isInHRDepartment(activeEmp))
-                        && isMyProfile)
-                        || (employeeService.isInHRDepartment(activeEmp) && isMyProfile)
-        );
+//        model.addAttribute("canManageDocuments", (!employeeService.isInAdminDepartment(activeEmp)) && isMyProfile);
+
+//        model.addAttribute("canManageDocuments",
+//                (!(employeeService.isInAdminDepartment(activeEmp) || employeeService.isInHRDepartment(activeEmp))
+//                        && isMyProfile)
+//                        || (employeeService.isInHRDepartment(activeEmp) && isMyProfile)
+//        );
 
         return "employee-profile";
     }
@@ -102,7 +122,7 @@ public class EmployeePortalController {
         for(MultipartFile file: dto.getFiles())
             empDocumentService.save(file, dto.getDocumentType(), employee);
 
-        return "redirect:/employee-portal/" + employee.getId();
+        return "redirect:/employee-portal/employee/" + employee.getId();
     }
 
 

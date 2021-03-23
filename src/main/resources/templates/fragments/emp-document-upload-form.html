@@ -5,17 +5,20 @@
 <form th:fragment="document-upload-form" th:action="@{'/employee-portal/' + ${employee.id} + '/upload-documents'}"  th:object="${dto}" enctype="multipart/form-data" method="post">
 
     <div class="my-8 shadow overflow-hidden sm:rounded-md">
+        <div class="bg-white border-b border-gray-200 px-4 py-5 sm:px-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Manage documents
+            </h3>
+        </div>
         <div class="px-4 py-5 bg-white sm:p-6">
 
-            <div class="mt-10 mb-4">
-                <h4 class="text-2xl">Manage documents</h4>
-            </div>
-
-            <div th:replace="fragments/emp-documents-management.html :: documents-management"></div>
+            <th:block th:if="${not #lists.isEmpty(employee.empDocuments)}">
+                <div th:replace="fragments/emp-documents-management.html :: documents-management(canManage=true)"></div>
+            </th:block>
 
             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <span class="text-sm font-medium text-gray-500">New</span>
-                <select class="mt-1 p-2 text-sm border border-gray-300 bg-white text-gray-900 block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md"
+                <select class="p-2 text-sm border border-gray-300 bg-white text-gray-900 block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md"
                         th:field="*{documentType}" id="documentType">
                     <option th:each="docType : ${documentTypes}" th:value="${docType.id}" th:text="${docType.name}"></option>
                 </select>

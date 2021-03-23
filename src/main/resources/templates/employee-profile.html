@@ -13,10 +13,13 @@
 
 <div class="max-w-5xl mx-auto py-14">
     <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-        <div class="px-4 py-5 sm:px-6">
-            <h3 class="text-lg leading-6 font-medium text-gray-900">
-                General Information
-            </h3>
+        <div class="px-4 py-5 sm:px-6 flex justify-between">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">General Information</h3>
+            <a th:if="${#bools.isTrue(canSeeEditButton)}"
+               th:href="@{'/employee-portal/hr/employee/' + ${employee.id}}"
+               class="border-2 border-gray-300 hover:border-indigo-600 hover:bg-indigo-600 px-2 text-md leading-6 font-medium text-gray-400 hover:text-white rounded-md">
+                Edit
+            </a>
         </div>
         <div class="border-t border-gray-200">
             <dl>
@@ -115,343 +118,130 @@
     </div>
 
 
+    <th:block th:if="${#bools.isTrue(canSeeWorkInfo)}">
 
-    <div class="my-8 bg-white shadow overflow-hidden sm:rounded-lg">
-        <div class="px-4 py-5 sm:px-6">
-            <h3 class="text-lg leading-6 font-medium text-gray-900">
-                Work Information
-            </h3>
-        </div>
-        <div class="border-t border-gray-200">
-            <dl>
-                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        Department
-                    </dt>
-                    <dd th:text="${employee.jobPosition.department.name}"
-                        class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        Department
-                    </dd>
-                </div>
-                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        Job position
-                    </dt>
-                    <dd th:text="${{employee.jobPosition.name}}"
-                        class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        Job position
-                    </dd>
-                </div>
-                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        Salary
-                    </dt>
-                    <dd th:text="${'$' + employee.salary}"
-                        class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        $1200
-                    </dd>
-                </div>
-                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        Commission
-                    </dt>
-                    <dd th:text="${'$' + employee.commission}"
-                        class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        $23
-                    </dd>
-                </div>
-                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        Work shift
-                    </dt>
-                    <dd th:text="${employee.workShift}"
-                        class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        9 AM - 4 PM
-                    </dd>
-                </div>
-
-                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        Attachments
-                    </dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
-                            <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-                                <div class="w-0 flex-1 flex items-center">
-                                    <!-- Heroicon name: solid/paper-clip -->
-                                    <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                        <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
-                                    </svg>
-                                    <span class="ml-2 flex-1 w-0 truncate">
-                      resume_back_end_developer.pdf
-                    </span>
-                                </div>
-                                <div class="ml-4 flex-shrink-0">
-                                    <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-                                        Download
-                                    </a>
-                                </div>
-                            </li>
-                            <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-                                <div class="w-0 flex-1 flex items-center">
-                                    <!-- Heroicon name: solid/paper-clip -->
-                                    <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                        <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
-                                    </svg>
-                                    <span class="ml-2 flex-1 w-0 truncate">
-                      coverletter_back_end_developer.pdf
-                    </span>
-                                </div>
-                                <div class="ml-4 flex-shrink-0">
-                                    <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-                                        Download
-                                    </a>
-                                </div>
-                            </li>
-                        </ul>
-                    </dd>
-                </div>
-            </dl>
-        </div>
-    </div>
-
-
-
-
-</div>
-
-
-
-
-
-<div class="bootstrap-wrapper">
-    <div class="container">
-        <div class="page-info row">
-            <div class="col-md-4">
-                <span class="name">Employee Profile</span>
+        <div class="my-8 bg-white shadow overflow-hidden sm:rounded-lg">
+            <div class="px-4 py-5 sm:px-6">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    Work Information
+                </h3>
             </div>
-            <div class="col-md-8">
+            <div class="border-t border-gray-200">
+                <dl>
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">
+                            Department
+                        </dt>
+                        <dd th:text="${employee.jobPosition.department.name}"
+                            class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            Department
+                        </dd>
+                    </div>
+                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">
+                            Job position
+                        </dt>
+                        <dd th:text="${{employee.jobPosition.name}}"
+                            class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            Job position
+                        </dd>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">
+                            Salary
+                        </dt>
+                        <dd th:text="${'$' + employee.salary}"
+                            class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            $1200
+                        </dd>
+                    </div>
+                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">
+                            Commission
+                        </dt>
+                        <dd th:text="${'$' + employee.commission}"
+                            class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            $23
+                        </dd>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">
+                            Work shift
+                        </dt>
+                        <dd th:text="${employee.workShift}"
+                            class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            9 AM - 4 PM
+                        </dd>
+                    </div>
+                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">
+                            Added to payroll
+                        </dt>
+                        <dd th:text="${employee.addedToPayroll}? 'Yes' : 'No'"
+                            class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            Yes
+                        </dd>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">
+                            Completed training
+                        </dt>
+                        <dd th:text="${employee.completedTraining}? 'Yes' : 'No'"
+                            class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            Yes
+                        </dd>
+                    </div>
+                    <div th:if="${employee.supervisor != null}"
+                         class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">
+                            Supervisor
+                        </dt>
+                        <a th:href="@{'/employee-portal/employee/' + ${employee.supervisor.id}}"
+                           th:text="${employee.supervisor.basicInfo.firstName + ' ' + employee.supervisor.basicInfo.lastName}"
+                           class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            Mike Joes
+                        </a>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(employee.subordinates)}"
+                         class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+                         th:classappend="${employee.supervisor != null ? 'bg-gray-50' : 'bg-white'}">
+                        <dt class="text-sm font-medium text-gray-500">
+                            Subordinates
+                        </dt>
 
-                <!--     HR cannot edit own and admin's profile, but admin can edit any profile           -->
+                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 grid grid-cols-4 gap-3">
+                            <div class="inline-block mr-4" th:each="sub : ${employee.subordinates}">
+                                <a th:href="@{'/employee-portal/employee/'+ ${sub.id}}"
+                                   th:text="${sub.basicInfo.firstName + ' ' + sub.basicInfo.lastName}">
+                                    Mike Joes
+                                </a>
+                            </div>
+                        </dd>
+                    </div>
 
-                <a th:if="${#bools.isTrue(editButtonShow)}"
-                   class="extra-btn" th:href="@{'/employee-portal/hr/employee/' + ${employee.id}}">
-                    <span class="text">Edit</span>
-                </a>
-
+                </dl>
             </div>
         </div>
 
-        <div class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Name</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${employee.basicInfo.firstName + ' ' + employee.basicInfo.lastName}"></p>
-            </div>
-        </div>
-
-        <div th:if="${employee.basicInfo.dateOfBirth != null}" class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Date of birth</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${{employee.basicInfo.dateOfBirth}}"></p>
-            </div>
-        </div>
-
-        <div th:if="${employee.basicInfo.socialSecurity != null}" class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Social Security</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${employee.basicInfo.socialSecurity}"></p>
-            </div>
-        </div>
-
-        <div th:if="${employee.basicInfo.homePhone != null}" class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Home Phone</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${employee.basicInfo.homePhone}"></p>
-            </div>
-        </div>
-
-         <div th:if="${employee.basicInfo.mobilePhone != null}" class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Mobile Phone</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${employee.basicInfo.mobilePhone}"></p>
-            </div>
-        </div>
-
-         <div th:if="${employee.basicInfo.personalEmail != null}" class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Personal Email</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${employee.basicInfo.personalEmail}"></p>
-            </div>
-        </div>
-
-        <div th:if="${employee.basicInfo.city != null}" class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">City</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${employee.basicInfo.city}"></p>
-            </div>
-        </div>
-
-        <div th:if="${employee.basicInfo.state != null}" class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">State</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${employee.basicInfo.state}"></p>
-            </div>
-        </div>
-
-        <div th:if="${employee.basicInfo.ZIP != null}" class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">ZIP</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${employee.basicInfo.ZIP}"></p>
-            </div>
-        </div>
-
-         <div th:if="${employee.salary != null}" class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Salary</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${employee.salary}"></p>
-            </div>
-        </div>
-
-         <div th:if="${employee.commission != null}" class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Commission</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${employee.commission}"></p>
-            </div>
-        </div>
-
-        <div th:if="${employee.jobPosition.department != null}" class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Department</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${employee.jobPosition.department.name}"></p>
-            </div>
-        </div>
-
-
-         <div th:if="${employee.jobPosition != null}" class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Job Position</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${employee.jobPosition.name}"></p>
-            </div>
-        </div>
-
-         <div th:if="${employee.workShift != null}" class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Work Shift</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${employee.workShift}"></p>
-            </div>
-        </div>
-
-
-        <div th:if="${employee.completedTraining != null}" class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Completed Training</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${employee.completedTraining}? 'Yes' : 'No'"></p>
-            </div>
-        </div>
-
-        <div th:if="${employee.addedToPayroll != null}" class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Added to payroll</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${employee.addedToPayroll}? 'Yes' : 'No'"></p>
-            </div>
-        </div>
-
-        <div th:if="${employee.supervisor != null}" class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Supervisor</p>
-            </div>
-            <div class="col-md-8">
-                <a th:href="@{/employee-portal/employee/__${employee.supervisor.id}__}">
-                    <p class="descr" th:text="${employee.supervisor.basicInfo.firstName} + ' ' + ${employee.supervisor.basicInfo.lastName}"></p>
-                </a>
-            </div>
-        </div>
-
-        <div th:if="${not #lists.isEmpty(employee.subordinates)}" class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Subordinates</p>
-            </div>
-            <div class="col-md-8">
-                <div th:each="sub : ${employee.subordinates}">
-                    <a th:href="@{/employee-portal/__${sub.id}__}">
-                        <p class="descr" th:text="${sub.basicInfo.firstName + ' ' + sub.basicInfo.lastName}"></p>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div th:if="${not #lists.isEmpty(employee.contracts)}" class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Contracts</p>
-            </div>
-            <div class="col-md-8">
-                <ul class="ul-no-dot" th:each="contract : ${employee.contracts}">
-                    <li>
-                        <a th:href="${contract.link}" class="contract-link">Link</a>
-                        <p class="descr" th:text="${contract.signed}? 'Signed' : 'Not signed'"></p>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-
-        <div th:if="${(not #lists.isEmpty(employee.empDocuments)) and #bools.isFalse(canManageDocuments)}" class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Documents</p>
-            </div>
-            <div class="col-md-8">
-                <ul class="ul-no-dot" th:if="${not #lists.isEmpty(documentType.empDocuments)}" th:each="documentType : ${documentTypes}">
-                    <li>
-                        <p th:text="${documentType.name}" class="descr document-type"></p>
-                        <ul class="ul-no-dot" th:each="document : ${documentType.empDocuments}">
-                            <a th:href="@{'/employee-portal/document/' + ${document.id}+'/download'}">
-                                <li th:text="${document.name}" class="document-name"></li>
-                            </a>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        
-        <div th:if="${#bools.isTrue(canManageDocuments)}">
-            <hr>
-            <h2> Employee documents</h2>
+        <th:block th:if="${#bools.isTrue(isMyProfile)}">
             <div th:replace="fragments/emp-document-upload-form.html :: document-upload-form"></div>
-        </div>
+        </th:block>
 
-    </div>
+        <th:block th:if="${#bools.isFalse(isMyProfile) and not #lists.isEmpty(employee.empDocuments)}">
+            <div class="my-8 bg-white shadow overflow-hidden sm:rounded-lg">
+                <div class="px-4 py-5 sm:px-6">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">
+                        Documents
+                    </h3>
+                </div>
+                <div class="border-t border-gray-200">
+                    <div th:replace="fragments/emp-documents-management.html :: documents-management(canManage=false)"></div>
+                </div>
+            </div>
+        </th:block>
+
+    </th:block>
+
 </div>
 
 <footer th:replace="fragments/general.html :: footer"></footer>

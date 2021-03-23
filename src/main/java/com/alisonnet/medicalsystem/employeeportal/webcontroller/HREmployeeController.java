@@ -13,13 +13,11 @@ import com.alisonnet.medicalsystem.employeeportal.validator.BasicEmployeePersona
 import com.alisonnet.medicalsystem.employeeportal.validator.CredentialsEmailValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -46,6 +44,7 @@ public class HREmployeeController {
 
     private final BasicEmployeePersonalEmailValidator basicEmployeePersonalEmailValidator;
     private final CredentialsEmailValidator credentialsEmailValidator;
+
 
     @GetMapping("/approve-employee")
     public String getEmployeesToApprovePage(Model model){
@@ -100,7 +99,25 @@ public class HREmployeeController {
     }
 
 
+    @GetMapping("/employee")
+    public String getAllEmployees(Model model){
+        model.addAttribute("employees", employeeService.findAll());
+        return "hr/employees";
+    }
 
+    @GetMapping("/employee/{id}")
+    public String getEmployeeEditProfilePageById(@PathVariable int id, Model model){
+
+        Optional<Employee> maybeEmployee = employeeService.findById(id);
+        if(maybeEmployee.isEmpty())
+            throw new InvalidPathVariableException(Constants.INVALID_EMPLOYEE_ID_MSG);
+
+        Employee empToEdit = maybeEmployee.get();
+
+        setupEditEmployeeAttributes(model, empToEdit);
+
+        return "hr/approve-edit-employee";
+    }
 
     @PostMapping("/employee/save")
     public String handleSavingEmployee(@Valid @ModelAttribute Employee employee,
@@ -124,42 +141,19 @@ public class HREmployeeController {
             return "hr/approve-edit-employee";
         }
 
-        employeeService.updateRelationsIfNeeded(employee);
+        employeeService.tryUpdateRelations(employee);
 
         employee.getBasicInfo().setFullInfo(employee);
         basicEmployeeService.save(employee.getBasicInfo());
-        return "redirect:/employee-portal/hr/employee";
+        return "redirect:/employee-portal/employee/" + employee.getId();
     }
 
-
-    @GetMapping("/employee")
-    public String getAllEmployees(Model model){
-        model.addAttribute("employees", employeeService.findAll());
-        return "hr/employees";
-    }
-
-
-    @GetMapping("/employee/{id}")
-    public String getEmployeeEditProfilePageById(@PathVariable int id, Model model){
-
-        Optional<Employee> maybeEmployee = employeeService.findById(id);
-        if(maybeEmployee.isEmpty())
-            throw new InvalidPathVariableException(Constants.INVALID_EMPLOYEE_ID_MSG);
-
-        Employee empToEdit = maybeEmployee.get();
-
-        setupEditEmployeeAttributes(model, empToEdit);
-
-        return "hr/approve-edit-employee";
-    }
 
     private void setupEditEmployeeAttributes(Model model, Employee employeeToEdit) {
         Employee activeEmployee = employeeService.getActiveEmployee().get();
 
-        if (!employeeService.canBeEdited(employeeToEdit, activeEmployee))
+        if (!employeeService.canEdit(activeEmployee, employeeToEdit))
             throw new AccessDeniedException(Constants.VIEW_PAGE_ACCESS_DENIED_MSG);
-
-
         //
         model.addAttribute("employee", employeeToEdit);
         model.addAttribute("departments", departmentService.findAllByOrderByNameAsc());

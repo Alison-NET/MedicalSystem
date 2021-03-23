@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace="fragments/general.html :: head"></head>
 <body>
 <header th:replace="fragments/general.html::header"></header>
@@ -9,29 +9,48 @@
         <h1 class="text-3xl font-bold leading-tight text-gray-900">
             Employee portal hub
         </h1>
-       </div>
+    </div>
 </div>
 
-<div class="bootstrap-wrapper">
-    <div class="container">
-        <div sec:authorize="hasAnyAuthority('HUMAN_RESOURCES_DEP', 'SYSTEM_ADMIN_DEP')">
+<div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <div class="sm:text-center xl:text-left">
+        <h1 class="tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+            <span class="text-7xl block xl:inline">Hello,</span>
 
-            <div class="attention-block">
+            <th:block sec:authorize="isAuthenticated()">
+                <span class="text-7xl md:text-9xl text-indigo-600" sec:authentication="principal.firstName"></span>&nbsp;
+                <span class="text-7xl md:text-9xl text-indigo-600" sec:authentication="principal.lastName"></span>
+            </th:block>
+            <span class="text-7xl md:text-9xl text-indigo-600" sec:authorize="isAnonymous()">guest</span>
 
-                <div class="attention-block-section" th:if="${not #lists.isEmpty(departmentsWithoutChief)}">
-                    <h3>Attention!</h3>
-                    <p th:each="dep: ${departmentsWithoutChief}"
-                       th:text="${dep.name} + ' department has no department chief! Handle this to avoid tree looping!'"></p>
-                </div>
-
-            </div>
-
-        </div>
-
-        <p>Hello, <span sec:authorize="authenticated" sec:authentication="principal.authorities"></span>
-                  <span sec:authorize="anonymous">guest</span>
-        </p>
+        </h1>
     </div>
+
+    <div th:if="${#bools.isTrue(isAttention)}"
+         class="my-8 bg-red-100 shadow overflow-hidden sm:rounded-lg">
+        <div class="bg-red-200 px-4 py-5 sm:px-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Attention !!!
+            </h3>
+        </div>
+        <div class="border-t-2 border-red-300">
+            <div>
+                <th:block th:if="${not #lists.isEmpty(departmentsWithoutChief)}"
+                    sec:authorize="hasAnyAuthority('HUMAN_RESOURCES_DEP', 'SYSTEM_ADMIN_DEP')">
+                    <p class="px-4 py-5 sm:px-6">Following departments doesn't have chiefs! Handle this to avoid tree looping! </p>
+                    <div class="px-4 py-5 sm:px-6 grid grid-cols-4 gap-3">
+                        <p th:text="${dep.name}"
+                           th:each="dep: ${departmentsWithoutChief}"
+                           class="text-sm text-gray-900">
+                            Department
+                        </p>
+                    </div>
+
+                </th:block>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <footer th:replace="fragments/general.html :: footer"></footer>

@@ -13,103 +13,11 @@
 
 <header class="header" th:fragment="header">
 
-    <div class="top-info-wrapper bootstrap-wrapper">
-        <div class="container">
-            <div class="top-info row">
-                <a class="top-info-item isDisabled" href="/login">
-                    <div>
-                        <h4 class="item-text">Patient portal</h4>
-                    </div>
-                </a>
-
-                <a class="top-info-item" href="/employee-portal">
-                    <div>
-                        <h4 class="item-text">Employee portal</h4>
-                    </div>
-                </a>
-
-                <a class="top-info-item isDisabled" href="/login">
-                    <div>
-                        <h4 class="item-text">Provider portal</h4>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-
-<!--    <div class="top-nav-wrapper bootstrap-wrapper">-->
-<!--        <div class="container">-->
-<!--            <nav class="top-nav row">-->
-<!--                <div class="top-nav-branding col-sm-3">-->
-<!--                    <a href="/index">-->
-<!--                        <p class="brand-title">Medical System</p>-->
-<!--                    </a>-->
-<!--                </div>-->
-<!--                <div class="top-nav-links col-sm-9">-->
-
-<!--                    <div class="nav-link">-->
-<!--                        <a href="/employee-portal">Home</a>-->
-<!--                    </div>-->
-
-<!--                    <div sec:authorize="hasAnyAuthority('HUMAN_RESOURCES_DEP', 'SYSTEM_ADMIN_DEP')" class="nav-link">-->
-<!--                        <a href="/employee-portal/hr/approve-employee">Employees To Approve</a>-->
-<!--                    </div>-->
-
-<!--                    <div sec:authorize="hasAnyAuthority('HUMAN_RESOURCES_DEP', 'SYSTEM_ADMIN_DEP')" class="nav-link">-->
-<!--                        <a href="/employee-portal/hr/employee">Employees</a>-->
-<!--                    </div>-->
-
-<!--                    <div sec:authorize="hasAnyAuthority('HUMAN_RESOURCES_DEP', 'SYSTEM_ADMIN_DEP')" class="nav-link">-->
-<!--                        <a href="/employee-portal/hr/documents-for-job-position">Manage Appointed Documents</a>-->
-<!--                    </div>-->
-
-<!--                    <div th:if="${#authorization.expression('isAuthenticated()')-->
-<!--                                and not #authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'',''SYSTEM_ADMIN_DEP'')')}" class="nav-link">-->
-<!--                        <a href="/employee-portal/documents-for-job-position">Appointed Documents</a>-->
-<!--                    </div>-->
-
-<!--                    <div sec:authorize="hasAuthority('SALES_DEP')" class="nav-link">-->
-<!--                        <a href="/employee-portal/sales">SALES CONTROL</a>-->
-<!--                    </div>-->
-
-<!--                    <div sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')" class="nav-link">-->
-<!--                        <a href="/employee-portal/admin">Admin Control</a>-->
-<!--                    </div>-->
-
-<!--                    <div th:if="${#authorization.expression('isAuthenticated()')-->
-<!--                                and not #authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'',''SYSTEM_ADMIN_DEP'')')}" class="nav-link">-->
-<!--                        <a href="/employee-portal/profile">Profile</a>-->
-<!--                    </div>-->
-
-<!--                    <div sec:authorize="isAnonymous()" class="nav-link">-->
-<!--                        <a href="/employee-portal/new-employee">Registration</a>-->
-<!--                    </div>-->
-
-<!--                    <div sec:authorize="isAnonymous()" class="nav-link">-->
-<!--                        <a href="/login">Log In</a>-->
-<!--                    </div>-->
-
-<!--                    <div sec:authorize="isAuthenticated()" class="nav-link">-->
-<!--                        <form th:action="@{/logout}" method="post">-->
-<!--                            <input type="submit" value="Log Out"/>-->
-<!--                        </form>-->
-<!--                    </div>-->
-
-
-<!--                </div>-->
-<!--            </nav>-->
-<!--        </div>-->
-<!--    </div>-->
-
-
-
         <nav class="bg-gray-800">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
-                    <div class="flex items-center">
                         <div class="flex-shrink-0">
-                            <span class="text-gray-100 text-2xl font-bold">MedicalSystem</span>
-<!--                            <img class="h-8 w-8" src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg" alt="Workflow">-->
+                            <a href="/" class="text-gray-100 text-2xl font-bold">MedicalSystem</a>
                         </div>
                         <div class="hidden md:block">
                             <div class="ml-10 flex items-baseline space-x-4">
@@ -130,18 +38,18 @@
                                 <a sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')" href="/employee-portal/admin" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Admin Control</a>
 
                                 <a th:if="${#authorization.expression('isAuthenticated()')
-                                and not #authorization.expression('hasAnyAuthority(''HUMAN_RESOURCES_DEP'',''SYSTEM_ADMIN_DEP'')')}" href="/employee-portal/profile" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Profile</a>
+                                and not #authorization.expression('hasAuthority(''SYSTEM_ADMIN_DEP'')')}" href="/employee-portal/employee/profile" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Profile</a>
 
                                 <a sec:authorize="isAnonymous()" href="/employee-portal/new-employee" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Registration</a>
 
-                                <a sec:authorize="isAnonymous()" href="/login" class="text-gray-200 hover:text-white bg-indigo-600 hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Log In</a>
+                                <a sec:authorize="isAnonymous()" href="/employee-portal/login" class="text-gray-200 hover:text-white bg-indigo-600 hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Log In</a>
 
                                 <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
                                     <input type="submit" value="Log Out" class="text-gray-200 hover:text-white bg-indigo-600 hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium"/>
                                 </form>
 
                             </div>
-                        </div>
+<!--                        </div>-->
                     </div>
 
 <!--                    <div class="hidden md:block">-->

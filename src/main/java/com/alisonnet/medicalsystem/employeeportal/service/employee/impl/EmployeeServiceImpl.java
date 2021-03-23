@@ -1,5 +1,6 @@
 package com.alisonnet.medicalsystem.employeeportal.service.employee.impl;
 
+import com.alisonnet.medicalsystem.config.EmployeeUserDetails;
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.Credentials;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.Employee;
@@ -9,12 +10,16 @@ import com.alisonnet.medicalsystem.employeeportal.service.employee.EmployeeServi
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
@@ -39,38 +44,37 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Optional<Employee> getActiveEmployee() {
-
         Optional<Authentication> maybeAuthentication =
                 Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication());
-        if(maybeAuthentication.isEmpty()){
+        if(maybeAuthentication.isEmpty())
             return Optional.empty();
-        }
+
         Optional<Credentials> maybeCredentials =
                 credentialsRepo.findByEmail(maybeAuthentication.get().getName());
-        if(maybeCredentials.isEmpty()){
+        if(maybeCredentials.isEmpty())
             return Optional.empty();
-        }
-//        Optional<Employee> maybeEmployee =
-//                employeeRepo.findFirstByCredentials(maybeCredentials.get());
 
         return Optional.ofNullable(maybeCredentials.get().getEmployee());
     }
 
 
     @Override
-    public List<Employee> getPossibleSupervisorsFor(Employee forEmployee) {
-        List<Employee> employees = employeeRepo.findEmployeesByIdNot(forEmployee.getId());
+    public List<Employee> getPossibleSupervisorsFor(Employee employee) {
 
+        if(isDepartmentChief(employee))
+            return new ArrayList<>();
+
+        List<Employee> employees = employeeRepo.findEmployeesByIdNot(employee.getId());
         return employees.stream().
-                filter(employee -> employee.getJobPosition().getDepartment()
-                        .equals(forEmployee.getJobPosition().getDepartment()))
+                filter(someEmployee -> someEmployee.getJobPosition().getDepartment()
+                        .equals(employee.getJobPosition().getDepartment()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void updateRelationsIfNeeded(Employee employee) {
+    public void tryUpdateRelations(Employee employee) {
 
-        if(employee.isDepartmentChief())
+        if(isDepartmentChief(employee))
             employee.setSupervisor(null);
 
         Optional<Employee> beforeSavingMaybeEmployee = findById(employee.getId());
@@ -90,7 +94,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void removeFromDepartmentRelations(Employee employee) {
 
-        if(employee.isDepartmentChief()){
+        if(isDepartmentChief(employee)){
             employee.getSubordinates().forEach(subordinate -> {
                 subordinate.setSupervisor(null);
             });
@@ -107,6 +111,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public boolean hasInSubordinates(Employee supervisor, Employee subordinate) {
+        while(subordinate.getSupervisor() != null){
+            if(subordinate.getSupervisor().getId() == supervisor.getId()) return true;
+            subordinate = subordinate.getSupervisor();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isDepartmentChief(Employee employee) {
+        return employee.getJobPosition().equals(employee.getJobPosition().getDepartment().getChiefJobPosition());
+    }
+
+    @Override
     public boolean isInHRDepartment(Employee employee) {
         return employee.getJobPosition().getDepartment().getName().equals(Constants.human_resources_department);
     }
@@ -117,8 +135,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public boolean canBeEdited(Employee employeeToEdit, Employee activeEmployee) {
-        return !((isInHRDepartment(activeEmployee) && isInHRDepartment(employeeToEdit))
-                || (isInHRDepartment(activeEmployee) && isInAdminDepartment(employeeToEdit)));
+    public boolean canEdit(Employee activeEmployee, Employee employeeToEdit) {
+        return ( !(isInHRDepartment(employeeToEdit) || isInAdminDepartment(employeeToEdit))
+                && isInHRDepartment(activeEmployee))
+                || isInAdminDepartment(activeEmployee);
+//        return !((isInHRDepartment(activeEmployee) && isInHRDepartment(employeeToEdit))
+//                || (isInHRDepartment(activeEmployee) && isInAdminDepartment(employeeToEdit)));
     }
+
+
 }

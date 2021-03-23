@@ -8,29 +8,6 @@
 
 <body>
 
-<!--<div class="bootstrap-wrapper">-->
-
-<!--    <div class="red container">-->
-
-<!--    </div>-->
-
-<!--</div>-->
-
-
-<!--<div th:if="${param.error}">-->
-<!--    Invalid username and password.-->
-<!--</div>-->
-<!--<div th:if="${param.logout}">-->
-<!--    You have been logged out.-->
-<!--</div>-->
-<!--<form th:action="@{/login}" method="post">-->
-<!--    <div><label> User Name : <input type="text" name="username"/> </label></div>-->
-<!--    <div><label> Password: <input type="password" name="password"/> </label></div>-->
-<!--    <div><input type="submit" value="Sign In"/></div>-->
-<!--</form>-->
-<!--</body>-->
-
-
 
 <div class="login-form-wrapper flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8">
@@ -40,23 +17,23 @@
             </h2>
         </div>
 
-        <div class="text-center" th:if="${param.error}">
+        <div class="text-center text-pink-600" th:if="${param.error}">
             Invalid email or password.
         </div>
-        <div class="text-center" th:if="${param.logout}">
+        <div class="text-center text-pink-600" th:if="${param.logout}">
             You have been logged out.
         </div>
 
-        <form class="mt-8 space-y-6" th:action="@{/login}" method="POST">
+        <form class="mt-8 space-y-6" th:action="@{/employee-portal/login}" method="POST">
             <input type="hidden" name="remember" value="true">
             <div class="rounded-md shadow-sm -space-y-px">
                 <div>
                     <label for="email-address" class="sr-only">Email address</label>
-                    <input id="email-address" name="username" type="email" autocomplete="email" required class="appearance-none rounded-none relative block w-full px-6 py-4 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email address">
+                    <input id="email-address" name="username" type="email" autocomplete="email" required class="appearance-none rounded-none relative block w-full px-6 py-4 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:ring-1 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email address">
                 </div>
                 <div>
                     <label for="password" class="sr-only">Password</label>
-                    <input id="password" name="password" type="password" autocomplete="current-password" required class="appearance-none rounded-none relative block w-full px-6 py-4 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Password">
+                    <input id="password" name="password" type="password" autocomplete="current-password" required class="appearance-none rounded-none relative block w-full px-6 py-4 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:ring-1 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Password">
                 </div>
             </div>
 
@@ -89,10 +66,6 @@
         </form>
     </div>
 </div>
-
-
-
-
 
 
 
