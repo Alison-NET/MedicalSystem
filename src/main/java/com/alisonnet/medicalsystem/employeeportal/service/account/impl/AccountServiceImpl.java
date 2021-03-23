@@ -45,7 +45,7 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
-    public Account createAccount() {
+    public Account createBlankAccount() {
         Account account = new Account();
         account.setProviders(new ArrayList<>());
         List<SpecimenPickUpDayTime> specimenPickUpDayTimes = new ArrayList<>();

@@ -13,13 +13,12 @@ public interface EmployeeService {
     Employee save(Employee employee);
     List<Employee> findAll();
     Optional<Employee> findById(int id);
+
+    Employee createBlankEmployee();
     Optional<Employee> getActiveEmployee();
     List<Employee> getPossibleSupervisorsFor(Employee employee);
-    void removeFromDepartmentRelations(Employee employee);
-    boolean hasInSubordinates(Employee supervisor, Employee subordinate);
     boolean isDepartmentChief(Employee employee);
     boolean isInHRDepartment(Employee employee);
     boolean isInAdminDepartment(Employee employee);
     boolean canEdit(Employee activeEmployee, Employee employeeToEdit);
-    void tryUpdateRelations(Employee employee);
 }

@@ -3,9 +3,7 @@ package com.alisonnet.medicalsystem.employeeportal.webcontroller;
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.approved.Account;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.unregistered.UnregisteredAccount;
-import com.alisonnet.medicalsystem.employeeportal.entity.account.unregistered.UnregisteredProvider;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.updated.UpdatedAccount;
-import com.alisonnet.medicalsystem.employeeportal.entity.account.updated.UpdatedProvider;
 import com.alisonnet.medicalsystem.employeeportal.service.*;
 import com.alisonnet.medicalsystem.employeeportal.service.account.*;
 import com.alisonnet.medicalsystem.employeeportal.service.account.unregistered.UnregisteredAccountService;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -69,7 +66,7 @@ public class SalesEmployeeAccountManagementController {
 
     @GetMapping("/new")
     public String getAccountRegPage(Model model){
-        setupUnregisteredAccountNeededAttrs(unregisteredAccountService.createUnregisteredAccount(), model);
+        setupUnregisteredAccountNeededAttrs(unregisteredAccountService.createBlankUnregisteredAccount(), model);
         return "account-setup-new";
     }
 

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Service
 public interface UnregisteredAccountService {
-    UnregisteredAccount createUnregisteredAccount();
+    UnregisteredAccount createBlankUnregisteredAccount();
     List<UnregisteredAccount> findAll();
     UnregisteredAccount save(UnregisteredAccount unregisteredAccount);
     Optional<UnregisteredAccount> findById(int id);

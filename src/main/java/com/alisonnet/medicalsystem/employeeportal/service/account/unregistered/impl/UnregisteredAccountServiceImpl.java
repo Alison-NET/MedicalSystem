@@ -33,7 +33,7 @@ public class UnregisteredAccountServiceImpl implements UnregisteredAccountServic
     private final PickUpDayOfWeekRepo pickUpDayOfWeekRepo;
 
     @Override
-    public UnregisteredAccount createUnregisteredAccount() {
+    public UnregisteredAccount createBlankUnregisteredAccount() {
         UnregisteredAccount account = new UnregisteredAccount();
         account.setProviders(new ArrayList<>());
         List<UnregisteredSpecimenPickUpDayTime> specimenPickUpDayTimes = new ArrayList<>();

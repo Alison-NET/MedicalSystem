@@ -12,7 +12,7 @@ public interface AccountService {
     List<Account> findAll();
     Optional<Account> findById(int id);
     Account save(Account account);
-    Account createAccount();
+    Account createBlankAccount();
     void fillUniqueIds(Account account);
     void fillUniqueEmptyIds(Account account);
     void matchIdsGenerateUniqueIfNeeded(Account from, Account to);

@@ -2,8 +2,7 @@ package com.alisonnet.medicalsystem.employeeportal.service.employee.impl;
 
 import com.alisonnet.medicalsystem.config.EmployeeUserDetails;
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
-import com.alisonnet.medicalsystem.employeeportal.entity.employee.Credentials;
-import com.alisonnet.medicalsystem.employeeportal.entity.employee.Employee;
+import com.alisonnet.medicalsystem.employeeportal.entity.employee.*;
 import com.alisonnet.medicalsystem.employeeportal.repository.employee.CredentialsRepo;
 import com.alisonnet.medicalsystem.employeeportal.repository.employee.EmployeeRepo;
 import com.alisonnet.medicalsystem.employeeportal.service.employee.EmployeeService;
@@ -34,12 +33,41 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
     @Override
     public List<Employee> findAll() {
-        return employeeRepo.findAll();
+        return employeeRepo.findAll().stream()
+                .filter(employee -> !isInAdminDepartment(employee))
+                .collect(Collectors.toList());
     }
 
     @Override
     public Optional<Employee> findById(int id) {
         return employeeRepo.findById(id);
+    }
+
+
+    @Override
+    public Employee createBlankEmployee() {
+
+        Employee newEmployee = new Employee();
+
+        BasicEmployee basicEmployee = new BasicEmployee();
+        newEmployee.setBasicInfo(basicEmployee);
+
+        WorkShift workShift = new WorkShift();
+        newEmployee.setWorkShift(workShift);
+
+        Credentials credentials = new Credentials();
+        newEmployee.setCredentials(credentials);
+
+        List<EmpDocument> documents = new ArrayList<>();
+        newEmployee.setEmpDocuments(documents);
+
+        List<Employee> subordinates = new ArrayList<>();
+        newEmployee.setSubordinates(subordinates);
+
+        List<Contract> contracts = new ArrayList<>();
+        newEmployee.setContracts(contracts);
+
+        return newEmployee;
     }
 
     @Override
@@ -71,53 +99,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public void tryUpdateRelations(Employee employee) {
-
-        if(isDepartmentChief(employee))
-            employee.setSupervisor(null);
-
-        Optional<Employee> beforeSavingMaybeEmployee = findById(employee.getId());
-        if(beforeSavingMaybeEmployee.isPresent()){
-            Employee beforeSavingEmployee = beforeSavingMaybeEmployee.get();
-            //IF DEPARTMENT CHANGED
-            if(!beforeSavingEmployee.getJobPosition().getDepartment()
-                    .equals(employee.getJobPosition().getDepartment())){
-
-                removeFromDepartmentRelations(beforeSavingEmployee);
-                employee.setSupervisor(beforeSavingEmployee.getSupervisor());
-                employee.setSubordinates(beforeSavingEmployee.getSubordinates());
-            }
-        }
-    }
-
-    @Override
-    public void removeFromDepartmentRelations(Employee employee) {
-
-        if(isDepartmentChief(employee)){
-            employee.getSubordinates().forEach(subordinate -> {
-                subordinate.setSupervisor(null);
-            });
-            return;
-        }
-        if(employee.getSubordinates() != null) {
-            employee.getSubordinates().forEach(subordinate -> {
-                subordinate.setSupervisor(employee.getSupervisor());
-            });
-        }
-        if(employee.getSupervisor() != null){
-            employee.setSupervisor(null);
-        }
-    }
-
-    @Override
-    public boolean hasInSubordinates(Employee supervisor, Employee subordinate) {
-        while(subordinate.getSupervisor() != null){
-            if(subordinate.getSupervisor().getId() == supervisor.getId()) return true;
-            subordinate = subordinate.getSupervisor();
-        }
-        return false;
-    }
 
     @Override
     public boolean isDepartmentChief(Employee employee) {

@@ -2,11 +2,8 @@ package com.alisonnet.medicalsystem.employeeportal.webcontroller;
 
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.approved.Account;
-import com.alisonnet.medicalsystem.employeeportal.entity.account.approved.Provider;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.unregistered.UnregisteredAccount;
-import com.alisonnet.medicalsystem.employeeportal.entity.account.unregistered.UnregisteredProvider;
 import com.alisonnet.medicalsystem.employeeportal.entity.account.updated.UpdatedAccount;
-import com.alisonnet.medicalsystem.employeeportal.entity.account.updated.UpdatedProvider;
 import com.alisonnet.medicalsystem.employeeportal.service.TitleService;
 import com.alisonnet.medicalsystem.employeeportal.service.account.AccountService;
 import com.alisonnet.medicalsystem.employeeportal.service.account.PickUpDayOfWeekService;
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -186,7 +182,7 @@ public class SystemAdminEmployeeAccountManagementController {
 
     @GetMapping("/new")
     public String getAccountRegPage(Model model){
-        setupAccountNeededAttrs(accountService.createAccount(), model);
+        setupAccountNeededAttrs(accountService.createBlankAccount(), model);
         return "account-setup-new";
     }
 

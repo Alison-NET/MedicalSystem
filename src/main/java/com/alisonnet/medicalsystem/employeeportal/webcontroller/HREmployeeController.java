@@ -22,8 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -32,6 +34,7 @@ import java.util.Optional;
 public class HREmployeeController {
 
     private final EmployeeService employeeService;
+    private final EmployeeTreeService employeeTreeService;
     private final BasicEmployeeService basicEmployeeService;
     private final TitleService titleService;
     private final DepartmentService departmentService;
@@ -72,25 +75,8 @@ public class HREmployeeController {
         if(maybeBasicEmployee.get().getFullInfo() != null )
             throw new InvalidPathVariableException(Constants.ALREADY_REGISTERED_EMPLOYEE_MSG);
 
-        Employee newEmployee = new Employee();
-
+        Employee newEmployee = employeeService.createBlankEmployee();
         newEmployee.setBasicInfo(maybeBasicEmployee.get());
-
-        WorkShift workShift = new WorkShift();
-        newEmployee.setWorkShift(workShift);
-
-        Credentials credentials = new Credentials();
-        newEmployee.setCredentials(credentials);
-
-        List<EmpDocument> documents = new ArrayList<>();
-        newEmployee.setEmpDocuments(documents);
-
-        List<Employee> subordinates = new ArrayList<>();
-        newEmployee.setSubordinates(subordinates);
-
-        List<Contract> contracts = new ArrayList<>();
-        newEmployee.setContracts(contracts);
-
 
         model.addAttribute("employee", newEmployee);
         model.addAttribute("titles", titleService.findAllByOrderByIdAsc());
@@ -141,7 +127,7 @@ public class HREmployeeController {
             return "hr/approve-edit-employee";
         }
 
-        employeeService.tryUpdateRelations(employee);
+        employeeTreeService.tryUpdateRelations(employee);
 
         employee.getBasicInfo().setFullInfo(employee);
         basicEmployeeService.save(employee.getBasicInfo());
@@ -168,8 +154,8 @@ public class HREmployeeController {
         model.addAttribute("dto", new DocTypeAndFilesDTO(new DocumentType(), new MultipartFile[10]));
 
         //        Supervisor adding
-        model.addAttribute("supervisorId", new EmployeeIdDTO());
         model.addAttribute("supervisors", employeeService.getPossibleSupervisorsFor(employeeToEdit));
+        model.addAttribute("supervisorId", new EmployeeIdDTO());
     }
 
 
@@ -209,17 +195,18 @@ public class HREmployeeController {
         if(maybeSupervisor.isEmpty())
             throw new InvalidPathVariableException(Constants.INVALID_EMPLOYEE_ID_MSG);
 
-
         maybeEmployee.get().setSupervisor(maybeSupervisor.get());
-
         employeeService.save(maybeEmployee.get());
 
         return "redirect:/employee-portal/hr/employee/" + id;
     }
 
 
-    @GetMapping("/employee/{id}/document/{docId}/lock")
-    public String lockEmpDocument(@PathVariable int id, @PathVariable int docId, HttpServletRequest request){
+    @GetMapping("/employee/{id}/document/{docId}")
+    public String lockUnlockEmpDocument(@PathVariable int id,
+                                        @PathVariable int docId,
+                                        @RequestParam boolean lock,
+                                        HttpServletRequest request){
 
         if(employeeService.findById(id).isEmpty())
             throw new InvalidPathVariableException(Constants.INVALID_EMPLOYEE_ID_MSG);
@@ -229,27 +216,7 @@ public class HREmployeeController {
             throw new InvalidPathVariableException(Constants.INVALID_DOCUMENT_ID_MSG);
 
         EmpDocument document = maybeDocument.get();
-        document.setIsLocked(true);
-        empDocumentService.save(document);
-
-        return Optional.ofNullable(request.getHeader("Referer"))
-                .map(requestUrl -> "redirect:" + requestUrl)
-                .orElse("/");
-    }
-
-
-    @GetMapping("/employee/{id}/document/{docId}/unlock")
-    public String unlockEmpDocument(@PathVariable int id, @PathVariable int docId, HttpServletRequest request){
-
-        if(employeeService.findById(id).isEmpty())
-            throw new InvalidPathVariableException(Constants.INVALID_EMPLOYEE_ID_MSG);
-
-        Optional<EmpDocument> maybeDocument = empDocumentService.findById(docId);
-        if(maybeDocument.isEmpty())
-            throw new InvalidPathVariableException(Constants.INVALID_DOCUMENT_ID_MSG);
-
-        EmpDocument document = maybeDocument.get();
-        document.setIsLocked(false);
+        document.setIsLocked(lock);
         empDocumentService.save(document);
 
         return Optional.ofNullable(request.getHeader("Referer"))
@@ -260,7 +227,10 @@ public class HREmployeeController {
 
     @GetMapping("/documents-for-job-position")
     public String getManageDocumentsPerJobPositionPage(Model model){
-        model.addAttribute("jobPositions", jobPositionService.findAll());
+        List<Department> departments = departmentService.findAll().stream()
+                .sorted(Comparator.comparing(Department::getName)).collect(Collectors.toList());
+        model.addAttribute("departments", departments);
+//        model.addAttribute("jobPositions", jobPositionService.findAll());
         model.addAttribute("jobPosAndFilesDTO", new JobPosAndFilesDTO(new JobPosition(), new MultipartFile[10]));
         return "hr/documents-job-position";
     }

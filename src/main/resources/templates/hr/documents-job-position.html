@@ -5,98 +5,66 @@
 
 <header th:replace="fragments/general.html::header"></header>
 
+<div class="bg-white custom-shadow">
+    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold leading-tight text-gray-800">Intended documents per job position</h1>
+    </div>
+</div>
 
 <div class="max-w-5xl mx-auto py-14">
-    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <div th:each="department: ${departments}"
+         class="mb-8 bg-white shadow overflow-hidden sm:rounded-lg">
 
-        <div class="my-8 shadow overflow-hidden sm:rounded-md">
-            <div class="bg-white border-b border-gray-200 px-4 py-5 sm:px-6">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">
-                    Job Pos
-                </h3>
+        <div class="px-4 py-5 sm:px-6 border-b">
+            <h3 th:text="${department.name}" class="text-lg leading-6 font-medium text-gray-900">
+                Sales department
+            </h3>
+        </div>
+        <div th:if="${not #lists.isEmpty(jobPosition.intendedDocuments)}"
+             th:each="jobPosition: ${department.jobPositions}" class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt th:text="${jobPosition.name}" class="text-sm font-medium text-gray-500">
+                Sales Manager
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+                    <li th:each="document : ${jobPosition.intendedDocuments}" class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                        <div class="w-0 flex-1 flex items-center">
+                            <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
+                            </svg>
+                            <span th:text="${document.name}" class="ml-2 flex-1 w-0 truncate">resume_back_end_developer.pdf</span>
+                        </div>
+                        <div>
+                            <a th:href="@{'/employee-portal/document/' + ${document.id} + '/download'}" class="ml-4 flex-shrink-0 font-medium text-indigo-600 hover:text-indigo-500">Download</a>
+                            <a th:href="@{'/employee-portal/document/' + ${document.id} + '/delete'}" class=" ml-4 flex-shrink-0font-medium text-red-500 hover:text-red-600">Delete</a>
+                        </div>
+
+                    </li>
+                </ul>
+            </dd>
+        </div>
+        <form th:action="@{'/employee-portal/hr/documents-for-job-position/save'}"
+              th:object="${jobPosAndFilesDTO}" enctype="multipart/form-data" method="post">
+            <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <span class="text-sm font-medium text-gray-500">New</span>
+                <select class="p-2 text-sm border border-gray-300 bg-white text-gray-900 block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md"
+                        th:field="*{jobPosition}" id="documentType">
+                    <option th:each="jobPos : ${department.jobPositions}" th:value="${jobPos.id}" th:text="${jobPos.name}"></option>
+                </select>
+                <input class="self-center ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                       type="file" th:field="*{files}" name="files" multiple required>
             </div>
-            <div class="px-4 py-5 bg-white sm:p-6">
 
-                <th:block th:if="${not #lists.isEmpty(employee.empDocuments)}">
-                    <div th:replace="fragments/emp-documents-management.html :: documents-management(,canManage=true)"></div>
-                </th:block>
 
-                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <span class="text-sm font-medium text-gray-500">New</span>
-                    <select class="p-2 text-sm border border-gray-300 bg-white text-gray-900 block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md"
-                            th:field="*{documentType}" id="documentType">
-                        <option th:each="docType : ${documentTypes}" th:value="${docType.id}" th:text="${docType.name}"></option>
-                    </select>
-                    <input class="self-center ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="file" th:field="*{files}" name="files" multiple required>
-                </div>
-            </div>
             <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
                 <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Add
                 </button>
             </div>
-        </div>
-        <form th:action="@{'/employee-portal/hr/documents-for-job-position/save'}" th:object="${jobPosAndFilesDTO}" enctype="multipart/form-data" method="post">
-
         </form>
 
     </div>
 </div>
-
-
-<div class="bootstrap-wrapper">
-    <div class="container">
-
-        <div th:if="${#lists.isEmpty(jobPositions)}">
-            <div class="page-info row">
-                <div class="col-md-12">
-                    <span class="name">There are no job positions.</span>
-                </div>
-            </div>
-        </div>
-        <div th:unless="${#lists.isEmpty(jobPositions)}">
-            <div th:unless="${#lists.isEmpty(jobPosition.intendedDocuments)}" th:each="jobPosition: ${jobPositions}">
-                <div class="page-info row">
-                    <div class="col-md-12">
-                        <span class="name" th:text="${jobPosition.department.name} + ' / ' + ${jobPosition.name}"></span>
-                    </div>
-                </div>
-
-                <table>
-                    <tr>
-                        <th>Document Name</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                    <tr th:each="document: ${jobPosition.intendedDocuments}">
-                        <td th:text="${document.name}">Document Name</td>
-                        <td><a th:href="@{'/employee-portal/document/' + ${document.id} + '/download'}">Download</a></td>
-                        <td><a th:href="@{'/employee-portal/document/' + ${document.id} + '/delete'}">Delete</a></td>
-                    </tr>
-                </table>
-            </div>
-            <hr>
-            <form th:action="@{'/employee-portal/hr/documents-for-job-position/save'}" th:object="${jobPosAndFilesDTO}" enctype="multipart/form-data" method="post">
-                <div class="profile-edit-item row">
-                    <div class="col-md-4">
-                        <p class="name">Appoint new document for job position</p>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="input-wrapper">
-                            <select class="form-in-item" th:field="*{jobPosition}">
-                                <option th:each="jobPos : ${jobPositions}" th:value="${jobPos.id}" th:text="${jobPos.department.name} + ' / ' + ${jobPos.name}"></option>
-                            </select><br>
-                            <input class="form-in-item" type="file" th:field="*{files}" name="files" multiple required><br>
-                        </div>
-                    </div>
-                </div>
-                <input class="btn form-submit-btn" type="submit" value="Add new document">
-            </form>
-        </div>
-
-    </div>
-</div>
-
 
 <footer th:replace="fragments/general.html :: footer"></footer>
 </body>

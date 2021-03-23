@@ -8,10 +8,7 @@ import com.alisonnet.medicalsystem.employeeportal.entity.employee.DocumentType;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.Employee;
 import com.alisonnet.medicalsystem.employeeportal.exception.exceptions.ActiveEmployeeAbsenceException;
 import com.alisonnet.medicalsystem.employeeportal.exception.exceptions.InvalidPathVariableException;
-import com.alisonnet.medicalsystem.employeeportal.service.employee.DepartmentService;
-import com.alisonnet.medicalsystem.employeeportal.service.employee.DocumentTypeService;
-import com.alisonnet.medicalsystem.employeeportal.service.employee.EmpDocumentService;
-import com.alisonnet.medicalsystem.employeeportal.service.employee.EmployeeService;
+import com.alisonnet.medicalsystem.employeeportal.service.employee.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,6 +28,7 @@ public class EmployeePortalController {
 
     private final DepartmentService departmentService;
     private final EmployeeService employeeService;
+    private final EmployeeTreeService employeeTreeService;
     private final DocumentTypeService documentTypeService;
     private final EmpDocumentService empDocumentService;
 
@@ -90,20 +88,12 @@ public class EmployeePortalController {
 
         model.addAttribute("canSeeWorkInfo",
                 ( isMyProfile
-                || employeeService.hasInSubordinates(activeEmp, employee)
+                || employeeTreeService.hasInSubordinates(activeEmp, employee)
                 || employeeService.isInHRDepartment(activeEmp) && !employeeService.isInHRDepartment(employee)
                 || employeeService.isInAdminDepartment(activeEmp) )
         );
 
         model.addAttribute("isMyProfile", isMyProfile);
-
-//        model.addAttribute("canManageDocuments", (!employeeService.isInAdminDepartment(activeEmp)) && isMyProfile);
-
-//        model.addAttribute("canManageDocuments",
-//                (!(employeeService.isInAdminDepartment(activeEmp) || employeeService.isInHRDepartment(activeEmp))
-//                        && isMyProfile)
-//                        || (employeeService.isInHRDepartment(activeEmp) && isMyProfile)
-//        );
 
         return "employee-profile";
     }
