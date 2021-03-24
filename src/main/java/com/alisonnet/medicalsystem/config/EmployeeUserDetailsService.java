@@ -21,46 +21,13 @@ import java.util.Optional;
 @AllArgsConstructor
 public class EmployeeUserDetailsService implements UserDetailsService {
 
-    CredentialsService credentialsService;
+    private final CredentialsService credentialsService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         Credentials credentials = credentialsService.findByEmail(email)
                         .orElseThrow(() -> new UsernameNotFoundException("No user found with username: " + email));
-
         return new EmployeeUserDetails(credentials.getEmployee());
-//        boolean enabled = true;
-//        boolean accountNonExpired = true;
-//        boolean credentialsNonExpired = true;
-//        boolean accountNonLocked = true;
-//
-//        return new org.springframework.security.core.userdetails.User(
-//                credentials.getEmail(),
-//                credentials.getPassword().toLowerCase(),
-//                enabled,
-//                accountNonExpired,
-//                credentialsNonExpired,
-//                accountNonLocked,
-//                getAuthoritiesByJobPosition(credentials.getEmployee().getJobPosition())
-//        );
-    }
-
-//
-//    private static List<GrantedAuthority> getAuthoritiesByRoles (List<Role> roles) {
-//        List<GrantedAuthority> authorities = new ArrayList<>();
-//        for (Role role : roles) {
-//            authorities.add(new SimpleGrantedAuthority(role.getName()));
-//        }
-//        return authorities;
-//    }
-
-    private static List<GrantedAuthority> getAuthoritiesByJobPosition(JobPosition jobPosition){
-        List<GrantedAuthority> authorities = new ArrayList<>();
-
-        authorities.add(new SimpleGrantedAuthority(jobPosition.getDepartment().toAuthority()));
-        authorities.add(new SimpleGrantedAuthority(jobPosition.toAuthority()));
-
-        return authorities;
     }
 }

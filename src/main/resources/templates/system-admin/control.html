@@ -4,15 +4,30 @@
 <body>
 <header th:replace="fragments/general.html::header"></header>
 
-<div class="bootstrap-wrapper">
-    <div class="container">
-        <h2>SYSTEM ADMIN CONTROL</h2>
-        <hr>
-        <h4>Accounts</h4>
-        <a href="/employee-portal/admin/account">All Accounts</a><br>
-        <a href="/employee-portal/admin/account/approve-unregistered">Requests for Registration</a><br>
-        <a href="/employee-portal/admin/account/approve-updated">Requests for Updating</a><br>
-        <hr>
+<div class="bg-white custom-shadow">
+    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold leading-tight text-gray-800">System admin control</h1>
+    </div>
+</div>
+
+<div class="max-w-5xl mx-auto py-14">
+    <div class="mb-8 bg-white shadow overflow-hidden sm:rounded-lg">
+
+        <div class="px-4 py-5 sm:px-6 border-b">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Accounts control
+            </h3>
+        </div>
+        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <ul class="list-disc px-4">
+                <li class="py-2"><a class="text-indigo-400 hover:text-indigo-600 font-medium"
+                                    href="/employee-portal/admin/account">All Accounts</a></li>
+                <li class="py-2"><a class="text-indigo-400 hover:text-indigo-600 font-medium"
+                                    href="/employee-portal/admin/account/approve-unregistered">Requests for Registration</a></li>
+                <li class="py-2"><a class="text-indigo-400 hover:text-indigo-600 font-medium"
+                                    href="/employee-portal/admin/account/approve-updated">Requests for Updating</a></li>
+            </ul>
+        </div>
     </div>
 </div>
 
