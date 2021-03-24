@@ -18,10 +18,10 @@
             <span class="text-7xl block xl:inline">Hello,</span>
 
             <th:block sec:authorize="isAuthenticated()">
-                <span class="text-7xl md:text-9xl text-indigo-600" sec:authentication="principal.firstName"></span>&nbsp;
-                <span class="text-7xl md:text-9xl text-indigo-600" sec:authentication="principal.lastName"></span>
+                <span class="text-7xl md:text-8xl text-indigo-600" sec:authentication="principal.firstName"></span>&nbsp;
+                <span class="text-7xl md:text-8xl text-indigo-600" sec:authentication="principal.lastName"></span>
             </th:block>
-            <span class="text-7xl md:text-9xl text-indigo-600" sec:authorize="isAnonymous()">guest</span>
+            <span class="text-7xl md:text-8xl text-indigo-600" sec:authorize="isAnonymous()">guest</span>
 
         </h1>
     </div>

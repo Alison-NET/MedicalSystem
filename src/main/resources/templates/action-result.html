@@ -2,14 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/general.html :: head"></head>
 <body>
-    <header th:replace="fragments/general.html::header"></header>
+<header th:replace="fragments/general.html::header"></header>
 
-    <div class="bootstrap-wrapper">
-        <div class="container">
-            <h4 th:text="${message}"></h4>
-        </div>
+
+<div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <div class="my-8 sm:text-center xl:text-left">
+        <h2 th:text="${message}"
+            class="tracking-tight font-extrabold text-gray-800 text-4xl md:text-6xl">
+        </h2>
     </div>
+</div>
 
-    <footer th:replace="fragments/general.html :: footer"></footer>
+<footer th:replace="fragments/general.html :: footer"></footer>
 </body>
 </html>
+

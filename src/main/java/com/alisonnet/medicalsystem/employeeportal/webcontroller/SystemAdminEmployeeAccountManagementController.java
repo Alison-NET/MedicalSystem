@@ -155,7 +155,6 @@ public class SystemAdminEmployeeAccountManagementController {
             return "account-setup-new";
         }
 
-
         Account convertedAccount = conversionService.convert(account, Account.class);
         accountService.fillNeededData(convertedAccount);
         accountService.fillUniqueIds(convertedAccount);
@@ -217,7 +216,7 @@ public class SystemAdminEmployeeAccountManagementController {
         }
 
         accountService.save(account);
-        return "redirect:/employee-portal/admin/account";
+        return "redirect:/employee-portal/admin/account/"+account.getId();
     }
 
 }

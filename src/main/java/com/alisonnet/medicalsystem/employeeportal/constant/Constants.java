@@ -35,7 +35,7 @@ public final class Constants {
 
     public final static String DOWNLOAD_DOCUMENT_ACCESS_DENIED_MSG = "You can not download this document";
     public final static String DELETE_DOCUMENT_ACCESS_DENIED_MSG = "You can not delete this document";
-    public final static String VIEW_PAGE_ACCESS_DENIED_MSG = "You are not allowed view this page";
+    public final static String VIEW_PAGE_ACCESS_DENIED_MSG = "You are not allowed ещ view this page";
 
 
     public final static String INVALID_EMPLOYEE_ID_MSG = "There isn't such an employee";
@@ -53,7 +53,7 @@ public final class Constants {
     //  ==========
 
     //  DEPARTMENTS
-    public static String system_admin_department = "System Admin";
-    public static String human_resources_department = "Human Resources";
+    public static String SYSTEM_ADMIN_DEPARTMENT = "System Admin";
+    public static String HUMAN_RESOURCES_DEPARTMENT = "Human Resources";
     //  ==========
 }

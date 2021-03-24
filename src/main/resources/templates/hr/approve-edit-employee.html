@@ -93,14 +93,14 @@
                 <div class="grid grid-cols-8 gap-6">
 
                     <div class="col-span-8 sm:col-span-4">
-                        <label for="addressFirst" class="block text-sm font-medium text-gray-700">Street address</label>
+                        <label for="addressFirst" class="block text-sm font-medium text-gray-700">Address</label>
                         <input th:field="*{basicInfo.addressFirst}" type="text" id="addressFirst"
                                class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
                         <div class="text-xs text-red-500" th:each="error : ${#fields.errors('basicInfo.addressFirst')}" th:text="${error}">Validation error</div>
                     </div>
 
                     <div class="col-span-8 sm:col-span-4">
-                        <label for="addressSecond" class="block text-sm font-medium text-gray-700">Street address 2</label>
+                        <label for="addressSecond" class="block text-sm font-medium text-gray-700">Address 2</label>
                         <input th:field="*{basicInfo.addressSecond}" type="text" id="addressSecond"
                                class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
                         <div class="text-xs text-red-500" th:each="error : ${#fields.errors('basicInfo.addressSecond')}" th:text="${error}">Validation error</div>

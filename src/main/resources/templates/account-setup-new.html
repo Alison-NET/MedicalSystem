@@ -4,320 +4,302 @@
 <body>
 <header th:replace="fragments/general.html::header"></header>
 
-<div class="bootstrap-wrapper">
-    <div class="container">
+<div class="bg-white custom-shadow">
+    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold leading-tight text-gray-800">Account</h1>
+    </div>
+</div>
 
-        <div class="page-info row">
-            <div class="col-md-12">
-                <span class="name">Account</span>
 
-            </div>
-        </div>
 
-        <form th:action="${'/employee-portal/sales/account/new/save'}" th:object="${account}" method="post">
 
-            <input type="text" th:field="*{id}" th:value="*{id}" hidden>
 
-            <input th:if="${#bools.isTrue(createUpdated)} or ${#bools.isTrue(approveUpdated)}"
-                   th:field="*{baseVersion}" th:value="*{baseVersion}" hidden>
+<div class="max-w-5xl mx-auto py-14">
 
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Name</p>
+    <form th:action="${'/employee-portal/sales/account/new/save'}" th:object="${account}" method="post">
+
+        <input type="text" th:field="*{id}" th:value="*{id}" hidden>
+
+        <input th:if="${#bools.isTrue(createUpdated)} or ${#bools.isTrue(approveUpdated)}"
+               th:field="*{baseVersion}" th:value="*{baseVersion}" hidden>
+
+        <div class="shadow overflow-hidden sm:rounded-md">
+            <div class="px-4 py-5 bg-white sm:p-6">
+
+                <div class="mb-4">
+                    <h4 class="text-lg leading-6 font-medium text-gray-900">Basic info</h4>
                 </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" th:field="*{name}">
-                        <p th:each="error : ${#fields.errors('name')}" th:text="${error}">Validation error</p>
+                <div class="grid grid-cols-8 gap-6">
+                    <div class="col-span-8 sm:col-span-2">
+                        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                        <input th:field="*{name}" type="text" id="name"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('name')}" th:text="${error}">Validation error</div>
+                    </div>
+
+                    <div class="col-span-8 sm:col-span-2">
+                        <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
+                        <input th:field="*{phone}" type="tel" id="phone" placeholder="000-000-0000"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('phone')}" th:text="${error}">Validation error</div>
+                    </div>
+
+                    <div class="col-span-8 sm:col-span-2">
+                        <label for="phone" class="block text-sm font-medium text-gray-700">FAX</label>
+                        <input th:field="*{fax}" type="tel" id="fax" placeholder="000-000-0000"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('fax')}" th:text="${error}">Validation error</div>
+                    </div>
+
+                    <div class="col-span-8 sm:col-span-2">
+                        <label for="phone" class="block text-sm font-medium text-gray-700">Direct line</label>
+                        <input th:field="*{directLine}" type="text" id="directLine" placeholder="000-000-0000"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('directLine')}" th:text="${error}">Validation error</div>
+                    </div>
+
+                    <div class="col-span-8 sm:col-span-4">
+                        <label for="addressFirst" class="block text-sm font-medium text-gray-700">Address</label>
+                        <input th:field="*{addressFirst}" type="text" id="addressFirst"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('addressFirst')}" th:text="${error}">Validation error</div>
+                    </div>
+
+                    <div class="col-span-8 sm:col-span-4">
+                        <label for="addressSecond" class="block text-sm font-medium text-gray-700">Address 2</label>
+                        <input th:field="*{addressSecond}" type="text" id="addressSecond"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('addressSecond')}" th:text="${error}">Validation error</div>
+                    </div>
+
+                    <div class="col-span-8 sm:col-span-6 lg:col-span-2">
+                        <label for="city" class="block text-sm font-medium text-gray-700">City</label>
+                        <input th:field="*{city}" type="text" id="city"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('city')}" th:text="${error}">Validation error</div>
+                    </div>
+
+                    <div class="col-span-8 sm:col-span-3 lg:col-span-2">
+                        <label for="state" class="block text-sm font-medium text-gray-700">State / Province</label>
+                        <input th:field="*{state}" type="text" id="state"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('state')}" th:text="${error}">Validation error</div>
+                    </div>
+
+                    <div class="col-span-8 sm:col-span-3 lg:col-span-2">
+                        <label for="ZIP" class="block text-sm font-medium text-gray-700">ZIP / Postal</label>
+                        <input th:field="*{ZIP}" type="text" id="ZIP" placeholder="00000{-0000}"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('ZIP')}" th:text="${error}">Validation error</div>
+                    </div>
+
+
+                </div>
+
+                <div class="mt-10 mb-4">
+                    <h4 class="text-lg leading-6 font-medium text-gray-900">Contact info</h4>
+                </div>
+                <div class="grid grid-cols-8 gap-6">
+                    <div class="col-span-8 sm:col-span-6 lg:col-span-2">
+                        <label for="city" class="block text-sm font-medium text-gray-700">Contact first name</label>
+                        <input th:field="*{contactFirstName}" type="text" id="contactFirstName"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('contactFirstName')}" th:text="${error}">Validation error</div>
+                    </div>
+                    <div class="col-span-8 sm:col-span-6 lg:col-span-2">
+                        <label for="city" class="block text-sm font-medium text-gray-700">Contact last name</label>
+                        <input th:field="*{contactLastName}" type="text" id="contactLastName"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('contactLastName')}" th:text="${error}">Validation error</div>
+                    </div>
+                    <div class="col-span-8 sm:col-span-6 lg:col-span-4">
+                        <label for="city" class="block text-sm font-medium text-gray-700">Contact email</label>
+                        <input th:field="*{contactEmail}" type="email" id="contactEmail"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        <div class="text-xs text-red-500" th:each="error : ${#fields.errors('contactEmail')}" th:text="${error}">Validation error</div>
                     </div>
                 </div>
-            </div>
 
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Address 1</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" th:field="*{addressFirst}">
-                        <p th:each="error : ${#fields.errors('addressFirst')}" th:text="${error}">Validation error</p>
+                <div class="mt-10 mb-4 grid grid-cols-6">
+                    <h4 class="text-lg leading-6 font-medium text-gray-900">Provider info</h4>
+                    <div>
+                        <button type="button" class="add-provider-btn text-white block font-medium px-2 bg-indigo-600 rounded-md">+</button>
                     </div>
                 </div>
-            </div>
-
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Address 2</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" th:field="*{addressSecond}">
-                        <p th:each="error : ${#fields.errors('addressSecond')}" th:text="${error}">Validation error</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">City</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" th:field="*{city}">
-                        <p th:each="error : ${#fields.errors('city')}" th:text="${error}">Validation error</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">State</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" th:field="*{state}">
-                        <p th:each="error : ${#fields.errors('state')}" th:text="${error}">Validation error</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">ZIP</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" placeholder="00000{-0000}" th:field="*{ZIP}">
-                        <p th:each="error : ${#fields.errors('ZIP')}" th:text="${error}">Validation error</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Phone</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" placeholder="000-000-0000" th:field="*{phone}">
-                        <p th:each="error : ${#fields.errors('phone')}" th:text="${error}">Validation error</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Fax</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" placeholder="000-000-0000" th:field="*{fax}">
-                        <p th:each="error : ${#fields.errors('fax')}" th:text="${error}">Validation error</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Direct Line</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" placeholder="000-000-0000" th:field="*{directLine}">
-                        <p th:each="error : ${#fields.errors('directLine')}" th:text="${error}">Validation error</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Contact First Name</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" th:field="*{contactFirstName}">
-                        <p th:each="error : ${#fields.errors('contactFirstName')}" th:text="${error}">Validation error</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Contact Last Name</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="text" th:field="*{contactLastName}">
-                        <p th:each="error : ${#fields.errors('contactLastName')}" th:text="${error}">Validation error</p>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Contact Email</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <input class="form-in-item" type="email" th:field="*{contactEmail}">
-                        <p th:each="error : ${#fields.errors('contactEmail')}" th:text="${error}">Validation error</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="providers-section">
-                <hr>
-                <h3>Providers</h3>
-                <div class="profile-edit-item row">
-
-                    <div class="col-md-4">
-<!--                        <input type="text" th:field="*{providers}" hidden>-->
-                        <button type="button" class="add-provider-btn">Add Provider</button>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="input-wrapper">
-                            <table>
-                                <tbody class="providers-table">
-                                <tr class="provider-row" th:each="provider, rowStat : *{providers}">
-<!--                                    <input type="text" th:field="*{providers[__${rowStat.index}__].id}" th:value="*{providers[__${rowStat.index}__].id}" hidden>-->
-                                    <td>
-                                        <select class="form-in-item" th:field="*{providers[__${rowStat.index}__].title}">
-                                            <option th:each="tit : ${titles}"
-                                                    th:value="${tit.id}"
-                                                    th:text="${tit.name}">
-                                            </option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <span>First Name</span>
-                                        <input type="text" th:field="*{providers[__${rowStat.index}__].firstName}"/>
-                                        <!--                                    <p th:each="error : ${#fields.errors('providers[' + rowStat.index + '].firstname')}" th:text="${error}">Validation error</p>-->
-                                    </td>
-                                    <td>
-                                        <span>Last Name</span>
-                                        <input type="text" th:field="*{providers[__${rowStat.index}__].lastName}"/>
-                                        <!--                                    <p th:each="error : ${#fields.errors('providers[' + __${rowStat.index}__ + '].lastName')}" th:text="${error}">Validation error</p>-->
-                                    </td>
-
-                                    <td>
-                                        <span>Email</span>
-                                        <input type="email" th:field="*{providers[__${rowStat.index}__].email}"/>
-                                        <!--                                    <p th:each="error : ${#fields.errors('providers[' + *{__${rowStat.index}__ } + '].email')}" th:text="${error}">Validation error</p>-->
-                                    </td>
-                                    <td>
-                                        <span>NPI</span>
-                                        <input type="text" th:field="*{providers[__${rowStat.index}__].NPI}" placeholder="0000000000"/>
-                                        <!--                                    <p th:each="error : ${#fields.errors('providers['+*{__${rowStat.index}__ }+'].NPI')}" th:text="${error}">Validation error</p>-->
-                                    </td>
-                                    <td>
-                                        <button type="button" class="remove-provider-btn">Remove</button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                <div class="providers-wrapper">
+                    <div class="pb-4 grid grid-cols-8 gap-6 provider-row" th:each="provider, rowStat : *{providers}">
+                        <div class="col-span-8 sm:col-span-6 lg:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700">First name</label>
+                            <input th:field="*{providers[__${rowStat.index}__].firstName}" type="text"
+                                   class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        </div>
+                        <div class="col-span-8 sm:col-span-6 lg:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700">Last name</label>
+                            <input th:field="*{providers[__${rowStat.index}__].lastName}" type="text"
+                                   class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        </div>
+                        <div class="col-span-8 sm:col-span-6 lg:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700">Email</label>
+                            <input th:field="*{providers[__${rowStat.index}__].email}" type="email" placeholder="aaa@example.com"
+                                   class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        </div>
+                        <div class="col-span-8 sm:col-span-6 lg:col-span-1">
+                            <label class="block text-sm font-medium text-gray-700">NPI</label>
+                            <input th:field="*{providers[__${rowStat.index}__].NPI}" type="text" placeholder="0000000000"
+                                   class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                        </div>
+                        <div class="col-span-8 sm:col-span-6 lg:col-span-1 flex flex-col justify-end">
+                            <button type="button" class="remove-provider-btn text-white block font-medium px-4 py-2 bg-red-600 rounded-md">&times;</button>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="specimen-pick-ups-section">
-                <hr>
-                <h3>Specimen pick ups</h3>
+
+                <div class="mt-10 mb-4">
+                    <h4 class="text-lg leading-6 font-medium text-gray-900">Specimen pick ups</h4>
+                </div>
                 <div>
-                    <div th:each="spudt, spudtStat : *{specimenPickUpDayTimes}" class="profile-edit-item row specimen-pick-ups-item">
-                        <div class="col-md-4">
-                            <hr>
-                            <p class="name  specimen-pick-up-day" th:text="${spudt.pickUpDayOfWeek.name}"></p>
+                    <div class="specimen-pick-ups-item my-4" th:each="spudt, spudtStat : *{specimenPickUpDayTimes}">
 
-                            <input type="text"
-                                   th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].id}"
-                                   th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].id}" hidden>
+                        <input type="text"
+                               th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].id}"
+                               th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].id}" hidden>
 
-                            <input type="text"
-                                   th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpDayOfWeek}"
-                                   th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpDayOfWeek}" hidden>
+                        <input type="text"
+                               th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpDayOfWeek}"
+                               th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpDayOfWeek}" hidden>
 
-<!--                            <input type="text"-->
-<!--                                   th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes}"-->
-<!--                                   th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes}" hidden>-->
-
-                            <button type="button" class="add-pick-up-time-btn">App Pick Time</button>
-
-                        </div>
-                        <div class="col-md-8">
-                            <div class="specimen-pick-up-times">
+                        <div class="grid grid-cols-6">
+                            <h4 class="text-md leading-6 font-bold text-gray-800" th:text="${spudt.pickUpDayOfWeek.name}">Monday</h4>
+                            <div>
+                                <button type="button" class="add-pick-up-time-btn text-white block font-medium px-2 bg-indigo-600 rounded-md">+</button>
+                            </div>
+                            <div class="col-span-4 specimen-pick-up-times grid grid-cols-4 gap-4">
 
                                 <div th:each="put, putStat : *{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes}" class="specimen-pick-up-times-item">
-
-<!--                                    <input type="text"-->
-<!--                                           th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes[__${putStat.index}__].id}"-->
-<!--                                           th:value="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes[__${putStat.index}__].id}" hidden>-->
-
-                                    <input class="form-in-item" type="time"
-                                           th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes[__${putStat.index}__].pickUpTime}">
-
-                                    <button type="button" class="remove-pick-up-time-btn">Remove</button>
+                                    <input th:field="*{specimenPickUpDayTimes[__${spudtStat.index}__].pickUpTimes[__${putStat.index}__].pickUpTime}" type="time"
+                                           class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                                    <button type="button" class="remove-pick-up-time-btn text-white font-medium px-2 bg-red-600 rounded-md">&times;</button>
 
                                 </div>
 
                             </div>
                         </div>
+
+
+
                     </div>
                 </div>
+
+                <select class="form-in-item" th:field="*{paperRequisitions}">
+                    <option th:value="1" >Yes</option>
+                    <option th:value="0" >No</option>
+                </select>
+
+                <select class="form-in-item" th:field="*{providerPortal}">
+                    <option th:value="1" >Yes</option>
+                    <option th:value="0" >No</option>
+                </select>
+
             </div>
 
 
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Provider Portal</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <select class="form-in-item" th:field="*{providerPortal}">
-                            <option th:value="1" >Yes</option>
-                            <option th:value="0" >No</option>
-                        </select>
-                    </div>
-                </div>
+
+            <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                <button type="submit"
+                        th:if="${#bools.isTrue(createUnregistered)}"
+                        th:formaction="@{'/employee-portal/sales/account/new/save'}"
+                        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Propose new account
+                </button>
+                <button type="submit"
+                        th:if="${#bools.isTrue(createUpdated)}"
+                        th:formaction="@{'/employee-portal/sales/account/update/save'}"
+                        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Propose account updating
+                </button>
+                <button type="submit"
+                        th:if="${#bools.isTrue(approveUnregistered)}"
+                        th:formaction="@{'/employee-portal/admin/account/approve-unregistered/save'}"
+                        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Approve
+                </button>
+                <button type="submit"
+                        th:if="${#bools.isTrue(approveUpdated)}"
+                        th:formaction="@{'/employee-portal/admin/account/approve-unregistered/save'}"
+                        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Approve
+                </button>
+                <button type="submit"
+                        th:if="${#bools.isTrue(updateCreate)}"
+                        th:formaction="@{'/employee-portal/admin/account/update-create/save'}"
+                        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Approve
+                </button>
             </div>
 
-            <div class="profile-edit-item row">
-                <div class="col-md-4">
-                    <p class="name">Paper Requisitions</p>
-                </div>
-                <div class="col-md-8">
-                    <div class="input-wrapper">
-                        <select class="form-in-item" th:field="*{paperRequisitions}">
-                            <option th:value="1" >Yes</option>
-                            <option th:value="0" >No</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <button th:if="${#bools.isTrue(createUnregistered)}"
-                   th:formaction="@{'/employee-portal/sales/account/new/save'}" class="btn form-submit-btn"
-                    type="submit">Propose new account</button>
-
-            <button th:if="${#bools.isTrue(createUpdated)}"
-                   th:formaction="@{'/employee-portal/sales/account/update/save'}" class="btn form-submit-btn"
-                   type="submit">Propose account updating</button>
-
-            <button th:if="${#bools.isTrue(approveUnregistered)}"
-                    th:formaction="@{'/employee-portal/admin/account/approve-unregistered/save'}" class="btn form-submit-btn"
-                    type="submit">Approve</button>
-
-            <button th:if="${#bools.isTrue(approveUpdated)}"
-                    th:formaction="@{'/employee-portal/admin/account/approve-updated/save'}" class="btn form-submit-btn"
-                    type="submit">Approve</button>
-
-            <button th:if="${#bools.isTrue(updateCreate)}"
-                    th:formaction="@{'/employee-portal/admin/account/update-create/save'}" class="btn form-submit-btn"
-                    type="submit">Approve</button>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
+
+
+<!--<div class="providers-section">-->
+<!--    <hr>-->
+<!--    <h3>Providers</h3>-->
+<!--    <div class="profile-edit-item row">-->
+
+<!--        <div class="col-md-4">-->
+<!--&lt;!&ndash;                        <input type="text" th:field="*{providers}" hidden>&ndash;&gt;-->
+<!--            <button type="button" class="add-provider-btn">Add Provider</button>-->
+<!--        </div>-->
+<!--        <div class="col-md-8">-->
+<!--            <div class="input-wrapper">-->
+<!--                <table>-->
+<!--                    <tbody class="providers-table">-->
+<!--                    <tr class="provider-row" th:each="provider, rowStat : *{providers}">-->
+<!--&lt;!&ndash;                                    <input type="text" th:field="*{providers[__${rowStat.index}__].id}" th:value="*{providers[__${rowStat.index}__].id}" hidden>&ndash;&gt;-->
+<!--                        <td>-->
+<!--                            <select class="form-in-item" th:field="*{providers[__${rowStat.index}__].title}">-->
+<!--                                <option th:each="tit : ${titles}"-->
+<!--                                        th:value="${tit.id}"-->
+<!--                                        th:text="${tit.name}">-->
+<!--                                </option>-->
+<!--                            </select>-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            <span>First Name</span>-->
+<!--                            <input type="text" th:field="*{providers[__${rowStat.index}__].firstName}"/>-->
+<!--                            &lt;!&ndash;                                    <p th:each="error : ${#fields.errors('providers[' + rowStat.index + '].firstname')}" th:text="${error}">Validation error</p>&ndash;&gt;-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            <span>Last Name</span>-->
+<!--                            <input type="text" th:field="*{providers[__${rowStat.index}__].lastName}"/>-->
+<!--                            &lt;!&ndash;                                    <p th:each="error : ${#fields.errors('providers[' + __${rowStat.index}__ + '].lastName')}" th:text="${error}">Validation error</p>&ndash;&gt;-->
+<!--                        </td>-->
+
+<!--                        <td>-->
+<!--                            <span>Email</span>-->
+<!--                            <input type="email" th:field="*{providers[__${rowStat.index}__].email}"/>-->
+<!--                            &lt;!&ndash;                                    <p th:each="error : ${#fields.errors('providers[' + *{__${rowStat.index}__ } + '].email')}" th:text="${error}">Validation error</p>&ndash;&gt;-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            <span>NPI</span>-->
+<!--                            <input type="text" th:field="*{providers[__${rowStat.index}__].NPI}" placeholder="0000000000"/>-->
+<!--                            &lt;!&ndash;                                    <p th:each="error : ${#fields.errors('providers['+*{__${rowStat.index}__ }+'].NPI')}" th:text="${error}">Validation error</p>&ndash;&gt;-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            <button type="button" class="remove-provider-btn">Remove</button>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+
 
 <footer th:replace="fragments/general.html :: footer"></footer>
 
@@ -333,59 +315,51 @@
 
         /*]]>*/
 
-
-        let addProviderBtn = document.querySelector(".add-provider-btn");
-
-        addProviderBtn.addEventListener("click", ()=>{
-
-            let providersTableNode = document.querySelector(".providers-table");
-            let provsCount = providersTableNode.children.length;
-
-            if( provsCount < MAX_PROVIDERS){
-
-                let options = '';
-                for(title of TITLES){
-                    options+=`<option value="${title['id']}">${title['name']}</option>`;
-                }
-
-                providersTableNode.insertAdjacentHTML('beforeend',
-                    `<tr class="provider-row">
-                            <td>
-                                <select class="form-in-item" id="providers${provsCount}.title" name="providers[${provsCount}].title">
-                                 ${options}
-                                </select>
-                            </td>
-                            <td>
-                                <span>First Name</span>
-                                <input type="text" id="providers${provsCount}.firstName" name="providers[${provsCount}].firstName"/>
-                            </td>
-                            <td>
-                                <span>Last Name</span>
-                                <input type="text" id="providers${provsCount}.lastName" name="providers[${provsCount}].lastName"/>
-                            </td>
-
-                            <td>
-                                <span>Email</span>
-                                <input type="email" id="providers${provsCount}.email" name="providers[${provsCount}].email"/>
-                            </td>
-                            <td>
-                                <span>NPI</span>
-                                <input type="text" placeholder="0000000000" id="providers${provsCount}.NPI" name="providers[${provsCount}].NPI"/>
-                            </td>
-                            <td>
-                                <button type="button" class="remove-provider-btn">Remove</button>
-                            </td>
-                        </tr>`);
-            }
-        });
-
-
         window.addEventListener("click", (evt) => {
 
             let elementClicked = evt.target;
 
+            if(elementClicked.classList.contains("add-provider-btn")){
 
-            if(elementClicked.classList.contains("add-pick-up-time-btn")){
+                let providersTableNode = document.querySelector(".providers-wrapper");
+                let provsCount = providersTableNode.children.length;
+
+                if( provsCount < MAX_PROVIDERS){
+                    // let options = '';
+                    // for(title of TITLES){
+                    //     options+=`<option value="${title['id']}">${title['name']}</option>`;
+                    // }
+
+                    providersTableNode.insertAdjacentHTML('beforeend',
+                        `<div class="pb-4 grid grid-cols-8 gap-6 provider-row">
+                    <div class="col-span-8 sm:col-span-6 lg:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">First name</label>
+                        <input id="providers${provsCount}.firstName" name="providers[${provsCount}].firstName" type="text"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                    </div>
+                    <div class="col-span-8 sm:col-span-6 lg:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">Last name</label>
+                        <input id="providers${provsCount}.lastName" name="providers[${provsCount}].lastName" type="text"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                    </div>
+                    <div class="col-span-8 sm:col-span-6 lg:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">Email</label>
+                        <input id="providers${provsCount}.email" name="providers[${provsCount}].email" type="email" placeholder="aaa@example.com"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                    </div>
+
+                    <div class="col-span-8 sm:col-span-6 lg:col-span-1">
+                        <label class="block text-sm font-medium text-gray-700">NPI</label>
+                        <input id="providers${provsCount}.NPI" name="providers[${provsCount}].NPI" type="text" placeholder="0000000000"
+                               class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none block w-full ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                    </div>
+                    <div class="col-span-8 sm:col-span-6 lg:col-span-1 flex flex-col justify-end">
+                            <button type="button" class="remove-provider-btn text-white block font-medium px-4 py-2 bg-red-600 rounded-md">&times;</button>
+                    </div>
+                </div>`);
+                }
+            }
+            else if(elementClicked.classList.contains("add-pick-up-time-btn")){
 
                 let specimenPickUpDayTimes = elementClicked.closest(".specimen-pick-ups-item")
                 let nodes = Array.prototype.slice.call(specimenPickUpDayTimes.parentElement.querySelectorAll(".specimen-pick-ups-item"));
@@ -397,33 +371,29 @@
 
                 if(specimenPickUpTimesAmount < MAX_PICK_UP_TIMES){
                     specimenPickUpTimes.insertAdjacentHTML("beforeend",
-                        `<div class="specimen-pick-up-times-item">
+                        `
+                        <div class="specimen-pick-up-times-item">
+                            <input id="specimenPickUpDayTimes${dayIndex}.pickUpTimes${specimenPickUpTimesAmount}.pickUpTime"
+                                name="specimenPickUpDayTimes[${dayIndex}].pickUpTimes[${specimenPickUpTimesAmount}].pickUpTime" type="time"
+                                class="mt-1 py-2 border border-gray-300 bg-white text-gray-900 appearance-none ring-0 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-500 focus:outline-none rounded-md">
+                            <button type="button" class="remove-pick-up-time-btn text-white inline-blick font-medium px-2 bg-red-600 rounded-md">&times;</button>
 
-                            <input class="form-in-item" type="time"
-                                id="specimenPickUpDayTimes${dayIndex}.pickUpTimes${specimenPickUpTimesAmount}.pickUpTime"
-                                name="specimenPickUpDayTimes[${dayIndex}].pickUpTimes[${specimenPickUpTimesAmount}].pickUpTime">
-
-                            <button type="button" class="remove-pick-up-time-btn">Remove</button>
-
-                        </div>`)
+                        </div>`);
                 }
 
             }
             else if(elementClicked.classList.contains("remove-provider-btn")) {
 
 
-
                 let elementToDelete = elementClicked.closest('.provider-row');
                 elementToDelete.parentElement.removeChild(elementToDelete);
 
-                let parentElementToUpdateChildrenIds = document.querySelector(".providers-table");
+                let parentElementToUpdateChildrenIds = document.querySelector(".providers-wrapper");
                 updateElementInnerAttributesIndexes(parentElementToUpdateChildrenIds,
                     "providers",
-                    'input, select');
-
+                    'input');
 
             }else if(elementClicked.classList.contains("remove-pick-up-time-btn")){
-
 
                 let elementToDelete = elementClicked.closest('.specimen-pick-up-times-item');
                 let elementToUpdateChildrenIds = evt.target.closest(".specimen-pick-up-times");
@@ -456,7 +426,7 @@
                 if(element.hasAttribute(attrName)){
                     let attributeVal  = element.getAttribute(attrName);
 
-                    let regexp = new RegExp(`(${indexOf}.?)(\\d+)`, "g")
+                    let regexp = new RegExp(`(${indexOf}.?)(\\d+)`, "g");
 
                     attributeVal = attributeVal.replace(regexp, "$1" + index);
                     element.setAttribute(attrName, attributeVal);

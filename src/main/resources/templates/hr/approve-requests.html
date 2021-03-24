@@ -9,7 +9,7 @@
     <div class="bg-white custom-shadow">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <h1 th:if="${#lists.isEmpty(employeesToApprove)}" class="text-3xl font-bold leading-tight text-gray-800">
-                here are no requests for approval.
+                There are no requests for approval
             </h1>
             <h1 th:unless="${#lists.isEmpty(employeesToApprove)}" class="text-3xl font-bold leading-tight text-gray-800">
                 Requests for approval

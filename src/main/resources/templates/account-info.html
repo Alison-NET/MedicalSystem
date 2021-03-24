@@ -4,168 +4,205 @@
 <body>
 <header th:replace="fragments/general.html::header"></header>
 
-<div class="bootstrap-wrapper">
-    <div class="container">
-        <div class="page-info row">
-            <div class="col-md-4">
-                <span class="name">Account info</span>
-            </div>
-            <div class="col-md-8">
 
-                <a sec:authorize="hasAuthority('SALES_DEP')" class="extra-btn"
-                   th:href="@{'/employee-portal/sales/account/update/' + ${account.id}}">
-                    <span class="text">Update</span>
-                </a>
-                <a sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')" class="extra-btn"
-                   th:href="@{'/employee-portal/admin/account/update/' + ${account.id}}">
-                    <span class="text">Edit</span>
-                </a>
-                <a sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')" class="extra-btn"
-                   th:href="@{'/employee-portal/admin/account/delete/' + ${account.id}}">
-                    <span class="text">Delete</span>
-                </a>
-            </div>
-        </div>
-
-        <div class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Name</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${account.name}"></p>
-            </div>
-        </div>
-
-        <div class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Address 1</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${account.addressFirst}"></p>
-            </div>
-        </div>
-
-        <div class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Address 2</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${account.addressSecond}"></p>
-            </div>
-        </div>
-
-        <div class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">City</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${account.city}"></p>
-            </div>
-        </div>
-
-        <div class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">State</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${account.state}"></p>
-            </div>
-        </div>
-
-        <div class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">ZIP</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${account.ZIP}"></p>
-            </div>
-        </div>
-
-        <div class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Phone</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${account.phone}"></p>
-            </div>
-        </div>
-
-        <div class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Fax</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${account.fax}"></p>
-            </div>
-        </div>
-
-        <div class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Direct Line</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${account.directLine}"></p>
-            </div>
-        </div>
-
-        <hr>
-        <div class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Contact First Name</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${account.contactFirstName}"></p>
-            </div>
-        </div>
-
-        <div class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Contact Last Name</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${account.contactLastName}"></p>
-            </div>
-        </div>
-
-        <div class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Contact Email</p>
-            </div>
-            <div class="col-md-8">
-                <p class="descr" th:text="${account.contactEmail}"></p>
-            </div>
-        </div>
-        <hr>
-
-        <div th:if="${!#lists.isEmpty(account.providers)}" class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Provider(s)</p>
-            </div>
-            <div class="col-md-8">
-                <div th:each="prov : ${account.providers}">
-                        <p class="descr" th:text="${prov.firstName + ' ' + prov.lastName}"></p>
-                </div>
-            </div>
-        </div>
-
-        <div class="profile-item row">
-            <div class="col-md-4">
-                <p class="name">Specimen Pick Ups</p>
-            </div>
-            <div class="col-md-8">
-                <div th:each="specimenPicksUp : ${account.specimenPickUpDayTimes}">
-                    <div th:if="${!#lists.isEmpty(specimenPicksUp.pickUpTimes)}">
-                        <span class="descr" th:text="${specimenPicksUp.pickUpDayOfWeek.name}"></span>
-                        <div th:each="pUpTime : ${specimenPicksUp.pickUpTimes}">
-                            <span th:text="${pUpTime.pickUpTime.toString()}"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+<div class="bg-white custom-shadow">
+    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold leading-tight text-gray-800">Account info</h1>
     </div>
 </div>
+
+
+
+
+
+<div class="max-w-5xl mx-auto py-14">
+    <div class="mb-8 bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6 flex justify-between">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">General Information</h3>
+            <div>
+                <a sec:authorize="hasAuthority('SALES_DEP')"
+                   th:href="@{'/employee-portal/sales/account/update/' + ${account.id}}"
+                   Update
+                   class="border-2 border-gray-300 hover:border-indigo-600 hover:bg-indigo-600 px-2 text-md leading-6 font-medium text-gray-400 hover:text-white rounded-md">
+                </a>
+                <a sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')"
+                   th:href="@{'/employee-portal/admin/account/update/' + ${account.id}}"
+                   class="border-2 border-gray-300 hover:border-indigo-600 hover:bg-indigo-600 px-2 text-md leading-6 font-medium text-gray-400 hover:text-white rounded-md">
+                    Update
+                </a>
+                <a sec:authorize="hasAuthority('SYSTEM_ADMIN_DEP')"
+                   th:href="@{'/employee-portal/admin/account/delete/' + ${account.id}}"
+                   class="border-2 border-gray-300 hover:border-red-600 hover:bg-red-600 px-2 text-md leading-6 font-medium text-gray-400 hover:text-white rounded-md">
+                    Delete
+                </a>
+            </div>
+        </div>
+        <div class="border-t border-gray-200">
+            <dl>
+                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                        Name
+                    </dt>
+                    <dd th:text="${account.name}"
+                        class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        Some Account Name
+                    </dd>
+                </div>
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                        Address
+                    </dt>
+                    <dd th:text="${{account.addressFirst}}"
+                        class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    </dd>
+                </div>
+                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                        Address 2
+                    </dt>
+                    <dd th:text="${account.addressSecond}"
+                        class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    </dd>
+                </div>
+
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                        Phone
+                    </dt>
+                    <dd th:text="${account.phone}"
+                        class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        000000000
+                    </dd>
+                </div>
+                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                        FAX
+                    </dt>
+                    <dd th:text="${account.fax}"
+                        class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        000000000
+                    </dd>
+                </div>
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                        Direct line
+                    </dt>
+                    <dd th:text="${account.directLine}"
+                        class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        000000000
+                    </dd>
+                </div>
+
+                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                        City
+                    </dt>
+                    <dd th:text="${account.city}"
+                        class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        New York
+                    </dd>
+                </div>
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                        State
+                    </dt>
+                    <dd th:text="${account.state}"
+                        class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        State
+                    </dd>
+                </div>
+                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                        ZIP
+                    </dt>
+                    <dd th:text="${account.ZIP}"
+                        class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        ZIP
+                    </dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+
+
+    <div class="mb-8 bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Contact Information</h3>
+        </div>
+        <div class="border-t border-gray-200">
+            <dl>
+                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                        Contact name
+                    </dt>
+                    <dd th:text="${account.contactFirstName + ' ' + account.contactLastName}"
+                        class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        Some Account Name
+                    </dd>
+                </div>
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                        Contact email
+                    </dt>
+                    <dd th:text="${{account.contactEmail}}"
+                        class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    </dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+
+    <div th:if="${not #lists.isEmpty(account.providers)}" class="mb-8 bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Provider(s)</h3>
+        </div>
+        <div class="border-t border-gray-200">
+            <dl>
+                <div th:each="provider, iterStat: ${account.providers}"
+                     class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+                    th:classappend="${iterStat.even} ? 'bg-gray-50' : 'bg-white'">
+                    <dt th:text="${provider.firstName + ' ' + provider.lastName}"
+                        class="text-sm font-medium text-gray-500">
+                        Provider name
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900">
+                        <p class="my-1">Email</p>
+                        <p class="my-1">NPI</p>
+                    </dd>
+                    <dd class="mt-1 text-sm text-gray-900">
+                        <p class="my-1" th:text="${provider.email}">hello@example.com</p>
+                        <p class="my-1" th:text="${provider.NPI}">0000000000</p>
+                    </dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+
+    <div class="mb-8 bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Specimen Pick Ups</h3>
+        </div>
+        <div class="border-t border-gray-200">
+            <dl>
+                <div th:if="${!#lists.isEmpty(specimenPicksUp.pickUpTimes)}"
+                     th:each="specimenPicksUp, iterStat: ${account.specimenPickUpDayTimes}"
+                     class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+                     th:classappend="${iterStat.even} ? 'bg-gray-50' : 'bg-white'">
+                    <dt th:text="${specimenPicksUp.pickUpDayOfWeek.name}"
+                        class="text-sm font-medium text-gray-500">
+                        Monday
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900"
+                        th:each="pUpTime : ${specimenPicksUp.pickUpTimes}">
+                        <span th:text="${pUpTime.pickUpTime.toString()}"></span>
+                    </dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+
+</div>
+
 
 <footer th:replace="fragments/general.html :: footer"></footer>
 </body>

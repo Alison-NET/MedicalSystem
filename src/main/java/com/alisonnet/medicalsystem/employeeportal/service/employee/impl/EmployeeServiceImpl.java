@@ -1,24 +1,19 @@
 package com.alisonnet.medicalsystem.employeeportal.service.employee.impl;
 
-import com.alisonnet.medicalsystem.config.EmployeeUserDetails;
 import com.alisonnet.medicalsystem.employeeportal.constant.Constants;
 import com.alisonnet.medicalsystem.employeeportal.entity.employee.*;
 import com.alisonnet.medicalsystem.employeeportal.repository.employee.CredentialsRepo;
 import com.alisonnet.medicalsystem.employeeportal.repository.employee.EmployeeRepo;
 import com.alisonnet.medicalsystem.employeeportal.service.employee.EmployeeService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Example;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
@@ -107,12 +102,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public boolean isInHRDepartment(Employee employee) {
-        return employee.getJobPosition().getDepartment().getName().equals(Constants.human_resources_department);
+        return employee.getJobPosition().getDepartment().getName().equals(Constants.HUMAN_RESOURCES_DEPARTMENT);
     }
 
     @Override
     public boolean isInAdminDepartment(Employee employee) {
-        return employee.getJobPosition().getDepartment().getName().equals(Constants.system_admin_department);
+        return employee.getJobPosition().getDepartment().getName().equals(Constants.SYSTEM_ADMIN_DEPARTMENT);
     }
 
     @Override

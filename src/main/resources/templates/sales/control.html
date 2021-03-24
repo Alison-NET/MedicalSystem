@@ -14,10 +14,26 @@
 </div>
 
 
-        <h4>Accounts</h4>
-        <a href="/employee-portal/sales/account">All Accounts</a>
-<!--        <a href="/employee-portal/admin/account/approve-unregistered">Requests for Registration</a>-->
-<!--        <a href="/employee-portal/admin/account/approve-updated">Requests for Updating</a>-->
+<div class="max-w-5xl mx-auto py-14">
+    <div class="mb-8 bg-white shadow overflow-hidden sm:rounded-lg">
+
+        <div class="px-4 py-5 sm:px-6 border-b">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Accounts control
+            </h3>
+        </div>
+        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <ul class="list-disc px-4">
+                <li class="py-2"><a class="text-indigo-400 hover:text-indigo-600 font-medium"
+                                    href="/employee-portal/sales/account">All Accounts</a></li>
+<!--                <li class="py-2"><a class="text-indigo-400 hover:text-indigo-600 font-medium"-->
+<!--                                    href="/employee-portal/admin/account/approve-unregistered">Requests for Registration</a></li>-->
+<!--                <li class="py-2"><a class="text-indigo-400 hover:text-indigo-600 font-medium"-->
+<!--                                    href="/employee-portal/admin/account/approve-updated">Requests for Updating</a></li>-->
+            </ul>
+        </div>
+    </div>
+</div>
 
 
 <footer th:replace="fragments/general.html :: footer"></footer>

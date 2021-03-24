@@ -7,7 +7,6 @@
 <div class="bootstrap-wrapper">
     <div class="container">
 
-
         <div class="page-info row">
             <div th:if="${#lists.isEmpty(accounts)}" class="col-md-12">
                 <span class="name">There are no accounts to update.</span>
@@ -16,7 +15,6 @@
                 <span class="name">Accounts Requested for Updating</span>
             </div>
         </div>
-
 
         <table th:unless="${#lists.isEmpty(accounts)}">
             <tr>
